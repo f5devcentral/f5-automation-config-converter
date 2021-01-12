@@ -11,6 +11,7 @@ Recent Releases
 
 | Software Version | Release Date        |
 | ---------------- | ------------------- |
+| 1.9              | 12-Jan-2021         |
 | 1.8              | 20-Nov-2020         |
 | 1.7              | 27-Oct-2020         |
 
