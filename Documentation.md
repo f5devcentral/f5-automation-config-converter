@@ -51,27 +51,38 @@ For answers to frequently asked questions see the [FAQ](FAQ.md).  The [Revision 
                 }
 ```
 
-## Downloading and running the container to convert a BIG-IP configuration
-First, download the Docker container from this repo, and then run the container.  In the following procedure, we are converting a UCS file, so we use the -u flag.
+## Installing ACC and running a conversion
+**Note:**  Before you begin, you must have Docker installed and running. It can be found on the  [GitHub repo](https://github.com/f5devcentral/f5-as3-config-converter/releases/) in the **Assets** section on the **Releases** tab
 
-  1. Download the container tar file from the **dist** directory on the Master branch in this [repo:](https://gitswarm.f5net.com/automation-toolchain/as3-charon/-/tree/master/dist)
-  2. Load the image using the following command (you many need to update the version of Charon in this command): `docker load -i f5-appsvcs-charon-1.0.0.tar.gz`.
-  3. Run the converter by using one of the following commands, replacing the ACC version where necessary):
-      - For Linux-based systems and Mac, using the following syntax:
-       ``docker run --rm -v  "$PWD":/app/data f5-appsvcs-charon:1.0.0 -o data/<output-file-name>.json -u data/<input-ucs-file-name>.ucs``
-       For example:
-       ``docker run --rm -v  "$PWD":/app/data f5-appsvcs-charon:1.0.0 -o data/output.json -u data/myucs.ucs``
+ 1. Download the tar file from the **Assets** section on the **Releases** tab of the [GitHub repo](https://github.com/f5devcentral/f5-as3-config-converter/releases/)
+ 2. Load the image using the following command, replacing x.x.x with the version of ACC you are installing: `docker load -i f5-appsvcs-acc-x.x.x.tar.gz`.
 
-      - On Windows, use the following syntax:
-       ``docker run --rm -v %cd%:/app/data f5-appsvcs-charon:1.0.0 -o data/<output-file-name>.json -u data/<input-ucs-file-name>.ucs``
+  In the following procedure, we are converting a UCS file, so we use the -u flag.
+
+ 3. Run the converter by using one of the following commands, replacing the ACC version where necessary:
+     - For Linux-based systems and Mac, using the following syntax:
+       ``docker run --rm -v  "$PWD":/app/data f5-appsvcs-acc:x.x.x -o data/<output-file-name>.json -u data/<input-ucs-file-name>.ucs``
        For example:
-       ``docker run --rm -v  %cd%:/app/data f5-appsvcs-charon:1.0.0 -o data/output.json -u data/myucs.ucs``
+       ``docker run --rm -v  "$PWD":/app/data f5-appsvcs-acc:x.x.x -o data/output.json -u data/myucs.ucs``
+
+     - On Windows, use the following syntax:
+       ``docker run --rm -v %cd%:/app/data f5-appsvcs-acc:x.x.x -o data/<output-file-name>.json -u data/<input-ucs-file-name>.ucs``
+       For example:
+       ``docker run --rm -v  %cd%:/app/data f5-appsvcs-acc:x.x.x -o data/output.json -u data/myucs.ucs``
 
        **Note:** The source UCS/SCF file must be located in the CURRENT directory to run the command line from the example. The *data/myucs.ucs* entry refers to a directory inside the container.
 
-       If you are using Windows, and you receive a message such as `Error response from daemon: Drive has not been shared.`, `Error loading conf/SCF file, please check the filepath.`, or `Error extracting specified UCS, please check the file path.` you may need to share the drive or update your shared drive credentials.  Go to the Docker Desktop application and click the **Shared Drives** tab.  Verify the drive you are executing the command on is shared.  Whenever your Windows password changes, you need to click `Reset credentials`, reselect the shared drive, click `Apply`, and then re-enter your credentials.  Additionally, the Windows commands are for the Windows Command prompt (cmd) and do NOT work on Powershell.
+       If you are using Windows, and you receive a message such as `Error response from daemon: Drive has not been shared.`, `Error loading conf/SCF file, please check the filepath.`, or `Error extracting specified UCS, please check the file path.` you may need to share the drive or update your shared drive credentials.  Go to the Docker Desktop application and click the **Shared Drives** tab.  Verify the drive you are executing the command on is shared.  Whenever your Windows password changes, you need to click `Reset credentials`, reselect the shared drive, click `Apply`, and re-enter your credentials.  Additionally, the Windows commands are for the Windows Command prompt (cmd) and do NOT work on Powershell.
 
+ 4. Or run ACC as REST-API service
+     - Service runs on port 8080 inside the container, or you can map it to any port on your local OS.
 
+       For example:
+        ``docker run --rm -v "$PWD":/app/data -p 8080:8080 f5-appsvcs-acc:1.0.0  serve``
+
+       Call it with:
+        ``curl localhost:8080/as3converter -X POST --form "ucs=@<input-ucs-file-name>.ucs" --form "output=<output-file-name>.json" --form "verbose=true" |jq .``
+        Any client similar to Postman can also be used.
 
 Docker command line options:
 
@@ -82,6 +93,8 @@ Docker command line options:
   -  The application is located in the **/app** directory of the container.
 
   - The **-v** option maps the current directory to the **/app/data** directory in the container.  This is used to read input and write output with the container.  In this example we assume the input UCS file and the output JSON file will be read from and written to the current directory.
+
+  - The **-p** option maps the tcp port inside container to the local OS port.
 
 ACC command line options:
 
@@ -115,34 +128,36 @@ ACC command line options:
 
   - The **-t** option puts virtual server to specific tenant. Works only if **-v**  option specified. The original VS tenant is used if this option not specified.
 
-
+  - REST-API usage related options when the container is started with **serve** option.  **--verbose** prints more details in the REST-API response.
 
 ## Testing the results
-The best way to test the results is to take the output file and POST that AS3 declaration to a BIG-IP. If the declaration fails, look closely at the error messages, which should provide information on the part of the declaration  needing attention.
+The best way to test the results is to take the output file and POST the AS3 declaration to a BIG-IP. If the declaration fails, look closely at the error messages, which should provide information on the part of the declaration  needing attention.
 
-If you attempt to run ACC, and it provides an unexpected error message, it is likely an issue with the parser, and the development team wants to hear about it.  Email \*solutionsfeedback@f5.com with as much information about what you were attempting as possible.
-
+If you attempt to run ACC, and it provides an unexpected error message, it is likely an issue with the parser and the development team wants to hear about it. Navigate to the [ACC GitHub page](https://github.com/f5devcentral/f5-as3-config-converter/issues), click **New Issue**.
+Select the Issue type of Bug report, click **Get started**.
+Give the submission a title then fill out the template, attaching files if applicable.
+When finished, click **Submit new issue**.
 
 ### Example
 
 In this section we show a simple BIG-IP configuration from a UCS file, the command to convert and the response from the container, and finally the resulting AS3 declaration output.
 
-The following is the relevant portion of our example UCS file named **charon.ucs**.
+The following is the relevant portion of our example UCS file named **acc.ucs**.
 
 ```bash
 #TMSH-VERSION: 13.1.0.8
 
-ltm pool /Common/testCharonPool {
-    monitor /Common/testCharonMonitor
+ltm pool /Common/testaccPool {
+    monitor /Common/testaccMonitor
 }
-ltm virtual /Common/testCharonVip {
+ltm virtual /Common/testaccVip {
     destination /Common/192.0.2.14:80
     ip-protocol tcp
     mask 255.255.255.255
-    pool /Common/testCharonPool
+    pool /Common/testaccPool
     profiles {
         /Common/tcp { }
-        /Common/testCharonHTTP { }
+        /Common/testaccHTTP { }
     }
     source 0.0.0.0/0
     translate-address enabled
@@ -155,7 +170,7 @@ ltm virtual-address /Common/192.0.2.14 {
     traffic-group /Common/traffic-group-1
 }
 
-ltm monitor http /Common/testCharonMonitor {
+ltm monitor http /Common/testaccMonitor {
     adaptive disabled
     defaults-from /Common/http
     destination *:*
@@ -167,7 +182,7 @@ ltm monitor http /Common/testCharonMonitor {
     time-until-up 0
     timeout 91
 }
-ltm profile http /Common/testCharonHTTP {
+ltm profile http /Common/testaccHTTP {
     app-service none
     defaults-from /Common/http
     proxy-type reverse
@@ -179,10 +194,10 @@ ltm profile http /Common/testCharonHTTP {
 This UCS file is put in the same directory from which we are running the container.  In the following example, we are running the container from a Windows machine:
 
 ```
-C:\Users\jordan\Desktop\charon\dist>docker run --rm -v %cd%:/app/data f5-appsvcs-charon:1.0.0 -o data/output.json -u data/charon.ucs --summary
+C:\Users\jordan\Desktop\acc\dist>docker run --rm -v %cd%:/app/data f5-appsvcs-acc:1.0.0 -o data/output.json -u data/acc.ucs --summary
 1118 configuration objects detected
 31 objects are recognized by AS3
-12 objects are supported by Charon
+12 objects are supported by acc
 Generated Declaration { Pool: 1,
   Monitor: 1,
   HTTP_Profile: 1 }
@@ -196,36 +211,36 @@ Once it has run through the converter, the resulting AS3 declaration looks like 
     "schemaVersion": "3.8.0",
     "id": "urn:uuid:8c029a82-2db6-49ba-8108-959894612b32",
     "label": "Converted Declaration",
-    "remark": "Auto-generated by Project Charon",
+    "remark": "Auto-generated by Project acc",
     "Common": {
         "class": "Tenant",
         "Shared": {
             "class": "Application",
             "template": "shared",
-            "testCharonPool": {
+            "testaccPool": {
                 "monitors": [
                     {
-                        "use": "/Common/Shared/testCharonMonitor"
+                        "use": "/Common/Shared/testaccMonitor"
                     }
                 ],
                 "class": "Pool"
             },
-            "testCharonVip": {
+            "testaccVip": {
                 "layer4": "tcp",
-                "pool": "testCharonPool",
+                "pool": "testaccPool",
                 "source": "0.0.0.0/0",
                 "translateServerAddress": true,
                 "translateServerPort": true,
                 "class": "Service_Generic",
                 "profileHTTP": {
-                    "use": "/Common/Shared/testCharonHTTP"
+                    "use": "/Common/Shared/testaccHTTP"
                 },
                 "virtualAddresses": [
                     "192.0.2.14"
                ],
                 "virtualPort": 80
             },
-            "testCharonMonitor": {
+            "testaccMonitor": {
                 "adaptive": false,
                 "interval": 30,
                 "dscp": 0,
@@ -236,7 +251,7 @@ Once it has run through the converter, the resulting AS3 declaration looks like 
                 "class": "Monitor",
                 "monitorType": "http"
             },
-            "testCharonHTTP": {
+            "testaccHTTP": {
                 "proxyType": "reverse",
                 "rewriteRedirects": "matching",
                 "class": "HTTP_Profile"
@@ -249,24 +264,24 @@ Once it has run through the converter, the resulting AS3 declaration looks like 
 
 ### Example by Application
 
-In this section, we show a simple BIG-IP configuration from a UCS file, the command to convert, extract a **single virtual server** and the response from the container, and then the resulting AS3 declaration output.
+In this section, we show a simple BIG-IP configuration from a UCS file, the command to convert and extract a **single virtual server**, the response from the container and then the resulting AS3 declaration output.
 
-The following is the relevant portion of our example UCS file named **charon.ucs**, the virtual we extract is named **f5-big-ip** and we place it into a tenant named **Ten** and an application **Appl**. If the tenant is not specified, ACC uses original tenant name; if the application is not specified, the AS3 application uses the virtual name.
+The following is the relevant portion of our example UCS file named **acc.ucs**, the virtual we extract is named **f5-big-ip** and we place it into a tenant named **Ten** and an application **Appl**. If the tenant is not specified, ACC uses the original tenant name; if the application is not specified, the AS3 application uses the virtual name.
 
 ```bash
 #TMSH-VERSION: 13.1.0.8
 
-ltm pool /Common/testCharonPool {
-    monitor /Common/testCharonMonitor
+ltm pool /Common/testaccPool {
+    monitor /Common/testaccMonitor
 }
-ltm virtual /Common/testCharonVip {
+ltm virtual /Common/testaccVip {
     destination /Common/192.0.2.14:80
     ip-protocol tcp
     mask 255.255.255.255
-    pool /Common/testCharonPool
+    pool /Common/testaccPool
     profiles {
         /Common/tcp { }
-        /Common/testCharonHTTP { }
+        /Common/testaccHTTP { }
     }
     source 0.0.0.0/0
     translate-address enabled
@@ -279,7 +294,7 @@ ltm virtual-address /Common/192.0.2.14 {
     traffic-group /Common/traffic-group-1
 }
 
-ltm monitor http /Common/testCharonMonitor {
+ltm monitor http /Common/testaccMonitor {
     adaptive disabled
     defaults-from /Common/http
     destination *:*
@@ -291,20 +306,20 @@ ltm monitor http /Common/testCharonMonitor {
     time-until-up 0
     timeout 91
 }
-ltm profile http /Common/testCharonHTTP {
+ltm profile http /Common/testaccHTTP {
     app-service none
     defaults-from /Common/http
     proxy-type reverse
     redirect-rewrite matching
 }
-ltm virtual /Custom/testCharonVip {
+ltm virtual /Custom/testaccVip {
     destination /Common/192.0.2.14:80
     ip-protocol tcp
     mask 255.255.255.255
-    pool /Common/testCharonPool
+    pool /Common/testaccPool
     profiles {
         /Common/tcp { }
-        /Common/testCharonHTTP { }
+        /Common/testaccHTTP { }
     }
     source 0.0.0.0/0
     translate-address enabled
@@ -317,7 +332,7 @@ ltm virtual-address /Custom/192.0.2.14 {
     traffic-group /Common/traffic-group-1
 }
 
-ltm monitor http /Custom/testCharonMonitor {
+ltm monitor http /Custom/testaccMonitor {
     adaptive disabled
     defaults-from /Common/http
     destination *:*
@@ -329,7 +344,7 @@ ltm monitor http /Custom/testCharonMonitor {
     time-until-up 0
     timeout 91
 }
-ltm profile http /Common/testCharonHTTP {
+ltm profile http /Common/testaccHTTP {
     app-service none
     defaults-from /Common/http
     proxy-type reverse
@@ -341,10 +356,10 @@ ltm profile http /Common/testCharonHTTP {
 This UCS file is put in the same directory from which we are running the container.  In the following example, we are running the container from a Windows machine:
 
 ```
-C:\Users\jordan\Desktop\charon\dist>docker run --rm -v %cd%:/app/data f5-appsvcs-charon:1.2.0 -o data/output.json -u data/charon.ucs  -v /Custom/testCharonVip -a Appl -t Ten --summary
+C:\Users\jordan\Desktop\acc\dist>docker run --rm -v %cd%:/app/data f5-appsvcs-acc:1.2.0 -o data/output.json -u data/acc.ucs  -v /Custom/testaccVip -a Appl -t Ten --summary
 8 BIG-IP objects detected total
 6 BIG-IP objects recognized by AS3
-8 BIG-IP objects supported by Charon
+8 BIG-IP objects supported by acc
 3 AS3 stanzas generated
 { Monitor: 1, Pool: 1, Service_HTTP: 1 }
 ```
@@ -357,7 +372,7 @@ Once it has run through the converter, the resulting AS3 declaration looks like 
     "schemaVersion": "3.11.0",
     "id": "urn:uuid:6ebb5310-dcc6-42ba-83ab-3f9524827bae",
     "label": "Converted Declaration",
-    "remark": "Auto-generated by Project Charon",
+    "remark": "Auto-generated by Project acc",
     "Ten": {
         "class": "Tenant",
         "Appl": {
@@ -365,7 +380,7 @@ Once it has run through the converter, the resulting AS3 declaration looks like 
             "template": "http",
             "serviceMain": {
                 "layer4": "tcp",
-                "pool": "testCharonPool",
+                "pool": "testaccPool",
                 "translateServerAddress": true,
                 "translateServerPort": true,
                 "class": "Service_HTTP",
@@ -373,24 +388,24 @@ Once it has run through the converter, the resulting AS3 declaration looks like 
                     "bigip": "/Common/tcp"
                 },
                 "profileHTTP": {
-                    "use": "/Common/Shared/testCharonHTTP"
+                    "use": "/Common/Shared/testaccHTTP"
                 },
                 "virtualAddresses": [
                     "192.0.2.14"
                 ],
                 "virtualPort": 80,
                 "snat": "none",
-                "remark": "testCharonVip"
+                "remark": "testaccVip"
             },
-            "testCharonPool": {
+            "testaccPool": {
                 "monitors": [
                     {
-                        "use": "/Ten/Appl/testCharonMonitor"
+                        "use": "/Ten/Appl/testaccMonitor"
                     }
                 ],
                 "class": "Pool"
             },
-            "testCharonMonitor": {
+            "testaccMonitor": {
                 "adaptive": false,
                 "interval": 30,
                 "dscp": 0,

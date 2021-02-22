@@ -15,7 +15,7 @@ This page contains information and frequently asked questions on the F5 AS3 Conf
   - To have the ability to migrate installed base configurations to AS3 declarations as well as deploy new BIG-IPs with AS3.
  
 ### Which key AS3 classes & features are supported?
-As a rule of thumb ACC provides best-effort support for all AS3 classes EXCEPT for WAF_Policy.
+As a rule of thumb, ACC provides best-effort support for all AS3 classes EXCEPT for WAF_Policy.
 
   - Certificates:
     - CA_Bundle
@@ -153,9 +153,10 @@ As a rule of thumb ACC provides best-effort support for all AS3 classes EXCEPT f
     - Service_TCP
     - Service_UDP
 
+**Note:** ACC's responsibility is not certificate management. Best practice for certificate handling is to use a certifcate management tool.
 
 ### What are the sources of object name collisions?
-Although there are instances where BIG-IP will tolerate multiple objects with the same name (e.g. a Pool and Service both named /Common/testItem), these objects do not meet the AS3 validation schema. As a result, the converter will add _dup to duplicate object name and will handle object's properties and dependencies. Due to the large number of AS3 supported objects, it is difficult to convert all objects with duplicate names. See [AS3 Schema Reference](https://clouddocs.f5.com/products/extensions/f5-appsvcs-extension/latest/refguide/schema-reference.html) for more information.
+Although there are instances where BIG-IP will tolerate multiple objects with the same name (e.g. a Pool and Service both named /Common/testItem), these objects do not meet the AS3 validation schema. As a result, the converter will add _dup to duplicate object name and will handle the object's properties and dependencies. Due to the large number of AS3 supported objects, it is difficult to convert all objects with duplicate names. See [AS3 Schema Reference](https://clouddocs.f5.com/products/extensions/f5-appsvcs-extension/latest/refguide/schema-reference.html) for more information.
 
 This is a list of currently supported AS3 objects:
   - `ltm pool`
@@ -170,11 +171,10 @@ If a non-supported object has been found, simply notify and skip any identically
 Due to the more-restrictive AS3 schema, there are two transformations applied to object names while they are being converted. Each transformation has the potential to introduce new collisions.
 
 ### What else do I need to know?
-  - Object names over 194 characters in length will be trimmed.
+  - Object names over 194 characters in length will be trimmed
   - Only the noted BIG-IP configuration object types are supported
   - Coverage of configuration objects will increase over time
   - ACC will be delivered via container-based packaging
-  - Given it is for internal-use only, there are no current plans to release this tool as open source
   - ACC maps /Common to /Common/Shared
   - TCL iApps are not supported
 
