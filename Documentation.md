@@ -7,7 +7,7 @@
 
 Welcome to the documentation for the F5 AS3 Configuration Converter (ACC).  ACC is used to convert BIG-IP configurations to AS3 declarations. The converter, which runs in a Docker container, uses UCS files, SCF files, or bigip.conf files to output valid AS3 declaration stanzas. You must have Docker installed and running to use this solution.
 
-For answers to frequently asked questions see the [FAQ](FAQ.md).  The [Revision History](revision-history.md) contains information about ACC releases.
+For answers to frequently asked questions see the [FAQ](FAQ.md).
 
 ## Important notes
 
@@ -21,7 +21,7 @@ For answers to frequently asked questions see the [FAQ](FAQ.md).  The [Revision 
 
   - For a list of the objects that are converted, see [FAQ](FAQ.md).
 
-  - iApp template configurations are not supported by this tool.
+  - While ACC will convert a BIG-IP app services configuration created by a legacy iApp template, ACC will ignore the iApp template configuration itself.
 
   - iRules only export in UTF-8 (no base64), and comments are removed by the parser.
 
@@ -55,20 +55,20 @@ For answers to frequently asked questions see the [FAQ](FAQ.md).  The [Revision 
 **Note:**  Before you begin, you must have Docker installed and running. It can be found on the  [GitHub repo](https://github.com/f5devcentral/f5-as3-config-converter/releases/) in the **Assets** section on the **Releases** tab
 
  1. Download the tar file from the **Assets** section on the **Releases** tab of the [GitHub repo](https://github.com/f5devcentral/f5-as3-config-converter/releases/)
- 2. Load the image using the following command, replacing x.x.x with the version of ACC you are installing: `docker load -i f5-appsvcs-acc-x.x.x.tar.gz`.
+ 2. Load the image using the following command, replacing x.x.x with the version of ACC you are installing: `docker load -i f5-as3-config-converter-x.x.x.tar.gz`.
 
   In the following procedure, we are converting a UCS file, so we use the -u flag.
 
  3. Run the converter by using one of the following commands, replacing the ACC version where necessary:
      - For Linux-based systems and Mac, using the following syntax:
-       ``docker run --rm -v  "$PWD":/app/data f5-appsvcs-acc:x.x.x -o data/<output-file-name>.json -u data/<input-ucs-file-name>.ucs``
+       ``docker run --rm -v  "$PWD":/app/data f5-as3-config-converter:x.x.x -o data/<output-file-name>.json -u data/<input-ucs-file-name>.ucs``
        For example:
-       ``docker run --rm -v  "$PWD":/app/data f5-appsvcs-acc:x.x.x -o data/output.json -u data/myucs.ucs``
+       ``docker run --rm -v  "$PWD":/app/data f5-as3-config-converter:x.x.x -o data/output.json -u data/myucs.ucs``
 
      - On Windows, use the following syntax:
-       ``docker run --rm -v %cd%:/app/data f5-appsvcs-acc:x.x.x -o data/<output-file-name>.json -u data/<input-ucs-file-name>.ucs``
+       ``docker run --rm -v %cd%:/app/data f5-as3-config-converter:x.x.x -o data/<output-file-name>.json -u data/<input-ucs-file-name>.ucs``
        For example:
-       ``docker run --rm -v  %cd%:/app/data f5-appsvcs-acc:x.x.x -o data/output.json -u data/myucs.ucs``
+       ``docker run --rm -v  %cd%:/app/data f5-as3-config-converter:x.x.x -o data/output.json -u data/myucs.ucs``
 
        **Note:** The source UCS/SCF file must be located in the CURRENT directory to run the command line from the example. The *data/myucs.ucs* entry refers to a directory inside the container.
 
@@ -78,13 +78,24 @@ For answers to frequently asked questions see the [FAQ](FAQ.md).  The [Revision 
      - Service runs on port 8080 inside the container, or you can map it to any port on your local OS.
 
        For example:
-        ``docker run --rm -v "$PWD":/app/data -p 8080:8080 f5-appsvcs-acc:1.0.0  serve``
+        ``docker run --rm -v "$PWD":/app/data -p 8080:8080 f5-as3-config-converter:1.0.0  serve``
 
        Call it with:
+        ``curl localhost:8080/as3converter -X POST  --form "ucs=@<input-ucs-file-name>.ucs" --form "output=<output-file-name>.json" --form "verbose=true" |jq .`` 
+
+Using Postman to post to ACC endpoint:
+
+![](\images\ACC-POST1.png)
+
+Input is bigip confguration called **toConvert.conf**.  Output is file **as3Output.json**.
+
+After post:
+
+![](\images\ACC-POST2.png)
         ``curl localhost:8080/as3converter -X POST --form "ucs=@<input-ucs-file-name>.ucs" --form "output=<output-file-name>.json" --form "verbose=true" |jq .``
         Any client similar to Postman can also be used.
 
-Docker command line options:
+### Docker command line options:
 
   - The **docker run** portion of the command starts the container.
 
@@ -96,7 +107,7 @@ Docker command line options:
 
   - The **-p** option maps the tcp port inside container to the local OS port.
 
-ACC command line options:
+### ACC command line options:
 
   - The **-o** option specifies the output file name.  You must specify this as being in the **data** directory (with the Docker **-v** option).  When the output file is written in the container it is written to the **/app/data** directory of the container which maps back to the current directory outside of the container where output.json will actually be written.
 
@@ -124,11 +135,45 @@ ACC command line options:
 
   - The **-v** option will filter output by the virtual server name specified. Only this virtual server and dependent objects will be posted to the resulting file.
 
-  - The **-a** option puts virtual server to specific application. Works only if the **-v** option is specified. The original VS application is used if this option not specified.
+  - The **-a** option puts the virtual server to specific application. Works only if the **-v** option is specified. The original VS application is used if this option not specified.
 
-  - The **-t** option puts virtual server to specific tenant. Works only if **-v**  option specified. The original VS tenant is used if this option not specified.
+  - The **-t** option puts the virtual server to specific tenant. Works only if **-v**  option specified. The original VS tenant is used if this option not specified.
 
   - REST-API usage related options when the container is started with **serve** option.  **--verbose** prints more details in the REST-API response.
+
+**Note:** The 3 options of **-v**, **-a** and **-t** typically work together with **-a** and **-t** having the ability to work independently. If **-v** is used, then all other virtual servers are ignored. If **-t** is used, then the virtual server will be placed into this tenant name, even if it was originally in /Common/. If **-a** is used, then the original virtual server will be placed under the application name specified. By default the virtual server name will be used as the application.
+
+Examples
+
+```
+Original VS    /Common/VS1 
+
+    1) only -a /Common/VS1 provided:   
+	"Common": {
+	    "class": "tenant",
+	    "VS1": {
+	            "class": "application"
+	             "VS1": {
+	             .........................
+	              { 
+	2) -t My_tenant  in addition to -v 
+	"My_tenant": {
+	    "class": "tenant",
+	    "VS1": {
+	            "class": "application"
+	             "VS1": {
+	             .........................
+	              {
+	3) -a "My_application"
+	"My_tenant": {
+	    "class": "tenant",
+	    "My_aplication": {
+	            "class": "application"
+	             "VS1": {
+	             .........................
+	              {
+```
+
 
 ## Testing the results
 The best way to test the results is to take the output file and POST the AS3 declaration to a BIG-IP. If the declaration fails, look closely at the error messages, which should provide information on the part of the declaration  needing attention.
@@ -194,7 +239,7 @@ ltm profile http /Common/testaccHTTP {
 This UCS file is put in the same directory from which we are running the container.  In the following example, we are running the container from a Windows machine:
 
 ```
-C:\Users\jordan\Desktop\acc\dist>docker run --rm -v %cd%:/app/data f5-appsvcs-acc:1.0.0 -o data/output.json -u data/acc.ucs --summary
+C:\Users\jordan\Desktop\acc\dist>docker run --rm -v %cd%:/app/data f5-as3-config-converter:1.0.0 -o data/output.json -u data/acc.ucs --summary
 1118 configuration objects detected
 31 objects are recognized by AS3
 12 objects are supported by acc
@@ -353,10 +398,12 @@ ltm profile http /Common/testaccHTTP {
 
 ```
 
-This UCS file is put in the same directory from which we are running the container.  In the following example, we are running the container from a Windows machine:
+This UCS file is put in the same directory from which we are running the container, which in the following example, is running on a Windows machine:
+
+For more information on command line usage, see the *ACC command line options:* section above.
 
 ```
-C:\Users\jordan\Desktop\acc\dist>docker run --rm -v %cd%:/app/data f5-appsvcs-acc:1.2.0 -o data/output.json -u data/acc.ucs  -v /Custom/testaccVip -a Appl -t Ten --summary
+C:\Users\jordan\Desktop\acc\dist>docker run --rm -v %cd%:/app/data f5-as3-config-converter:1.2.0 -o data/output.json -u data/acc.ucs  -v /Custom/testaccVip -a Appl -t Ten --summary
 8 BIG-IP objects detected total
 6 BIG-IP objects recognized by AS3
 8 BIG-IP objects supported by acc
@@ -422,3 +469,7 @@ Once it has run through the converter, the resulting AS3 declaration looks like 
     }
 }
 ```
+
+### **Important**
+
+Once a conversion has been completed, all files containing sensitive information such as *certificates*, *keys*, and *passwords*, to name a few, should be deleted or moved to a more secure location. Leaving files of these types unsecured can result in exposure and malicious use of the sensitive data.

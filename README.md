@@ -8,4 +8,4 @@ F5 AS3 Configuration Converter (ACC) is a community-supported offering. Your fee
 
 ## Filing Issues and Getting Help
 
-If you come across a bug or other issue, please use [GitHub Issues](https://https://github.com/f5devcentral/f5-as3-config-converter/issues) to submit an issue for our team. You can also see current known issues on that page.
+If you come across a bug or other issue, please use [GitHub Issues](https://github.com/f5devcentral/f5-as3-config-converter/issues) to submit an issue for our team. You can also see current known issues on that page.

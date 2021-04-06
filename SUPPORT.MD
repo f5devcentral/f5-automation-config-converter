@@ -1,6 +1,6 @@
 ## Support Information
 
-This F5 AS3 Configuration Converter (ACC) release is a community-supported preview. Your feedback is appreciated.
+This F5 AS3 Configuration Converter (ACC) release is community-supported.
 
 **ACC Software Lifecycle:**
 
@@ -11,6 +11,7 @@ Recent Releases
 
 | Software Version | Release Date        | 
 | ---------------- | ------------------- | 
+| 1.11             | 06-Apr-2021         |
 | 1.10             | 23-Feb-2021         |
 | 1.9              | 12-Jan-2021         | 
 | 1.8              | 20-Nov-2020         |

@@ -153,7 +153,64 @@ As a rule of thumb, ACC provides best-effort support for all AS3 classes EXCEPT 
     - Service_TCP
     - Service_UDP
 
+### Certificate Handling
+
 **Note:** ACC's responsibility is not certificate management. Best practice for certificate handling is to use a certifcate management tool.
+
+An example bigip.conf file:
+
+```
+sys file ssl-cert /AS3_Tenant/AS3_Application/theCert-bundle.crt {
+    cache-path /config/filestore/files_d/AS3_Tenant_d/certificate_d/:AS3_Tenant:AS3_Application:theCert-bundle.crt_121204_1
+    revision 1
+    source-path file:/var/config/rest/downloads/_AS3_Tenant_AS3_Application_theCert-bundle.crt
+}
+sys file ssl-cert /AS3_Tenant/AS3_Application/theCert.crt {
+    cache-path /config/filestore/files_d/AS3_Tenant_d/certificate_d/:AS3_Tenant:AS3_Application:theCert.crt_121202_1
+    revision 1
+    source-path file:/var/config/rest/downloads/_AS3_Tenant_AS3_Application_theCert.crt
+}
+sys file ssl-key /AS3_Tenant/AS3_Application/theCert.key {
+    cache-path /config/filestore/files_d/AS3_Tenant_d/certificate_key_d/:AS3_Tenant:AS3_Application:theCert.key_121206_1
+    passphrase $M$SC$h0EYWoK2safpVE58IjN7qQ==
+    revision 1
+    source-path file:/var/config/rest/downloads/_AS3_Tenant_AS3_Application_theCert.key
+}
+```
+
+
+```
+"theCert": {
+    "class": "Certificate",
+    "passphrase": {
+       "ciphertext": "JE0kU0MkaDBFWVdvSzJzYWZwVkU1OElqTjdxUT09",
+       "protected": "eyJhbGciOiJkaXIiLCJlbmMiOiJmNXN2In0=",
+       "ignoreChanges": true
+    }
+ }
+```
+If the input file has the certificates and keys in /Common/ (without any subfolders), then ACC creates the certificate object in /Common/Shared providing references to the objects in /Common/. 
+
+If the input file has the certificates and keys in a subfolder such as /Common/< subfolder >/ or in /AS3_Tenant/AS3_Application/, for example, then ACC will generate AS3 certificates providing full certificate information such as crt, secret, passwords etc. with no reference to /Common/.
+
+**Important Notes:** 
+1. When the file path contains subfolders, the certificate files can only be created using .ucs files since .scf and .conf files do not contain certificate information resulting in empty certificate files. 
+
+2. The certificate, key and chain content will be part of the AS3 declaration in the form of plain text.
+
+```
+"theCert": {
+    "class": "Certificate",
+    "certificate": "-----BEGIN CERTIFICATE-----... -----END CERTIFICATE-----",
+    "privateKey": "-----BEGIN RSA PRIVATE KEY-----...-----END RSA PRIVATE KEY-----",
+    "chainCA": "-----BEGIN CERTIFICATE-----....-----END CERTIFICATE-----",
+    "passphrase": {
+       "ciphertext": "JE0kU0MkaDBFWVdvSzJzYWZwVkU1OElqTjdxUT09",
+       "protected": "eyJhbGciOiJkaXIiLCJlbmMiOiJmNXN2In0=",
+       "ignoreChanges": true
+    }
+}
+```
 
 ### What are the sources of object name collisions?
 Although there are instances where BIG-IP will tolerate multiple objects with the same name (e.g. a Pool and Service both named /Common/testItem), these objects do not meet the AS3 validation schema. As a result, the converter will add _dup to duplicate object name and will handle the object's properties and dependencies. Due to the large number of AS3 supported objects, it is difficult to convert all objects with duplicate names. See [AS3 Schema Reference](https://clouddocs.f5.com/products/extensions/f5-appsvcs-extension/latest/refguide/schema-reference.html) for more information.
@@ -177,4 +234,6 @@ Due to the more-restrictive AS3 schema, there are two transformations applied to
   - ACC will be delivered via container-based packaging
   - ACC maps /Common to /Common/Shared
   - TCL iApps are not supported
+
+**Note:** For additional information on ACC partition mapping, see the *When does AS3 write to the Common partition for LTM configurations?* section of the  [AS3 FAQ](https://clouddocs.f5.com/products/extensions/f5-appsvcs-extension/latest/userguide/faq.html).
 
