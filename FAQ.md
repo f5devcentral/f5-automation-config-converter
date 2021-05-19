@@ -13,7 +13,7 @@ This page contains information and frequently asked questions on the F5 AS3 Conf
 
 ### Why are we building it?
   - To have the ability to migrate installed base configurations to AS3 declarations as well as deploy new BIG-IPs with AS3.
- 
+
 ### Which key AS3 classes & features are supported?
 As a rule of thumb, ACC provides best-effort support for all AS3 classes EXCEPT for WAF_Policy.
 
@@ -27,6 +27,7 @@ As a rule of thumb, ACC provides best-effort support for all AS3 classes EXCEPT 
     - Cipher_Rule
 
   - DNS:
+    - DNS_Cache
     - DNS_Nameserver
     - DNS_TSIG_Key
     - DNS_Zone
@@ -81,6 +82,7 @@ As a rule of thumb, ACC provides best-effort support for all AS3 classes EXCEPT 
     - Monitor HTTPS
     - Monitor ICMP
     - Monitor LDAP
+    - Monitor MySQL
     - Monitor RADIUS
     - Monitor SIP
     - Monitor SMTP
@@ -102,6 +104,8 @@ As a rule of thumb, ACC provides best-effort support for all AS3 classes EXCEPT 
     - Bandwidth_Control_Policy
     - Endpoint_Policy
     - Endpoint_Strategy
+    - Idle_Timeout_Policy
+    - Timer_Policy
 
   - Pools:
     - Pool
@@ -189,12 +193,12 @@ sys file ssl-key /AS3_Tenant/AS3_Application/theCert.key {
     }
  }
 ```
-If the input file has the certificates and keys in /Common/ (without any subfolders), then ACC creates the certificate object in /Common/Shared providing references to the objects in /Common/. 
+If the input file has the certificates and keys in /Common/ (without any subfolders), then ACC creates the certificate object in /Common/Shared providing references to the objects in /Common/.
 
 If the input file has the certificates and keys in a subfolder such as /Common/< subfolder >/ or in /AS3_Tenant/AS3_Application/, for example, then ACC will generate AS3 certificates providing full certificate information such as crt, secret, passwords etc. with no reference to /Common/.
 
-**Important Notes:** 
-1. When the file path contains subfolders, the certificate files can only be created using .ucs files since .scf and .conf files do not contain certificate information resulting in empty certificate files. 
+**Important Notes:**
+1. When the file path contains subfolders, the certificate files can only be created using .ucs files since .scf and .conf files do not contain certificate information resulting in empty certificate files.
 
 2. The certificate, key and chain content will be part of the AS3 declaration in the form of plain text.
 

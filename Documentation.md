@@ -38,17 +38,19 @@ For answers to frequently asked questions see the [FAQ](FAQ.md).
 
   For example:
 
-  ```json
-  "web_pool1": {
-                "class": "Pool",
-                "members": [
-                    {
-                        "serverAddresses": [
-                            "10.244.1.58"
-                        ],
-                        "servicePort": 80,
-                        "shareNodes": true
-                }
+```json
+"web_pool1": {
+    "class": "Pool",
+    "members": [
+        {
+            "serverAddresses": [
+                "10.244.1.58"
+            ],
+            "servicePort": 80,
+            "shareNodes": true
+        }
+    ]
+}
 ```
 
 ## Installing ACC and running a conversion
@@ -74,14 +76,16 @@ For answers to frequently asked questions see the [FAQ](FAQ.md).
 
        If you are using Windows, and you receive a message such as `Error response from daemon: Drive has not been shared.`, `Error loading conf/SCF file, please check the filepath.`, or `Error extracting specified UCS, please check the file path.` you may need to share the drive or update your shared drive credentials.  Go to the Docker Desktop application and click the **Shared Drives** tab.  Verify the drive you are executing the command on is shared.  Whenever your Windows password changes, you need to click `Reset credentials`, reselect the shared drive, click `Apply`, and re-enter your credentials.  Additionally, the Windows commands are for the Windows Command prompt (cmd) and do NOT work on Powershell.
 
- 4. Or run ACC as REST-API service
+ 4. Or run ACC as REST-API service.
      - Service runs on port 8080 inside the container, or you can map it to any port on your local OS.
 
        For example:
         ``docker run --rm -v "$PWD":/app/data -p 8080:8080 f5-as3-config-converter:1.0.0  serve``
 
        Call it with:
-        ``curl localhost:8080/as3converter -X POST  --form "ucs=@<input-ucs-file-name>.ucs" --form "output=<output-file-name>.json" --form "verbose=true" |jq .`` 
+        ``curl localhost:8080/as3converter -X POST  --form "ucs=@<input-ucs-file-name>.ucs" --form "output=<output-file-name>.json" --form "verbose=true" --form "log=<output-log-file>" | jq .``
+
+      **Note:** Max file size to be processed is 1GB
 
 Using Postman to post to ACC endpoint:
 
@@ -92,7 +96,7 @@ Input is bigip confguration called **toConvert.conf**.  Output is file **as3Outp
 After post:
 
 ![](\images\ACC-POST2.png)
-        ``curl localhost:8080/as3converter -X POST --form "ucs=@<input-ucs-file-name>.ucs" --form "output=<output-file-name>.json" --form "verbose=true" |jq .``
+        ``curl localhost:8080/as3converter -X POST --form "ucs=@<input-ucs-file-name>.ucs" --form "output=<output-file-name>.json" --form "verbose=true" | jq .``
         Any client similar to Postman can also be used.
 
 ### Docker command line options:
@@ -109,9 +113,13 @@ After post:
 
 ### ACC command line options:
 
+  - The **LOG_LEVEL=<level>** set up log level for output: info, warn, error, debug. If skipped, log level 'info' will be used by default.
+
   - The **-o** option specifies the output file name.  You must specify this as being in the **data** directory (with the Docker **-v** option).  When the output file is written in the container it is written to the **/app/data** directory of the container which maps back to the current directory outside of the container where output.json will actually be written.
 
   - The **-u** option specifies a UCS file for the application to read.  For either .conf or SCF files, use the **-c** flag. This must be specified as being in the *data* directory (as specified with the **-v** option).  When the input file is read by the application, it is read from the **/app/data** directory of the container which maps back to the current directory outside of the container where input file is actually read.  This flag is required and you must use only one option of **-u** or **-c**, depending on your input file.
+
+  - The **--log <file>** option writes log output to the specified file.
 
   - The **--recognized** option logs to **stdout** a list of configuration objects that ACC recognized.
 
@@ -146,17 +154,17 @@ After post:
 Examples
 
 ```
-Original VS    /Common/VS1 
+Original VS    /Common/VS1
 
-    1) only -a /Common/VS1 provided:   
+    1) only -a /Common/VS1 provided:
 	"Common": {
 	    "class": "tenant",
 	    "VS1": {
 	            "class": "application"
 	             "VS1": {
 	             .........................
-	              { 
-	2) -t My_tenant  in addition to -v 
+	              {
+	2) -t My_tenant  in addition to -v
 	"My_tenant": {
 	    "class": "tenant",
 	    "VS1": {
