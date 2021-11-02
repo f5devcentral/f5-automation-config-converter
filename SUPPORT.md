@@ -11,6 +11,7 @@ Recent Releases
 
 | Software Version | Release Date        |
 | ---------------- | ------------------- |
+| 1.16             | 02-Nov-2021         |
 | 1.15.1           | 08-Oct-2021         |
 | 1.15             | 21-Sep-2021         |
 | 1.14             | 06-Aug-2021         |
