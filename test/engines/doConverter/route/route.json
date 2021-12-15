@@ -1,0 +1,15 @@
+
+{
+    "schemaVersion": "1.0.0",
+    "class": "Device",
+    "async": true,
+    "Common": {
+        "class": "Tenant",
+        "external_default_gateway": {
+            "class": "Route",
+            "gw": "10.30.0.101",
+            "network": "default",
+            "mtu": 1501
+        }
+    }
+}

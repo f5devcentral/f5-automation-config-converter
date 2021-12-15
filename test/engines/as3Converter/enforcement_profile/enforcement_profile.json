@@ -1,0 +1,83 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.10.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "testItem": {
+                "class": "Enforcement_Profile",
+                "remark": "description",
+                "parentProfile": {
+                    "use": "/AS3_Tenant/AS3_Application/enfProf"
+                },
+                "policiesGlobalHighPrecedence": [
+                    {
+                        "use": "/AS3_Tenant/AS3_Application/enfPolicy1"
+                    }
+                ],
+                "policiesGlobalLowPrecedence": [
+                    {
+                        "use": "/AS3_Tenant/AS3_Application/enfPolicy2"
+                    }
+                ],
+                "policiesUnknownSubscribers": [
+                    {
+                        "use": "/AS3_Tenant/AS3_Application/enfPolicy3"
+                    }
+                ],
+                "connectionOptimizationEnabled": false,
+                "connectionOptimizationService": {
+                    "use": "/AS3_Tenant/AS3_Application/service"
+                }
+            },
+            "testItem2": {
+                "class": "Enforcement_Profile",
+                "remark": "description",
+                "parentProfile": {
+                    "use": "/AS3_Tenant/AS3_Application/enfProf"
+                },
+                "policiesGlobalHighPrecedence": [
+                    {
+                        "use": "/AS3_Tenant/AS3_Application/enfPolicy1"
+                    }
+                ],
+                "policiesGlobalLowPrecedence": [
+                    {
+                        "use": "/AS3_Tenant/AS3_Application/enfPolicy2"
+                    }
+                ],
+                "policiesUnknownSubscribers": [
+                    {
+                        "use": "/AS3_Tenant/AS3_Application/enfPolicy3"
+                    }
+                ],
+                "connectionOptimizationEnabled": false
+            },
+            "enfProf": {
+                "class": "Enforcement_Profile"
+            },
+            "enfPolicy1": {
+                "class": "Enforcement_Policy"
+            },
+            "enfPolicy2": {
+                "class": "Enforcement_Policy"
+            },
+            "enfPolicy3": {
+                "class": "Enforcement_Policy"
+            },
+            "service": {
+                "class": "Service_Generic",
+                "virtualAddresses": [
+                    "4.4.4.4"
+                ],
+                "virtualPort": 100
+            }
+        }
+    }
+}

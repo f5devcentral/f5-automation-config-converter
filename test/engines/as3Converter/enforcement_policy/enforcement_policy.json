@@ -1,0 +1,217 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.10.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "testItem": {
+                "class": "Enforcement_Policy",
+                "enable": false,
+                "allTransactions": true,
+                "rules": [
+                    {
+                        "name": "theRule1",
+                        "precedence": 12345,
+                        "dscpMarkingDownlink": 12,
+                        "dscpMarkingUplink": 12,
+                        "interceptionEndpoint": {
+                            "use": "/AS3_Tenant/AS3_Application/interceptEndpoint"
+                        },
+                        "l2MarkingDownlink": 2,
+                        "l2MarkingUplink": 2,
+                        "qosBandwidthControllerUplink": {
+                            "policy": {
+                                "use": "/AS3_Tenant/AS3_Application/bandwidth"
+                            },
+                            "category": "web"
+                        },
+                        "qosBandwidthControllerDownlink": {
+                            "policy": {
+                                "use": "/AS3_Tenant/AS3_Application/bandwidth"
+                            },
+                            "category": "web"
+                        },
+                        "serviceChain": {
+                            "use": "/AS3_Tenant/AS3_Application/servChain"
+                        },
+                        "tcpAnalyticsEnabled": true,
+                        "tcpOptimizationDownlink": {
+                            "use": "/AS3_Tenant/AS3_Application/tcpProf"
+                        },
+                        "tcpOptimizationUplink": {
+                            "use": "/AS3_Tenant/AS3_Application/tcpProf"
+                        },
+                        "classificationFilters": [
+                            {
+                                "name": "filter",
+                                "application": {
+                                    "bigip": "/Common/acrobat"
+                                },
+                                "invertMatch": true
+                            }
+                        ],
+                        "flowInfoFilters": [
+                            {
+                                "name": "flow",
+                                "invertMatch": true,
+                                "dscpMarking": 0,
+                                "destinationAddress": "5.6.7.8",
+                                "destinationPort": 8080,
+                                "sourceAddress": "5.6.7.9",
+                                "sourcePort": 8081,
+                                "protocol": "tcp",
+                                "ipAddressType": "ipv4"
+                            }
+                        ],
+                        "forwarding": {
+                            "type": "route-to-network",
+                            "fallbackAction": "continue"
+                        },
+                        "insertContent": {
+                            "duration": 5,
+                            "frequency": "once-every",
+                            "position": "prepend",
+                            "tagName": "testTag",
+                            "valueContent": "testContent",
+                            "valueType": "tcl-snippet"
+                        },
+                        "modifyHttpHeader": {
+                            "headerName": "testHeaderName",
+                            "operation": "insert",
+                            "valueContent": "testContent",
+                            "valueType": "tcl-snippet"
+                        },
+                        "qoeReporting": {
+                            "highSpeedLogPublisher": {
+                                "use": "/AS3_Tenant/AS3_Application/logPub"
+                            },
+                            "formatScript": {
+                                "use": "/AS3_Tenant/AS3_Application/format"
+                            }
+                        },
+                        "quota": {
+                            "reportingLevel": "service-id"
+                        },
+                        "ranCongestion": {
+                            "threshold": 2500,
+                            "reportDestinationHsl": {
+                                "highSpeedLogPublisher": {
+                                    "use": "/AS3_Tenant/AS3_Application/logPub"
+                                },
+                                "formatScript": {
+                                    "use": "/AS3_Tenant/AS3_Application/format"
+                                }
+                            }
+                        },
+                        "usageReporting": {
+                            "destination": "gx",
+                            "applicationReportingEnabled": true,
+                            "monitoringKey": "testMonitoringKey",
+                            "volume": {
+                                "downlink": 80000000,
+                                "total": 1000000000,
+                                "uplink": 80000000
+                            }
+                        },
+                        "urlCategorizationFilters": [
+                            {
+                                "name": "testUrlFilter",
+                                "category": {
+                                    "bigip": "/Common/Music"
+                                },
+                                "invertMatch": true
+                            }
+                        ]
+                    },
+                    {
+                        "name": "theRule2",
+                        "precedence": 10,
+                        "DTOSTethering": {
+                            "detectDtos": true,
+                            "detectTethering": true,
+                            "reportDestinationHsl": {
+                                "highSpeedLogPublisher": {
+                                    "use": "/AS3_Tenant/AS3_Application/logPub"
+                                },
+                                "formatScript": {
+                                    "use": "/AS3_Tenant/AS3_Application/format"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            "interceptEndpoint": {
+                "class": "Enforcement_Interception_Endpoint",
+                "pool": {
+                    "use": "/AS3_Tenant/AS3_Application/thePool"
+                }
+            },
+            "thePool": {
+                "class": "Pool"
+            },
+            "tcpProf": {
+                "class": "TCP_Profile"
+            },
+            "servChain": {
+                "class": "Enforcement_Service_Chain_Endpoint"
+            },
+            "bandwidth": {
+                "class": "Bandwidth_Control_Policy",
+                "dynamicControlEnabled": true,
+                "maxBandwidth": 10,
+                "maxUserBandwidth": 10,
+                "maxUserPPS": 1,
+                "maxUserPPSUnit": "Gpps",
+                "loggingEnabled": true,
+                "logPublisher": {
+                    "bigip": "/Common/local-db-publisher"
+                },
+                "logPeriod": 1000,
+                "markIP": 0,
+                "markL2": 0,
+                "categories": [
+                    {
+                        "name": "web",
+                        "maxBandwidth": 50,
+                        "maxBandwidthUnit": "%",
+                        "markIP": 1,
+                        "markL2": 1
+                    }
+                ]
+            },
+            "logPub": {
+                "class": "Log_Publisher",
+                "destinations": [
+                    {
+                        "use": "/AS3_Tenant/AS3_Application/logDest"
+                    }
+                ]
+            },
+            "logDest": {
+                "class": "Log_Destination",
+                "type": "remote-syslog",
+                "remoteHighSpeedLog": {
+                    "use": "/AS3_Tenant/AS3_Application/highSpeedLog"
+                }
+            },
+            "highSpeedLog": {
+                "class": "Log_Destination",
+                "type": "remote-high-speed-log",
+                "pool": {
+                    "use": "/AS3_Tenant/AS3_Application/thePool"
+                }
+            },
+            "format": {
+                "class": "Enforcement_Format_Script",
+                "definition": "set theString \\\"some string\\\""
+            }
+        }
+    }
+}

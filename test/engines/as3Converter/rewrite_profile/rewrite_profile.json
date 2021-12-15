@@ -1,0 +1,103 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.8.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "testItem": {
+                "class": "Rewrite_Profile",
+                "bypassList": [
+                    "https://www.google.com",
+                    "http://www.a.uri.com"
+                ],
+                "clientCachingType": "no-cache",
+                "javaCaFile": {
+                    "bigip": "/Common/default.crt"
+                },
+                "certificate": "/AS3_Tenant/AS3_Application/cert_and_key_with_bundle",
+                "javaSignKeyPassphrase": {
+                    "ciphertext": "ZjVmNQ==",
+                    "protected": "eyJhbGciOiJkaXIiLCJlbmMiOiJub25lIn0=",
+                    "ignoreChanges": true
+                },
+                "locationSpecificEnabled": true,
+                "requestSettings": {
+                    "insertXforwardedForEnabled": false,
+                    "insertXforwardedHostEnabled": true,
+                    "insertXforwardedProtoEnabled": true,
+                    "rewriteHeadersEnabled": false
+                },
+                "responseSettings": {
+                    "rewriteContentEnabled": false,
+                    "rewriteHeadersEnabled": false
+                },
+                "rewriteList": [
+                    "https://www.example.com",
+                    "https://www.rewritethis.net"
+                ],
+                "rewriteMode": "uri-translation",
+                "setCookieRules": [
+                    {
+                        "client": {
+                            "domain": "clientDomain1",
+                            "path": "/"
+                        },
+                        "server": {
+                            "domain": "serverDomain1",
+                            "path": "/"
+                        }
+                    },
+                    {
+                        "client": {
+                            "domain": "clientDomain2",
+                            "path": "/"
+                        },
+                        "server": {
+                            "domain": "serverDomain2",
+                            "path": "/"
+                        }
+                    }
+                ],
+                "splitTunnelingEnabled": true,
+                "uriRules": [
+                    {
+                        "type": "response",
+                        "client": {
+                            "path": "/",
+                            "host": "www.google.com",
+                            "scheme": "https",
+                            "port": "100"
+                        },
+                        "server": {
+                            "path": "/",
+                            "host": "www.example.com",
+                            "scheme": "http",
+                            "port": "80"
+                        }
+                    },
+                    {
+                        "type": "request",
+                        "client": {
+                            "path": "/"
+                        },
+                        "server": {
+                            "path": "/"
+                        }
+                    }
+                ]
+            },
+            "cert_and_key_with_bundle": {
+                "class": "Certificate",
+                "certificate": "-----BEGIN CERTIFICATE-----\nMIIDkzCCAnsCCQCelZ2yaSZ+CzANBgkqhkiG9w0BAQUFADCBkDELMAkGA1UEBhMCVVMxEzARBgNVBAgMCldhc2hpbmd0b24xEDAOBgNVBAcMB1NlYXR0bGUxCzAJBgNVBAoMAkY1MQ0wCwYDVQQLDARUZXN0MRcwFQYDVQQDDA50ZXN0X0NBX2J1bmRsZTElMCMGCSqGSIb3DQEJARYWc29tZWJvZHlAc29tZXdoZXJlLm9yZzAeFw0xODAyMjcxOTI1MTFaFw0xODAzMjkxOTI1MTFaMIGFMQswCQYDVQQGEwJVUzETMBEGA1UECAwKV2FzaGluZ3RvbjEQMA4GA1UEBwwHU2VhdHRsZTELMAkGA1UECgwCRjUxDTALBgNVBAsMBFRlc3QxDDAKBgNVBAMMA2NzcjElMCMGCSqGSIb3DQEJARYWc29tZWJvZHlAc29tZXdoZXJlLm9yZzCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ4uYuaiZpVWDPAemHjPQNfalBkXCfht4QrrqNi9qt8CHLpk8lcLaylIrGn32OjlMQI+pyXckK08fJ7876HH5L6cHCEyqcII99L6LZFrvewXG17vP9gSYlT5i0NpPvKOCKaJ0r5evOUdzTNzC+aT5pLne1WYaw+hz8XP0R4XDKMbV6qLOuQ8/kZIMbUoOaymZ4TYHJm6cYZkzegQJSr5TRW9JwwChJdqSqji+o8f35ZTdsnAJyQp9tGIuhLu7tIaqsl/me21sGwbRp26ngPBhas4BX8WIMYWnwFn9pKDvpnegsM/eKPBNtMZkuSNhx1gdwzrbHCeFQNRQLs1nXY/08UCAwEAATANBgkqhkiG9w0BAQUFAAOCAQEATGyMBCUNgR6kJgX+R3HWLvyc6mCfgPyC6xtkv3DMgDP7j9n/8nWiiY6pvw2rT6C0PI0EmS9vn5+esOHcAfN3ftBwhEyZu3MPJYtchQVw7gnwB5EFzy8+7Y4ZGAf9mcKZuxiLXTC5H4GZ/MBia7inQPmzBNeP5T0y4WtIuQl2JOjMN8fa5yCkhV3WLBt1encAa2gPceuv21w1H29lOdNBJxCGvwGGvpEvJgqeZ8SSYcyUSfNFwQKJgZZPPfM5hQBBFj15UQoQ7GubyNfF4RpVifTVn+G+LfJ6vfVIr7hw9tBUZxnsVaZwryRdwkXifytq4JYvYUI84seDmTnJJX/TVA==\n-----END CERTIFICATE-----",
+                "privateKey": "",
+                "chainCA": "-----BEGIN CERTIFICATE-----\nMIID9TCCAt2gAwIBAgIJALxQA/NW2bpRMA0GCSqGSIb3DQEBCwUAMIGQMQswCQYDVQQGEwJVUzETMBEGA1UECAwKV2FzaGluZ3RvbjEQMA4GA1UEBwwHU2VhdHRsZTELMAkGA1UECgwCRjUxDTALBgNVBAsMBFRlc3QxFzAVBgNVBAMMDnRlc3RfQ0FfYnVuZGxlMSUwIwYJKoZIhvcNAQkBFhZzb21lYm9keUBzb21ld2hlcmUub3JnMB4XDTE4MDIyNzE5MjEyNVoXDTE4MDMyOTE5MjEyNVowgZAxCzAJBgNVBAYTAlVTMRMwEQYDVQQIDApXYXNoaW5ndG9uMRAwDgYDVQQHDAdTZWF0dGxlMQswCQYDVQQKDAJGNTENMAsGA1UECwwEVGVzdDEXMBUGA1UEAwwOdGVzdF9DQV9idW5kbGUxJTAjBgkqhkiG9w0BCQEWFnNvbWVib2R5QHNvbWV3aGVyZS5vcmcwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCjhUZmbwwuMMFTNic73t0mfJ/pyM3BnEs0riv6lbrF5znFKBlAM2pxWBfkQvr92gUwitij7BqMagnR26/C7GcJJNJQGNK482vgSPhUpGeN0t4W71Dv5SpwJN+0do6gV0eXPwvcgA/XZxXqZAePwXTp36YMrNTgw49OWZpHoNXfYCZ+1KUL032RdQ/Ik2wO/UwV0csL1Rwuu2L8/NI9VtrThCAr8dsMsDJ53jDh7xQdP3K2V9NYtAHk66697kk7TpzR1moqTJxSVaPKo2eDuKNke1BRbjYWoamu0hfC5YG6l5P9i8QaVklbtmDcmoLpU9fLVSSW6CWHkrtdifQiCOChAgMBAAGjUDBOMB0GA1UdDgQWBBRv7/Q0VoBgDYzgJOKLz4GsgXP27zAfBgNVHSMEGDAWgBRv7/Q0VoBgDYzgJOKLz4GsgXP27zAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQA9r6+6hGVlQ188l+wLFJ1wI83y27BdtE0ZsZGdFv98qi9kcUm17Z0tprEwypODZ1/syt9b1JhD4RgU30qwgeF4kec8UpoG49UkQImRD3AqfsiYSdjZeBpcpEl3n8lkjKGoVY7GB2lMGoWDxv/1A0CSjVTmWgQSFGHoMtzOW1tCr9yGXVEdy691l7PVC1kK5ekwkO8YbSO6hvV/u83KuUiGcIoY1PIzAK301i9YXWUNxybIVfHregoQ11QzjhfdfpOLBTtW1B4QZqZz8qFGIr1remmQK3ljEcct9bWjMLOx2QYMvk6uRFzh+V5L2UnhldNy5wQYMXRDz6SU3LdTJ2OA\n-----END CERTIFICATE-----"
+            }
+        }
+    }
+}

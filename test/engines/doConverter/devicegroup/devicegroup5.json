@@ -1,0 +1,90 @@
+{
+    "schemaVersion": "1.0.0",
+    "class": "Device",
+    "async": true,
+    "Common": {
+        "class": "Tenant",
+        "ConfigSync__ltm-48_test_com": {
+            "class": "ConfigSync",
+            "configsyncIp": "10.20.0.48"
+        },
+        "FailoverUnicast__ltm-48_test_com": {
+            "class": "FailoverUnicast",
+            "addressPorts": [
+                {
+                    "address": "10.20.0.48",
+                    "port": 1026
+                }
+            ]
+        },
+        "FailoverMulticast__ltm-48_test_com": {
+            "class": "FailoverMulticast",
+            "interface": "eth0",
+            "address": "224.0.0 245",
+            "port": 62960
+        },
+        "ha_group": {
+            "class": "DeviceGroup",
+            "type": "sync-failover",
+            "autoSync": true,
+            "saveOnAutoSync": true,
+            "members": [
+                "ltm-48.test.com",
+                "ltm-49.test.com"
+            ],
+            "owner": "/Common/ha_group/members/0"
+        },
+        "SelfIp_10_30_0_48_IPv4": {
+            "class": "SelfIp",
+            "address": "10.30.0.48/16",
+            "vlan": "/Common/external",
+            "trafficGroup": "traffic-group-local-only",
+            "allowService": [
+                "tcp:443"
+            ]
+        },
+        "SelfIp_10_30_0_51_IPv4": {
+            "class": "SelfIp",
+            "address": "10.30.0.51/16",
+            "vlan": "/Common/external",
+            "trafficGroup": "traffic-group-1",
+            "allowService": [
+                "tcp:443"
+            ]
+        },
+        "SelfIp_10_20_0_51_IPv4": {
+            "class": "SelfIp",
+            "address": "10.20.0.51/16",
+            "vlan": "/Common/internal",
+            "trafficGroup": "traffic-group-1",
+            "allowService": "default"
+        },
+        "SelfIp_10_20_0_48_IPv4": {
+            "class": "SelfIp",
+            "address": "10.20.0.48/16",
+            "vlan": "/Common/internal",
+            "trafficGroup": "traffic-group-local-only",
+            "allowService": "default"
+        },
+        "external": {
+            "class": "VLAN",
+            "tag": 4093,
+            "interfaces": [
+                {
+                    "name": "1.2",
+                    "tagged": false
+                }
+            ]
+        },
+        "internal": {
+            "class": "VLAN",
+            "tag": 4094,
+            "interfaces": [
+                {
+                    "name": "1.1",
+                    "tagged": false
+                }
+            ]
+        }
+    }
+}

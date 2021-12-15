@@ -1,0 +1,61 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.8.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "https",
+            "serviceMain": {
+                "class": "Service_HTTPS",
+                "virtualAddresses": [
+                    "192.0.2.11"
+                ],
+                "pool": "web_pool",
+                "serverTLS": "webtls"
+            },
+            "web_pool": {
+                "class": "Pool",
+                "loadBalancingMode": "predictive-node",
+                "monitors": [
+                    {
+                        "bigip": "/Common/http"
+                    }
+                ],
+                "members": [
+                    {
+                        "addressDiscovery": "static",
+                        "servicePort": 80,
+                        "serverAddresses": [
+                            "192.0.2.12",
+                            "192.0.2.13"
+                        ],
+                        "shareNodes": true
+                    }
+                ]
+            },
+            "webtls": {
+                "class": "TLS_Server",
+                "certificates": [
+                    {
+                        "certificate": "/AS3_Tenant/AS3_Application/webcert"
+                    }
+                ]
+            },
+            "webcert": {
+                "class": "Certificate",
+                "remark": "in practice we recommend using a passphrase",
+                "certificate": "-----BEGIN CERTIFICATE-----\nMIICnDCCAgWgAwIBAgIJAJ5n2b0OCEjwMA0GCSqGSIb3DQEBCwUAMGcxCzAJBgNVBAYTAlVTMRMwEQYDVQQIDApXYXNoaW5ndG9uMRAwDgYDVQQHDAdTZWF0dGxlMRQwEgYDVQQKDAtmNV9OZXR3b3JrczEbMBkGA1UEAwwSc2FtcGxlLmV4YW1wbGUubmV0MB4XDTE3MTEyNjE5NTAyNFoXDTE4MDIyNTE5NTAyNFowZzELMAkGA1UEBhMCVVMxEzARBgNVBAgMCldhc2hpbmd0b24xEDAOBgNVBAcMB1NlYXR0bGUxFDASBgNVBAoMC2Y1X05ldHdvcmtzMRswGQYDVQQDDBJzYW1wbGUuZXhhbXBsZS5uZXQwgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBALEsuXmSXVQpYjrZPW+WiTBjn491mwZYT7Q92V1HlSBtM6WdWlK1aZN5sovfKtOX7Yrm8xa+e4o/zJ2QYLyyv5O+t2EGN/4qUEjEAPY9mwJdfzRQy6Hyzm84J0QkTuUJ/EjNuPji3D0QJRALUTzu1UqqDCEtiN9OGyXEkh7uvb7BAgMBAAGjUDBOMB0GA1UdDgQWBBSVHPNrGWrjWyZvckQxFYWO59FRFjAfBgNVHSMEGDAWgBSVHPNrGWrjWyZvckQxFYWO59FRFjAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBCwUAA4GBAJeJ9SEckEwPhkXOm+IuqfbUS/RcziifBCTmVyE+Fa/j9pKSYTgiEBNdbJeBEa+gPMlQtbV7Y2dy8TKx/8axVBHiXC5geDML7caxOrAyHYBpnx690xJTh5OIORBBM/a/NvaR+P3CoVebr/NPRh9oRNxnntnqvqD7SW0U3ZPe3tJc\n-----END CERTIFICATE-----",
+                "privateKey": "",
+                "passphrase": {
+                    "ciphertext": "ZjVmNQ==",
+                    "protected": "eyJhbGciOiJkaXIiLCJlbmMiOiJub25lIn0"
+                }
+            }
+        }
+    }
+}

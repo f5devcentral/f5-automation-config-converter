@@ -1,0 +1,26 @@
+{
+    "schemaVersion": "1.0.0",
+    "class": "Device",
+    "async": true,
+    "Common": {
+        "class": "Tenant",
+        "f5-aws-dns": {
+            "class": "DNS_Resolver",
+            "routeDomain": "0",
+            "forwardZones": [
+                {
+                    "name": "amazonaws.com",
+                    "nameservers": [
+                        "8.8.8.8:53"
+                    ]
+                },
+                {
+                    "name": "idservice.net",
+                    "nameservers": [
+                        "8.8.8.8:53"
+                    ]
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,44 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.8.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "jumpinthepool": {
+                "class": "Pool",
+                "monitors": [
+                    {
+                        "bigip": "/Common/http"
+                    }
+                ],
+                "members": [
+                    {
+                        "addressDiscovery": "static",
+                        "servicePort": 1,
+                        "serverAddresses": [
+                            "1.1.1.1"
+                        ],
+                        "shareNodes": true
+                    },
+                    {
+                        "addressDiscovery": "static",
+                        "servicePort": 80,
+                        "serverAddresses": [
+                            "198.19.192.72",
+                            "198.19.192.73",
+                            "198.19.192.74",
+                            "198.19.192.75"
+                        ],
+                        "shareNodes": true
+                    }
+                ]
+            }
+        }
+    }
+}

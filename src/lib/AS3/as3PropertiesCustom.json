@@ -1,0 +1,55 @@
+{
+  "sys application service": [
+    { "id":"variables",   "extend": "objArray", "default": null },
+    { "id":"description", "altId": "remark", "quotedString": true },
+    { "id":"template"}
+  ],
+  "ltm monitor dns": [
+    { "id":"description",               "altId": "remark", "quotedString": true }
+  ],
+  "ltm monitor external": [
+    { "id":"description",               "altId": "remark", "quotedString": true }
+  ],
+  "ltm monitor ftp": [
+    { "id":"description",               "altId": "remark", "quotedString": true }
+  ],
+  "ltm monitor http": [
+    { "id":"description",               "altId": "remark", "quotedString": true }
+  ],
+  "ltm monitor http2": [
+    { "id":"description",               "altId": "remark", "quotedString": true }
+  ],
+  "ltm monitor https": [
+    { "id":"description",               "altId": "remark", "quotedString": true }
+  ],
+  "ltm monitor icmp": [
+    { "id":"description",               "altId": "remark", "quotedString": true }
+  ],
+  "ltm monitor ldap": [
+    { "id":"description",               "altId": "remark", "quotedString": true }
+  ],
+  "ltm monitor mysql": [
+    { "id":"description",               "altId": "remark", "quotedString": true }
+  ],
+  "ltm monitor radius": [
+    { "id":"description",               "altId": "remark", "quotedString": true }
+  ],
+  "ltm monitor sip": [
+    { "id":"description",               "altId": "remark", "quotedString": true }
+  ],
+  "ltm monitor smtp": [
+    { "id":"description",               "altId": "remark", "quotedString": true }
+  ],
+  "ltm monitor tcp": [
+    { "id":"description",               "altId": "remark", "quotedString": true }
+  ],
+  "ltm monitor tcp-half-open": [
+    { "id":"description",               "altId": "remark", "quotedString": true }
+  ],
+  "ltm monitor udp": [
+    { "id":"description",               "altId": "remark", "quotedString": true }
+  ],
+  "ltm profile sip": [
+    { "id":"description",               "altId": "remark", "quotedString": true }
+  ]
+}

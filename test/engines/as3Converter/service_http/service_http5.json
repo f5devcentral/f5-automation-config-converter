@@ -1,0 +1,53 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.22.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "http",
+            "serviceMain": {
+                "class": "Service_HTTP",
+                "iRules": [
+                    {
+                        "use": "/AS3_Tenant/AS3_Application/Maintenance_iRule"
+                    }
+                ],
+                "virtualAddresses": [
+                    "10.0.1.10",
+                    "10.0.1.11"
+                ],
+                "pool": "web_pool"
+            },
+            "web_pool": {
+                "class": "Pool",
+                "monitors": [
+                    {
+                        "bigip": "/Common/http"
+                    }
+                ],
+                "members": [
+                    {
+                        "addressDiscovery": "static",
+                        "servicePort": 80,
+                        "serverAddresses": [
+                            "192.0.1.170",
+                            "192.0.1.171"
+                        ],
+                        "shareNodes": true
+                    }
+                ]
+            },
+            "Maintenance_iRule": {
+                "class": "iRule",
+                "iRule": {
+                    "base64": "d2hlbiBIVFRQX1JFUVVFU1QgewogICBIVFRQOjpyZXNwb25kIDIwMCBjb250ZW50IHsKICAgICAgPGh0bWw+CiAgICAgICAgIDxoZWFkPgogICAgICAgICAgICA8dGl0bGU+QmxvY2tlZCBQYWdlPC90aXRsZT4KICAgICAgICAgPC9oZWFkPgogICAgICAgICA8Ym9keT4KICAgICAgICAgICAgV2UgYXJlIHNvcnJ5LCBidXQgdGhlIHNpdGUgeW91IGFyZSBsb29raW5nIGZvciBpcyBjdXJyZW50bHkgdW5kZXIgTWFpbnRlbmFuY2U8YnI+CiAgICAgICAgICAgIElmIHlvdSBmZWVsIHlvdSBoYXZlIHJlYWNoZWQgdGhpcyBwYWdlIGluIGVycm9yLCBwbGVhc2UgdHJ5IGFnYWluLiBUaGFua3MgZm9yIGNvbWluZwogICAgICAgICA8L2JvZHk+CiAgICAgIDwvaHRtbD4KICAgfSBub3NlcnZlciBDYWNoZS1Db250cm9sIG5vLWNhY2hlIENvbm5lY3Rpb24gQ2xvc2UKfQ=="
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,44 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.9.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "testItem": {
+                "class": "HTTP_Compress",
+                "remark": "description",
+                "allowHTTP10": true,
+                "bufferSize": 27000,
+                "contentTypeExcludes": [
+                    "exclude"
+                ],
+                "contentTypeIncludes": [
+                    "include"
+                ],
+                "uriExcludes": [
+                    "exclude"
+                ],
+                "uriIncludes": [
+                    "include"
+                ],
+                "cpuSaver": false,
+                "cpuSaverHigh": 73,
+                "cpuSaverLow": 13,
+                "minimumSize": 2300,
+                "preferMethod": "deflate",
+                "gzipLevel": 3,
+                "gzipMemory": 16,
+                "gzipWindowSize": 32,
+                "keepAcceptEncoding": true,
+                "selective": true,
+                "varyHeader": false
+            }
+        }
+    }
+}

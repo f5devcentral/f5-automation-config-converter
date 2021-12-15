@@ -1,0 +1,27 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.10.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "testItem": {
+                "class": "Monitor",
+                "monitorType": "ftp",
+                "mode": "port",
+                "username": "testUser",
+                "passphrase": {
+                    "ciphertext": "ZjVmNQ==",
+                    "protected": "eyJhbGciOiJkaXIiLCJlbmMiOiJub25lIn0=",
+                    "ignoreChanges": true
+                },
+                "filename": "testpath/test/"
+            }
+        }
+    }
+}

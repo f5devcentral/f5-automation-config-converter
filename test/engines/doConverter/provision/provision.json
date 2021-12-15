@@ -1,0 +1,17 @@
+{
+    "schemaVersion": "1.0.0",
+    "class": "Device",
+    "async": true,
+    "Common": {
+        "class": "Tenant",
+        "Provision": {
+            "class": "Provision",
+            "afm": "nominal",
+            "apm": "nominal",
+            "asm": "nominal",
+            "avr": "nominal",
+            "gtm": "nominal",
+            "ltm": "nominal"
+        }
+    }
+}

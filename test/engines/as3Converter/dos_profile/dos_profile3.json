@@ -1,0 +1,153 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.10.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "controls": {
+        "class": "Controls",
+        "trace": true,
+        "logLevel": "debug"
+    },
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "testItem": {
+                "class": "DOS_Profile",
+                "application": {
+                    "scrubbingDuration": 42,
+                    "remoteTriggeredBlackHoleDuration": 10,
+                    "botSignatures": {
+                        "checkingEnabled": true,
+                        "reportedCategories": [
+                            {
+                                "bigip": "/Common/Search Engine"
+                            }
+                        ]
+                    },
+                    "captchaResponse": {
+                        "first": "Are you a robot&quest;<br><br>Testing All As%DOSL7.captcha.image% %DOSL7.captcha.change%<br><b>What code is in the image&quest;</b>%DOSL7.captcha.solution%<br>%DOSL7.captcha.submit%<br><br>Your support ID is: %DOSL7.captcha.support_id%.",
+                        "failure": "Error! %DOSL7.captcha.image% %DOSL7.captcha.change%<br><b>What code is in the image&quest;</b>%DOSL7.captcha.solution%<br>%DOSL7.captcha.submit%<br><br>Your support ID is: %DOSL7.captcha.support_id%."
+                    },
+                    "rateBasedDetection": {
+                        "operationMode": "off",
+                        "thresholdsMode": "manual",
+                        "escalationPeriod": 121,
+                        "deEscalationPeriod": 7201,
+                        "sourceIP": {
+                            "minimumTps": 41,
+                            "tpsIncreaseRate": 501,
+                            "maximumTps": 201,
+                            "minimumAutoTps": 6,
+                            "maximumAutoTps": 5001,
+                            "clientSideDefenseEnabled": true,
+                            "captchaChallengeEnabled": true,
+                            "rateLimitingEnabled": false,
+                            "rateLimitingMode": "block-all"
+                        },
+                        "deviceID": {
+                            "minimumTps": 39,
+                            "tpsIncreaseRate": 501,
+                            "maximumTps": 203,
+                            "minimumAutoTps": 4,
+                            "maximumAutoTps": 5001,
+                            "clientSideDefenseEnabled": true,
+                            "captchaChallengeEnabled": true
+                        },
+                        "geolocation": {
+                            "minimumShare": 19,
+                            "shareIncreaseRate": 501,
+                            "minimumAutoTps": 4,
+                            "maximumAutoTps": 5010,
+                            "clientSideDefenseEnabled": true,
+                            "captchaChallengeEnabled": true,
+                            "rateLimitingEnabled": true,
+                            "rateLimitingMode": "block-all"
+                        },
+                        "url": {
+                            "minimumTps": 4,
+                            "tpsIncreaseRate": 50,
+                            "maximumTps": 20,
+                            "minimumAutoTps": 1,
+                            "maximumAutoTps": 5002,
+                            "clientSideDefenseEnabled": true,
+                            "captchaChallengeEnabled": true
+                        },
+                        "site": {
+                            "minimumTps": 45,
+                            "tpsIncreaseRate": 505,
+                            "maximumTps": 201,
+                            "minimumAutoTps": 6,
+                            "maximumAutoTps": 5020,
+                            "clientSideDefenseEnabled": true,
+                            "captchaChallengeEnabled": true
+                        }
+                    },
+                    "stressBasedDetection": {
+                        "badActor": {
+                            "detectionEnabled": true,
+                            "mitigationMode": "aggressive",
+                            "signatureDetectionEnabled": true,
+                            "useApprovedSignaturesOnly": true
+                        },
+                        "thresholdsMode": "manual",
+                        "escalationPeriod": 12,
+                        "deEscalationPeriod": 720,
+                        "sourceIP": {
+                            "minimumTps": 42,
+                            "tpsIncreaseRate": 502,
+                            "maximumTps": 202,
+                            "minimumAutoTps": 4,
+                            "maximumAutoTps": 5002,
+                            "clientSideDefenseEnabled": true,
+                            "captchaChallengeEnabled": true
+                        },
+                        "deviceID": {
+                            "minimumTps": 42,
+                            "tpsIncreaseRate": 502,
+                            "maximumTps": 202,
+                            "minimumAutoTps": 10,
+                            "maximumAutoTps": 5002,
+                            "clientSideDefenseEnabled": true,
+                            "captchaChallengeEnabled": true,
+                            "rateLimitingEnabled": true
+                        },
+                        "geolocation": {
+                            "minimumShare": 12,
+                            "shareIncreaseRate": 502,
+                            "minimumAutoTps": 10,
+                            "maximumAutoTps": 5002,
+                            "clientSideDefenseEnabled": true,
+                            "captchaChallengeEnabled": true,
+                            "rateLimitingMode": "block-all"
+                        },
+                        "url": {
+                            "minimumTps": 42,
+                            "tpsIncreaseRate": 502,
+                            "maximumTps": 202,
+                            "minimumAutoTps": 10,
+                            "maximumAutoTps": 5002,
+                            "heavyURLProtectionEnabled": false
+                        },
+                        "site": {
+                            "minimumTps": 42,
+                            "tpsIncreaseRate": 502,
+                            "maximumTps": 202,
+                            "minimumAutoTps": 10,
+                            "maximumAutoTps": 5002
+                        }
+                    },
+                    "recordTraffic": {
+                        "maximumDuration": 11,
+                        "maximumSize": 11,
+                        "recordTrafficEnabled": true,
+                        "repetitionInterval": 11
+                    }
+                }
+            }
+        }
+    }
+}

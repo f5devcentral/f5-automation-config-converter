@@ -1,0 +1,124 @@
+{
+    "class": "ADC",
+    "schemaVersion": "3.22.0",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "http",
+            "serviceMain": {
+                "class": "Service_HTTP",
+                "virtualAddresses": [
+                    "198.19.192.2"
+                ],
+                "virtualPort": 80,
+                "policyFirewallEnforced": {
+                    "use": "/AS3_Tenant/AS3_Application/firewallPolicy"
+                },
+                "policyFirewallStaged": {
+                    "use": "/AS3_Tenant/AS3_Application/firewallPolicy"
+                }
+            },
+            "firewallPolicy": {
+                "class": "Firewall_Policy",
+                "remark": "A firewall policy",
+                "rules": [
+                    {
+                        "use": "/AS3_Tenant/AS3_Application/ruleList"
+                    }
+                ]
+            },
+            "addressList": {
+                "class": "Firewall_Address_List",
+                "remark": "A firewall address list",
+                "addresses": [
+                    "10.238.8.51-10.238.8.56"
+                ],
+                "geo": [
+                    "US:Washington"
+                ],
+                "addressLists": [
+                    {
+                        "use": "/AS3_Tenant/AS3_Application/addressListChild"
+                    }
+                ]
+            },
+            "addressListChild": {
+                "class": "Firewall_Address_List",
+                "remark": "A firewall address list",
+                "addresses": [
+                    "10.238.8.70"
+                ],
+                "geo": [
+                    "US:Oregon"
+                ]
+            },
+            "portList": {
+                "class": "Firewall_Port_List",
+                "remark": "A firewall port list",
+                "ports": [
+                    80,
+                    "8080-8090"
+                ],
+                "portLists": [
+                    {
+                        "use": "/AS3_Tenant/AS3_Application/portListChild"
+                    }
+                ]
+            },
+            "portListChild": {
+                "class": "Firewall_Port_List",
+                "remark": "A firewall port list",
+                "ports": [
+                    90, "9080-9090"
+                ]
+            },
+            "iRule": {
+                "class": "iRule",
+                "iRule": {
+                    "base64": "ICAgIHdoZW4gU0VSVkVSX0NPTk5FQ1RFRCB7CiAgbGlzdGVuIHsKICAgIHByb3RvIDE3CiAgICB0aW1lb3V0IDYwCiAgICBiaW5kIFtMSU5LOjp2bGFuX2lkXSBbSVA6OmxvY2FsX2FkZHJdIFtzZXJ2ZXJzaWRlIHtVRFA6OmxvY2FsX3BvcnR9XQogICAgc2VydmVyIFtwZWVyIHtjbGllbnRfYWRkcn1dIFtwZWVyIHtVRFA6OmNsaWVudF9wb3J0fV0KICAgIGFsbG93IFtJUDo6c2VydmVyX2FkZHJdCiAgfQp9"
+                }
+            },
+            "ruleList": {
+                "class": "Firewall_Rule_List",
+                "remark": "A firewall rule list",
+                "rules": [
+                    {
+                        "name": "rule",
+                        "remark": "A firewall rule list rule",
+                        "action": "accept",
+                        "protocol": "tcp",
+                        "source": {
+                            "addressLists": [
+                                {
+                                    "use": "/AS3_Tenant/AS3_Application/addressList"
+                                }
+                            ],
+                            "portLists": [
+                                {
+                                    "use": "/AS3_Tenant/AS3_Application/portList"
+                                }
+                            ]
+                        },
+                        "destination": {
+                            "addressLists": [
+                                {
+                                    "use": "/AS3_Tenant/AS3_Application/addressList"
+                                }
+                            ],
+                            "portLists": [
+                                {
+                                    "use": "/AS3_Tenant/AS3_Application/portList"
+                                }
+                            ]
+                        },
+                        "iRule": {
+                            "use": "/AS3_Tenant/AS3_Application/iRule"
+                        },
+                        "iRuleSampleRate": 2
+                    }
+                ]
+            }
+        }
+    }
+}

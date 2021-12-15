@@ -1,0 +1,28 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.10.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "testItem": {
+                "class": "Enforcement_Interception_Endpoint",
+                "persistence": "source-ip",
+                "pool": {
+                    "use": "/AS3_Tenant/AS3_Application/thePool2"
+                }
+            },
+            "thePool1": {
+                "class": "Pool"
+            },
+            "thePool2": {
+                "class": "Pool"
+            }
+        }
+    }
+}

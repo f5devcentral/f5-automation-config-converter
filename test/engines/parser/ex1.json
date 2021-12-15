@@ -1,0 +1,15 @@
+{
+    "apm oauth db-instance /Common/oauthdb": {
+        "description": "\"Default OAuth DB.\""
+    },
+    "apm report default-report": {
+        "report-name": "sessionReports/sessionSummary",
+        "user": "/Common/admin"
+    },
+    "sys software update": {
+        "auto-check": "enabled",
+        "auto-phonehome": "enabled",
+        "frequency": "weekly"
+    },
+    "wom endpoint-discovery": {}
+}

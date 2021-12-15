@@ -1,0 +1,177 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.8.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "testItem": {
+                "class": "Monitor",
+                "monitorType": "https",
+                "ciphers": "DEFAULT:+SHA:+3DES",
+                "clientCertificate": "https_monitor_certificate"
+            },
+            "mHttpstestint": {
+                "class": "Monitor",
+                "label": "mostly default values",
+                "monitorType": "https",
+                "send": "11",
+                "receive": "12",
+                "receiveDown": "13",
+                "reverse": false,
+                "transparent": false,
+                "dscp": 0,
+                "interval": 5,
+                "upInterval": 0,
+                "timeUntilUp": 0,
+                "timeout": 16,
+                "ciphers": "DEFAULT"
+            },
+            "mHttpstestspaces": {
+                "class": "Monitor",
+                "label": "mostly default values",
+                "monitorType": "https",
+                "send": "string send",
+                "receive": "string receive",
+                "receiveDown": "string receiveDown",
+                "reverse": false,
+                "transparent": false,
+                "dscp": 0,
+                "interval": 5,
+                "upInterval": 0,
+                "timeUntilUp": 0,
+                "timeout": 16,
+                "ciphers": "DEFAULT"
+            },
+            "mHttpsSimple": {
+                "class": "Monitor",
+                "label": "simplest https declaration",
+                "monitorType": "https"
+            },
+            "mHttpsDefault": {
+                "class": "Monitor",
+                "label": "mostly default values",
+                "monitorType": "https",
+                "send": "HEAD / HTTP/1.0\\r\\n\\r\\n",
+                "receive": "HTTP/1.",
+                "reverse": false,
+                "transparent": false,
+                "dscp": 0,
+                "interval": 5,
+                "upInterval": 0,
+                "timeUntilUp": 0,
+                "timeout": 16,
+                "ciphers": "DEFAULT"
+            },
+            "mHttpsNonDefault": {
+                "class": "Monitor",
+                "label": "mostly non-default values",
+                "monitorType": "https",
+                "send": "HEAD / HTTP/1.1\\r\\n\\r\\n",
+                "receive": "HTTP/1.1",
+                "receiveDown": "status=(quiesce|disabled|drain)",
+                "transparent": true,
+                "dscp": 63,
+                "targetAddress": "198.19.192.16",
+                "targetPort": 443,
+                "interval": 10,
+                "upInterval": 11,
+                "timeUntilUp": 12,
+                "timeout": 31,
+                "ciphers": "DEFAULT:+SHA:+3DES:+kEDH",
+                "clientCertificate": "https_monitor_certificate"
+            },
+            "mHttpsReverse": {
+                "class": "Monitor",
+                "label": "reverse enabled",
+                "monitorType": "https",
+                "send": "HEAD / HTTP/1.1\\r\\n\\r\\n",
+                "receive": "status=(quiesce|disabled|drain)",
+                "reverse": true
+            },
+            "mHttpsIpv6": {
+                "class": "Monitor",
+                "label": "ipv6 address",
+                "monitorType": "https",
+                "targetAddress": "fdf5:4153:3300::9",
+                "targetPort": 443
+            },
+            "mHttpsAdaptiveDisabled": {
+                "class": "Monitor",
+                "label": "adaptive disabled",
+                "monitorType": "https",
+                "adaptive": false
+            },
+            "mHttpsAdaptiveDefaultRelative": {
+                "class": "Monitor",
+                "label": "adapt relative mostly defaults",
+                "monitorType": "https",
+                "adaptive": true,
+                "adaptiveDivergenceType": "relative",
+                "adaptiveLimitMilliseconds": 1000,
+                "adaptiveWindow": 180
+            },
+            "mHttpsAdaptiveMinRelative": {
+                "class": "Monitor",
+                "label": "adaptive relative min integers",
+                "monitorType": "https",
+                "adaptive": true,
+                "adaptiveDivergenceType": "relative",
+                "adaptiveLimitMilliseconds": 1,
+                "adaptiveWindow": 60
+            },
+            "mHttpsAdaptiveMaxRelative": {
+                "class": "Monitor",
+                "label": "adaptive relative max integers",
+                "monitorType": "https",
+                "adaptive": true,
+                "adaptiveDivergenceType": "relative",
+                "adaptiveLimitMilliseconds": 10000,
+                "adaptiveWindow": 1800
+            },
+            "mHttpsAdaptiveDefaultAbsolute": {
+                "class": "Monitor",
+                "label": "absolute adaptive mostly defaults",
+                "monitorType": "https",
+                "adaptive": true,
+                "adaptiveDivergenceType": "absolute",
+                "adaptiveLimitMilliseconds": 1000,
+                "adaptiveWindow": 180
+            },
+            "mHttpsAdaptiveMinAbsolute": {
+                "class": "Monitor",
+                "label": "absolute adaptive min integers",
+                "monitorType": "https",
+                "adaptive": true,
+                "adaptiveDivergenceType": "absolute",
+                "adaptiveLimitMilliseconds": 1,
+                "adaptiveWindow": 60
+            },
+            "mHttpsAdaptiveMaxAbsolute": {
+                "class": "Monitor",
+                "label": "absolute adaptive max integers",
+                "monitorType": "https",
+                "adaptive": true,
+                "adaptiveDivergenceType": "absolute",
+                "adaptiveLimitMilliseconds": 10000,
+                "adaptiveWindow": 1800
+            },
+            "https_monitor_certificate": {
+                "class": "Certificate",
+                "remark": "in practice using a passphrase is recommended",
+                "certificate": "-----BEGIN CERTIFICATE-----\nMIIDXjCCAkagAwIBAgIED6B1ETANBgkqhkiG9w0BAQsFADBxMQswCQYDVQQGEwJVUzELMAkGA1UECBMCV0ExEDAOBgNVBAcTB1NlYXR0bGUxDTALBgNVBAoTBFRlc3QxHDAaBgNVBAsTE1Byb2R1Y3QgRGV2ZWxvcG1lbnQxFjAUBgNVBAMUDWh0dHBzX21vbml0b3IwHhcNMTgwNDIzMTgwNjA5WhcNMjgwNDIwMTgwNjA5WjBxMQswCQYDVQQGEwJVUzELMAkGA1UECBMCV0ExEDAOBgNVBAcTB1NlYXR0bGUxDTALBgNVBAoTBFRlc3QxHDAaBgNVBAsTE1Byb2R1Y3QgRGV2ZWxvcG1lbnQxFjAUBgNVBAMUDWh0dHBzX21vbml0b3IwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC03brx8pCY7my1CW3VEXKcoehIci6d9s6XEySQDRucQU9snY6u39WLLiBa6IFIfvVTAkMvgE3mA3uXXJTMhaOkD1k/iMiZdUGnGsDml6F14hv2PbMY9WufP0+3HYhfJpOOZl/fvK25lNvqFFGV0me5SbOSDIKc47qQBJ4rwPTJ4SeWDEkMSuCgzeuZ3SEW8SxkK4WqppvtlXEI9KnPmscqXAK+QqLrsFNf0rEbJiKFU1Ae0FMgyXuIW6OjnKg9fnozIGuocISHEB4fB6F/ywJshz56jc5SM/w4eDHYP7WYmeMX+ZiKsbp0ULsnyGwKJFkAjL/LuSvMXvkgg20F5PShAgMBAAEwDQYJKoZIhvcNAQELBQADggEBADeNPg3exjVRmsZ6Tcyt3pWdMPGDG5Sbc9hOq6yfEHB205wnWQ1J1oswFUFVKxra4dtei8ToRlaYJP7Dk2J2V4RTk33nt35hdxHDnq4Id6zDtiuWN9D3srjqLpH2RwighXn1Agx/rYAXd0jQGT4genqmHUsK5YMOtHVuR1o3PFphTVfOu4gffrmuBna/YXT1gy9XPeKG0pXnxyV/ejWtXKmUNuFAZtToaiMgCWC6evsi4bpH5qRBI3aqgnGy0YXNDfeaJ8Z9FdNlyK9C6cPiHeZWkfaJHDcxXEbJuC9JQsaH/GLpLGRJ9m3GVXUhxHQGvb/sIXDvaJZYbr9rNZ/XsTw=\n-----END CERTIFICATE-----",
+                "privateKey": "",
+                "passphrase": {
+                    "ciphertext": "ZjVmNQ==",
+                    "protected": "eyJhbGciOiJkaXIiLCJlbmMiOiJub25lIn0",
+                    "ignoreChanges": true
+                }
+            }
+        }
+    }
+}

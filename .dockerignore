@@ -1,0 +1,10 @@
+Dockerfile
+.*
+*.md
+contributing
+coverage
+dist
+docs
+public
+scripts
+test

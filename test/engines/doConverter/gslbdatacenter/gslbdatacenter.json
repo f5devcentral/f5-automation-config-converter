@@ -1,0 +1,29 @@
+{
+    "schemaVersion": "1.0.0",
+    "class": "Device",
+    "async": true,
+    "Common": {
+        "class": "Tenant",
+        "test_datacenter_1": {
+            "class": "GSLBDataCenter",
+            "contact": "no contact",
+            "location": "45672 34567 345347",
+            "proberFallback": "none",
+            "proberPreferred": "outside-datacenter",
+            "remark": "test string"
+        },
+        "test_datacenter_2": {
+            "class": "GSLBDataCenter",
+            "contact": "main contact",
+            "location": "ss.f5.com",
+            "proberFallback": "outside-datacenter",
+            "proberPool": "/Common/test_prober_pool",
+            "proberPreferred": "pool",
+            "remark": "description"
+        },
+        "test_prober_pool": {
+            "class": "GSLBProberPool",
+            "remark": "test description"
+        }
+    }
+}

@@ -1,0 +1,74 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.10.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "testItem": {
+                "class": "NAT_Policy",
+                "remark": "description",
+                "rules": [
+                    {
+                        "name": "theRule1",
+                        "source": {
+                            "addressLists": [
+                                {
+                                    "use": "/AS3_Tenant/AS3_Application/addList"
+                                }
+                            ],
+                            "portLists": [
+                                {
+                                    "use": "/AS3_Tenant/AS3_Application/portList"
+                                }
+                            ]
+                        },
+                        "destination": {
+                            "addressLists": [
+                                {
+                                    "use": "/AS3_Tenant/AS3_Application/addList"
+                                }
+                            ],
+                            "portLists": [
+                                {
+                                    "use": "/AS3_Tenant/AS3_Application/portList"
+                                }
+                            ]
+                        },
+                        "protocol": "tcp"
+                    },
+                    {
+                        "name": "theRule2"
+                    }
+                ]
+            },
+            "portList": {
+                "class": "Firewall_Port_List",
+                "ports": [
+                    123
+                ]
+            },
+            "addList": {
+                "class": "Firewall_Address_List",
+                "addresses": [
+                    "50.50.50.50"
+                ]
+            },
+            "sourceTrans": {
+                "class": "NAT_Source_Translation",
+                "type": "dynamic-pat",
+                "addresses": [
+                    "40.40.40.40"
+                ],
+                "ports": [
+                    "234"
+                ]
+            }
+        }
+    }
+}

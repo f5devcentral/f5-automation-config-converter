@@ -1,0 +1,39 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.8.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "testItem": {
+                "loadBalancingMode": "least-connections-node",
+                "members": [
+                    {
+                        "addressDiscovery": "static",
+                        "servicePort": 443,
+                        "minimumMonitors": 1,
+                        "monitors": [
+                            {
+                                "bigip": "/Common/gateway_icmp"
+                            },
+                            {
+                                "bigip": "/Common/tcp_half_open"
+                            }
+                        ],
+                        "serverAddresses": [
+                            "198.19.192.118"
+                        ],
+                        "shareNodes": true
+                    }
+                ],
+                "minimumMembersActive": 1,
+                "class": "Pool"
+            }
+        }
+    }
+}

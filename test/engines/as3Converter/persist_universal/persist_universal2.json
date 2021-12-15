@@ -1,0 +1,28 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.22.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "Common": {
+        "class": "Tenant",
+        "Shared": {
+            "class": "Application",
+            "template": "shared",
+            "testItem": {
+                "class": "Persist",
+                "label": "simple declaration",
+                "persistenceMethod": "universal",
+                "duration": 300,
+                "iRule": "/Common/Shared/theRule"
+            },
+            "theRule": {
+                "class": "iRule",
+                "iRule": {
+                    "base64": "d2hlbiBIVFRQX1JFUVVFU1QgewogIHBlcnNpc3QgaGFzaCBbSFRUUDo6aGVhZGVyIG15aGVhZGVyXQp9"
+                }
+            }
+        }
+    }
+}

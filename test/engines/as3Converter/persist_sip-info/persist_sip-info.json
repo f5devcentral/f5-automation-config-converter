@@ -1,0 +1,20 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.9.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "testItem": {
+                "class": "Persist",
+                "persistenceMethod": "sip-info",
+                "header": "newHeader"
+            }
+        }
+    }
+}

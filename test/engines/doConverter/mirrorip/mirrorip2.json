@@ -1,0 +1,32 @@
+{
+    "schemaVersion": "1.0.0",
+    "class": "Device",
+    "async": true,
+    "Common": {
+        "class": "Tenant",
+        "ConfigSync__ltm-48_test_com": {
+            "class": "ConfigSync",
+            "configsyncIp": "10.20.0.48"
+        },
+        "FailoverUnicast__ltm-48_test_com": {
+            "class": "FailoverUnicast",
+            "addressPorts": [
+                {
+                    "address": "10.20.0.48",
+                    "port": 1026
+                }
+            ]
+        },
+        "FailoverMulticast__ltm-48_test_com": {
+            "class": "FailoverMulticast",
+            "interface": "eth0",
+            "address": "224.0.0 245",
+            "port": 62960
+        },
+        "MirrorIp__ltm-48_test_com": {
+            "class": "MirrorIp",
+            "primaryIp": "10.20.0.48",
+            "secondaryIp": "10.30.0.48"
+        }
+    }
+}

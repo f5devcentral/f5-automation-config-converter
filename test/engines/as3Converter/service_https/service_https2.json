@@ -1,0 +1,70 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.8.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "https",
+            "serviceMain": {
+                "class": "Service_HTTPS",
+                "virtualAddresses": [
+                    "1.1.1.1"
+                ],
+                "profileHTTP": {
+                    "use": "/AS3_Tenant/AS3_Application/AS3_http"
+                },
+                "profileHTTPCompression": {
+                    "use": "/AS3_Tenant/AS3_Application/AS3_compress"
+                },
+                "profileHTTPAcceleration": {
+                    "use": "/AS3_Tenant/AS3_Application/AS3_accel"
+                },
+                "profileMultiplex": {
+                    "use": "/AS3_Tenant/AS3_Application/AS3_multiplex"
+                },
+                "profileAnalytics": {
+                    "use": "/AS3_Tenant/AS3_Application/AS3_analytics"
+                },
+                "serverTLS": "webtls"
+            },
+            "AS3_http": {
+                "class": "HTTP_Profile"
+            },
+            "AS3_compress": {
+                "class": "HTTP_Compress"
+            },
+            "AS3_accel": {
+                "class": "HTTP_Acceleration_Profile"
+            },
+            "AS3_multiplex": {
+                "class": "Multiplex_Profile"
+            },
+            "AS3_analytics": {
+                "class": "Analytics_Profile"
+            },
+            "webtls": {
+                "class": "TLS_Server",
+                "certificates": [
+                    {
+                        "certificate": "/AS3_Tenant/AS3_Application/webcert"
+                    }
+                ]
+            },
+            "webcert": {
+                "class": "Certificate",
+                "remark": "in practice we recommend using a passphrase",
+                "certificate": "-----BEGIN CERTIFICATE-----\nMIICnDCCAgWgAwIBAgIJAJ5n2b0OCEjwMA0GCSqGSIb3DQEBCwUAMGcxCzAJBgNVBAYTAlVTMRMwEQYDVQQIDApXYXNoaW5ndG9uMRAwDgYDVQQHDAdTZWF0dGxlMRQwEgYDVQQKDAtmNV9OZXR3b3JrczEbMBkGA1UEAwwSc2FtcGxlLmV4YW1wbGUubmV0MB4XDTE3MTEyNjE5NTAyNFoXDTE4MDIyNTE5NTAyNFowZzELMAkGA1UEBhMCVVMxEzARBgNVBAgMCldhc2hpbmd0b24xEDAOBgNVBAcMB1NlYXR0bGUxFDASBgNVBAoMC2Y1X05ldHdvcmtzMRswGQYDVQQDDBJzYW1wbGUuZXhhbXBsZS5uZXQwgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBALEsuXmSXVQpYjrZPW+WiTBjn491mwZYT7Q92V1HlSBtM6WdWlK1aZN5sovfKtOX7Yrm8xa+e4o/zJ2QYLyyv5O+t2EGN/4qUEjEAPY9mwJdfzRQy6Hyzm84J0QkTuUJ/EjNuPji3D0QJRALUTzu1UqqDCEtiN9OGyXEkh7uvb7BAgMBAAGjUDBOMB0GA1UdDgQWBBSVHPNrGWrjWyZvckQxFYWO59FRFjAfBgNVHSMEGDAWgBSVHPNrGWrjWyZvckQxFYWO59FRFjAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBCwUAA4GBAJeJ9SEckEwPhkXOm+IuqfbUS/RcziifBCTmVyE+Fa/j9pKSYTgiEBNdbJeBEa+gPMlQtbV7Y2dy8TKx/8axVBHiXC5geDML7caxOrAyHYBpnx690xJTh5OIORBBM/a/NvaR+P3CoVebr/NPRh9oRNxnntnqvqD7SW0U3ZPe3tJc\n-----END CERTIFICATE-----",
+                "privateKey": "",
+                "passphrase": {
+                    "ciphertext": "ZjVmNQ==",
+                    "protected": "eyJhbGciOiJkaXIiLCJlbmMiOiJub25lIn0"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,19 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.8.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "testItem": {
+                "class": "Certificate",
+                "certificate": "-----BEGIN CERTIFICATE-----\nMIIDoDCCAoigAwIBAgIED1feTjANBgkqhkiG9w0BAQsFADCBkTELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAldBMRAwDgYDVQQHEwdTZWF0dGxlMQ0wCwYDVQQKEwRUZXN0MRwwGgYDVQQLExNQcm9kdWN0IERldmVsb3BtZW50MQ8wDQYDVQQDFAZteV9zc2wxJTAjBgkqhkiG9w0BCQEWFnNvbWVib2R5QHNvbWV3aGVyZS5jb20wHhcNMTgwMjI3MTYzOTQyWhcNMjgwMjI1MTYzOTQyWjCBkTELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAldBMRAwDgYDVQQHEwdTZWF0dGxlMQ0wCwYDVQQKEwRUZXN0MRwwGgYDVQQLExNQcm9kdWN0IERldmVsb3BtZW50MQ8wDQYDVQQDFAZteV9zc2wxJTAjBgkqhkiG9w0BCQEWFnNvbWVib2R5QHNvbWV3aGVyZS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC0O9Qg8avVtfTpzEwjjM0e+kwFzjFdMmqMVBs6XIo37FsDjbllI+7VznRNJPVfRZbnTmyhtHmkpDG/ojLVg7oPWZOY9Zrn7pO96wQxBGkj3E+/3B+TBethgXFSLA4sbAhF3Hn+lXP+QuA4KgtcGHDq1EctwZa0/BS8eQFIiWc5c2PAai9YI/nVbu4EkAhhbgTAMzgUnLeRXfyaqmsHVZOXem1ErQVC7M4qwKw2osYlM7qqCgOjK1hLwkd3MOIVcgAcUYEYe78dVFhOKglVATVgZhvAVqyTau7eG1sdSLY5aOgHR+CkHWAacIFKKwCZZr6AGFLqxO7tCyzEimmRCBrrAgMBAAEwDQYJKoZIhvcNAQELBQADggEBAHxDtjfTcwqGFuHy7wVsVTg1Mzwvzf0/MG1dstfr9q3onFMpcuZQ2DXWC0rmgT3KHaptM+V3iiq5mMv2pPuK4EacDPQdhWBjw5hsVaRu3V7pAo4LHC4UJ3xufXYzLVr8wRVMvTMOCNTR0RQ/k1XvIKG1g1H20P/8ZSPYnu05cfvKbPxf9MD5bNCTTuvVhAWA8hrDQ+qlAdYx2Tgv59VVkNEWTRto8TU6orREC5F+OUIq3zQcBYjRzfgi9eH68yLnVUlQQX3j6Y2b+ByxBNyo5JanEFLF2s2ioGKK8u3OilPGxDQCtrcc+TJAX9pNdaX/vNi6ZxxPwBQx9HctryxB3cc=\n-----END CERTIFICATE-----"
+            }
+        }
+    }
+}

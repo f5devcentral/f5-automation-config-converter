@@ -1,0 +1,69 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.8.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "testItem": {
+                "class": "Monitor",
+                "monitorType": "tcp-half-open",
+                "transparent": true,
+                "targetAddress": "100.0.0.100",
+                "targetPort": 8080
+            },
+            "mThoSimple": {
+                "class": "Monitor",
+                "monitorType": "tcp-half-open"
+            },
+            "mThoDefault": {
+                "class": "Monitor",
+                "monitorType": "tcp-half-open",
+                "targetAddress": "",
+                "targetPort": 0,
+                "interval": 5,
+                "upInterval": 0,
+                "timeUntilUp": 0,
+                "timeout": 16,
+                "transparent": false
+            },
+            "mThoNonDefaultMinInts": {
+                "class": "Monitor",
+                "monitorType": "tcp-half-open",
+                "targetAddress": "198.19.192.7",
+                "targetPort": 1,
+                "interval": 1,
+                "upInterval": 0,
+                "timeUntilUp": 0,
+                "timeout": 2,
+                "transparent": true
+            },
+            "mThoNonDefaultMaxInts": {
+                "class": "Monitor",
+                "monitorType": "tcp-half-open",
+                "targetAddress": "198.19.192.8",
+                "targetPort": 65535,
+                "interval": 899,
+                "upInterval": 3600,
+                "timeUntilUp": 1800,
+                "timeout": 900
+            },
+            "mThoNonDefaultIPv6": {
+                "class": "Monitor",
+                "monitorType": "tcp-half-open",
+                "targetAddress": "fdf5:4153:3300::3",
+                "targetPort": 443,
+                "interval": 20,
+                "upInterval": 21,
+                "timeUntilUp": 22,
+                "timeout": 61,
+                "transparent": true
+            }
+        }
+    }
+}

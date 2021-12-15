@@ -1,0 +1,61 @@
+{
+    "class": "ADC",
+    "schemaVersion": "3.31.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "http",
+            "serviceMain": {
+                "remark": "AS3_Application",
+                "layer4": "tcp",
+                "translateServerAddress": true,
+                "translateServerPort": true,
+                "class": "Service_HTTP",
+                "profileHTTP": {
+                    "bigip": "/Common/http"
+                },
+                "profileTCP": {
+                    "bigip": "/Common/tcp"
+                },
+                "profileHTML": {
+                    "use": "/AS3_Tenant/AS3_Application/testHtmlProfile"
+                },
+                "virtualAddresses": [
+                    "21.21.21.21"
+                ],
+                "virtualPort": 200,
+                "persistenceMethods": [],
+                "snat": "auto"
+            },
+            "testHtmlRuleCommentRaiseEvent": {
+                "remark": "my_remark_1",
+                "class": "HTML_Rule",
+                "ruleType": "comment-raise-event"
+            },
+            "testHtmlRuleCommentRemove": {
+                "remark": "my_remark_2",
+                "class": "HTML_Rule",
+                "ruleType": "comment-remove"
+            },
+            "testHtmlProfile": {
+                "contentSelection": [
+                    "text/xhtml"
+                ],
+                "remark": "my_remark_3",
+                "rules": [
+                    {
+                        "use": "/AS3_Tenant/AS3_Application/testHtmlRuleCommentRaiseEvent"
+                    },
+                    {
+                        "use": "/AS3_Tenant/AS3_Application/testHtmlRuleCommentRemove"
+                    }
+                ],
+                "class": "HTML_Profile"
+            }
+        }
+    }
+}

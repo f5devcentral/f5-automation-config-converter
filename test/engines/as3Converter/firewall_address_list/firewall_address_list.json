@@ -1,0 +1,54 @@
+{
+    "class": "ADC",
+    "schemaVersion": "3.8.0",
+    "id": "Firewall",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "testItemFwAddresses": {
+                "class": "Firewall_Address_List",
+                "remark": "This is an address list",
+                "addresses": [
+                    "10.2.10.10",
+                    "10.3.10.10-10.9.10.10",
+                    "10.10.10.0/24",
+                    "fdf5:4153:3300::a",
+                    "fdf5:4153:3300::b-fdf5:4153:3300::f",
+                    "fdf5:4153:6600::/54"
+                ],
+                "fqdns": [
+                    "test1.org",
+                    "test2.org"
+                ],
+                "geo": [
+                    "US:California",
+                    "US:Washington"
+                ],
+                "addressLists": [
+                    {
+                        "use": "/AS3_Tenant/AS3_Application/addressListChild"
+                    },
+                    {
+                        "use": "/AS3_Tenant/AS3_Application/addressListChild2"
+                    }
+                ]
+            },
+            "addressListChild": {
+                "class": "Firewall_Address_List",
+                "addresses": [
+                    "10.11.10.10",
+                    "10.11.10.11"
+                ]
+            },
+            "addressListChild2": {
+                "class": "Firewall_Address_List",
+                "addresses": [
+                    "10.12.10.10",
+                    "10.12.10.11"
+                ]
+            }
+        }
+    }
+}

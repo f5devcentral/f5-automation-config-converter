@@ -1,0 +1,59 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.8.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "testItem": {
+                "class": "SNAT_Pool",
+                "snatAddresses": [
+                    "198.19.192.17",
+                    "198.19.192.18",
+                    "198.19.192.19",
+                    "198.19.192.20",
+                    "198.19.192.21",
+                    "198.19.192.22"
+                ]
+            },
+            "testItem2": {
+                "class": "SNAT_Pool",
+                "snatAddresses": [
+                    "fdf5:4153:3300::a",
+                    "fdf5:4153:3300::b",
+                    "fdf5:4153:3300::c",
+                    "fdf5:4153:3300::d",
+                    "fdf5:4153:3300::e",
+                    "fdf5:4153:3300::f"
+                ]
+            },
+            "testItem3": {
+                "class": "SNAT_Pool",
+                "snatAddresses": [
+                    "198.19.192.23",
+                    "198.19.192.24",
+                    "198.19.192.25",
+                    "fdf5:4153:3300::10",
+                    "fdf5:4153:3300::11",
+                    "fdf5:4153:3300::12"
+                ]
+            },
+            "IPv6": {
+                "class": "SNAT_Pool",
+                "snatAddresses": [
+                    "fdf5:4153:3300::8a2e:370:0",
+                    "fdf5:4153:3300::8a2e:370:7334",
+                    "fdf5:4153:3300::8a2e:370:7335",
+                    "fdf5:4153:3300::8a2e:370:7336",
+                    "fdf5:4153:3300::8a2e:370:7337"
+                ]
+            }
+
+        }
+    }
+}

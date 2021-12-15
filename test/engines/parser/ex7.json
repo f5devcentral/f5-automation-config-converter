@@ -1,0 +1,13 @@
+{
+    "security dos bot-signature \"/Common/Bash Shellshock\"": {
+        "category": "\"/Common/Exploit Tool\"",
+        "rule": "\"headercontent:\\\"() {\\\"; useragentonly; nocase;\"",
+        "user-defined": "false"
+    },
+    "security dos bot-signature \"/Common/Bichoo Spider\"": {
+        "category": "\"/Common/Web Spider\"",
+        "risk": "high",
+        "rule": "\"headercontent:\\\"Bichoo Spider\\\"; useragentonly; nocase;\"",
+        "user-defined": "false"
+    }
+}

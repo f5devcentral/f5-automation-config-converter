@@ -1,0 +1,161 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.8.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "label": "simplest tcp monitor",
+            "template": "generic",
+            "mTcpSimple": {
+                "class": "Monitor",
+                "monitorType": "tcp",
+                "send": "abc def",
+                "receive": "rst xyz"
+            },
+            "mTcpDefault": {
+                "class": "Monitor",
+                "label": "tcp monitor default values",
+                "monitorType": "tcp",
+                "targetAddress": "",
+                "targetPort": 0,
+                "interval": 5,
+                "upInterval": 0,
+                "timeUntilUp": 0,
+                "timeout": 16,
+                "transparent": false,
+                "send": "",
+                "receive": "",
+                "receiveDown": "",
+                "reverse": false
+            },
+            "mTcpNonDefaultMinInts": {
+                "class": "Monitor",
+                "label": "tcp monitor non-default min ints",
+                "monitorType": "tcp",
+                "targetAddress": "198.19.192.4",
+                "targetPort": 1,
+                "interval": 1,
+                "upInterval": 0,
+                "timeUntilUp": 0,
+                "timeout": 2,
+                "transparent": true,
+                "send": "send it here",
+                "receive": "receive it there",
+                "dscp": 0
+            },
+            "mTcpNonDefaultMaxInts": {
+                "class": "Monitor",
+                "label": "tcp monitor non-default max ints",
+                "monitorType": "tcp",
+                "targetAddress": "198.19.192.5",
+                "targetPort": 65535,
+                "interval": 899,
+                "upInterval": 3600,
+                "timeUntilUp": 1800,
+                "timeout": 900,
+                "send": "send it here",
+                "receive": "receive it there",
+                "dscp": 63
+            },
+            "mTcpIpv6": {
+                "class": "Monitor",
+                "label": "tcp monitor ipv6 addr",
+                "monitorType": "tcp",
+                "targetAddress": "fdf5:4153:3300::2",
+                "targetPort": 50208,
+                "send": "send via ipv6",
+                "receive": "receive back here",
+                "receiveDown": "mark it down"
+            },
+            "mTcpReverse": {
+                "class": "Monitor",
+                "label": "tcp reverse monitor",
+                "monitorType": "tcp",
+                "targetAddress": "198.19.192.6",
+                "targetPort": 443,
+                "send": "send it",
+                "receive": "mark it down",
+                "reverse": true
+            },
+            "mTcpMayAdapt": {
+                "class": "Monitor",
+                "label": "tcp monitor may adapt off",
+                "monitorType": "tcp",
+                "send": "abc def",
+                "receive": "rst xyz",
+                "adaptive": false
+            },
+            "mTcpMayAdaptDefaultRelative": {
+                "class": "Monitor",
+                "label": "tcp monitor def adapt relative",
+                "monitorType": "tcp",
+                "send": "abc def",
+                "receive": "rst xyz",
+                "adaptive": true,
+                "adaptiveDivergenceType": "relative",
+                "adaptiveLimitMilliseconds": 1000,
+                "adaptiveWindow": 180
+            },
+            "mTcpMayAdaptMinRelative": {
+                "class": "Monitor",
+                "label": "tcp monitor min adapt relative",
+                "monitorType": "tcp",
+                "send": "abc def",
+                "receive": "rst xyz",
+                "adaptive": true,
+                "adaptiveDivergenceType": "relative",
+                "adaptiveLimitMilliseconds": 1,
+                "adaptiveWindow": 60
+            },
+            "mTcpMayAdaptMaxRelative": {
+                "class": "Monitor",
+                "label": "tcp monitor max adapt relative",
+                "monitorType": "tcp",
+                "send": "abc def",
+                "receive": "rst xyz",
+                "adaptive": true,
+                "adaptiveDivergenceType": "relative",
+                "adaptiveLimitMilliseconds": 10000,
+                "adaptiveWindow": 1800
+            },
+            "mTcpMayAdaptDefaultAbs": {
+                "class": "Monitor",
+                "label": "tcp monitor def adapt absolute",
+                "monitorType": "tcp",
+                "send": "abc def",
+                "receive": "rst xyz",
+                "adaptive": true,
+                "adaptiveDivergenceType": "absolute",
+                "adaptiveLimitMilliseconds": 1000,
+                "adaptiveWindow": 180
+            },
+            "mTcpMayAdaptMinAbsolute": {
+                "class": "Monitor",
+                "label": "tcp monitor min adapt absolute",
+                "monitorType": "tcp",
+                "send": "abc def",
+                "receive": "rst xyz",
+                "adaptive": true,
+                "adaptiveDivergenceType": "absolute",
+                "adaptiveLimitMilliseconds": 1,
+                "adaptiveWindow": 60
+            },
+            "mTcpMayAdaptMaxAbsolute": {
+                "class": "Monitor",
+                "label": "tcp monitor max adapt absolute",
+                "monitorType": "tcp",
+                "send": "abc def",
+                "receive": "rst xyz",
+                "adaptive": true,
+                "adaptiveDivergenceType": "absolute",
+                "adaptiveLimitMilliseconds": 10000,
+                "adaptiveWindow": 1800
+            }
+        }
+    }
+}

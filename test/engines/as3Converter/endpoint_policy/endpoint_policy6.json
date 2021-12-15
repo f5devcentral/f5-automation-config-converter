@@ -1,0 +1,71 @@
+{
+    "class": "ADC",
+    "schemaVersion": "3.17.0",
+    "id": "Endpoint_Policy",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "test1": {
+                "class": "Endpoint_Policy",
+                "rules": [
+                    {
+                        "name": "default",
+                        "actions": [
+                            {
+                                "type": "drop",
+                                "event": "request"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "rule1",
+                        "conditions": [
+                            {
+                                "type": "sslExtension",
+                                "event": "ssl-client-hello",
+                                "serverName": {
+                                    "operand": "does-not-contain",
+                                    "values": [
+                                        "test1.com"
+                                    ]
+                                }
+                            }, {
+                                "type": "httpUri",
+                                "event": "request",
+                                "unnamedQueryParameter": {
+                                    "operand": "does-not-equal",
+                                    "values": [
+                                        "13"
+                                    ]
+                                },
+                                "index": 1
+                            },
+                            {
+                                "type": "httpUri",
+                                "event": "request",
+                                "path": {
+                                    "operand": "does-not-end-with",
+                                    "values": [
+                                        "/"
+                                    ]
+                                }
+                            },
+                            {
+                                "type": "httpUri",
+                                "event": "request",
+                                "host": {
+                                    "operand": "does-not-start-with",
+                                    "values": [
+                                        "site.com"
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    }
+}

@@ -1,0 +1,50 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.10.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "testItem": {
+                "class": "Enforcement_Listener",
+                "remark": "description",
+                "enforcementProfile": {
+                    "use": "/AS3_Tenant/AS3_Application/enfProf2"
+                },
+                "services": [
+                    {
+                        "use": "/AS3_Tenant/AS3_Application/service1"
+                    },
+                    {
+                        "use": "/AS3_Tenant/AS3_Application/service2"
+                    }
+                ]
+            },
+            "enfProf1": {
+                "class": "Enforcement_Profile"
+            },
+            "enfProf2": {
+                "class": "Enforcement_Profile"
+            },
+            "service1": {
+                "class": "Service_Generic",
+                "virtualAddresses": [
+                    "2.2.3.3"
+                ],
+                "virtualPort": 111
+            },
+            "service2": {
+                "class": "Service_Generic",
+                "virtualAddresses": [
+                    "2.2.3.4"
+                ],
+                "virtualPort": 112
+            }
+        }
+    }
+}

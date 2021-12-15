@@ -1,0 +1,4 @@
+{
+    "ltm rule /Sample_04/A1/Maintenance_iRule":
+"when HTTP_REQUEST {\n   HTTP::respond 200 content {\n      <html>\n         <head>\n            <title>Blocked Page</title>\n         </head>\n         <body>\n            We are sorry, but the site you are looking for is currently under Maintenance<br>\n            If you feel you have reached this page in error, please try again. Thanks for coming\n         </body>\n      </html>\n   } noserver Cache-Control no-cache Connection Close\n}"
+}

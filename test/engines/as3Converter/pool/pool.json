@@ -1,0 +1,77 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.8.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "testItem1": {
+                "class": "Pool",
+                "loadBalancingMode": "dynamic-ratio-member",
+                "minimumMembersActive": 2,
+                "minimumMonitors": 2,
+                "monitors": [
+                    {
+                        "bigip": "/Common/https"
+                    },
+                    {
+                        "bigip": "/Common/http"
+                    }
+                ],
+                "members": [
+                    {
+                        "servicePort": 400,
+                        "connectionLimit": 1000,
+                        "rateLimit": 100,
+                        "dynamicRatio": 50,
+                        "ratio": 50,
+                        "priorityGroup": 4,
+                        "monitors": [
+                            {
+                                "bigip": "/Common/http"
+                            }
+                        ],
+                        "minimumMonitors": 1,
+                        "addressDiscovery": "static",
+                        "serverAddresses": [
+                            "2.2.2.2"
+                        ],
+                        "shareNodes": true
+                    }
+                ],
+                "reselectTries": 10,
+                "serviceDownAction": "drop",
+                "slowRampTime": 23
+            },
+            "testItem2": {
+                "class": "Pool",
+                "members": [
+                    {
+                        "servicePort": 400,
+                        "connectionLimit": 1000,
+                        "rateLimit": 100,
+                        "dynamicRatio": 50,
+                        "ratio": 50,
+                        "priorityGroup": 4,
+                        "monitors": [
+                            {
+                                "bigip": "/Common/http"
+                            }
+                        ],
+                        "minimumMonitors": 1,
+                        "addressDiscovery": "static",
+                        "serverAddresses": [
+                            "192.0.2.2"
+                        ],
+                        "shareNodes": true
+                    }
+                ]
+            }
+        }
+    }
+}

@@ -1,0 +1,104 @@
+{
+    "schemaVersion": "1.0.0",
+    "class": "Device",
+    "async": true,
+    "Common": {
+        "class": "Tenant",
+        "gslb_data_center": {
+            "class": "GSLBDataCenter"
+        },
+        "gslb_test_server": {
+            "class": "GSLBServer",
+            "devices": [
+                {
+                    "address": "10.10.10.10",
+                    "remark": "GSLB server device",
+                    "addressTranslation": "192.0.2.12"
+                }
+            ],
+            "serverType": "bigip",
+            "dataCenter": "/Common/gslb_data_center",
+            "monitors": [
+                "/Common/gslb_monitor_http",
+                "/Common/gslb_monitor_https",
+                "/Common/gslb_monitor_icmp",
+                "/Common/gslb_monitor_tcp",
+                "/Common/gslb_monitor_udp"
+            ]
+        },
+        "gslb_monitor_icmp": {
+            "class": "GSLBMonitor",
+            "remark": "test description",
+            "target": "3.3.3.3:80",
+            "interval": 100,
+            "timeout": 1000,
+            "probeTimeout": 110,
+            "ignoreDownResponseEnabled": true,
+            "transparent": true,
+            "probeInterval": 1,
+            "probeAttempts": 3,
+            "monitorType": "gateway-icmp"
+        },
+        "gslb_monitor_http": {
+            "class": "GSLBMonitor",
+            "remark": "description",
+            "target": "1.1.1.1:80",
+            "interval": 100,
+            "timeout": 1000,
+            "probeTimeout": 110,
+            "ignoreDownResponseEnabled": true,
+            "transparent": true,
+            "reverseEnabled": true,
+            "send": "HEAD / HTTP/1.0\\r\\n",
+            "receive": "HTTP",
+            "monitorType": "http"
+        },
+        "gslb_monitor_https": {
+            "class": "GSLBMonitor",
+            "remark": "description",
+            "target": "2.2.2.2:80",
+            "interval": 100,
+            "timeout": 1000,
+            "probeTimeout": 110,
+            "ignoreDownResponseEnabled": true,
+            "transparent": true,
+            "reverseEnabled": true,
+            "send": "HEAD / HTTP/1.0\\r\\n",
+            "receive": "HTTP",
+            "monitorType": "https",
+            "ciphers": "DEFAULT",
+            "clientCertificate": "/Common/default.crt"
+        },
+        "gslb_monitor_tcp": {
+            "class": "GSLBMonitor",
+            "remark": "description",
+            "target": "4.4.4.4:80",
+            "interval": 100,
+            "timeout": 1000,
+            "probeTimeout": 110,
+            "ignoreDownResponseEnabled": true,
+            "transparent": true,
+            "reverseEnabled": true,
+            "send": "example send",
+            "receive": "example receive",
+            "monitorType": "tcp"
+        },
+        "gslb_monitor_udp": {
+            "class": "GSLBMonitor",
+            "remark": "description",
+            "target": "5.5.5.5:80",
+            "interval": 100,
+            "timeout": 1000,
+            "probeTimeout": 110,
+            "ignoreDownResponseEnabled": true,
+            "transparent": true,
+            "reverseEnabled": true,
+            "send": "default send string",
+            "receive": "udp receive",
+            "probeInterval": 1,
+            "probeAttempts": 3,
+            "debugEnabled": false,
+            "monitorType": "udp"
+        }
+    }
+}

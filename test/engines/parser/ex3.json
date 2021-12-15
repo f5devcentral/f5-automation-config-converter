@@ -1,0 +1,66 @@
+{
+    "sys management-ovsdb": {
+        "bfd-disabled": "",
+        "disabled": "",
+        "thing": {}
+    },
+    "sys ecm cloud-provider /Common/aws-ec2": {
+        "description": "\"The aws-ec2 parameters\"",
+        "property-template": {
+            "account": {},
+            "availability-zone": {
+                "valid-values": [
+                    "a",
+                    "b",
+                    "c",
+                    "d"
+                ]
+            },
+            "instance-type": {
+                "valid-values": [
+                    "t2.micro",
+                    "t2.small",
+                    "t2.medium",
+                    "m3.medium",
+                    "m3.large",
+                    "m3.xlarge",
+                    "m3.2xlarge",
+                    "c3.large",
+                    "c3.xlarge",
+                    "c3.2xlarge",
+                    "c3.4xlarge",
+                    "c3.8xlarge",
+                    "r3.large",
+                    "r3.xlarge",
+                    "r3.2xlarge",
+                    "r3.4xlarge",
+                    "r3.8xlarge"]
+            },
+            "region": {
+                "valid-values": [
+                    "us-east-1",
+                    "us-west-1",
+                    "us-west-2",
+                    "sa-east-1",
+                    "eu-west-1",
+                    "eu-central-1",
+                    "ap-southeast-2",
+                    "ap-southeast-1",
+                    "ap-northeast-1"
+                ]
+            }
+        }
+    },
+    "ltm data-group internal /Common/____appsvcs_declaration-1546447299568": {
+        "description": "\"f5 AS3 declaration (see info in record 0)\"",
+        "records": {
+            "0": {
+                "data": "\"date^2019-01-02T16:41:39.568Z|id^123abc|tenants^Sample_01,Sample_02|blocks^1\""
+            },
+            "1": {
+                "data": "someothertextgoeshere"
+            }
+        },
+        "type": "integer"
+    }
+}

@@ -1,0 +1,41 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.10.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "Common": {
+        "class": "Tenant",
+        "Shared": {
+            "class": "Application",
+            "template": "shared",
+            "testDataCenter": {
+                "class": "GSLB_Data_Center"
+            },
+            "testServer": {
+                "class": "GSLB_Server",
+                "dataCenter": {
+                    "use": "/Common/Shared/testDataCenter"
+                },
+                "devices": [
+                    {
+                        "address": "1.2.3.7"
+                    }
+                ]
+            },
+            "testItem": {
+                "class": "GSLB_Prober_Pool",
+                "lbMode": "round-robin",
+                "members": [
+                    {
+                        "server": {
+                            "use": "/Common/testServer"
+                        },
+                        "memberOrder": 0
+                    }
+                ]
+            }
+        }
+    }
+}

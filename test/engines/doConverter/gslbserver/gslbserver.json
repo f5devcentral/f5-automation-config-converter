@@ -1,0 +1,45 @@
+{
+    "schemaVersion": "1.0.0",
+    "class": "Device",
+    "async": true,
+    "Common": {
+        "class": "Tenant",
+        "gslb_data_center": {
+            "class": "GSLBDataCenter"
+        },
+        "gslb_test_server": {
+            "class": "GSLBServer",
+            "remark": "test server description",
+            "devices": [
+                {
+                    "address": "10.10.10.10",
+                    "remark": "test server device description",
+                    "addressTranslation": "192.0.2.12"
+                }
+            ],
+            "serverType": "bigip",
+            "proberPreferred": "inside-datacenter",
+            "proberFallback": "any-available",
+            "bpsLimit": 12,
+            "bpsLimitEnabled": true,
+            "ppsLimit": 13,
+            "ppsLimitEnabled": true,
+            "connectionsLimit": 15,
+            "connectionsLimitEnabled": true,
+            "cpuUsageLimit": 10,
+            "cpuUsageLimitEnabled": true,
+            "memoryLimit": 10,
+            "memoryLimitEnabled": true,
+            "serviceCheckProbeEnabled": false,
+            "pathProbeEnabled": false,
+            "snmpProbeEnabled": false,
+            "dataCenter": "/Common/gslb_data_center",
+            "exposeRouteDomainsEnabled": true,
+            "virtualServerDiscoveryMode": "enabled",
+            "monitors": [
+                "/Common/http",
+                "/Common/tcp"
+            ]
+        }
+    }
+}

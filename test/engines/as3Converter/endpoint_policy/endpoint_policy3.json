@@ -1,0 +1,243 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.8.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "testItem": {
+                "class": "Endpoint_Policy",
+                "rules": [
+                    {
+                        "name": "rule",
+                        "conditions": [
+                            {
+                                "type": "httpHeader",
+                                "event": "request",
+                                "name": "Content-type",
+                                "all": {
+                                    "operand": "starts-with",
+                                    "values": [
+                                        "application/json"
+                                    ]
+                                }
+                            },
+                            {
+                                "type": "httpUri",
+                                "event": "request",
+                                "all": {
+                                    "operand": "contains",
+                                    "values": [
+                                        "127.0.0.1"
+                                    ]
+                                },
+                                "normalized": true
+                            },
+                            {
+                                "type": "httpUri",
+                                "event": "request",
+                                "scheme": {
+                                    "operand": "equals",
+                                    "values": [
+                                        "https"
+                                    ]
+                                },
+                                "normalized": true
+                            },
+                            {
+                                "type": "httpUri",
+                                "event": "request",
+                                "host": {
+                                    "operand": "equals",
+                                    "values": [
+                                        "127.0.0.1"
+                                    ]
+                                },
+                                "normalized": true
+                            },
+                            {
+                                "type": "httpUri",
+                                "event": "request",
+                                "port": {
+                                    "operand": "equals",
+                                    "values": [
+                                        8080
+                                    ]
+                                },
+                                "normalized": true
+                            },
+                            {
+                                "type": "httpUri",
+                                "event": "request",
+                                "path": {
+                                    "operand": "contains",
+                                    "values": [
+                                        "127.0.0.1"
+                                    ]
+                                },
+                                "normalized": true
+                            },
+                            {
+                                "type": "httpUri",
+                                "event": "request",
+                                "extension": {
+                                    "operand": "equals",
+                                    "values": [
+                                        "jpg"
+                                    ]
+                                },
+                                "normalized": true
+                            },
+                            {
+                                "type": "httpUri",
+                                "event": "request",
+                                "queryString": {
+                                    "operand": "equals",
+                                    "values": [
+                                        "debug"
+                                    ]
+                                },
+                                "normalized": true
+                            },
+                            {
+                                "type": "httpUri",
+                                "event": "request",
+                                "queryParameter": {
+                                    "operand": "equals",
+                                    "values": [
+                                        "1234"
+                                    ]
+                                },
+                                "name": "code",
+                                "normalized": true
+                            },
+                            {
+                                "type": "httpUri",
+                                "event": "request",
+                                "unnamedQueryParameter": {
+                                    "operand": "equals",
+                                    "values": [
+                                        "1234"
+                                    ]
+                                },
+                                "index": 1,
+                                "normalized": true
+                            },
+                            {
+                                "type": "httpUri",
+                                "event": "request",
+                                "pathSegment": {
+                                    "operand": "equals",
+                                    "values": [
+                                        "root"
+                                    ]
+                                },
+                                "index": 1,
+                                "normalized": true
+                            },
+                            {
+                                "type": "httpCookie",
+                                "event": "request",
+                                "name": "Content-type",
+                                "all": {
+                                    "operand": "equals",
+                                    "values": [
+                                        "admin"
+                                    ]
+                                }
+                            }
+                        ],
+                        "actions": [
+                            {
+                                "type": "http",
+                                "event": "request",
+                                "enabled": false
+                            },
+                            {
+                                "type": "httpHeader",
+                                "event": "request",
+                                "replace": {
+                                    "name": "x-forwarded-for",
+                                    "value": "tcl:[IP::client_addr]"
+                                }
+                            },
+                            {
+                                "type": "httpHeader",
+                                "event": "request",
+                                "insert": {
+                                    "name": "Strict-Transport-Security",
+                                    "value": "max-age=16070400"
+                                }
+                            },
+                            {
+                                "type": "httpHeader",
+                                "event": "request",
+                                "remove": {
+                                    "name": "X-Content-Type-Options"
+                                }
+                            },
+                            {
+                                "type": "httpUri",
+                                "event": "request",
+                                "replace": {
+                                    "value": "http://127.0.0.1"
+                                }
+                            },
+                            {
+                                "type": "httpUri",
+                                "event": "request",
+                                "replace": {
+                                    "path": "tcl:[string map  { \"/root/\" \"/\"  } [HTTP::uri]]"
+                                }
+                            },
+                            {
+                                "type": "httpUri",
+                                "event": "request",
+                                "replace": {
+                                    "queryString": "debug"
+                                }
+                            },
+                            {
+                                "type": "httpUri",
+                                "event": "request",
+                                "replace": {
+                                    "path": "tcl:[string map  { \"/root/\" \"/\"  } [HTTP::uri]]"
+                                }
+                            },
+                            {
+                                "type": "httpCookie",
+                                "event": "request",
+                                "insert": {
+                                    "name": "Source-IP",
+                                    "value": "tcl:[IP::remote_addr]"
+                                }
+                            },
+                            {
+                                "type": "httpCookie",
+                                "event": "request",
+                                "remove": {
+                                    "name": "X-Tracker"
+                                }
+                            },
+                            {
+                                "type": "clientSsl",
+                                "event": "request",
+                                "enabled": false
+                            },
+                            {
+                                "type": "httpRedirect",
+                                "event": "request",
+                                "location": "https://[HTTP::host][HTTP::uri]"
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    }
+}

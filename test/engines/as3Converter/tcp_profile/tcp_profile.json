@@ -1,0 +1,234 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.8.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "testItem1": {
+                "class": "TCP_Profile",
+                "abc": false,
+                "ackOnPush": false,
+                "autoProxyBufferSize": false,
+                "autoReceiveWindowSize": false,
+                "autoSendBufferSize": false,
+                "closeWaitTimeout": 1200,
+                "congestionControl": "cdg",
+                "congestionMetricsCache": false,
+                "congestionMetricsCacheTimeout": 100,
+                "deferredAccept": true,
+                "delayedAcks": false,
+                "delayWindowControl": true,
+                "dsack": true,
+                "earlyRetransmit": false,
+                "ecn": false,
+                "enhancedLossRecovery": false,
+                "fastOpen": false,
+                "fastOpenCookieExpiration": 20000,
+                "finWaitTimeout": 15,
+                "finWait2Timeout": 900,
+                "idleTimeout": 8000,
+                "initCwnd": 12,
+                "initRwnd": 8,
+                "ipDfMode": "preserve",
+                "ipTosToClient": 240,
+                "keepAliveInterval": 4800,
+                "limitedTransmit": false,
+                "linkQosToClient": 2,
+                "maxRetrans": 9,
+                "maxSegmentSize": 536,
+                "md5Signature": true,
+                "md5SignaturePassphrase": {
+                    "ciphertext": "JE0kMTIkYmxiQU5lNEJmMzRuc1d2QzZlN3hEUT09",
+                    "protected": "eyJhbGciOiJkaXIiLCJlbmMiOiJmNXN2In0=",
+                    "ignoreChanges": true
+                },
+                "minimumRto": 4000,
+                "mptcp": "enable",
+                "mptcpCsum": true,
+                "mptcpCsumVerify": true,
+                "mptcpFallback": "accept",
+                "mptcpFastJoin": true,
+                "mptcpIdleTimeout": 4000,
+                "mptcpJoinMax": 8,
+                "mptcpMakeAfterBreak": true,
+                "mptcpNoJoinDssAck": true,
+                "mptcpRtoMax": 7,
+                "mptcpRetransmitMin": 4000,
+                "mptcpSubflowMax": 9,
+                "mptcpTimeout": 1300,
+                "nagle": "enable",
+                "pktLossIgnoreBurst": 12,
+                "pktLossIgnoreRate": 4000,
+                "proxyBufferHigh": 3000,
+                "proxyBufferLow": 2000,
+                "proxyMSS": false,
+                "proxyOptions": true,
+                "pushFlag": "one",
+                "ratePace": false,
+                "ratePaceMaxRate": 4000,
+                "receiveWindowSize": 4000,
+                "resetOnTimeout": false,
+                "retransmitThreshold": 6,
+                "selectiveAcks": false,
+                "sendBufferSize": 4000,
+                "slowStart": false,
+                "synCookieEnable": false,
+                "synCookieAllowlist": true,
+                "synMaxRetrans": 5,
+                "synRtoBase": 4000,
+                "tailLossProbe": false,
+                "tcpOptions": [
+                    {
+                        "when": "first",
+                        "option": 8
+                    },
+                    {
+                        "when": "last",
+                        "option": 28
+                    }
+                ],
+                "timestamps": false,
+                "timeWaitRecycle": false,
+                "timeWaitTimeout": 4000,
+                "ttlMode": "preserve",
+                "ttlIPv4": 254,
+                "ttlIPv6": 128,
+                "verifiedAccept": true,
+                "zeroWindowTimeout": 4000
+            },
+
+            "testItem2": {
+                "class": "TCP_Profile",
+                "abc": true,
+                "ackOnPush": true,
+                "autoProxyBufferSize": true,
+                "autoReceiveWindowSize": true,
+                "autoSendBufferSize": true,
+                "congestionMetricsCache": true,
+                "deferredAccept": true,
+                "delayedAcks": true,
+                "delayWindowControl": true,
+                "dsack": true,
+                "earlyRetransmit": true,
+                "ecn": true,
+                "enhancedLossRecovery": true,
+                "fastOpen": true,
+                "limitedTransmit": true,
+                "md5Signature": true,
+                "mptcpCsumVerify": true,
+                "mptcpFastJoin": true,
+                "mptcpMakeAfterBreak": true,
+                "mptcpNoJoinDssAck": true,
+                "proxyMSS": true,
+                "proxyOptions": true,
+                "ratePace": true,
+                "resetOnTimeout": true,
+                "selectiveAcks": true,
+                "selectiveNack": true,
+                "slowStart": true,
+                "synCookieEnable": true,
+                "synCookieAllowlist": true,
+                "tailLossProbe": true,
+                "timestamps": true,
+                "timeWaitRecycle": true
+            },
+
+            "testItem3": {
+                "class": "TCP_Profile",
+                "verifiedAccept": false,
+                "fastOpen": true
+            },
+
+            "testItem4": {
+                "class": "TCP_Profile",
+                "congestionControl": "chd"
+            },
+
+            "testItem5": {
+                "class": "TCP_Profile",
+                "closeWaitTimeout": 3600,
+                "congestionMetricsCacheTimeout": 1000,
+                "fastOpenCookieExpiration": 1000000,
+                "finWaitTimeout": 3600,
+                "finWait2Timeout": 3600,
+                "idleTimeout": 86400,
+                "initCwnd": 16,
+                "initRwnd": 16,
+                "ipTosToClient": 252,
+                "keepAliveInterval": 86400,
+                "linkQosToClient": 7,
+                "maxRetrans": 12,
+                "maxSegmentSize": 1460,
+                "minimumRto": 5000,
+                "mptcpIdleTimeout": 86400,
+                "mptcpJoinMax": 20,
+                "mptcpRtoMax": 10,
+                "mptcpRetransmitMin": 5000,
+                "mptcpSubflowMax": 20,
+                "mptcpTimeout": 3600,
+                "pktLossIgnoreBurst": 32,
+                "pktLossIgnoreRate": 1000000,
+                "proxyBufferHigh": 33554432,
+                "proxyBufferLow": 33554432,
+                "ratePaceMaxRate": 4294967295,
+                "receiveWindowSize": 33554432,
+                "retransmitThreshold": 12,
+                "sendBufferSize": 33554432,
+                "synMaxRetrans": 12,
+                "synRtoBase": 5000,
+                "timeWaitTimeout": 600000,
+                "ttlIPv4": 255,
+                "ttlIPv6": 255,
+                "zeroWindowTimeout": 86400000
+            },
+
+            "testItem6": {
+                "class": "TCP_Profile",
+                "ipDfMode": "pmtu"
+            },
+
+
+            "testItem7": {
+                "class": "TCP_Profile",
+                "ipTosToClient": "mimic"
+            },
+
+
+            "testItem8": {
+                "class": "TCP_Profile",
+                "linkQosToClient": "pass-through"
+            },
+
+            "testItem9": {
+                "class": "TCP_Profile",
+                "mptcp": "enable"
+            },
+
+            "testItem10": {
+                "class": "TCP_Profile",
+                "mptcpFallback": "active-accept"
+            },
+
+            "testItem11": {
+                "class": "TCP_Profile",
+                "nagle": "enable"
+            },
+
+            "testItem12": {
+                "class": "TCP_Profile",
+                "pushFlag": "default"
+            },
+
+            "testItem13": {
+                "class": "TCP_Profile",
+                "ttlMode": "preserve"
+            }
+        }
+    }
+}

@@ -1,0 +1,51 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.9.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "tcp",
+            "testItem": {
+                "class": "DNS_Profile",
+                "label": "testItem",
+                "remark": "DNS Profile test",
+                "parentProfile": {
+                    "bigip": "/Common/dns"
+                },
+                "rapidResponseEnabled": false,
+                "rapidResponseLastAction": "allow",
+                "hardwareQueryValidationEnabled": true,
+                "hardwareResponseCacheEnabled": true,
+                "dnssecEnabled": false,
+                "globalServerLoadBalancingEnabled": false,
+                "dnsExpressEnabled": false,
+                "cacheEnabled": false,
+                "dns64Mode": "secondary",
+                "dns64Prefix": "0:0:0:0:0:0:0:0",
+                "dns64AdditionalSectionRewrite": "any",
+                "unhandledQueryAction": "drop",
+                "localBindServerEnabled": false,
+                "zoneTransferEnabled": true,
+                "recursionDesiredEnabled": false,
+                "securityEnabled": false,
+                "loggingEnabled": false,
+                "statisticsSampleRate": 20
+            },
+            "serviceMain": {
+                "class": "Service_TCP",
+                "virtualPort": 200,
+                "virtualAddresses": [
+                    "21.21.21.21"
+                ],
+                "profileDNS": {
+                    "use": "/AS3_Tenant/AS3_Application/testItem"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,65 @@
+{
+    "schemaVersion": "1.0.0",
+    "class": "Device",
+    "async": true,
+    "Common": {
+        "class": "Tenant",
+        "ConfigSync__ltm-48_test_com": {
+            "class": "ConfigSync",
+            "configsyncIp": "10.20.0.48"
+        },
+        "FailoverUnicast__ltm-48_test_com": {
+            "class": "FailoverUnicast",
+            "addressPorts": [
+                {
+                    "address": "10.20.0.48",
+                    "port": 1026
+                }
+            ]
+        },
+        "FailoverMulticast__ltm-48_test_com": {
+            "class": "FailoverMulticast",
+            "interface": "eth0",
+            "address": "224.0.0 245",
+            "port": 62960
+        },
+        "MirrorIp__ltm-48_test_com": {
+            "class": "MirrorIp",
+            "primaryIp": "10.20.0.48"
+        },
+        "ConfigSync__ltm-49_test_com": {
+            "class": "ConfigSync",
+            "configsyncIp": "10.20.0.49"
+        },
+        "FailoverUnicast__ltm-49_test_com": {
+            "class": "FailoverUnicast",
+            "addressPorts": [
+                {
+                    "address": "10.20.0.49",
+                    "port": 1026
+                }
+            ]
+        },
+        "FailoverMulticast__ltm-49_test_com": {
+            "class": "FailoverMulticast",
+            "interface": "eth0",
+            "address": "224.0.0.245",
+            "port": 62960
+        },
+        "MirrorIp__ltm-49_test_com": {
+            "class": "MirrorIp",
+            "primaryIp": "10.20.0.49"
+        },
+        "ha_group": {
+            "class": "DeviceGroup",
+            "type": "sync-failover",
+            "autoSync": true,
+            "saveOnAutoSync": true,
+            "members": [
+                "ltm-48.test.com",
+                "ltm-49.test.com"
+            ],
+            "owner": "/Common/ha_group/members/0"
+        }
+    }
+}

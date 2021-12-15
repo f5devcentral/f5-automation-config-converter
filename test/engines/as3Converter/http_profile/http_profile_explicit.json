@@ -1,0 +1,40 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.10.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "profileHttpExplicitProxyMin": {
+                "class": "HTTP_Profile",
+                "proxyType": "explicit",
+                "resolver": {
+                    "bigip": "/Common/1.2.3.4"
+                }
+            },
+            "profileHttpExplicitProxy": {
+                "class": "HTTP_Profile",
+                "proxyType": "explicit",
+                "badRequestMessage": "<html><head><title>Invalid Request</title></head><body><h2>INVALID REQUEST</hbody></html>",
+                "badResponseMessage": "<html><head><title>Invalid Response</title></head><body><h2>INVALID RESPONSE<</body></html>",
+                "connectErrorMessage": "<html><head><title>CONNECT Error!!!!!</title></head><body><h2>CONNECT ERROR<</body></html>",
+                "dnsErrorMessage": "<html><head><title>DNS Error</title></head><body><h2>DNS ERROR</h2></body></html>",
+                "doNotProxyHosts": [
+                    "f5.com",
+                    "198.168.1.111"
+                ],
+                "tunnelName": "/Common/http-tunnel",
+                "defaultConnectAction": "allow",
+                "resolver": {
+                    "bigip": "/Common/1.2.3.4"
+                },
+                "routeDomain": 0
+            }
+        }
+    }
+}
