@@ -1,0 +1,18 @@
+{
+    "schemaVersion": "1.0.0",
+    "class": "Device",
+    "async": true,
+    "Common": {
+        "class": "Tenant",
+        "ManagementIp_IPv4": {
+            "class": "ManagementIp",
+            "remark": "configured-statically",
+            "address": "10.144.110.50/22"
+        },
+        "ManagementIp_IPv6": {
+            "class": "ManagementIp",
+            "remark": "configured-statically",
+            "address": "2003::77/64"
+        }
+    }
+}

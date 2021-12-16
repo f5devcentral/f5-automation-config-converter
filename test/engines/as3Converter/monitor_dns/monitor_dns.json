@@ -1,0 +1,41 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.9.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "monitorDNS_simple": {
+                "class": "Monitor",
+                "monitorType": "dns",
+                "queryName": "apple.test"
+            },
+            "monitorDNS_AllProperties": {
+                "class": "Monitor",
+                "monitorType": "dns",
+                "queryName": "radish.test",
+                "acceptRCODE": "no-error",
+                "adaptive": true,
+                "adaptiveDivergenceType": "absolute",
+                "adaptiveLimitMilliseconds": 5000,
+                "adaptiveWindow": 1500,
+                "answerContains": "query-type",
+                "queryType": "aaaa",
+                "receive": "fdf5:4153:3300::a",
+                "reverse": false,
+                "interval": 60,
+                "timeUntilUp": 1200,
+                "timeout": 600,
+                "upInterval": 2400,
+                "transparent": false,
+                "targetAddress": "fdf5:4153:3300::b",
+                "targetPort": 53
+            }
+        }
+    }
+}

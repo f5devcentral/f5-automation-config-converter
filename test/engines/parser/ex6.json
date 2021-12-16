@@ -1,0 +1,7 @@
+{
+    "ltm rule /Common/example1":
+"when HTTP_REQUEST priority 1 {\n   if {[POLICY::targets http-reply] } {\n      TCP::close\n      event disable all\n      return\n   }\n}\nwhen HTTPS_REQUEST priority 2 {\n   if {[POLICY::targets https-reply] } {\n      TCP::close\n      event disable all\n      return\n   }\n }",
+
+    "ltm rule /Common/example2":
+"when HTTP_RESPONSE {\n   HTTP::header remove Server\n}"
+}

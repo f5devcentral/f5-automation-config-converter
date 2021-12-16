@@ -1,0 +1,182 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.8.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "pHttpProfile": {
+                "class": "HTTP_Profile",
+                "label": "HTTP profile"
+            },
+            "pHttpReverseProxy": {
+                "class": "HTTP_Profile",
+                "label": "HTTP Reverse Proxy Profile",
+                "proxyType": "reverse"
+            },
+            "pHttpTransparentProxy": {
+                "class": "HTTP_Profile",
+                "label": "HTTP Transparent Proxy Profile",
+                "proxyType": "transparent"
+            },
+            "pHttpCookies1": {
+                "class": "HTTP_Profile",
+                "encryptCookies": [
+                    "LemonDrop",
+                    "GirlScout",
+                    "CookieMonsterSpecialReserve"
+                ],
+                "fallbackRedirect": "http://fallbacks-r-us.hosts.org"
+            },
+            "pHttpCookies2": {
+                "class": "HTTP_Profile",
+                "encryptCookies": [
+                    "Shortbread",
+                    "Snickerdoodle",
+                    "Molasses"
+                ],
+                "cookiePassphrase": {
+                    "ciphertext": "JE0kTUEka3JBWXIxVlFETDNvR0tUbmFvWDlXdz09",
+                    "protected": "eyJhbGciOiJkaXIiLCJlbmMiOiJmNXN2In0=",
+                    "ignoreChanges": true
+                },
+                "fallbackRedirect": "198.19.192.1",
+                "fallbackStatusCodes": [
+                    500,
+                    501,
+                    502,
+                    505
+                ]
+            },
+            "pHttpChunkSelective": {
+                "class": "HTTP_Profile",
+                "requestChunking": "selective",
+                "responseChunking": "selective"
+            },
+            "pHttpChunkPreserve": {
+                "class": "HTTP_Profile",
+                "requestChunking": "preserve",
+                "responseChunking": "preserve"
+            },
+            "pHttpChunkUnchunk": {
+                "class": "HTTP_Profile",
+                "responseChunking": "unchunk"
+            },
+            "pHttpChunkRechunk": {
+                "class": "HTTP_Profile",
+                "requestChunking": "rechunk",
+                "responseChunking": "rechunk"
+            },
+            "pHttpRedirectNone": {
+                "class": "HTTP_Profile",
+                "rewriteRedirects": "none"
+            },
+            "pHttpRedirectAll": {
+                "class": "HTTP_Profile",
+                "rewriteRedirects": "all"
+            },
+            "pHttpRedirectMatching": {
+                "class": "HTTP_Profile",
+                "rewriteRedirects": "matching"
+            },
+            "pHttpRedirectAddresses": {
+                "class": "HTTP_Profile",
+                "rewriteRedirects": "addresses"
+            },
+            "pHttpBoolFalse": {
+                "class": "HTTP_Profile",
+                "multiplexTransformations": false,
+                "xForwardedFor": false,
+                "trustXFF": false
+            },
+            "pHttpBoolTrue": {
+                "class": "HTTP_Profile",
+                "multiplexTransformations": true,
+                "xForwardedFor": true,
+                "trustXFF": true
+            },
+            "pHttpHeaders": {
+                "class": "HTTP_Profile",
+                "whiteOutHeader": "WhiteMeOut",
+                "allowedResponseHeaders": [
+                    "I_am_allowed",
+                    "I_am_allowed_too"
+                ],
+                "otherXFF": [
+                    "X-Forwarded-Alternate-A",
+                    "X-Forwarded-Alternate-B",
+                    "X-Forwarded-Alternate-C"
+                ],
+                "serverHeaderValue": "BigIP-LTM ADC"
+            },
+            "pHttpViaAppend": {
+                "class": "HTTP_Profile",
+                "viaRequest": "append",
+                "viaResponse": "append",
+                "viaHost": "via-host.via-org"
+            },
+            "pHttpViaPreserve": {
+                "class": "HTTP_Profile",
+                "viaRequest": "preserve",
+                "viaResponse": "preserve"
+            },
+            "pHttpViaRemove": {
+                "class": "HTTP_Profile",
+                "viaRequest": "remove",
+                "viaResponse": "remove"
+            },
+            "pHttpInsertHeaderSimple": {
+                "class": "HTTP_Profile",
+                "insertHeader": {
+                    "name": "foo",
+                    "value": "bar"
+                }
+            },
+            "pHttpInsertHeaderTcl": {
+                "class": "HTTP_Profile",
+                "insertHeader": {
+                    "name": "ip",
+                    "value": "IP::remote_addr"
+                }
+            },
+            "pHttpHsts": {
+                "class": "HTTP_Profile",
+                "hstsInsert": true,
+                "hstsPeriod": 42,
+                "hstsIncludeSubdomains": false,
+                "hstsPreload": true
+            },
+            "pHttpReverseEnforcement": {
+                "class": "HTTP_Profile",
+                "proxyType": "reverse",
+                "knownMethods": [ "GET", "POST" ],
+                "maxHeaderCount": 16,
+                "maxHeaderSize": 512,
+                "maxRequests": 10,
+                "pipelineAction": "pass-through",
+                "truncatedRedirects": true,
+                "unknownMethodAction": "pass-through"
+            },
+            "pHttpTransparentEnforcement": {
+                "class": "HTTP_Profile",
+                "proxyType": "transparent",
+                "excessClientHeaders": "reject",
+                "excessServerHeaders": "reject",
+                "knownMethods": [ "GET", "POST" ],
+                "maxHeaderCount": 16,
+                "maxHeaderSize": 512,
+                "maxRequests": 10,
+                "oversizeClientHeaders": "reject",
+                "oversizeServerHeaders": "reject",
+                "pipelineAction": "pass-through",
+                "truncatedRedirects": false,
+                "unknownMethodAction": "pass-through"
+            }
+        }
+    }
+}

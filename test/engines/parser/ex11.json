@@ -1,0 +1,41 @@
+{
+    "ltm data-group internal /partition_1/string-datagroup": {
+        "records": {
+            "/api/test/app1": {}
+        },
+        "type": "string"
+    },
+    "ltm data-group internal /partition_2/address_datagroup": {
+        "records": {
+            "1.1.1.1/28": {
+                "data": "/"
+            },
+            "2.2.2.2/32": {
+                "data": "/"
+            },
+            "3.3.3.3/24": {
+                "data": "/"
+            }
+        }
+    },
+    "ltm data-group internal /partition_2/integer_datagroup": {
+        "records": {
+            "1": {
+                "data": "1"
+            },
+            "4": {
+                "data": "xxx"
+            },
+            "5": {
+                "data": "5000"
+            },
+            "777": {
+                "data": "7"
+            },
+            "96789": {
+                "data": "\"some data with special !@#${}[]12345\""
+            }
+        },
+        "type": "integer"
+    }
+}

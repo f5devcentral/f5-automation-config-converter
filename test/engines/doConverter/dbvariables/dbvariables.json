@@ -1,0 +1,14 @@
+{
+    "schemaVersion": "1.0.0",
+    "class": "Device",
+    "async": true,
+    "Common": {
+        "class": "Tenant",
+        "DbVariables": {
+            "class": "DbVariables",
+            "ui.advisory.enabled": "true",
+            "ui.advisory.color": "green",
+            "ui.advisory.text": "/Common/hostname"
+        }
+    }
+}

@@ -1,0 +1,23 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.10.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "testItem": {
+                "class": "Certificate_Validator_OCSP",
+                "dnsResolver": {
+                    "bigip": "/Common/1.2.3.4"
+                },
+                "responderUrl": "http://cert.ocsp1.test.com",
+                "timeout": 300
+            }
+        }
+    }
+}

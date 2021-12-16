@@ -7,10 +7,7 @@ assignees: ''
 
 ---
 
-<!--
-Github Issues are consistently monitored by F5 staff, but should be considered
-as community supported. 
--->
+<!-- Github Issues are consistently monitored by F5 staff, however should be considered as community supported. -->
 
 ### Is your feature request related to a problem? Please describe.
 A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]

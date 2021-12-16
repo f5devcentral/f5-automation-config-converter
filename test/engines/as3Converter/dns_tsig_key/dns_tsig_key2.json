@@ -1,0 +1,24 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.9.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "testItem": {
+                "class": "DNS_TSIG_Key",
+                "algorithm": "hmacsha1",
+                "secret": {
+                    "ciphertext": "ZjVmNQ==",
+                    "protected": "eyJhbGciOiJkaXIiLCJlbmMiOiJmNXN2In0=",
+                    "ignoreChanges": true
+                }
+            }
+        }
+    }
+}

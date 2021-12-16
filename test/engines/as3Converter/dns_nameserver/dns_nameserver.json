@@ -1,0 +1,31 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.8.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "testItem": {
+                "class": "DNS_Nameserver",
+                "address": "13.13.13.13",
+                "port": 177,
+                "tsigKey": {
+                    "use": "/AS3_Tenant/AS3_Application/tsigKey"
+                }
+            },
+            "tsigKey": {
+                "class": "DNS_TSIG_Key",
+                "secret": {
+                    "ciphertext": "ZjVmNQ==",
+                    "protected": "eyJhbGciOiJkaXIiLCJlbmMiOiJub25lIn0=",
+                    "ignoreChanges": true
+                }
+            }
+        }
+    }
+}

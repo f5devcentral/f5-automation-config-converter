@@ -1,0 +1,48 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.10.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "testItem": {
+                "class": "NAT_Source_Translation",
+                "remark": "description",
+                "addresses": [
+                    "3.4.5.6",
+                    "4.5.6.7"
+                ],
+                "allowEgressInterfaces": [
+                    {
+                        "bigip": "/Common/http-tunnel"
+                    }
+                ],
+                "clientConnectionLimit": 1234567,
+                "hairpinModeEnabled": true,
+                "inboundMode": "endpoint-independent-filtering",
+                "mapping": {
+                    "mode": "endpoint-independent-mapping",
+                    "timeout": 301
+                },
+                "patMode": "pba",
+                "portBlockAllocation": {
+                    "blockIdleTimeout": 3700,
+                    "blockLifetime": 10000,
+                    "blockSize": 1,
+                    "clientBlockLimit": 2,
+                    "zombieTimeout": 1700
+                },
+                "ports": [
+                    "123"
+                ],
+                "routeAdvertisement": true,
+                "type": "dynamic-pat"
+            }
+        }
+    }
+}

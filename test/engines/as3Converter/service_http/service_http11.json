@@ -1,0 +1,23 @@
+{
+    "class": "ADC",
+    "schemaVersion": "3.17.0",
+    "id": "Service_HTTP",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "test.item-foo": {
+                "class": "Service_HTTP",
+                "virtualPort": 8080,
+                "virtualAddresses": [
+                    "1.2.3.4"
+                ],
+                "profileBotDefense": {
+                    "bigip": "/Common/bot-defense"
+                }
+            }
+        }
+    }
+}
+

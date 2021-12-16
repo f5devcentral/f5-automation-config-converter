@@ -1,0 +1,17 @@
+{
+    "schemaVersion": "1.0.0",
+    "class": "Device",
+    "async": true,
+    "Common": {
+        "class": "Tenant",
+        "testTrafficGroup": {
+            "class": "TrafficGroup",
+            "autoFailbackEnabled": true,
+            "autoFailbackTime": 50,
+            "haLoadFactor": 2,
+            "haOrder": [
+                "do.example.com"
+            ]
+        }
+    }
+}

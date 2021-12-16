@@ -1,0 +1,21 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.8.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "label": "simplest declaration",
+            "template": "generic",
+            "testItem": {
+                "class": "Monitor",
+                "monitorType": "smtp",
+                "domain": "smtp2.org"
+            }
+        }
+    }
+}

@@ -1,0 +1,65 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.22.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "testItem": {
+                "class": "Service_Generic",
+                "virtualPort": 200,
+                "virtualAddresses": [
+                    "21.21.21.21"
+                ],
+                "layer4": "tcp",
+                "maxConnections": 150,
+                "iRules": [
+                    {
+                        "use": "/AS3_Tenant/AS3_Application/theRule1"
+                    }
+                ],
+                "pool": "testPool1",
+                "addressStatus": false,
+                "mirroring": "L4",
+                "lastHop": "disable",
+                "translateClientPort": true,
+                "translateServerAddress": false,
+                "translateServerPort": false,
+                "persistenceMethods": [
+                    "destination-address"
+                ],
+                "clonePools": {
+                    "ingress": {
+                        "use": "/AS3_Tenant/AS3_Application/testPool1"
+                    },
+                    "egress": {
+                        "use": "/AS3_Tenant/AS3_Application/testPool2"
+                    }
+                }
+            },
+            "theRule1": {
+                "class": "iRule",
+                "iRule": {
+                    "base64": "d2hlbiBDTElFTlRfQUNDRVBURUQgeyB9"
+                }
+            },
+            "theRule2": {
+                "class": "iRule",
+                "iRule": {
+                    "base64": "d2hlbiBDTElFTlRfQUNDRVBURUQgeyB9"
+                }
+            },
+            "testPool1": {
+                "class": "Pool"
+            },
+            "testPool2": {
+                "class": "Pool"
+            }
+        }
+    }
+}

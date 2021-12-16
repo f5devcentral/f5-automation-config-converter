@@ -1,0 +1,1119 @@
+[
+    {
+        "path": "/tm/sys/global-settings",
+        "schemaClass": "System",
+        "properties": [
+            { "id": "hostname" },
+            { "id": "consoleInactivityTimeout" },
+            { "id": "guiAudit", "newId": "guiAuditLog", "truth": "enabled", "falsehood": "disabled", "skipWhenOmitted": true },
+            { "id": "mgmtDhcp" }
+        ],
+        "nameless": true,
+        "declaration": {
+            "properties": [
+                {
+                    "$comment": "We need to know this value for rollback but it is not in the schema",
+                    "id": "mgmtDhcp",
+                    "remove": true
+                }
+            ]
+        }
+    },
+    {
+        "path": "/tm/cli/global-settings",
+        "schemaClass": "System",
+        "schemaMerge": {
+            "action": "add"
+        },
+        "properties": [
+            { "id": "idleTimeout", "newId": "cliInactivityTimeout" },
+            { "id": "audit", "newId": "tmshAuditLog", "truth": "enabled", "falsehood": "disabled", "skipWhenOmitted": true }
+        ],
+        "nameless": true
+    },
+    {
+        "path": "/tm/sys/software/update",
+        "schemaClass": "System",
+        "schemaMerge": {
+            "action": "add"
+        },
+        "properties": [
+            { "id": "autoCheck", "truth": "enabled", "falsehood": "disabled", "skipWhenOmitted": true },
+            { "id": "autoPhonehome", "truth": "enabled", "falsehood": "disabled", "skipWhenOmitted": true }
+        ],
+        "nameless": true
+    },
+    {
+        "path": "/tm/sys/db",
+        "schemaClass": "DbVariables",
+        "properties": [
+            { "id": "value" }
+        ],
+        "singleValue": true,
+        "silent": true,
+        "declaration": false
+    },
+    {
+        "path": "/tm/sys/management-ip",
+        "schemaClass": "ManagementIp",
+        "properties": [
+            { "id": "name", "newId": "address" },
+            { "id": "description", "newId": "remark" }
+        ],
+        "declaration": {
+            "customFunctions": [
+                { "id": "remapManagementIp" }
+            ]
+        }
+    },
+    {
+        "path": "/tm/sys/provision",
+        "schemaClass": "Provision",
+        "properties": [
+            { "id": "level" }
+        ],
+        "singleValue": true,
+        "declaration": {
+            "properties": [
+                {
+                    "$comment": "SSLO is not supported yet",
+                    "id": "sslo",
+                    "remove": true
+                }
+            ]
+        }
+    },
+    {
+        "path": "/tm/sys/ntp",
+        "schemaClass": "NTP",
+        "properties": [
+            { "id": "servers" },
+            { "id": "timezone" }
+        ]
+    },
+    {
+        "path": "/tm/sys/dns",
+        "schemaClass": "DNS",
+        "properties": [
+            { "id": "nameServers" },
+            { "id": "search" }
+        ]
+    },
+    {
+        "path": "/tm/net/dns-resolver",
+        "schemaClass": "DNS_Resolver",
+        "enforceArray": true,
+        "properties": [
+            { "id": "answerDefaultZones", "truth": "yes", "falsehood": "no", "skipWhenOmitted": true },
+            { "id": "cacheSize" },
+            { "id": "forwardZones", "defaultWhenOmitted": "none" },
+            { "id": "randomizeQueryNameCase", "truth": "yes", "falsehood": "no", "skipWhenOmitted": true },
+            { "id": "routeDomain" },
+            { "id": "useIpv4", "truth": "yes", "falsehood": "no", "skipWhenOmitted": true },
+            { "id": "useIpv6", "truth": "yes", "falsehood": "no", "skipWhenOmitted": true },
+            { "id": "useTcp", "truth": "yes", "falsehood": "no", "skipWhenOmitted": true },
+            { "id": "useUdp", "truth": "yes", "falsehood": "no", "skipWhenOmitted": true }
+        ],
+        "declaration": {
+            "customFunctions": [
+                { "id": "remapNameservers" }
+            ]
+        }
+    },
+    {
+        "path": "/tm/net/trunk",
+        "schemaClass": "Trunk",
+        "properties": [
+            { "id": "distributionHash" },
+            { "id": "interfaces" },
+            { "id": "lacp", "newId": "lacpEnabled", "truth": "enabled", "falsehood": "disabled", "skipWhenOmitted": true },
+            { "id": "lacpMode" },
+            { "id": "lacpTimeout" },
+            { "id": "linkSelectPolicy" },
+            { "id": "qinqEthertype" },
+            { "id": "stp", "newId": "spanningTreeEnabled", "truth": "enabled", "falsehood": "disabled", "skipWhenOmitted": true }
+        ]
+    },
+    {
+        "path": "/tm/net/vlan",
+        "schemaClass": "VLAN",
+        "properties": [
+            { "id": "mtu" },
+            { "id": "tag" },
+            { "id": "interfacesReference", "dereferenceId": "interfaces" },
+            { "id": "autoLasthop", "newId": "autoLastHop" },
+            { "id": "cmpHash" },
+            { "id": "failsafe", "newId": "failsafeEnabled", "truth": "enabled", "falsehood": "disabled", "skipWhenOmitted": true },
+            { "id": "failsafeAction" },
+            { "id": "failsafeTimeout" }
+        ],
+        "references": {
+            "interfacesReference": [
+                { "id": "tagged", "truth": true, "falsehood": false }
+            ]
+        }
+    },
+    {
+        "path": "/tm/net/self",
+        "schemaClass": "SelfIp",
+        "properties": [
+            { "id": "address" },
+            { "id": "vlan", "isRef": true },
+            { "id": "trafficGroup" },
+            { "id": "allowService" },
+            { "id": "fwEnforcedPolicy", "newId": "enforcedFirewallPolicy" },
+            { "id": "fwStagedPolicy", "newId": "stagedFirewallPolicy" }
+        ]
+    },
+    {
+        "path": "/tm/net/route",
+        "schemaClass": "Route",
+        "properties": [
+            { "id": "gw" },
+            { "id": "network" },
+            { "id": "mtu" },
+            { "id": "tmInterface", "newId": "target" }
+        ],
+        "partitions": ["Common", "LOCAL_ONLY"]
+    },
+    {
+        "path": "/tm/net/routing/access-list",
+        "schemaClass": "RoutingAccessList",
+        "enforceArray": true,
+        "properties": [
+            { "id": "name" },
+            { "id": "description", "newId": "remark", "defaultWhenOmitted": "none" },
+            { "id": "entriesReference", "dereferenceId": "entries" }
+        ],
+        "references": {
+            "entriesReference": [
+                { "id": "name", "stringToInt": true },
+                { "id": "action" },
+                { "id": "destination" },
+                { "id": "exactMatch", "newId": "exactMatchEnabled", "truth": "enabled", "falsehood": "disabled" },
+                { "id": "source" }
+            ]
+        }
+    },
+    {
+        "path": "/tm/net/routing/as-path",
+        "schemaClass": "RoutingAsPath",
+        "properties": [
+            { "id": "name" },
+            { "id": "entriesReference", "dereferenceId": "entries" }
+        ],
+        "references": {
+            "entriesReference": [
+                { "id": "name", "stringToInt": true },
+                { "id": "regex" }
+            ]
+        }
+    },
+    {
+        "path": "/tm/net/routing/prefix-list",
+        "schemaClass": "RoutingPrefixList",
+        "properties": [
+            { "id": "name" },
+            { "id": "entriesReference", "dereferenceId": "entries" }
+        ],
+        "references": {
+            "entriesReference": [
+                { "id": "name", "stringToInt": true },
+                { "id": "action" },
+                { "id": "prefix" },
+                { "id": "prefixLenRange", "newId": "prefixLengthRange" }
+            ]
+        }
+    },
+    {
+        "path": "/tm/net/routing/route-map",
+        "schemaClass": "RouteMap",
+        "properties": [
+            { "id": "name" },
+            { "id": "entriesReference", "dereferenceId": "entries" }
+        ],
+        "references": {
+            "entriesReference": [
+                { "id": "name", "stringToInt": true },
+                { "id": "action" },
+                { "id": "match",
+                  "transform": [
+                    { "id": "asPath" },
+                    { "id": "ipv4", "removeKeys": [ "peer" ] },
+                    { "id": "ipv6", "removeKeys": [ "peer" ] }
+                  ]
+                }
+            ]
+        }
+    },
+    {
+        "path": "/tm/net/routing/bgp",
+        "schemaClass": "RoutingBGP",
+        "properties": [
+            { "id": "name" },
+            { "id": "addressFamily", "newId": "addressFamilies",
+                "transform": [
+                    { "id": "name", "newId": "internetProtocol" },
+                    { "id": "redistribute", "newId": "redistributionList" }
+                ]
+            },
+            { "id": "localAs", "newId": "localAS" },
+            { "id": "routerId"},
+            { "id": "gracefulRestart",
+                "transform": [
+                    { "id": "gracefulReset", "newId": "gracefulResetEnabled", "truth": "enabled", "falsehood": "disabled" },
+                    { "id": "restartTime" },
+                    { "id": "stalepathTime", "newId": "stalePathTime" }
+                ]
+            },
+            { "id": "keepAlive" },
+            { "id": "holdTime" },
+            { "id": "peerGroupReference", "dereferenceId": "peerGroups" },
+            { "id": "neighborReference", "dereferenceId": "neighbors" }
+        ],
+        "references": {
+            "peerGroupReference": [
+                { "id": "name" },
+                { "id": "remoteAs", "newId": "remoteAS" },
+                { "id": "addressFamily", "newId": "addressFamilies",
+                    "transform": [
+                        { "id": "name", "newId": "internetProtocol" },
+                        { "id": "routeMap", "defaultWhenOmitted": "none" },
+                        { "id": "softReconfigurationInbound", "newId": "softReconfigurationInboundEnabled", "truth": "enabled", "falsehood": "disabled" }
+                    ]
+                }
+            ],
+            "neighborReference": [
+                { "id": "name", "newId": "address" },
+                { "id": "ebgpMultihop" },
+                { "id": "peerGroup" }
+            ]
+        }
+    },
+    {
+        "path": "/tm/cm/device/~Common~{{deviceName}}",
+        "schemaClass": "ConfigSync",
+        "properties": [
+            { "id": "configsyncIp", "defaultWhenOmitted": "none" }
+        ],
+        "nameless": true
+    },
+    {
+        "path": "/tm/cm/device/~Common~{{deviceName}}",
+        "schemaClass": "FailoverUnicast",
+        "properties": [
+            {
+                "id": "unicastAddress",
+                "newId": "addressPorts",
+                "defaultWhenOmitted": "none",
+                "transform": [
+                    { "id": "ip", "newId": "address" },
+                    { "id": "port" }
+                ]
+            }
+        ],
+        "nameless": true,
+        "declaration": {
+            "$comment": "Should remove entire object if unicastAddress is 'none' (not configured)",
+            "customFunctions": [
+                { "id": "formatFailoverUnicast" }
+            ]
+        }
+    },
+    {
+        "path": "/tm/cm/device/~Common~{{deviceName}}",
+        "schemaClass": "FailoverMulticast",
+        "properties": [
+            { "id": "multicastInterface", "newId": "interface", "defaultWhenOmitted": "none" },
+            { "id": "multicastIp", "newId": "address", "defaultWhenOmitted": "any6" },
+            { "id": "multicastPort", "newId": "port", "defaultWhenOmitted": 0 }
+        ],
+        "nameless": true
+    },
+    {
+        "path": "/tm/cm/device/~Common~{{deviceName}}",
+        "schemaClass": "MirrorIp",
+        "properties": [
+            { "id": "mirrorIp", "newId": "primaryIp" },
+            { "id": "mirrorSecondaryIp", "newId": "secondaryIp" }
+        ],
+        "nameless": true
+    },
+    {
+        "path": "/tm/cm/device-group",
+        "schemaClass": "DeviceGroup",
+        "properties": [
+            { "id": "class" },
+            { "id": "type" },
+            { "id": "members" },
+            { "id": "autoSync" },
+            { "id": "saveOnAutoSync" },
+            { "id": "networkFailover" },
+            { "id": "fullLoadOnSync" },
+            { "id": "asmSync" }
+        ],
+        "ignore": [
+            { "name": "^datasync-.+-dg$" },
+            { "name": "^device_trust_group$" },
+            { "name": "^dos-global-dg$" },
+            { "name": "^gtm$" }
+        ],
+        "declaration": false
+    },
+    {
+        "path": "/tm/cm/traffic-group",
+        "schemaClass": "TrafficGroup",
+        "properties": [
+            { "id": "class" },
+            { "id": "autoFailbackEnabled" },
+            { "id": "autoFailbackTime" },
+            { "id": "failoverMethod" },
+            { "id": "haLoadFactor" },
+            { "id": "haOrder" }
+        ],
+        "declaration": false
+    },
+    {
+        "path": "/tm/cm/traffic-group",
+        "schemaClass": "MAC_Masquerade",
+        "properties": [
+            { "id": "mac"}
+        ],
+        "declaration": false,
+        "nameless": true
+    },
+    {
+        "path": "/tm/analytics/global-settings",
+        "schemaClass": "Analytics",
+        "requiredModules": [{ "module": "avr" }],
+        "properties": [
+            { "id": "avrdDebugMode", "newId": "debugEnabled", "truth": "enabled", "falsehood": "disabled" },
+            { "id": "avrdInterval", "newId": "interval" },
+            { "id": "offboxProtocol", "defaultWhenOmitted": "none" },
+            { "id": "offboxTcpAddresses", "defaultWhenOmitted": [] },
+            { "id": "offboxTcpPort", "defaultWhenOmitted": 0 },
+            { "id": "useOffbox", "newId": "offboxEnabled", "truth": "enabled", "falsehood": "disabled" },
+            { "id": "sourceId", "defaultWhenOmitted": "none" },
+            { "id": "tenantId", "defaultWhenOmitted": "default" }
+        ],
+        "declaration": {
+            "properties": [
+                { "id": "offboxProtocol", "removeIfValue": "none" }
+            ]
+        }
+    },
+    {
+        "path": "/tm/sys/management-route",
+        "schemaClass": "ManagementRoute",
+        "properties": [
+            { "id": "description", "newId": "remark", "defaultWhenOmitted": "none" },
+            { "id": "fullPath" },
+            { "id": "gateway", "newId": "gw" },
+            { "id": "network" },
+            { "id": "mtu" },
+            { "id": "type" }
+        ]
+    },
+    {
+        "path": "/tm/sys/syslog",
+        "schemaClass": "SyslogRemoteServer",
+        "properties": [
+            { "id": "remoteServers" }
+        ],
+        "declaration": {
+            "properties": [
+                { "id": "localIp", "removeIfValue": "none" }
+            ]
+        }
+    },
+    {
+        "path": "/tm/auth/source",
+        "schemaClass": "Authentication",
+        "properties": [
+            { "id": "type" },
+            { "id": "fallback", "truth": "true", "falsehood": "false" }
+        ],
+        "nameless": true,
+        "declaration": {
+            "$comment": "Kind like parent object because all auth config will be under 'Authentication' key",
+            "customFunctions": [
+                { "id": "removeIncompleteAuthMethods" },
+                { "id": "removeLdapCertAndKey" }
+            ]
+        }
+    },
+    {
+        "path": "/tm/auth/remote-user",
+        "schemaClass": "Authentication",
+        "schemaMerge": {
+            "path": ["remoteUsersDefaults"]
+        },
+        "properties": [
+            { "id": "defaultRole", "newId": "role" },
+            { "id": "defaultPartition", "newId": "partitionAccess" },
+            { "id": "remoteConsoleAccess", "newId": "terminalAccess"}
+        ],
+        "nameless": true
+    },
+    {
+        "path": "/tm/auth/radius",
+        "schemaClass": "Authentication",
+        "schemaMerge": {
+            "path": ["radius"],
+            "skipWhenOmitted": true
+        },
+        "properties": [
+            { "id": "serviceType" }
+        ],
+        "nameless": true
+    },
+    {
+        "path": "/tm/auth/radius-server",
+        "schemaClass": "Authentication",
+        "schemaMerge": {
+            "path": ["radius","servers"],
+            "action": "add",
+            "skipWhenOmitted": true
+        },
+        "properties": [
+            { "id": "server" },
+            { "id": "port" },
+            { "id": "secret" }
+        ]
+    },
+    {
+        "path": "/tm/auth/tacacs",
+        "schemaClass": "Authentication",
+        "schemaMerge": {
+            "path": ["tacacs"],
+            "skipWhenOmitted": true
+        },
+        "properties": [
+            { "id": "accounting", "defaultWhenOmitted": "send-to-first-server" },
+            { "id": "authentication", "defaultWhenOmitted": "use-first-server" },
+            { "id": "debug", "truth": "enabled", "falsehood": "disabled", "skipWhenOmitted": true },
+            { "id": "encryption", "truth": "enabled", "falsehood": "disabled", "skipWhenOmitted": true },
+            { "id": "protocol" },
+            { "id": "secret" },
+            { "id": "servers" },
+            { "id": "service" }
+        ],
+        "nameless": true
+    },
+    {
+        "path": "/tm/net/route-domain",
+        "schemaClass": "RouteDomain",
+        "properties": [
+            { "id": "id" },
+            { "id": "parent", "defaultWhenOmitted": "none" },
+            { "id": "bwcPolicy", "newId": "bandWidthControllerPolicy" },
+            { "id": "connectionLimit" },
+            { "id": "flowEvictionPolicy" },
+            { "id": "fwEnforcedPolicy", "newId": "enforcedFirewallPolicy" },
+            { "id": "fwStagedPolicy", "newId": "stagedFirewallPolicy" },
+            { "id": "ipIntelligencePolicy" },
+            { "id": "securityNatPolicy" },
+            { "id": "servicePolicy" },
+            { "id": "strict", "truth": "enabled", "falsehood": "disabled" },
+            { "id": "routingProtocol", "newId": "routingProtocols" },
+            { "id": "vlans" }
+        ],
+        "declaration": {
+            "customFunctions": [
+                { "id": "renameDefaultRouteDomain" }
+            ]
+        }
+    },
+    {
+        "path": "/tm/auth/remote-role/role-info",
+        "schemaClass": "RemoteAuthRole",
+        "properties": [
+            { "id": "deny", "newId": "remoteAccess", "truth": "disabled", "falsehood": "enabled" },
+            { "id": "attribute" },
+            { "id": "console" },
+            { "id": "lineOrder" },
+            { "id": "role" },
+            { "id": "userPartition" }
+        ],
+        "declaration": {
+            "properties": [
+                { "id": "userPartition", "replaceIfValue": "All", "newValue": "all" }
+            ]
+        }
+    },
+    {
+        "path": "/tm/auth/ldap",
+        "schemaClass": "Authentication",
+        "schemaMerge": {
+            "path": ["ldap"],
+            "skipWhenOmitted": true
+        },
+        "properties": [
+            { "id": "bindDn", "defaultWhenOmitted": "none" },
+            { "id": "bindPw", "newId": "bindPassword", "defaultWhenOmitted": "none" },
+            { "id": "bindTimeout" },
+            { "id": "checkHostAttr", "newId": "checkBindPassword", "truth": "enabled", "falsehood": "disabled", "skipWhenOmitted": true },
+            { "id": "checkRolesGroup", "newId": "checkRemoteRole", "truth": "enabled", "falsehood": "disabled", "skipWhenOmitted": true },
+            { "id": "filter", "defaultWhenOmitted": "none" },
+            { "id": "groupDn", "defaultWhenOmitted": "none" },
+            { "id": "groupMemberAttribute", "defaultWhenOmitted": "none" },
+            { "id": "idleTimeout" },
+            { "id": "ignoreAuthInfoUnavail", "newId": "ignoreAuthInfoUnavailable", "truth": "yes", "falsehood": "no", "skipWhenOmitted": true },
+            { "id": "ignoreUnknownUser", "truth": "enabled", "falsehood": "disabled", "skipWhenOmitted": true },
+            { "id": "loginAttribute", "defaultWhenOmitted": "none" },
+            { "id": "port" },
+            { "id": "referrals", "truth": "yes", "falsehood": "no", "minVersion": "15.1" },
+            { "id": "scope", "newId": "searchScope" },
+            { "id": "searchBaseDn", "defaultWhenOmitted": "none" },
+            { "id": "searchTimeout" },
+            { "id": "servers" },
+            { "id": "ssl" },
+            { "id": "sslCaCertFile", "newId": "sslCaCert", "defaultWhenOmitted": "none" },
+            { "id": "sslCheckPeer", "truth": "enabled", "falsehood": "disabled" },
+            { "id": "sslCiphers" },
+            { "id": "sslClientCert", "defaultWhenOmitted": "none" },
+            { "id": "sslClientKey", "defaultWhenOmitted": "none" },
+            { "id": "userTemplate", "defaultWhenOmitted": "none" },
+            { "id": "version" }
+        ],
+        "references": {
+            "sslCaCertFileReference": [
+                { "id": "checksum" },
+                { "id": "partition" }
+            ],
+            "sslClientCertReference": [
+                { "id": "checksum" },
+                { "id": "partition" }
+            ],
+            "sslClientKeyReference": [
+                { "id": "checksum" },
+                { "id": "partition" }
+            ]
+        },
+        "nameless": true
+    },
+    {
+        "path": "/tm/sys/snmp",
+        "schemaClass": "SnmpTrapEvents",
+        "properties": [
+            { "id": "bigipTraps", "newId": "device", "truth": "enabled", "falsehood": "disabled" },
+            { "id": "authTrap", "newId": "authentication", "truth": "enabled", "falsehood": "disabled" },
+            { "id": "agentTrap", "newId": "agentStartStop", "truth": "enabled", "falsehood": "disabled" }
+        ],
+        "nameless": true
+    },
+    {
+        "path": "/tm/sys/snmp/traps",
+        "schemaClass": "SnmpTrapDestination",
+        "properties": [
+            { "id": "community", "defaultWhenOmitted": "none" },
+            { "id": "host", "newId": "destination" },
+            { "id": "network" },
+            { "id": "port" },
+            { "id": "version" },
+            { "id": "authPassword", "newId": "authentication.password" },
+            { "id": "authProtocol", "newId": "authentication.protocol", "defaultWhenOmitted": "none" },
+            { "id": "privacyPassword", "newId": "privacy.password" },
+            { "id": "privacyProtocol", "newId": "privacy.protocol", "defaultWhenOmitted": "none" },
+            { "id": "engineId", "defaultWhenOmitted": "none" },
+            { "id": "securityName", "defaultWhenOmitted": "none" }
+        ],
+        "declaration": {
+            "properties": [
+                { "id": "network", "replaceIfValue": "mgmt", "newValue": "management" }
+            ]
+        }
+    },
+    {
+        "path": "/tm/sys/snmp",
+        "schemaClass": "SnmpAgent",
+        "properties": [
+            { "id": "sysContact", "newId": "contact", "defaultWhenOmitted": "" },
+            { "id": "sysLocation", "newId": "location", "defaultWhenOmitted": "" },
+            { "id": "allowedAddresses", "newId": "allowList", "defaultWhenOmitted": [] }
+        ],
+        "nameless": true
+    },
+    {
+        "path": "/tm/sys/snmp/users",
+        "schemaClass": "SnmpUser",
+        "properties": [
+            { "id": "username", "newId": "name" },
+            { "id": "access" },
+            { "id": "authPassword", "newId": "authentication.password" },
+            { "id": "authProtocol", "newId": "authentication.protocol", "defaultWhenOmitted": "none" },
+            { "id": "privacyPassword", "newId": "privacy.password" },
+            { "id": "privacyProtocol", "newId": "privacy.protocol", "defaultWhenOmitted": "none" },
+            { "id": "oidSubset", "newId": "oid", "defaultWhenOmitted": "none" }
+        ]
+    },
+    {
+        "path": "/tm/sys/snmp/communities",
+        "schemaClass": "SnmpCommunity",
+        "properties": [
+            { "id": "communityName", "newId": "name" },
+            { "id": "access" },
+            { "id": "ipv6", "truth": "enabled", "falsehood": "disabled" },
+            { "id": "source", "defaultWhenOmitted": "none" },
+            { "id": "oidSubset", "newId": "oid", "defaultWhenOmitted": "none" }
+        ]
+    },
+    {
+        "path": "/tm/net/dag-globals",
+        "schemaClass": "DagGlobals",
+        "properties": [
+            { "id": "dagIpv6PrefixLen", "newId": "ipv6PrefixLength" },
+            { "id": "icmpHash" },
+            { "id": "roundRobinMode" }
+        ],
+        "nameless": true
+    },
+    {
+        "path": "/tm/sys/httpd",
+        "schemaClass": "HTTPD",
+        "properties": [
+            { "id": "allow" },
+            { "id": "maxClients" },
+            { "id": "authPamIdleTimeout" },
+            { "id": "sslCiphersuite" },
+            { "id": "sslProtocol" }
+        ],
+        "declaration": {
+            "properties": [
+                { "id": "allow", "replaceIfValue": "All", "newValue": "all" }
+            ]
+        },
+        "nameless": true
+    },
+    {
+        "path": "/tm/ltm/global-settings/traffic-control",
+        "schemaClass": "TrafficControl",
+        "properties": [
+            { "id": "acceptIpOptions", "truth": "enabled", "falsehood": "disabled" },
+            { "id": "acceptIpSourceRoute", "truth": "enabled", "falsehood": "disabled" },
+            { "id": "allowIpSourceRoute", "truth": "enabled", "falsehood": "disabled" },
+            { "id": "continueMatching", "truth": "enabled", "falsehood": "disabled" },
+            { "id": "maxIcmpRate" },
+            { "id": "maxRejectRate" },
+            { "id": "maxRejectRateTimeout" },
+            { "id": "minPathMtu" },
+            { "id": "pathMtuDiscovery", "truth": "enabled", "falsehood": "disabled" },
+            { "id": "portFindLinear", "newId": "maxPortFindLinear" },
+            { "id": "portFindRandom", "newId": "maxPortFindRandom" },
+            { "id": "portFindThresholdWarning", "truth": "enabled", "falsehood": "disabled" },
+            { "id": "portFindThresholdTrigger" },
+            { "id": "portFindThresholdTimeout" },
+            { "id": "rejectUnmatched", "truth": "enabled", "falsehood": "disabled" }
+        ],
+        "nameless": true
+    },
+    {
+        "path": "/tm/sys/sshd",
+        "schemaClass": "SSHD",
+        "properties": [
+            { "id": "allow" },
+            { "id": "bannerText", "newId": "banner" },
+            { "id": "include" },
+            { "id": "inactivityTimeout" }
+        ],
+        "nameless": true
+    },
+    {
+        "path": "/tm/net/tunnels/tunnel",
+        "schemaClass": "Tunnel",
+        "properties": [
+            { "id": "description", "newId": "remark", "defaultWhenOmitted": "none" },
+            { "id": "autoLasthop", "newId": "autoLastHop" },
+            { "id": "mtu" },
+            { "id": "profile", "newId": "tunnelType" },
+            { "id": "tos", "newId": "typeOfService" },
+            { "id": "usePmtu", "truth": "enabled", "falsehood": "disabled" },
+            { "id": "localAddress" },
+            { "id": "remoteAddress" },
+            { "id": "secondaryAddress" },
+            { "id": "key" },
+            { "id": "mode" },
+            { "id": "transparent", "truth": "enabled", "falsehood": "disabled" },
+            { "id": "trafficGroup", "defaultWhenOmitted": "none" }
+        ]
+    },
+    {
+        "path": "/tm/net/tunnels/vxlan",
+        "schemaClass": "Tunnel",
+        "schemaMerge": {
+            "action": "add"
+        },
+        "properties": [
+            { "id": "defaultsFrom" },
+            { "id": "port" },
+            { "id": "floodingType" },
+            { "id": "encapsulationType" }
+        ]
+    },
+    {
+        "path": "/tm/sys/disk/directory",
+        "schemaClass": "Disk",
+        "properties": [
+            {
+                "id": "apiRawValues",
+                "transform": [
+                    {
+                        "id": "applicationData",
+                        "capture": "appdata\\s+([0-9]+)",
+                        "captureProperty": "apiAnonymous"
+                    }
+                ],
+                "required": true
+            }
+        ],
+        "nameless": true
+    },
+    {
+        "path": "/tm/gtm/global-settings/general",
+        "schemaClass": "GSLBGlobals",
+        "requiredModules": [{ "module": "gtm" }],
+        "schemaMerge": {
+            "path": ["general"]
+        },
+        "properties": [
+            { "id": "synchronization", "truth": "yes", "falsehood": "no", "newId": "synchronizationEnabled" },
+            { "id": "synchronizationGroupName" },
+            { "id": "synchronizationTimeTolerance" },
+            { "id": "synchronizationTimeout" }
+        ],
+        "nameless": true,
+        "declaration": {
+            "customFunctions": [
+                { "id": "remapItemWithSchemaMerge" }
+            ]
+        }
+    },
+    {
+        "path": "/tm/gtm/datacenter",
+        "schemaClass": "GSLBDataCenter",
+        "enforceArray": true,
+        "requiredModules": [{ "module": "gtm" }],
+        "properties": [
+            { "id": "contact" },
+            { "id": "description", "newId": "remark", "defaultWhenOmitted": "none" },
+            { "id": "enabled" },
+            { "id": "location" },
+            { "id": "proberFallback" },
+            { "id": "proberPool" },
+            { "id": "proberPreference", "newId": "proberPreferred" }
+        ]
+    },
+    {
+        "path": "/tm/gtm/server",
+        "schemaClass": "GSLBServer",
+        "requiredModules": [{ "module": "gtm" }],
+        "enforceArray": true,
+        "properties": [
+            { "id": "description", "newId": "remark", "defaultWhenOmitted": "none" },
+            { "id": "enabled" },
+            { "id": "disabled" },
+            { "id": "product", "newId": "serverType" },
+            { "id": "proberPreference", "newId": "proberPreferred" },
+            { "id": "proberFallback" },
+            { "id": "proberPool", "defaultWhenOmitted": "none" },
+            { "id": "limitMaxBps", "newId": "bpsLimit" },
+            { "id": "limitMaxBpsStatus", "newId": "bpsLimitEnabled", "truth": "enabled", "falsehood": "disabled" },
+            { "id": "limitMaxPps", "newId": "ppsLimit" },
+            { "id": "limitMaxPpsStatus", "newId": "ppsLimitEnabled", "truth": "enabled", "falsehood": "disabled" },
+            { "id": "limitMaxConnections", "newId": "connectionsLimit" },
+            { "id": "limitMaxConnectionsStatus", "newId": "connectionsLimitEnabled", "truth": "enabled", "falsehood": "disabled" },
+            { "id": "limitCpuUsage", "newId": "cpuUsageLimit" },
+            { "id": "limitCpuUsageStatus", "newId": "cpuUsageLimitEnabled", "truth": "enabled", "falsehood": "disabled" },
+            { "id": "limitMemAvail", "newId": "memoryLimit" },
+            { "id": "limitMemAvailStatus", "newId": "memoryLimitEnabled", "truth": "enabled", "falsehood": "disabled" },
+            { "id": "iqAllowServiceCheck", "newId": "serviceCheckProbeEnabled", "truth": "yes", "falsehood": "no" },
+            { "id": "iqAllowPath", "newId": "pathProbeEnabled", "truth": "yes", "falsehood": "no" },
+            { "id": "iqAllowSnmp", "newId": "snmpProbeEnabled", "truth": "yes", "falsehood": "no" },
+            { "id": "datacenter", "newId": "dataCenter" },
+            { "id": "devicesReference", "dereferenceId": "devices" },
+            { "id": "exposeRouteDomains", "newId": "exposeRouteDomainsEnabled", "truth": "yes", "falsehood": "no" },
+            { "id": "virtualServersReference", "dereferenceId": "virtualServers" },
+            { "id": "virtualServerDiscovery", "newId": "virtualServerDiscoveryMode" },
+            { "id": "monitor", "newId": "monitors", "retainCommon": true }
+        ],
+        "references": {
+            "devicesReference": [
+                { "id": "name" },
+                {
+                    "id": "addresses",
+                    "transform": [
+                        { "id": "name", "newId": "address" },
+                        { "id": "translation", "newId": "addressTranslation", "defaultWhenOmitted": "none" }
+                    ],
+                    "upLevel": 1
+                },
+                { "id": "description", "newId": "remark", "defaultWhenOmitted": "none" }
+            ],
+            "virtualServersReference": [
+                { "id": "name" },
+                { "id": "description", "newId": "remark", "defaultWhenOmitted": "none" },
+                { "id": "destination" },
+                { "id": "enabled" },
+                { "id": "disabled" },
+                { "id": "translationAddress", "newId": "addressTranslation", "defaultWhenOmitted": "none" },
+                { "id": "translationPort", "newId": "addressTranslationPort" },
+                { "id": "monitor", "newId": "monitors", "retainCommon": true }
+            ]
+        }
+    },
+    {
+        "path": "/tm/gtm/monitor/http",
+        "schemaClass": "GSLBMonitor",
+        "enforceArray": true,
+        "schemaMerge": {
+            "action": "add",
+            "specificTo": { "property": "monitorType", "value": "http" }
+        },
+        "requiredModules": [{ "module": "gtm" }],
+        "properties": [
+            { "id": "kind" },
+            { "id": "description", "newId": "remark", "defaultWhenOmitted": "none" },
+            { "id": "destination", "newId": "target" },
+            { "id": "interval" },
+            { "id": "timeout" },
+            { "id": "probeTimeout" },
+            { "id": "ignoreDownResponse", "newId": "ignoreDownResponseEnabled", "truth": "enabled", "falsehood": "disabled" },
+            { "id": "transparent", "truth": "enabled", "falsehood": "disabled" },
+            { "id": "reverse", "newId": "reverseEnabled", "truth": "enabled", "falsehood": "disabled" },
+            { "id": "send", "defaultWhenOmitted": "none" },
+            { "id": "recv", "newId": "receive", "defaultWhenOmitted": "none" }
+        ],
+        "declaration": {
+            "customFunctions": [
+                { "id": "remapItemWithSchemaMerge" }
+            ]
+        }
+    },
+    {
+        "path": "/tm/gtm/monitor/https",
+        "schemaClass": "GSLBMonitor",
+        "enforceArray": true,
+        "schemaMerge": {
+            "action": "add",
+            "specificTo": { "property": "monitorType", "value": "https" }
+        },
+        "requiredModules": [{ "module": "gtm" }],
+        "properties": [
+            { "id": "kind" },
+            { "id": "description", "newId": "remark", "defaultWhenOmitted": "none" },
+            { "id": "destination", "newId": "target" },
+            { "id": "interval" },
+            { "id": "timeout" },
+            { "id": "probeTimeout" },
+            { "id": "ignoreDownResponse", "newId": "ignoreDownResponseEnabled", "truth": "enabled", "falsehood": "disabled" },
+            { "id": "transparent", "truth": "enabled", "falsehood": "disabled" },
+            { "id": "reverse", "newId": "reverseEnabled", "truth": "enabled", "falsehood": "disabled" },
+            { "id": "send", "defaultWhenOmitted": "none" },
+            { "id": "recv", "newId": "receive", "defaultWhenOmitted": "none" },
+            { "id": "cipherlist", "newId": "ciphers" },
+            { "id": "cert", "newId":"clientCertificate" }
+        ]
+    },
+    {
+        "path": "/tm/gtm/monitor/gateway-icmp",
+        "schemaClass": "GSLBMonitor",
+        "enforceArray": true,
+        "schemaMerge": {
+            "action": "add",
+            "specificTo": { "property": "monitorType", "value": "gateway-icmp" }
+        },
+        "requiredModules": [{ "module": "gtm" }],
+        "properties": [
+            { "id": "kind" },
+            { "id": "description", "newId": "remark", "defaultWhenOmitted": "none" },
+            { "id": "destination", "newId": "target" },
+            { "id": "interval" },
+            { "id": "timeout" },
+            { "id": "probeTimeout" },
+            { "id": "ignoreDownResponse", "newId": "ignoreDownResponseEnabled", "truth": "enabled", "falsehood": "disabled" },
+            { "id": "transparent", "truth": "enabled", "falsehood": "disabled" },
+            { "id": "probeInterval" },
+            { "id": "probeAttempts" }
+        ]
+    },
+    {
+        "path": "/tm/gtm/monitor/tcp",
+        "schemaClass": "GSLBMonitor",
+        "enforceArray": true,
+        "schemaMerge": {
+            "action": "add",
+            "specificTo": { "property": "monitorType", "value": "tcp" }
+        },
+        "requiredModules": [{ "module": "gtm" }],
+        "properties": [
+            { "id": "kind" },
+            { "id": "description", "newId": "remark", "defaultWhenOmitted": "none" },
+            { "id": "destination", "newId": "target" },
+            { "id": "interval" },
+            { "id": "timeout" },
+            { "id": "probeTimeout" },
+            { "id": "ignoreDownResponse", "newId": "ignoreDownResponseEnabled", "truth": "enabled", "falsehood": "disabled" },
+            { "id": "transparent", "truth": "enabled", "falsehood": "disabled" },
+            { "id": "reverse", "newId": "reverseEnabled", "truth": "enabled", "falsehood": "disabled" },
+            { "id": "send" },
+            { "id": "recv", "newId": "receive" }
+        ]
+    },
+    {
+        "path": "/tm/gtm/monitor/udp",
+        "schemaClass": "GSLBMonitor",
+        "enforceArray": true,
+        "schemaMerge": {
+            "action": "add",
+            "specificTo": { "property": "monitorType", "value": "udp" }
+        },
+        "requiredModules": [{ "module": "gtm" }],
+        "properties": [
+            { "id": "kind" },
+            { "id": "description", "newId": "remark", "defaultWhenOmitted": "none" },
+            { "id": "destination", "newId": "target" },
+            { "id": "interval" },
+            { "id": "timeout" },
+            { "id": "probeTimeout" },
+            { "id": "ignoreDownResponse", "newId": "ignoreDownResponseEnabled", "truth": "enabled", "falsehood": "disabled" },
+            { "id": "transparent", "truth": "enabled", "falsehood": "disabled" },
+            { "id": "reverse", "newId": "reverseEnabled", "truth": "enabled", "falsehood": "disabled" },
+            { "id": "send" },
+            { "id": "recv", "newId": "receive" },
+            { "id": "probeInterval" },
+            { "id": "probeAttempts" },
+            { "id": "debug", "newId": "debugEnabled", "truth": "yes", "falsehood": "no" }
+        ]
+    },
+    {
+        "path": "/tm/gtm/prober-pool",
+        "schemaClass": "GSLBProberPool",
+        "enforceArray": true,
+        "requiredModules": [{ "module": "gtm" }],
+        "properties": [
+            { "id": "description", "newId": "remark", "defaultWhenOmitted": "none" },
+            { "id": "enabled" },
+            { "id": "disabled" },
+            { "id": "loadBalancingMode", "newId": "lbMode" },
+            { "id": "membersReference", "dereferenceId": "members" }
+        ],
+        "references": {
+            "membersReference": [
+                { "id": "name", "newId": "server" },
+                { "id": "description", "newId": "remark", "defaultWhenOmitted": "none" },
+                { "id": "enabled" },
+                { "id": "disabled" },
+                { "id": "order" }
+            ]
+        },
+        "declaration": {
+            "customFunctions": [
+                { "id": "formatGSLBProberPool" }
+            ]
+        }
+    },
+    {
+        "path": "/tm/security/firewall/policy",
+        "schemaClass": "FirewallPolicy",
+        "requiredModules": [{ "module": "afm" }],
+        "properties": [
+            { "id": "description", "newId": "remark", "defaultWhenOmitted": "none" },
+            { "id": "fullPath" },
+            { "id": "rulesReference", "dereferenceId": "rules" }
+        ],
+        "ignore": [
+            { "fullPath": "^/Common/Shared/" }
+        ],
+        "references": {
+            "rulesReference": [
+                { "id": "name" },
+                { "id": "description", "newId": "remark", "defaultWhenOmitted": "none" },
+                { "id": "action" },
+                { "id": "ipProtocol", "newId": "protocol" },
+                { "id": "log", "newId": "loggingEnabled", "truth": "yes", "falsehood": "no" },
+                { "id": "source" },
+                { "id": "destination" }
+            ]
+        }
+    },
+    {
+        "path": "/tm/security/firewall/address-list",
+        "schemaClass": "FirewallAddressList",
+        "requiredModules": [{ "module": "afm" }],
+        "properties": [
+            { "id": "description", "newId": "remark", "defaultWhenOmitted": "none" },
+            { "id": "fullPath" },
+            {
+                "id": "addresses",
+                "transformAsArray": true,
+                "transform": [
+                    { "id": "addresses", "extract": "name" }
+                ]
+            },
+            {
+                "id": "fqdns",
+                "transformAsArray": true,
+                "transform": [
+                    { "id": "fqdns", "extract": "name" }
+                ]
+            },
+            {
+                "id": "geo",
+                "transformAsArray": true,
+                "transform": [
+                    { "id": "geo", "extract": "name" }
+                ]
+            }
+        ],
+        "ignore": [
+            { "fullPath": "^/Common/Shared/" }
+        ]
+    },
+    {
+        "path": "/tm/security/firewall/port-list",
+        "schemaClass": "FirewallPortList",
+        "requiredModules": [{ "module": "afm" }],
+        "properties": [
+            { "id": "description", "newId": "remark", "defaultWhenOmitted": "none" },
+            { "id": "fullPath" },
+            {
+                "id": "ports",
+                "transformAsArray": true,
+                "transform": [
+                    { "id": "ports", "extract": "name" }
+                ]
+            }
+        ],
+        "ignore": [
+            { "name": "^_sys_self_allow_tcp_defaults$" },
+            { "name": "^_sys_self_allow_udp_defaults$" },
+            { "fullPath": "^/Common/Shared/" }
+        ]
+    },
+    {
+        "path": "/tm/security/firewall/management-ip-rules",
+        "schemaClass": "ManagementIpFirewall",
+        "requiredModules": [
+            {
+                "module": "afm",
+                "maxVersion": "13.1"
+            }
+        ],
+        "properties": [
+            { "id": "description", "newId": "remark", "defaultWhenOmitted": "none" },
+            { "id": "rulesReference", "dereferenceId": "rules" }
+        ],
+        "references": {
+            "rulesReference": [
+                { "id": "name" },
+                { "id": "description", "newId": "remark", "defaultWhenOmitted": "none" },
+                { "id": "action" },
+                { "id": "ipProtocol", "newId": "protocol" },
+                { "id": "log", "newId": "loggingEnabled", "truth": "yes", "falsehood": "no" },
+                { "id": "source" },
+                { "id": "destination" }
+            ]
+        },
+        "nameless": true
+    }
+]

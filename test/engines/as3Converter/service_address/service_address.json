@@ -1,0 +1,111 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.8.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "testItem": {
+                "class": "Service_Address",
+                "virtualAddress": "123.123.123.123/24",
+                "arpEnabled": false,
+                "icmpEcho": "disable",
+                "routeAdvertisement": "enable",
+                "spanningEnabled": true,
+                "trafficGroup": "/Common/traffic-group-local-only"
+            },
+            "testItem_app": {
+                "class": "Service_Address",
+                "virtualAddress": "123.123.124.123/24",
+                "arpEnabled": false,
+                "icmpEcho": "disable",
+                "routeAdvertisement": "enable",
+                "spanningEnabled": true,
+                "trafficGroup": "/Common/traffic-group-local-only"
+            },
+            "saSimple": {
+                "class": "Service_Address",
+                "virtualAddress": "198.19.192.136/16"
+            },
+            "saArpTrueEchoEnable": {
+                "class": "Service_Address",
+                "virtualAddress": "fdf5:4153:3300::1011/30",
+                "arpEnabled": true
+            },
+            "saArpTrueEchoDisable": {
+                "class": "Service_Address",
+                "virtualAddress": "198.19.192.137",
+                "arpEnabled": true,
+                "icmpEcho": "disable"
+            },
+            "saArpTrueEchoSelective": {
+                "class": "Service_Address",
+                "virtualAddress": "fdf5:4153:3300::1012",
+                "arpEnabled": true,
+                "icmpEcho": "selective"
+            },
+            "saArpFalseEchoEnable": {
+                "class": "Service_Address",
+                "virtualAddress": "198.19.192.138/18",
+                "arpEnabled": false
+            },
+            "saArpFalseEchoDisable": {
+                "class": "Service_Address",
+                "virtualAddress": "fdf5:4153:3300::1013",
+                "arpEnabled": false,
+                "icmpEcho": "disable"
+            },
+            "saArpFalseEchoSelective": {
+                "class": "Service_Address",
+                "virtualAddress": "198.19.192.139",
+                "arpEnabled": false,
+                "icmpEcho": "selective"
+            },
+            "saSpanningTrue": {
+                "class": "Service_Address",
+                "virtualAddress": "fdf5:4153:3300::1014",
+                "arpEnabled": false,
+                "spanningEnabled": true
+            },
+            "saSpanningFalse": {
+                "class": "Service_Address",
+                "virtualAddress": "fdf5:4153:3300::1015"
+            },
+            "saTrafficGroupDefault": {
+                "class": "Service_Address",
+                "virtualAddress": "198.19.192.140",
+                "trafficGroup": "/Common/traffic-group-1"
+            },
+            "saTrafficGroupDefault6": {
+                "class": "Service_Address",
+                "virtualAddress": "fdf5:4153:3300::1016",
+                "trafficGroup": "/Common/traffic-group-1"
+            },
+            "saTrafficGroupFloating": {
+                "class": "Service_Address",
+                "virtualAddress": "198.19.192.141",
+                "trafficGroup": "/Common/traffic-group-1"
+            },
+            "saTrafficGroupFloating6": {
+                "class": "Service_Address",
+                "virtualAddress": "fdf5:4153:3300::1017",
+                "trafficGroup": "/Common/traffic-group-1"
+            },
+            "saTrafficGroupNonFloating": {
+                "class": "Service_Address",
+                "virtualAddress": "198.19.192.142",
+                "trafficGroup": "/Common/traffic-group-local-only"
+            },
+            "saTrafficGroupNonFloating6": {
+                "class": "Service_Address",
+                "virtualAddress": "fdf5:4153:3300::1018/6",
+                "trafficGroup": "/Common/traffic-group-local-only"
+            }
+        }
+    }
+}

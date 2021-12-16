@@ -1,0 +1,20 @@
+{
+    "schemaVersion": "1.0.0",
+    "class": "Device",
+    "async": true,
+    "Common": {
+        "class": "Tenant",
+        "SnmpAgent": {
+            "class": "SnmpAgent",
+            "contact": "Op Center <ops@example.com>",
+            "location": "Seattle, WA",
+            "allowList": [
+                "10.30.100.0/23",
+                "10.40.100.0/23",
+                "10.8.100.0/32",
+                "10.30.10.100",
+                "10.30.10.200"
+            ]
+        }
+    }
+}

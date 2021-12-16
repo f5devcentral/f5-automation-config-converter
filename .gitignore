@@ -1,0 +1,17 @@
+.DS_Store
+node_modules
+.nyc_output
+coverage
+docs/_build
+.vscode
+bundle.js
+api-bundle.js
+docs/_static/apidocs.html
+rpmbuild
+presentation
+venv
+# Specific to ACC
+*.ucs
+output.json
+dist
+.f5-acc

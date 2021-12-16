@@ -1,0 +1,108 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.8.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "https",
+            "serviceMain": {
+                "class": "Service_HTTPS",
+                "virtualPort": 444,
+                "virtualAddresses": [
+                    "1.1.1.1"
+                ],
+                "persistenceMethods": [
+                    "source-address"
+                ],
+                "profileHTTP": {
+                    "use": "/AS3_Tenant/AS3_Application/httpProfile"
+                },
+                "profileHTTPCompression": {
+                    "bigip": "/Common/wan-optimized-compression"
+                },
+                "profileHTTPAcceleration": {
+                    "bigip": "/Common/optimized-caching"
+                },
+                "profileMultiplex": {
+                    "bigip": "/Common/oneconnect"
+                },
+                "profileTCP": {
+                    "bigip": "/Common/f5-tcp-mobile"
+                },
+                "policyEndpoint": "/AS3_Tenant/AS3_Application/theEndpointPolicy2",
+                "serverTLS": "theTlsServer",
+                "clientTLS": "theTlsClient"
+            },
+            "httpProfile": {
+                "class": "HTTP_Profile"
+            },
+            "compressionProfile": {
+                "class": "HTTP_Compress"
+            },
+            "theEndpointPolicy1": {
+                "class": "Endpoint_Policy",
+                "rules": [
+                    {
+                        "name": "theRule1"
+                    }
+                ]
+            },
+            "theEndpointPolicy2": {
+                "class": "Endpoint_Policy",
+                "rules": [
+                    {
+                        "name": "theRule2"
+                    }
+                ]
+            },
+            "theTlsServer": {
+                "class": "TLS_Server",
+                "certificates": [
+                    {
+                        "certificate": "/AS3_Tenant/AS3_Application/webcert"
+                    }
+                ],
+                "requireSNI": false,
+                "ciphers": "DEFAULT",
+                "authenticationMode": "ignore",
+                "authenticationFrequency": "one-time",
+                "authenticationTrustCA": {
+                    "bigip": "/Common/ca-bundle.crt"
+                },
+                "authenticationInviteCA": {
+                    "bigip": "/Common/ca-bundle.crt"
+                }
+            },
+            "webcert": {
+                "class": "Certificate",
+                "certificate": "-----BEGIN CERTIFICATE-----\nMIICnDCCAgWgAwIBAgIJAJ5n2b0OCEjwMA0GCSqGSIb3DQEBCwUAMGcxCzAJBgNVBAYTAlVTMRMwEQYDVQQIDApXYXNoaW5ndG9uMRAwDgYDVQQHDAdTZWF0dGxlMRQwEgYDVQQKDAtmNV9OZXR3b3JrczEbMBkGA1UEAwwSc2FtcGxlLmV4YW1wbGUubmV0MB4XDTE3MTEyNjE5NTAyNFoXDTE4MDIyNTE5NTAyNFowZzELMAkGA1UEBhMCVVMxEzARBgNVBAgMCldhc2hpbmd0b24xEDAOBgNVBAcMB1NlYXR0bGUxFDASBgNVBAoMC2Y1X05ldHdvcmtzMRswGQYDVQQDDBJzYW1wbGUuZXhhbXBsZS5uZXQwgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBALEsuXmSXVQpYjrZPW+WiTBjn491mwZYT7Q92V1HlSBtM6WdWlK1aZN5sovfKtOX7Yrm8xa+e4o/zJ2QYLyyv5O+t2EGN/4qUEjEAPY9mwJdfzRQy6Hyzm84J0QkTuUJ/EjNuPji3D0QJRALUTzu1UqqDCEtiN9OGyXEkh7uvb7BAgMBAAGjUDBOMB0GA1UdDgQWBBSVHPNrGWrjWyZvckQxFYWO59FRFjAfBgNVHSMEGDAWgBSVHPNrGWrjWyZvckQxFYWO59FRFjAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBCwUAA4GBAJeJ9SEckEwPhkXOm+IuqfbUS/RcziifBCTmVyE+Fa/j9pKSYTgiEBNdbJeBEa+gPMlQtbV7Y2dy8TKx/8axVBHiXC5geDML7caxOrAyHYBpnx690xJTh5OIORBBM/a/NvaR+P3CoVebr/NPRh9oRNxnntnqvqD7SW0U3ZPe3tJc\n-----END CERTIFICATE-----",
+                "privateKey": "",
+                "passphrase": {
+                    "ciphertext": "ZjVmNQ==",
+                    "protected": "eyJhbGciOiJkaXIiLCJlbmMiOiJub25lIn0",
+                    "ignoreChanges": true,
+                    "miniJWE": true,
+                    "allowReuse": false
+                },
+                "chainCA": "-----BEGIN CERTIFICATE-----\nMIID9TCCAt2gAwIBAgIJALxQA/NW2bpRMA0GCSqGSIb3DQEBCwUAMIGQMQswCQYDVQQGEwJVUzETMBEGA1UECAwKV2FzaGluZ3RvbjEQMA4GA1UEBwwHU2VhdHRsZTELMAkGA1UECgwCRjUxDTALBgNVBAsMBFRlc3QxFzAVBgNVBAMMDnRlc3RfQ0FfYnVuZGxlMSUwIwYJKoZIhvcNAQkBFhZzb21lYm9keUBzb21ld2hlcmUub3JnMB4XDTE4MDIyNzE5MjEyNVoXDTE4MDMyOTE5MjEyNVowgZAxCzAJBgNVBAYTAlVTMRMwEQYDVQQIDApXYXNoaW5ndG9uMRAwDgYDVQQHDAdTZWF0dGxlMQswCQYDVQQKDAJGNTENMAsGA1UECwwEVGVzdDEXMBUGA1UEAwwOdGVzdF9DQV9idW5kbGUxJTAjBgkqhkiG9w0BCQEWFnNvbWVib2R5QHNvbWV3aGVyZS5vcmcwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCjhUZmbwwuMMFTNic73t0mfJ/pyM3BnEs0riv6lbrF5znFKBlAM2pxWBfkQvr92gUwitij7BqMagnR26/C7GcJJNJQGNK482vgSPhUpGeN0t4W71Dv5SpwJN+0do6gV0eXPwvcgA/XZxXqZAePwXTp36YMrNTgw49OWZpHoNXfYCZ+1KUL032RdQ/Ik2wO/UwV0csL1Rwuu2L8/NI9VtrThCAr8dsMsDJ53jDh7xQdP3K2V9NYtAHk66697kk7TpzR1moqTJxSVaPKo2eDuKNke1BRbjYWoamu0hfC5YG6l5P9i8QaVklbtmDcmoLpU9fLVSSW6CWHkrtdifQiCOChAgMBAAGjUDBOMB0GA1UdDgQWBBRv7/Q0VoBgDYzgJOKLz4GsgXP27zAfBgNVHSMEGDAWgBRv7/Q0VoBgDYzgJOKLz4GsgXP27zAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQA9r6+6hGVlQ188l+wLFJ1wI83y27BdtE0ZsZGdFv98qi9kcUm17Z0tprEwypODZ1/syt9b1JhD4RgU30qwgeF4kec8UpoG49UkQImRD3AqfsiYSdjZeBpcpEl3n8lkjKGoVY7GB2lMGoWDxv/1A0CSjVTmWgQSFGHoMtzOW1tCr9yGXVEdy691l7PVC1kK5ekwkO8YbSO6hvV/u83KuUiGcIoY1PIzAK301i9YXWUNxybIVfHregoQ11QzjhfdfpOLBTtW1B4QZqZz8qFGIr1remmQK3ljEcct9bWjMLOx2QYMvk6uRFzh+V5L2UnhldNy5wQYMXRDz6SU3LdTJ2OA\n-----END CERTIFICATE-----"
+            },
+            "theTlsClient": {
+                "class": "TLS_Client",
+                "sendSNI": "none",
+                "ciphers": "DEFAULT",
+                "serverName": "none",
+                "validateCertificate": false,
+                "trustCA": "generic",
+                "ignoreExpired": false,
+                "ignoreUntrusted": false,
+                "sessionTickets": false,
+                "clientCertificate": "webcert"
+            }
+        }
+    }
+}

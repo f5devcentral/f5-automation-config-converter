@@ -1,0 +1,23 @@
+{
+    "schemaVersion": "1.0.0",
+    "class": "Device",
+    "async": true,
+    "Common": {
+        "class": "Tenant",
+        "firewallPortList1": {
+            "class": "FirewallPortList",
+            "ports": [
+                "8888",
+                "webcache"
+            ]
+        },
+        "firewallPortList2": {
+            "class": "FirewallPortList",
+            "ports": [
+                "8123",
+                "8234",
+                "8300-8350"
+            ]
+        }
+    }
+}

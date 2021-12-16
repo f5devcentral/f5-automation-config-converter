@@ -1,0 +1,55 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.8.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "testItem": {
+                "class": "DNS_Zone",
+                "dnsExpress": {
+                    "enabled": false,
+                    "nameserver": {
+                        "use": "/AS3_Tenant/AS3_Application/nameServer"
+                    },
+                    "notifyAction": "bypass",
+                    "allowNotifyFrom": [
+                        "1.1.1.1"
+                    ],
+                    "verifyNotifyTsig": false
+                },
+                "responsePolicyEnabled": true,
+                "serverTsigKey": {
+                    "use": "/AS3_Tenant/AS3_Application/tsigKey"
+                },
+                "transferClients": [
+                    {
+                        "use": "/AS3_Tenant/AS3_Application/nameServer"
+                    },
+                    {
+                        "use": "/AS3_Tenant/AS3_Application/nameServer2"
+                    }
+                ]
+            },
+            "nameServer": {
+                "class": "DNS_Nameserver"
+            },
+            "nameServer2": {
+                "class": "DNS_Nameserver"
+            },
+            "tsigKey": {
+                "class": "DNS_TSIG_Key",
+                "secret": {
+                    "ciphertext": "ZjVmNQ==",
+                    "protected": "eyJhbGciOiJkaXIiLCJlbmMiOiJub25lIn0=",
+                    "ignoreChanges": true
+                }
+            }
+        }
+    }
+}

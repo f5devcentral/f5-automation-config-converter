@@ -1,0 +1,167 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.8.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "testItem": {
+                "class": "Monitor",
+                "monitorType": "udp",
+                "send": "ping",
+                "receive": "up",
+                "receiveDown": "down"
+            },
+            "mUdpSimple": {
+                "class": "Monitor",
+                "monitorType": "udp",
+                "send": "abc def",
+                "receive": "rst xyz"
+            },
+            "mUdpDefault": {
+                "class": "Monitor",
+                "label": "udp monitor default values",
+                "monitorType": "udp",
+                "targetAddress": "",
+                "targetPort": 0,
+                "interval": 5,
+                "upInterval": 0,
+                "timeUntilUp": 0,
+                "timeout": 16,
+                "send": "",
+                "receive": "",
+                "receiveDown": "",
+                "reverse": false,
+                "transparent": false
+            },
+            "mUdpNonDefaultMinInts": {
+                "class": "Monitor",
+                "label": "udp monitor non-default min ints",
+                "monitorType": "udp",
+                "targetAddress": "198.19.192.1",
+                "targetPort": 1,
+                "interval": 1,
+                "upInterval": 0,
+                "timeUntilUp": 0,
+                "timeout": 2,
+                "send": "send it here",
+                "receive": "receive it there",
+                "receiveDown": "mark it down"
+            },
+            "mUdpNonDefaultMaxInts": {
+                "class": "Monitor",
+                "label": "udp monitor non-default max ints",
+                "monitorType": "udp",
+                "targetAddress": "198.19.192.2",
+                "targetPort": 65535,
+                "interval": 899,
+                "upInterval": 3600,
+                "timeUntilUp": 1800,
+                "timeout": 900,
+                "send": "send it here",
+                "receive": "receive it there",
+                "receiveDown": "mark it down"
+            },
+            "mUdpIpv6": {
+                "class": "Monitor",
+                "label": "udp monitor ipv6 addr",
+                "monitorType": "udp",
+                "targetAddress": "fdf5:4153:3300::1",
+                "targetPort": 65535,
+                "send": "send via ipv6",
+                "receive": "receive back here",
+                "receiveDown": "mark it down"
+            },
+            "mUdpReverse": {
+                "class": "Monitor",
+                "label": "udp reverse monitor",
+                "monitorType": "udp",
+                "targetAddress": "198.19.192.3",
+                "targetPort": 443,
+                "send": "send it",
+                "receive": "mark it down",
+                "reverse": true
+            },
+            "mUdpMayAdapt": {
+                "class": "Monitor",
+                "label": "udp monitor may adapt off",
+                "monitorType": "udp",
+                "send": "abc def",
+                "receive": "rst xyz",
+                "adaptive": false
+            },
+            "mUdpMayAdaptDefaultRelative": {
+                "class": "Monitor",
+                "label": "udp monitor def adapt relative",
+                "monitorType": "udp",
+                "send": "abc def",
+                "receive": "rst xyz",
+                "adaptive": true,
+                "adaptiveDivergenceType": "relative",
+                "adaptiveLimitMilliseconds": 1000,
+                "adaptiveWindow": 180
+            },
+            "mUdpMayAdaptMinRelative": {
+                "class": "Monitor",
+                "label": "udp monitor min adapt relative",
+                "monitorType": "udp",
+                "send": "abc def",
+                "receive": "rst xyz",
+                "adaptive": true,
+                "adaptiveDivergenceType": "relative",
+                "adaptiveLimitMilliseconds": 1,
+                "adaptiveWindow": 60
+            },
+            "mUdpMayAdaptMaxRelative": {
+                "class": "Monitor",
+                "label": "udp monitor max adapt relative",
+                "monitorType": "udp",
+                "send": "abc def",
+                "receive": "rst xyz",
+                "adaptive": true,
+                "adaptiveDivergenceType": "relative",
+                "adaptiveLimitMilliseconds": 10000,
+                "adaptiveWindow": 1800
+            },
+            "mUdpMayAdaptDefaultAbs": {
+                "class": "Monitor",
+                "label": "udp monitor def adapt absolute",
+                "monitorType": "udp",
+                "send": "abc def",
+                "receive": "rst xyz",
+                "adaptive": true,
+                "adaptiveDivergenceType": "absolute",
+                "adaptiveDivergenceMilliseconds": 100,
+                "adaptiveLimitMilliseconds": 1000,
+                "adaptiveWindow": 180
+            },
+            "mUdpMayAdaptMinAbsolute": {
+                "class": "Monitor",
+                "label": "udp monitor min adapt absolute",
+                "monitorType": "udp",
+                "send": "abc def",
+                "receive": "rst xyz",
+                "adaptive": true,
+                "adaptiveDivergenceType": "absolute",
+                "adaptiveLimitMilliseconds": 1,
+                "adaptiveWindow": 60
+            },
+            "mUdpMayAdaptMaxAbsolute": {
+                "class": "Monitor",
+                "label": "udp monitor max adapt absolute",
+                "monitorType": "udp",
+                "send": "abc def",
+                "receive": "rst xyz",
+                "adaptive": true,
+                "adaptiveDivergenceType": "absolute",
+                "adaptiveLimitMilliseconds": 10000,
+                "adaptiveWindow": 1800
+            }
+        }
+    }
+}

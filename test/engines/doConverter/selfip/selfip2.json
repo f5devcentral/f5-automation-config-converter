@@ -1,0 +1,76 @@
+{
+    "schemaVersion": "1.0.0",
+    "class": "Device",
+    "async": true,
+    "Common": {
+        "class": "Tenant",
+        "SelfIp_10_30_0_51_IPv4": {
+            "class": "SelfIp",
+            "address": "10.30.0.51/16",
+            "vlan": "/Common/external",
+            "trafficGroup": "traffic-group-1",
+            "allowService": [
+                "tcp:443"
+            ]
+        },
+        "SelfIp_10_30_0_48_IPv4": {
+            "class": "SelfIp",
+            "address": "10.30.0.48/16",
+            "vlan": "/Common/external",
+            "trafficGroup": "traffic-group-local-only",
+            "allowService": "none"
+        },
+        "SelfIp_2002__7_IPv6": {
+            "class": "SelfIp",
+            "address": "2002::7/64",
+            "vlan": "/Common/external",
+            "trafficGroup": "traffic-group-local-only",
+            "allowService": [
+                "tcp:80",
+                "tcp:8080",
+                "udp:8088"
+            ]
+        },
+        "SelfIp_10_20_0_51_IPv4": {
+            "class": "SelfIp",
+            "address": "10.20.0.51/16",
+            "vlan": "/Common/internal",
+            "trafficGroup": "traffic-group-1",
+            "allowService": "default"
+        },
+        "SelfIp_10_20_0_48_IPv4": {
+            "class": "SelfIp",
+            "address": "10.20.0.48/16",
+            "vlan": "/Common/internal",
+            "trafficGroup": "traffic-group-local-only",
+            "allowService": "default"
+        },
+        "SelfIp_10_20_0_50_IPv4": {
+            "class": "SelfIp",
+            "address": "10.20.0.50/16",
+            "vlan": "/Common/internal",
+            "trafficGroup": "traffic-group-local-only",
+            "allowService": "all"
+        },
+        "external": {
+            "class": "VLAN",
+            "tag": 4093,
+            "interfaces": [
+                {
+                    "name": "1.2",
+                    "tagged": false
+                }
+            ]
+        },
+        "internal": {
+            "class": "VLAN",
+            "tag": 4094,
+            "interfaces": [
+                {
+                    "name": "1.1",
+                    "tagged": false
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,174 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.8.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "testapp1": {
+            "class": "Application",
+            "template": "l4",
+            "serviceMain": {
+                "class": "Service_L4",
+                "virtualPort": 456,
+                "virtualAddresses": [
+                    "198.19.192.130"
+                ],
+                "profileL4": {
+                    "bigip": "/Common/fastL4"
+                }
+            }
+        },
+        "testapp2": {
+            "class": "Application",
+            "template": "l4",
+            "serviceMain": {
+                "class": "Service_L4",
+                "layer4": "udp",
+                "virtualPort": 456,
+                "virtualAddresses": [
+                    "198.19.192.131"
+                ],
+                "profileL4": {
+                    "bigip": "/Common/fastL4"
+                }
+            }
+        },
+        "testapp3": {
+            "class": "Application",
+            "template": "l4",
+            "serviceMain": {
+                "class": "Service_L4",
+                "layer4": "any",
+                "virtualPort": 456,
+                "virtualAddresses": [
+                    "198.19.192.132"
+                ],
+                "profileL4": {
+                    "bigip": "/Common/fastL4"
+                }
+            }
+        },
+        "testapp4": {
+            "class": "Application",
+            "template": "l4",
+            "serviceMain": {
+                "class":"Service_L4",
+                "layer4": "gre",
+                "virtualPort": 456,
+                "virtualAddresses": [
+                    "198.19.192.133"
+                ],
+                "profileL4": {
+                    "bigip": "/Common/fastL4"
+                }
+            }
+        },
+        "testapp5": {
+            "class": "Application",
+            "template": "l4",
+            "serviceMain": {
+                "class": "Service_L4",
+                "virtualPort": 456,
+                "virtualAddresses": [
+                    "198.19.192.134"
+                ],
+                "profileL4": {
+                    "bigip": "/Common/apm-forwarding-fastL4"
+                }
+            }
+        },
+        "testapp6": {
+            "class": "Application",
+            "template": "l4",
+            "serviceMain": {
+                "class": "Service_L4",
+                "virtualPort": 456,
+                "virtualAddresses": [
+                    "198.19.192.135"
+                ],
+                "profileL4": {
+                    "use": "/AS3_Tenant/testapp6/L4_Profile"
+                }
+            },
+            "L4_Profile": {
+                "class": "L4_Profile",
+                "clientTimeout": 12,
+                "idleTimeout": 34,
+                "maxSegmentSize": 1226,
+                "tcpCloseTimeout": 56,
+                "tcpHandshakeTimeout": 78
+            }
+        },
+        "testapp7": {
+            "class": "Application",
+            "template": "l4",
+            "serviceMain": {
+                "class": "Service_L4",
+                "virtualPort": 0,
+                "virtualAddresses": [
+                    "0.0.0.0/0"
+                ],
+                "profileL4": {
+                    "use": "/AS3_Tenant/testapp7/L4_Profile"
+                },
+                "translateServerAddress": false,
+                "translateServerPort": false
+            },
+            "L4_Profile": {
+                "class":"L4_Profile",
+                "looseClose": true,
+                "looseInitialization": true,
+                "resetOnTimeout": false
+            }
+        },
+        "testapp8": {
+            "class": "Application",
+            "template": "l4",
+            "serviceMain": {
+                "class": "Service_L4",
+                "virtualPort": 456,
+                "virtualAddresses": [
+                    "198.19.192.136"
+                ],
+                "profileL4": {
+                    "bigip": "/Common/fastL4"
+                },
+                "profileFIX": {
+                    "bigip": "/Common/fix"
+                }
+            }
+        },
+        "testapp9": {
+            "class": "Application",
+            "template": "l4",
+            "serviceMain": {
+                "class": "Service_L4",
+                "virtualPort": 456,
+                "virtualAddresses": [
+                    "198.19.192.137"
+                ],
+                "profileL4": {
+                    "bigip": "/Common/fastL4"
+                },
+                "profileFIX": {
+                    "use": "/AS3_Tenant/testapp9/profileFIXCustom"
+                }
+            },
+            "profileFIXCustom": {
+                "class": "FIX_Profile",
+                "label": "test fix profile",
+                "parentProfile": {
+                    "bigip": "/Common/fix"
+                },
+                "errorAction": "dont-forward",
+                "fullLogonParsingEnabled": true,
+                "quickParsingEnabled": false,
+                "responseParsingEnabled": false,
+                "statisticsSampleInterval": 30
+            }
+        }
+    }
+}

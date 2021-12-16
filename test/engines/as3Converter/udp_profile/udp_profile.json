@@ -1,0 +1,30 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.8.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "profileUdp": {
+                "class": "UDP_Profile",
+                "allowNoPayload": false,
+                "bufferMaxBytes": 655350,
+                "bufferMaxPackets": 0,
+                "idleTimeout": 60,
+                "ipDfMode": "pmtu",
+                "ipTosToClient": 0,
+                "linkQosToClient": 0,
+                "ttlMode": "proxy",
+                "ttlIPv4": 255,
+                "ttlIPv6": 64,
+                "proxyMSS": false,
+                "useChecksum": false
+            }
+        }
+    }
+}

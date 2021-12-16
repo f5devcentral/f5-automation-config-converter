@@ -1,0 +1,11 @@
+{
+    "security bot-defense profile /Common/bot_with_css": {
+        "api-access-strict-mitigation": "disabled",
+        "app-service": "none",
+        "blocking-page": {
+            "body": "\"<!DOCTYPE html>\n<style type=\\\"text/css\\\">\n#body {\nbackground: #fff;\n}\n</style>\n</html>\"",
+            "status-code": "200",
+            "type": "custom"
+        }
+    }
+}

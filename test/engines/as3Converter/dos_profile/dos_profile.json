@@ -1,0 +1,105 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.8.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "testItem": {
+                "class": "DOS_Profile",
+                "application": {
+                    "remoteTriggeredBlackHoleDuration": 10,
+                    "scrubbingDuration": 42,
+                    "singlePageApplicationEnabled": true,
+                    "botDefense": {
+                        "mode": "during-attacks",
+                        "gracePeriod": 4000,
+                        "crossDomainRequests": "validate-bulk",
+                        "siteDomains": [
+                            "www.google.com"
+                        ],
+                        "externalDomains": [
+                            "www.yahoo.com"
+                        ],
+                        "urlAllowlist": [
+                            "www.bing.com"
+                        ]
+                    },
+                    "botSignatures": {
+                        "checkingEnabled": true,
+                        "blockedCategories": [
+                            {
+                                "bigip": "/Common/DOS Tool"
+                            },
+                            {
+                                "bigip": "/Common/Search Engine"
+                            }
+                        ],
+                        "reportedCategories": [
+                            {
+                                "bigip": "/Common/Exploit Tool"
+                            },
+                            {
+                                "bigip": "/Common/Crawler"
+                            }
+                        ],
+                        "disabledSignatures": [
+                            {
+                                "bigip": "/Common/Yandex"
+                            }
+                        ]
+                    },
+                    "captchaResponse": {
+                        "failure": "You have entered an invalid answer for the question. Please, try again.\n<br>\n%DOSL7.captcha.image% %DOSL7.captcha.change%\n<br>\n<b>What code is in the image\\?</b>\n%DOSL7.captcha.solution%\n<br>\n%DOSL7.captcha.submit%\n<br>\n<br>\nYour support ID is: %DOSL7.captcha.support_id%.",
+                        "first": "This question is for testing whether you are a human visitor and to prevent automated spam submission.\n<br>\n%DOSL7.captcha.image% %DOSL7.captcha.change%\n<br>\n<b>What code is in the image\\?</b>\n%DOSL7.captcha.solution%\n<br>\n%DOSL7.captcha.submit%\n<br>\n<br>\nYour support ID is: %DOSL7.captcha.support_id%."
+                    },
+                    "mobileDefense": {
+                        "enabled": true,
+                        "allowAndroidPublishers": [
+                            {
+                                "bigip": "/Common/ca-bundle.crt"
+                            },
+                            {
+                                "bigip": "/Common/default.crt"
+                            }
+                        ],
+                        "allowAndroidRootedDevice": true,
+                        "allowIosPackageNames": [
+                            "theName"
+                        ],
+                        "allowJailbrokenDevices": true,
+                        "allowEmulators": true,
+                        "clientSideChallengeMode": "challenge"
+                    },
+                    "rateBasedDetection":{
+                        "operationMode": "off",
+                        "site": {
+                            "minimumAutoTps": 5
+                        },
+                        "thresholdsMode": "manual",
+                        "url": {
+                            "minimumAutoTps": 5
+                        }
+                    },
+                    "stressBasedDetection":{
+                        "badActor": {
+                            "mitigationMode": "none"
+                        },
+                        "site": {
+                            "minimumAutoTps": 5
+                        },
+                        "thresholdsMode": "manual",
+                        "url": {
+                            "minimumAutoTps": 5
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,129 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.8.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "pCookie": {
+                "class": "Persist",
+                "label": "simple cookie persist",
+                "persistenceMethod": "cookie"
+            },
+            "pPersistCookieInsertDefault": {
+                "class": "Persist",
+                "label": "insert cookie persist defaults",
+                "persistenceMethod": "cookie",
+                "matchAcrossPools": false,
+                "matchAcrossVirtualPorts": false,
+                "matchAcrossVirtualAddresses": false,
+                "mirror": false,
+                "overrideConnectionLimit": false,
+                "duration": 0,
+                "cookieMethod": "insert",
+                "cookieName": "",
+                "ttl": 0,
+                "httpOnly": true,
+                "secure": true,
+                "alwaysSet": false,
+                "encrypt": false
+            },
+            "pPersistCookieInsertNonDefault": {
+                "class": "Persist",
+                "label": "insert cookie persist non-defaults",
+                "persistenceMethod": "cookie",
+                "matchAcrossPools": true,
+                "matchAcrossVirtualPorts": true,
+                "matchAcrossVirtualAddresses": true,
+                "mirror": false,
+                "overrideConnectionLimit": true,
+                "duration": 604800,
+                "cookieMethod": "insert",
+                "cookieName": "ChocolateChip",
+                "ttl": 604799,
+                "httpOnly": false,
+                "secure": false,
+                "alwaysSet": true,
+                "encrypt": true,
+                "passphrase": {
+                    "ciphertext": "ZjU=",
+                    "protected": "eyJhbGciOiJkaXIiLCJlbmMiOiJub25lIn0=",
+                    "ignoreChanges": true
+                }
+            },
+            "pPersistCookieHashDefault": {
+                "class": "Persist",
+                "label": "hash cookie persist defaults",
+                "persistenceMethod": "cookie",
+                "cookieMethod": "hash",
+                "cookieName": "FigNewton",
+                "startAt": 0,
+                "hashCount": 0,
+                "matchAcrossPools": false,
+                "matchAcrossVirtualPorts": false,
+                "matchAcrossVirtualAddresses": false,
+                "mirror": false,
+                "overrideConnectionLimit": false,
+                "duration": 0
+            },
+            "pPersistCookieHashNonDefault": {
+                "class": "Persist",
+                "label": "hash cookie persist non-defaults",
+                "persistenceMethod": "cookie",
+                "cookieMethod": "hash",
+                "cookieName": "PeanutButter",
+                "startAt": 4096,
+                "hashCount": 4096,
+                "matchAcrossPools": true,
+                "matchAcrossVirtualPorts": true,
+                "matchAcrossVirtualAddresses": true,
+                "mirror": true,
+                "overrideConnectionLimit": true,
+                "duration": 604800
+            },
+            "pPersistCookiePassive": {
+                "class": "Persist",
+                "label": "simple passive cookie persist",
+                "persistenceMethod": "cookie",
+                "cookieMethod": "passive",
+                "cookieName": "Coconut"
+            },
+            "pPersistCookiePassiveNonDefault": {
+                "class": "Persist",
+                "label": "cookie passive non default",
+                "persistenceMethod": "cookie",
+                "cookieMethod": "passive",
+                "cookieName": "DoubleCoconut",
+                "matchAcrossPools": true,
+                "matchAcrossVirtualPorts": true,
+                "matchAcrossVirtualAddresses": true,
+                "overrideConnectionLimit": true,
+                "duration": 604800
+            },
+            "pPersistCookieRewrite": {
+                "class": "Persist",
+                "label": "simple rewrite cookie persist",
+                "persistenceMethod": "cookie",
+                "cookieMethod": "rewrite",
+                "cookieName": ""
+            },
+            "pPersistCookieRewriteNonDefault": {
+                "class": "Persist",
+                "label": "cookie rewrite non default",
+                "persistenceMethod": "cookie",
+                "cookieMethod": "rewrite",
+                "cookieName": "NutDelight",
+                "matchAcrossPools": true,
+                "matchAcrossVirtualPorts": true,
+                "matchAcrossVirtualAddresses": true,
+                "overrideConnectionLimit": true,
+                "duration": 604800
+            }
+        }
+    }
+}

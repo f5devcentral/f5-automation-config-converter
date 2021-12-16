@@ -1,0 +1,14 @@
+{
+    "schemaVersion": "1.0.0",
+    "class": "Device",
+    "async": true,
+    "Common": {
+        "class": "Tenant",
+        "DNS": {
+            "class": "DNS",
+            "nameServers": [
+                "8.8.8.8"
+            ]
+        }
+    }
+}

@@ -1,0 +1,13 @@
+.dockerignore
+.f5-acc
+.gitlab-ci.yml
+.nyc_output
+.vscode
+
+contributing
+docs
+scripts
+test
+
+Dockerfile
+*.ucs

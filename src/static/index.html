@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Automation Config Converter</title>
+        <meta name="description" content="Automation Config Converter">
+    </head>
+
+    <body>
+        <h1>Automation Config Converter</h1>
+
+        <form action="/converter" enctype="multipart/form-data" method="post">
+            <div>
+                <label for="controls">Controls:</label>
+                <input type="checkbox" name="controls" id="controls" value="true" />
+            </div>
+
+            <div>
+                <label for="disableAnalytics">Disable Analytics:</label>
+                <input type="checkbox" name="disableAnalytics" id="disableAnalytics" value="true" />
+            </div>
+
+            <div>
+                <label for="safeMode">Safe Mode:</label>
+                <input type="checkbox" name="safeMode" id="safeMode" value="false" />
+            </div>
+
+            <div>
+                <label for="verbose">Verbose Mode:</label>
+                <input type="checkbox" name="verbose" id="verbose" value="true"/>
+            </div>
+
+            <div>
+                <label for="showExtended">Show Extended:</label>
+                <input type="checkbox" name="showExtended" id="showExtended" value="true"/>
+            </div>
+
+            <div>
+                <label for="vsName">VS Name:</label>
+                <input type="text" name="vsName" id="vsName" />
+            </div>
+
+            <div>
+                <label for="applicationTarget">Application Target:</label>
+                <input type="text" name="applicationTarget" id="applicationTarget" />
+            </div>
+
+            <div>
+                <label for="tenantTarget">Tenant Target:</label>
+                <input type="text" name="tenantTarget" id="tenantTarget" />
+            </div>
+
+            <div>
+                <label for="conf">SCF or Config file:</label>
+                <input type="file" name="conf" accept=".scf,.conf" id="conf" />
+            </div>
+
+            <div>
+                <label for="ucs">UCS file:</label>
+                <input type="file" name="ucs" accept=".ucs" id="ucs" />
+            </div>
+
+            <input type="submit" value="Upload" />
+            <input type="reset" value="Clear" />
+        </form>
+    </body>
+
+</html>

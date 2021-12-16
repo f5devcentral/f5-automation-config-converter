@@ -1,0 +1,132 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.8.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "label": "simplest declaration",
+            "template": "generic",
+            "mIcmpSimple": {
+                "class": "Monitor",
+                "monitorType": "icmp",
+                "targetAddress": "198.19.192.11"
+            },
+            "mIcmpSimpleIPv6": {
+                "class": "Monitor",
+                "label": "simplest ipv6 declaration",
+                "monitorType": "icmp",
+                "targetAddress": "fdf5:4153:3300::6"
+            },
+            "mIcmpDefault": {
+                "class": "Monitor",
+                "label": "mostly default values",
+                "monitorType": "icmp",
+                "targetAddress": "198.19.192.12",
+                "interval": 5,
+                "upInterval": 0,
+                "timeUntilUp": 0,
+                "timeout": 16,
+                "transparent": false
+            },
+            "mIcmpNonDefault": {
+                "class": "Monitor",
+                "label": "non-default values",
+                "monitorType": "icmp",
+                "targetAddress": "198.19.192.13",
+                "interval": 10,
+                "upInterval": 11,
+                "timeUntilUp": 12,
+                "timeout": 31,
+                "transparent": true
+            },
+            "mIcmpNonDefaultMinInts": {
+                "class": "Monitor",
+                "label": "min integer values",
+                "monitorType": "icmp",
+                "targetAddress": "198.19.192.14",
+                "interval": 1,
+                "upInterval": 0,
+                "timeUntilUp": 0,
+                "timeout": 2,
+                "transparent": false
+            },
+            "mIcmpNonDefaultMaxInts": {
+                "class": "Monitor",
+                "label": "max integer values",
+                "monitorType": "icmp",
+                "targetAddress": "fdf5:4153:3300::7",
+                "interval": 899,
+                "upInterval": 3600,
+                "timeUntilUp": 1800,
+                "timeout": 900,
+                "transparent": true
+            },
+            "mIcmpMayAdapt": {
+                "class": "Monitor",
+                "label": "may adapt disabled",
+                "monitorType": "icmp",
+                "adaptive": false
+            },
+            "mIcmpMayAdaptDefaultRelative": {
+                "class": "Monitor",
+                "label": "adapt relative",
+                "monitorType": "icmp",
+                "adaptive": true,
+                "adaptiveDivergenceType": "relative",
+                "adaptiveLimitMilliseconds": 1000,
+                "adaptiveWindow": 180
+            },
+            "mIcmpMayAdaptMinRelative": {
+                "class": "Monitor",
+                "label": "adapt relative min integers",
+                "monitorType": "icmp",
+                "adaptive": true,
+                "adaptiveDivergenceType": "relative",
+                "adaptiveLimitMilliseconds": 1,
+                "adaptiveWindow": 60
+            },
+            "mIcmpMayAdaptMaxRelative": {
+                "class": "Monitor",
+                "label": "adapt relative max integers",
+                "monitorType": "icmp",
+                "adaptive": true,
+                "adaptiveDivergenceType": "relative",
+                "adaptiveLimitMilliseconds": 10000,
+                "adaptiveWindow": 1800
+            },
+            "mIcmpMayAdaptDefaultAbs": {
+                "class": "Monitor",
+                "label": "adapt absolute",
+                "monitorType": "icmp",
+                "adaptive": true,
+                "adaptiveDivergenceType": "absolute",
+                "adaptiveDivergenceMilliseconds": 100,
+                "adaptiveLimitMilliseconds": 1000,
+                "adaptiveWindow": 180
+            },
+            "mIcmpMayAdaptMinAbsolute": {
+                "class": "Monitor",
+                "label": "adapt absolute min integers",
+                "monitorType": "icmp",
+                "adaptive": true,
+                "adaptiveDivergenceType": "absolute",
+                "adaptiveLimitMilliseconds": 1,
+                "adaptiveWindow": 60
+            },
+            "mIcmpMayAdaptMaxAbsolute": {
+                "class": "Monitor",
+                "label": "adapt absolute max integers",
+                "monitorType": "icmp",
+                "adaptive": true,
+                "adaptiveDivergenceType": "absolute",
+                "adaptiveLimitMilliseconds": 10000,
+                "adaptiveWindow": 1800
+            }
+        }
+    }
+}

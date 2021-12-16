@@ -1,0 +1,28 @@
+{
+    "schemaVersion": "1.0.0",
+    "class": "Device",
+    "async": true,
+    "Common": {
+        "class": "Tenant",
+        "admin": {
+            "class": "User",
+            "userType": "regular",
+            "shell": "bash",
+            "partitionAccess": {
+                "all-partitions": {
+                    "role": "admin"
+                }
+            }
+        },
+        "avgJoe": {
+            "class": "User",
+            "userType": "regular",
+            "shell": "none",
+            "partitionAccess": {
+                "all-partitions": {
+                    "role": "guest"
+                }
+            }
+        }
+    }
+}

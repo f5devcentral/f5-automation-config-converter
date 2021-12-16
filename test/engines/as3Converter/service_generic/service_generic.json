@@ -1,0 +1,45 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.9.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "serviceMain": {
+                "class": "Service_Generic",
+                "virtualAddresses": [
+                    "198.19.192.19",
+                    "198.19.192.20",
+                    "198.19.192.21"
+                ],
+                "virtualPort": 80,
+                "pool": "poolRoundRobin"
+            },
+            "poolRoundRobin": {
+                "class": "Pool",
+                "monitors": [
+                    {
+                        "bigip": "/Common/http"
+                    }
+                ],
+                "members": [
+                    {
+                        "addressDiscovery": "static",
+                        "servicePort": 80,
+                        "serverAddresses": [
+                            "198.19.192.58",
+                            "198.19.192.59",
+                            "198.19.192.60"
+                        ],
+                        "shareNodes": true
+                    }
+                ]
+            }
+        }
+    }
+}

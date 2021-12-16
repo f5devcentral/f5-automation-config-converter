@@ -1,0 +1,43 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.8.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "testItem": {
+                "class": "Log_Destination",
+                "remark": "description",
+                "type": "remote-syslog",
+                "format": "rfc5424",
+                "defaultFacility": "local1",
+                "defaultSeverity": "alert",
+                "remoteHighSpeedLog": {
+                    "use": "/AS3_Tenant/AS3_Application/highSpeedLog2"
+                }
+            },
+            "highSpeedLog1": {
+                "class": "Log_Destination",
+                "type": "remote-high-speed-log",
+                "pool": {
+                    "use": "/AS3_Tenant/AS3_Application/thePool"
+                }
+            },
+            "highSpeedLog2": {
+                "class": "Log_Destination",
+                "type": "remote-high-speed-log",
+                "pool": {
+                    "use": "/AS3_Tenant/AS3_Application/thePool"
+                }
+            },
+            "thePool": {
+                "class": "Pool"
+            }
+        }
+    }
+}

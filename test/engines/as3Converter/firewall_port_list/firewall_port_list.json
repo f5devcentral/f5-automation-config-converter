@@ -1,0 +1,41 @@
+{
+    "class": "ADC",
+    "schemaVersion": "3.8.0",
+    "id": "Firewall",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "testItemFwPorts": {
+                "class": "Firewall_Port_List",
+                "remark": "This is a port list",
+                "ports": [
+                    80,
+                    90,
+                    "8080-8090"
+                ],
+                "portLists": [
+                    {
+                        "use": "/AS3_Tenant/AS3_Application/portListChild"
+                    },
+                    {
+                        "use": "/AS3_Tenant/AS3_Application/portListChild2"
+                    }
+                ]
+            },
+            "portListChild": {
+                "class": "Firewall_Port_List",
+                "ports": [
+                    8100
+                ]
+            },
+            "portListChild2": {
+                "class": "Firewall_Port_List",
+                "ports": [
+                    8150
+                ]
+            }
+        }
+    }
+}

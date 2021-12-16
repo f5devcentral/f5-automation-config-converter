@@ -1,0 +1,29 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.22.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "testItem": {
+                "class": "Persist",
+                "persistenceMethod": "hash",
+                "startPattern": "/Chapter (\\d+)\\.\\d*/",
+                "endPattern": "(^|[ \\t])([-+]?(\\d+|\\.\\d+|\\d+\\.\\d*))($|[^+-.])",
+                "bufferLimit": 40000,
+                "iRule": "/AS3_Tenant/AS3_Application/theRule"
+            },
+            "theRule": {
+                "class": "iRule",
+                "iRule": {
+                    "base64": "d2hlbiBIVFRQX1JFUVVFU1QgewogIHBlcnNpc3QgaGFzaCBbSFRUUDo6aGVhZGVyIG15aGVhZGVyXQp9"
+                }
+            }
+        }
+    }
+}

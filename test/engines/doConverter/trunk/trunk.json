@@ -1,0 +1,13 @@
+{
+    "class": "Device",
+    "schemaVersion": "1.0.0",
+    "async": true,
+    "Common": {
+        "class": "Tenant",
+        "testTrunk": {
+            "class": "Trunk",
+            "interfaces": ["1.1"],
+            "linkSelectPolicy": "maximum-bandwidth"
+        }
+    }
+}

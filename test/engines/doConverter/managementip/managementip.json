@@ -1,0 +1,13 @@
+{
+    "schemaVersion": "1.0.0",
+    "class": "Device",
+    "async": true,
+    "Common": {
+        "class": "Tenant",
+        "ManagementIp_IPv4": {
+            "class": "ManagementIp",
+            "address": "10.144.110.50/22",
+            "remark": "configured-by-dhcp"
+        }
+    }
+}

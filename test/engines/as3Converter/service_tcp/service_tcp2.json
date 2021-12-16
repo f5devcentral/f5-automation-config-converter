@@ -1,0 +1,34 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.8.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "tcp",
+            "serviceMain": {
+                "class": "Service_TCP",
+                "virtualPort": 2,
+                "virtualAddresses": [
+                    "1.1.1.1"
+                ],
+                "profileTCP": {
+                    "use": "/AS3_Tenant/AS3_Application/tcp"
+                },
+                "profileFIX": {
+                    "use": "/AS3_Tenant/AS3_Application/fix"
+                }
+            },
+            "tcp": {
+                "class": "TCP_Profile"
+            },
+            "fix": {
+                "class": "FIX_Profile"
+            }
+        }
+    }
+}

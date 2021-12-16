@@ -1,0 +1,14 @@
+{
+    "schemaVersion": "1.0.0",
+    "class": "Device",
+    "async": true,
+    "Common": {
+        "class": "Tenant",
+        "DagGlobals": {
+            "class": "DagGlobals",
+            "icmpHash": "ipicmp",
+            "ipv6PrefixLength": 101,
+            "roundRobinMode": "local"
+        }
+    }
+}

@@ -1,0 +1,19 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.30.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "testItem": {
+                "class": "L4_Profile",
+                "idleTimeout": 28800,
+                "keepAliveInterval": 0
+            }
+        }
+    }
+}

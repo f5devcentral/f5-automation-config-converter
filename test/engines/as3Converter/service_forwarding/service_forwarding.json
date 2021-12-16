@@ -1,0 +1,27 @@
+{
+    "class": "ADC",
+    "schemaVersion": "3.18.0",
+    "id": "TEST_Service_Forwarding",
+    "remark": "Demo Forwarding Virtual Server",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "myService": {
+                "class": "Service_Forwarding",
+                "remark": "Example Forwarding Virtual Server",
+                "virtualAddresses": [
+                    [
+                        "192.0.1.11",
+                        "1.2.3.4/32"
+                    ]
+                ],
+                "virtualPort": 0,
+                "forwardingType": "ip",
+                "layer4": "tcp",
+                "profileL4": { "bigip": "/Common/fastL4" }
+            }
+        }
+    }
+}

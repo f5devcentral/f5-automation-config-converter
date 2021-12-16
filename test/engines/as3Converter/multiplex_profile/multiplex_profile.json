@@ -1,0 +1,34 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.8.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "testItem2": {
+                "class": "Multiplex_Profile",
+                "sharePools": true
+            },
+            "testItem3": {
+                "class": "Multiplex_Profile",
+                "connectionLimitEnforcement": "idle"
+            },
+            "testItem4": {
+                "class": "Multiplex_Profile",
+                "idleTimeoutOverride": 500,
+                "maxConnections": 4294967295,
+                "maxConnectionAge": 4294967295,
+                "maxConnectionReuse": 4294967295
+            },
+            "testItem5": {
+                "class": "Multiplex_Profile",
+                "sourceMask": "255.255.255.0"
+            }
+        }
+    }
+}

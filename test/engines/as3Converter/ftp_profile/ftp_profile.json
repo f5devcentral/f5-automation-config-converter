@@ -1,0 +1,26 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.8.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "testItem": {
+                "class": "FTP_Profile",
+                "remark": "description",
+                "port": 300,
+                "ftpsMode": "require",
+                "enforceTlsSessionReuseEnabled": true,
+                "activeModeEnabled": false,
+                "securityEnabled": true,
+                "translateExtendedEnabled": false,
+                "inheritParentProfileEnabled": true
+            }
+        }
+    }
+}

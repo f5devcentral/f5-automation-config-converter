@@ -1,0 +1,14 @@
+{
+    "schemaVersion": "1.0.0",
+    "class": "Device",
+    "async": true,
+    "Common": {
+        "class": "Tenant",
+        "System": {
+            "class": "System",
+            "hostname": "test.acc",
+            "autoCheck": true,
+            "autoPhonehome": false
+        }
+    }
+}

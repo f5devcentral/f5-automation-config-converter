@@ -1,0 +1,215 @@
+image: $ATG_IMG_REGISTRY_URL/node:lts
+
+stages:
+  - update
+  - atg-shared-checks
+  - test
+  - docs
+  - build
+  - publish
+  - container-scan
+
+variables:
+  SEC_ALLOW_FAILURE: "true"
+  SEC_NO_GIT_HISTORY: "true"
+  # Trivy container scanning prior to Gitlab v14
+  CS_MAJOR_VERSION: "4"
+
+include:
+  - project: automation-toolchain/atg-shared-templates
+    file: security/base.gitlab-ci.yml
+    ref: v1.0.6
+  - template: Code-Quality.gitlab-ci.yml
+  - template: Container-Scanning.gitlab-ci.yml
+  - template: Dependency-Scanning.gitlab-ci.yml
+  - template: License-Scanning.gitlab-ci.yml
+
+# UPDATE #
+# only pipelines on 'develop' should check for new changes
+update_autotool_deps:
+  stage: update
+  only: [develop]
+  needs: []
+  variables:
+    UPDATE_BRANCH_NAME: update_autotool_deps
+  script:
+    - . ./scripts/dev/update-acc-deps.sh
+    - . ./scripts/dev/update-from-as3.sh
+    - . ./scripts/dev/update-from-do.sh
+    - >
+      if [ "$AUTOTOOL_DIFF" = "true" ]; then
+        git push -f origin ${UPDATE_BRANCH_NAME}
+        node ./scripts/dev/createMR.js
+      fi
+  tags: [cm-official-docker-executor]
+
+# TEST #
+audit:
+  stage: test
+  needs: []
+  allow_failure: true
+  script:
+    - npm audit --production
+  tags: [cm-official-docker-executor]
+
+lint:
+  stage: test
+  needs: []
+  allow_failure: true
+  script:
+    - npm ci
+    - npm run lint
+  tags: [cm-official-docker-executor]
+
+coverage:
+  stage: test
+  needs: []
+  script:
+    - npm ci
+    - npm run coverage
+  artifacts:
+    when: always
+    paths: [coverage/]
+  tags: [cm-official-docker-executor]
+
+check_copyrights:
+  stage: test
+  needs: []
+  allow_failure: true
+  script:
+    - npm run copyright
+  tags: [cm-official-docker-executor]
+
+unit_test:
+  stage: test
+  needs: []
+  script:
+    - npm ci
+    - npm run test -- --reporter xunit --reporter-option output=unit_test.xml
+  artifacts:
+    when: always
+    reports:
+      junit: [unit_test.xml]
+  tags: [cm-official-docker-executor]
+
+# Coverage reports
+pages:
+  stage: docs
+  only: [develop]
+  needs: [coverage]
+  tags: [cm-official-docker-executor]
+  variables:
+    COVERAGE_DOCS: public/coverage-docs
+  script:
+    - mkdir -p ${COVERAGE_DOCS}
+    - cp -R coverage/* ${COVERAGE_DOCS}
+  artifacts:
+    paths: [public]
+
+# BUILD #
+build_docs:
+  image: $CONTAINTHEDOCS_IMAGE
+  stage: build
+  needs: []
+  script:
+    - cd docs
+    - pip3 install -r requirements.txt
+    - if [ "$CI_COMMIT_REF_NAME" = "docs-staging" ] || [ "$CI_COMMIT_REF_NAME" = "docs-latest" ]; then
+    -   rm -r _templates
+    - fi
+    - npm ci
+    - make html
+    - make test
+  artifacts:
+    expire_in: 1 week
+    name: sphinx-docs_$CI_BUILD_REF
+    paths: [docs/_build/html]
+  tags: [cm-official-docker-executor]
+
+build_image:
+  image: $ATG_IMG_REGISTRY_URL/docker:20
+  stage: build
+  needs: []
+  script:
+    - source scripts/build/image-build.sh
+  artifacts:
+    name: $CI_PROJECT_NAME-$CI_BUILD_REF
+    paths: [dist/]
+  tags: [cm-official-docker-executor]
+
+pack_code:
+  stage: build
+  needs: []
+  script:
+    - source scripts/build/pack-code.sh
+  artifacts:
+    name: $CI_PROJECT_NAME-$CI_BUILD_REF
+    paths: [dist/]
+  tags: [cm-official-docker-executor]
+
+# PUBLISH #
+publish_image:
+  retry: 2
+  image: $ATG_IMG_REGISTRY_URL/docker:20
+  stage: publish
+  needs: [build_image, pack_code]
+  script:
+    - apk --no-cache add curl
+    - source scripts/publish/image-publish.sh
+  tags: [cm-official-docker-executor]
+
+publish_docs:
+  image: $CONTAINTHEDOCS_IMAGE
+  stage: publish
+  needs: [build_docs]
+  only: [main]
+  environment:
+    name: production
+    url: https://clouddocs.f5.com/products/extensions/f5-automation-config-converter/latest/
+  script:
+    - aws s3 sync docs/_build/html s3://clouddocs.f5.com/products/extensions/f5-automation-config-converter/latest
+    # create invalidation to clear cloudfront cache
+    - aws cloudfront create-invalidation --distribution-id $AWS_DIST --paths /products/extensions/f5-automation-config-converter/latest
+  tags: [cm-official-docker-executor]
+
+
+###   !!! DO NOT RENAME ANY OF THE FOLLOWING PIPELINE TASKS !!!   ###
+# They are directly overriding config for Gitlab-published pipeline templates.
+# https://gitlab.com/gitlab-org/gitlab/-/tree/master/lib/gitlab/ci/templates/
+
+nodejs-scan-sast:
+  needs: []
+  tags: [cm-official-docker-executor]
+  rules:
+    - when: always
+
+dependency_scanning:
+  stage: atg-shared-checks
+  needs: []
+  tags: [cm-official-docker-executor]
+
+license_scanning:
+  stage: atg-shared-checks
+  needs: []
+  tags: [cm-official-docker-executor]
+
+# https://gitlab.com/gitlab-org/gitlab/-/blob/v13.12.8-ee/lib/gitlab/ci/templates/Jobs/Code-Quality.gitlab-ci.yml
+# This check requires a custom gitlab-runner for Docker-in-Docker
+# and setting a deep variable to bypass Dockerhub rate limits
+code_quality:
+  stage: atg-shared-checks
+  tags: [automation-toolchain-docker-executor]
+  variables:
+    CODECLIMATE_PREFIX: $ATG_IMG_REGISTRY_URL/
+
+# https://docs.gitlab.com/ee/user/application_security/container_scanning/
+# This scan needs to run after the docker image has been published to Artifactory.
+container_scanning_new:
+  stage: container-scan
+  needs: [publish_image]
+  tags: [cm-official-docker-executor]
+  variables:
+    DOCKER_IMAGE: $ATG_ARTIFACTORY_BASE_URL/$ATG_ARTIFACTORY_DOCKER_REPO/$CI_PROJECT_NAME:$CI_COMMIT_REF_NAME
+    DOCKER_USER: $ATG_ARTIFACTORY_DOCKER_USER
+    DOCKER_PASSWORD: $ATG_ARTIFACTORY_DOCKER_TOKEN
+    GIT_STRATEGY: fetch

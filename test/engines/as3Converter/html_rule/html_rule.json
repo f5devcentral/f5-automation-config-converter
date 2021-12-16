@@ -1,0 +1,77 @@
+{
+    "class": "ADC",
+    "schemaVersion": "3.31.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "testHtmlRuleCommentRaiseEvent": {
+                "remark": "my_remark_1",
+                "class": "HTML_Rule",
+                "ruleType": "comment-raise-event"
+            },
+            "testHtmlRuleCommentRemove": {
+                "remark": "my_remark_2",
+                "class": "HTML_Rule",
+                "ruleType": "comment-remove"
+            },
+            "testHtmlRuleTagAppendHtml": {
+                "remark": "my_remark_3",
+                "class": "HTML_Rule",
+                "ruleType": "tag-append-html",
+                "match": {
+                    "tagName": "/title",
+                    "attributeName": "apple",
+                    "attributeValue": "pie"
+                },
+                "content": "<script type=\\\"text/javascript\\\" src=\\\"ShapeProvidedJSPath\\?cache\\\"></script> <script type=\\\"text/javascript\\\" src=\\\"/ShapeProvidedJSPath\\?async\\\" async></script>"
+            },
+            "testHtmlRuleTagPrependHtml": {
+                "remark": "my_remark_4",
+                "class": "HTML_Rule",
+                "ruleType": "tag-prepend-html",
+                "match": {
+                    "tagName": "/title",
+                    "attributeName": "cherry",
+                    "attributeValue": "cobbler"
+                },
+                "content": "<script type=\\\"text/javascript\\\" src=\\\"ShapeProvidedJSPath\\?cache\\\"></script> <script type=\\\"text/javascript\\\" src=\\\"/ShapeProvidedJSPath\\?async\\\" async></script>"
+            },
+            "testHtmlRuleTagRaiseEvent": {
+                "remark": "my_remark_5",
+                "class": "HTML_Rule",
+                "ruleType": "tag-raise-event",
+                "match": {
+                    "tagName": "/title",
+                    "attributeName": "sugar",
+                    "attributeValue": "cookie"
+                }
+            },
+            "testHtmlRuleTagRemove": {
+                "remark": "my_remark_6",
+                "class": "HTML_Rule",
+                "ruleType": "tag-remove",
+                "match": {
+                    "tagName": "/title",
+                    "attributeName": "banana",
+                    "attributeValue": "pudding"
+                }
+            },
+            "testHtmlRuleTagRemoveAttribute": {
+                "remark": "my_remark_7",
+                "class": "HTML_Rule",
+                "ruleType": "tag-remove-attribute",
+                "match": {
+                    "tagName": "/title",
+                    "attributeName": "chocolate",
+                    "attributeValue": "cake"
+                },
+                "attributeName": "coolWhip"
+            }
+        }
+    }
+}

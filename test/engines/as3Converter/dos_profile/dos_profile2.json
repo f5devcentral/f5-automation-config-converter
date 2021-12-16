@@ -1,0 +1,170 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.8.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "testItem": {
+                "class": "DOS_Profile",
+                "application": {
+                    "denylistedGeolocations": [
+                        "Cocos (Keeling) Islands",
+                        "Timor-Leste"
+                    ],
+                    "allowlistedGeolocations": [
+                        "Bonaire, Saint Eustatius and Saba",
+                        "Cote D'Ivoire"
+                    ],
+                    "captchaResponse": {
+                        "first": "Are you a robot&quest;<br><br>Testing All As%DOSL7.captcha.image% %DOSL7.captcha.change%<br><b>What code is in the image&quest;</b>%DOSL7.captcha.solution%<br>%DOSL7.captcha.submit%<br><br>Your support ID is: %DOSL7.captcha.support_id%.",
+                        "failure": "Error! %DOSL7.captcha.image% %DOSL7.captcha.change%<br><b>What code is in the image&quest;</b>%DOSL7.captcha.solution%<br>%DOSL7.captcha.submit%<br><br>Your support ID is: %DOSL7.captcha.support_id%."
+                    },
+                    "heavyURLProtection": {
+                        "detectionThreshold": 16,
+                        "excludeList": [
+                            "example.com"
+                        ],
+                        "protectList": [
+                            {
+                                "url": "www.google.com",
+                                "threshold": 0
+                            }
+                        ]
+                    },
+                    "triggerIRule": true,
+                    "scrubbingDuration": 42,
+                    "remoteTriggeredBlackHoleDuration": 10,
+                    "profileAcceleration": {
+                        "bigip": "/Common/full-acceleration"
+                    },
+                    "botDefense": {
+                        "mode": "during-attacks",
+                        "gracePeriod": 4000,
+                        "crossDomainRequests": "validate-bulk",
+                        "siteDomains": [
+                            "www.google.com"
+                        ],
+                        "externalDomains": [
+                            "www.yahoo.com"
+                        ],
+                        "urlAllowlist": [
+                            "www.bing.com"
+                        ]
+                    },
+                    "botSignatures": {
+                        "checkingEnabled": true,
+                        "reportedCategories": [
+                            {
+                                "bigip": "/Common/Search Engine"
+                            }
+                        ]
+                    },
+                    "rateBasedDetection":{
+                        "operationMode": "off",
+                        "site": {
+                            "minimumAutoTps": 5
+                        },
+                        "thresholdsMode": "manual",
+                        "url": {
+                            "minimumAutoTps": 5
+                        }
+                    },
+                    "stressBasedDetection":{
+                        "badActor": {
+                            "mitigationMode": "none"
+                        },
+                        "site": {
+                            "minimumAutoTps": 5
+                        },
+                        "thresholdsMode": "manual",
+                        "url": {
+                            "minimumAutoTps": 5
+                        }
+                    }
+                },
+                "network": {
+                    "dynamicSignatures": {
+                        "detectionMode": "enabled",
+                        "mitigationMode": "medium",
+                        "scrubbingEnabled": true,
+                        "scrubbingCategory": {
+                            "bigip": "/Common/botnets"
+                        },
+                        "scrubbingDuration": 60
+                    },
+                    "vectors": [
+                        {
+                            "type": "hop-cnt-low",
+                            "state": "learn-only",
+                            "rateThreshold": 40000,
+                            "rateIncreaseThreshold": 600,
+                            "rateLimit": 1000000,
+                            "simulateAutoThresholdEnabled": true,
+                            "badActorSettings": {
+                                "enabled": true,
+                                "sourceDetectionThreshold": 0,
+                                "sourceMitigationThreshold": 0
+                            },
+                            "autoDenylistSettings": {
+                                "enabled": true,
+                                "category": {
+                                    "bigip": "/Common/botnets"
+                                },
+                                "attackDetectionTime": 1,
+                                "categoryDuration": 60,
+                                "externalAdvertisementEnabled": true
+                            }
+                        }
+                    ]
+                },
+                "protocolDNS": {
+                    "vectors": [
+                        {
+                            "type": "ptr",
+                            "state": "mitigate",
+                            "thresholdMode": "fully-automatic",
+                            "autoAttackFloor": 0,
+                            "autoAttackCeiling": 0
+                        }
+                    ]
+                },
+                "protocolSIP": {
+                    "vectors": [
+                        {
+                            "type": "cancel",
+                            "state": "disabled",
+                            "thresholdMode": "fully-automatic",
+                            "autoAttackFloor": 4294967295,
+                            "autoAttackCeiling": 4294967295,
+                            "rateIncreaseThreshold": 4294967295
+                        }
+                    ]
+                },
+                "allowlist": {
+                    "use": "/AS3_Tenant/AS3_Application/addressList"
+                },
+                "applicationAllowlist": {
+                    "use": "/AS3_Tenant/AS3_Application/addressListHTTP"
+                }
+            },
+            "addressList": {
+                "class": "Firewall_Address_List",
+                "addresses": [
+                    "10.0.0.10"
+                ]
+            },
+            "addressListHTTP": {
+                "class": "Firewall_Address_List",
+                "addresses": [
+                    "10.0.0.11"
+                ]
+            }
+        }
+    }
+}

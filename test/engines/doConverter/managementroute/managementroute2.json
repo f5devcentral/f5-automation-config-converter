@@ -1,0 +1,21 @@
+{
+    "schemaVersion": "1.0.0",
+    "class": "Device",
+    "async": true,
+    "Common": {
+        "class": "Tenant",
+        "default": {
+            "class": "ManagementRoute",
+            "remark": "test route",
+            "gw": "10.144.111.254",
+            "network": "default"
+        },
+        "default-inet6": {
+            "class": "ManagementRoute",
+            "remark": "ipv6 route",
+            "gw": "2002::2",
+            "network": "default-inet6",
+            "mtu": 1500
+        }
+    }
+}

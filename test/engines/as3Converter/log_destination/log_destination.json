@@ -1,0 +1,28 @@
+{
+    "class": "ADC",
+    "updateMode": "selective",
+    "schemaVersion": "3.8.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "testItem": {
+                "class": "Log_Destination",
+                "remark": "description",
+                "type": "remote-high-speed-log",
+                "distribution": "balanced",
+                "protocol": "udp",
+                "pool": {
+                    "use": "/AS3_Tenant/AS3_Application/pool1"
+                }
+            },
+            "pool1": {
+                "class": "Pool"
+            }
+        }
+    }
+}
