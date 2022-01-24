@@ -1,5 +1,5 @@
 /**
- * Copyright 2021 F5 Networks, Inc.
+ * Copyright 2022 F5 Networks, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -1048,7 +1048,7 @@ class Util {
      * @returns {boolean}
      */
     static versionLessThan(v1, v2) {
-        const regex = new RegExp(/([0-9][0-9.]+)/);
+        const regex = /([0-9][0-9.]+)/;
 
         if (typeof v1 !== 'string' || typeof v2 !== 'string'
             || !regex.test(v1) || !regex.test(v2)) {

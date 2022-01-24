@@ -1,5 +1,5 @@
 /**
- * Copyright 2021 F5 Networks, Inc.
+ * Copyright 2022 F5 Networks, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -198,8 +198,18 @@ function backquoteExpand(str, src, origin, root, dest, destPpty) {
 
             rv = {};
             try {
-                extractUtil.getAs3Object(tag, src, origin, root, true, rv, 'ptr',
-                    ((c === '+') ? 'decode' : 'string'), rv, 'val');
+                extractUtil.getAs3Object(
+                    tag,
+                    src,
+                    origin,
+                    root,
+                    true,
+                    rv,
+                    'ptr',
+                    ((c === '+') ? 'decode' : 'string'),
+                    rv,
+                    'val'
+                );
                 if (rv.ptr === '') {
                     throw new Error('points nowhere');
                 }

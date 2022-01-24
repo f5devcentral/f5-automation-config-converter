@@ -1,5 +1,5 @@
 /**
- * Copyright 2021 F5 Networks, Inc.
+ * Copyright 2022 F5 Networks, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ const validator = require('../../validators/as3Adapter');
 
 const ex1 = require('./irule.json');
 const ex2 = require('./irule2.json');
+const ex3 = require('./irule3.json');
 
 let json;
 
@@ -57,5 +58,19 @@ describe('iRule: ltm rule', () => {
     });
 
     it('ex2 validation', () => validator(json)
+        .then((data) => assert(data.isValid, JSON.stringify(data, null, 4))));
+
+    // Check conversion comments contained brackets { or }
+    it('ex3', async () => {
+        const data = await readFiles(['./test/engines/as3Converter/irule/irule3.conf']);
+        const parsed = parse(data);
+        json = as3Converter(parsed).declaration;
+
+        const originalDec = ex3.Common.Shared;
+        const convertedDec = json.Common.Shared;
+        assert.deepStrictEqual(originalDec.test_iRule, convertedDec.test_iRule);
+    });
+
+    it('ex3 validation', () => validator(json)
         .then((data) => assert(data.isValid, JSON.stringify(data, null, 4))));
 });

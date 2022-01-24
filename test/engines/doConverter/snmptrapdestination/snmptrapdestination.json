@@ -1,0 +1,32 @@
+{
+    "schemaVersion": "1.0.0",
+    "class": "Device",
+    "async": true,
+    "Common": {
+        "class": "Tenant",
+        "myV2SnmpDestination": {
+            "class": "SnmpTrapDestination",
+            "community": "my_snmp_community",
+            "destination": "10.0.10.100",
+            "port": 80,
+            "network": "other"
+        },
+        "myV3SnmpDestination": {
+            "class": "SnmpTrapDestination",
+            "version": "3",
+            "destination": "10.0.10.1",
+            "port": 80,
+            "network": "other",
+            "securityName": "someSnmpUser",
+            "authentication": {
+                "protocol": "sha",
+                "password": "P@ssW0rd"
+            },
+            "privacy": {
+                "protocol": "aes",
+                "password": "P@ssW0rd"
+            },
+            "engineId": "0x80001f8880c6b6067fdacfb558"
+        }
+    }
+}

@@ -2,7 +2,7 @@
     "ltm pool /AS3_Tenant/AS3_Application/test_1": {},
     "ltm pool /AS3_Tenant/AS3_Application/test_3": {},
     "ltm pool /AS3_Tenant/AS3_Application/test_6": {},
-    "ltm rule /AS3_Tenant/AS3_Application/test_rule_1": "    when CLIENT_ACCEPTED {\n        set hsludp [HSL::open -proto UDP -pool /Common/https_pool]\n    }\n    when HTTP_REQUEST {\n       # Check if request matches the criteria to disable server-side SSL\n       if { [HTTP::uri] starts_with \"/clear\"}{\n          # disable SSL on the serverside context\n          SSL::disable serverside\n          # select the http pool\n          pool /Common/http_pool\n       } else {\n          # default is to use server-side SSL and the https pool\n          pool /Common/https_pool\n       }\n    }",
+    "ltm rule /AS3_Tenant/AS3_Application/test_rule_1": "    when CLIENT_ACCEPTED {\n        set hsludp [HSL::open -proto UDP -pool /Common/https_pool]\n    }\n    when HTTP_REQUEST {\n    # bad comment { here\n       # Check if request matches the criteria to disable server-side SSL\n       if { [HTTP::uri] starts_with \"/clear\"}{\n          # disable SSL on the serverside context\n          SSL::disable serverside\n          # select the http pool\n          pool /Common/http_pool\n       } else {\n          # default is to use server-side SSL and the https pool\n          pool /Common/https_pool\n       }\n    }",
     "security bot-defense profile /AS3_Tenant/AS3_Application/bot_with_css":
      { "api-access-strict-mitigation": "disabled",
         "app-service": "none",

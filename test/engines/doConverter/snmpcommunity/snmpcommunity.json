@@ -1,0 +1,22 @@
+{
+    "schemaVersion": "1.0.0",
+    "class": "Device",
+    "async": true,
+    "Common": {
+        "class": "Tenant",
+        "public": {
+            "class": "SnmpCommunity",
+            "name": "public",
+            "source": "all",
+            "oid": ".1"
+        },
+        "snmpCommunityWithSpecialChar": {
+            "class": "SnmpCommunity",
+            "name": "special!community",
+            "ipv6": true,
+            "source": "all",
+            "oid": ".1",
+            "access": "rw"
+        }
+    }
+}

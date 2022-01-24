@@ -1,5 +1,5 @@
 /**
- * Copyright 2021 F5 Networks, Inc.
+ * Copyright 2022 F5 Networks, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,8 +23,8 @@ const parser = new AS3Parser();
 parser.cloudSecrets = [];
 parser.components = [];
 parser.fetches = [];
-parser.longSecrets = [];
 parser.secrets = [];
+parser.longSecrets = [];
 parser.context = {
     host: { sdInstalled: true },
     target: {

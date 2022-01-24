@@ -3,11 +3,11 @@
 # F5 Automation Config Converter (ACC)
 
 <a href="https://clouddocs.f5.com/products/extensions/f5-automation-config-converter/latest/">
-    <!-- <img src=" ACC SVG " alt="F5 ACC" width="565"> -->
+    <img src="docs/_static/ACC_Robot.svg" alt="F5 ACC" width="200">
 </a>
 
 [Documentation](https://clouddocs.f5.com/products/extensions/f5-automation-config-converter/latest/userguide/getting_started.html) |
-[Installation](https://clouddocs.f5.com/products/extensions/f5-automation-config-converter/latest/userguide/Install.html) |
+[Installation](https://clouddocs.f5.com/products/extensions/f5-automation-config-converter/latest/userguide/install.html) |
 [Usage](https://clouddocs.f5.com/products/extensions/f5-automation-config-converter/latest/userguide/using_acc.html) |
 [Classes](https://clouddocs.f5.com/products/extensions/f5-automation-config-converter/latest/userguide/classes.html) |
 [FAQ](https://clouddocs.f5.com/products/extensions/f5-automation-config-converter/latest/userguide/faq.html) |
@@ -17,7 +17,7 @@
 [![image size](https://img.shields.io/docker/image-size/f5devcentral/f5-automation-config-converter?sort=semver)](https://hub.docker.com/r/f5devcentral/f5-automation-config-converter)
 [![version](https://img.shields.io/docker/v/f5devcentral/f5-automation-config-converter?sort=semver)](https://hub.docker.com/r/f5devcentral/f5-automation-config-converter)
 [![github issues](https://img.shields.io/github/issues-raw/f5devcentral/f5-automation-config-converter)](https://github.com/f5devcentral/f5-automation-config-converter/issues)
-[![license](https://img.shields.io/github/license/f5devcentral/f5-automation-config-converter)](https://github.com/f5devcentral/f5-automation-config-converter/blob/main/LICENSE)
+[![license](https://img.shields.io/badge/license-Apache--2.0-green)](https://github.com/f5devcentral/f5-automation-config-converter/blob/main/LICENSE)
 
 </div>
 

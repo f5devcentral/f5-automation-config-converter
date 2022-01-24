@@ -1,1 +1,0 @@
-Documentation for F5 AS3 Configuration Converter (ACC) is now available on [clouddocs](https://clouddocs.f5.com/products/extensions/f5-as3-configuration-converter/latest/).

@@ -1,5 +1,5 @@
 /**
- * Copyright 2021 F5 Networks, Inc.
+ * Copyright 2022 F5 Networks, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -135,6 +135,8 @@ function groupObjects(arr) {
             // looking for non-indented '{'
             let c = 0;
 
+            const ruleFlag = currentLine.includes('ltm rule');
+
             // different grouping logic for iRules
             let bracketCount = 1;
             while (bracketCount !== 0) {
@@ -143,21 +145,25 @@ function groupObjects(arr) {
                 // count { and }. They should occur in pairs
                 const line = arr[i + c];
                 let subcount = 0;
-                line.split('').forEach((char) => {
-                    // count brackets if functional (not stringified)
-                    // closing root-level obj
-                    const split = line.split('{');
-                    const quoted = split.length > 1 && split[0].includes('"') && split[1].includes('"');
-                    if (char === '{' && !quoted) subcount += 1;
-                    if (char === '}' && !quoted) subcount -= 1;
-                });
 
-                // abort if run into next rule
-                if (line.includes('ltm rule')) {
-                    c -= 1;
-                    bracketCount = 0;
+                // don't count brackets in commented or special lines inside iRules
+                if (!(line.trim().startsWith('#') && ruleFlag)) {
+                    line.split('').forEach((char) => {
+                        // count brackets if functional (not stringified)
+                        // closing root-level obj
+                        const split = line.split('{');
+                        const quoted = split.length > 1 && split[0].includes('"') && split[1].includes('"');
+                        if (char === '{' && !quoted) subcount += 1;
+                        if (char === '}' && !quoted) subcount -= 1;
+                    });
+
+                    // abort if run into next rule
+                    if (line.includes('ltm rule')) {
+                        c -= 1;
+                        bracketCount = 0;
+                    }
+                    bracketCount += subcount;
                 }
-                bracketCount += subcount;
             }
             group.push(arr.slice(i, i + c + 1));
             i += c;
@@ -200,7 +206,8 @@ module.exports = (files) => {
                         // mark comments outside of irules with specific prefix
                         line = line.trim().replace('# ', '#comment# ');
                     } else if (line.includes('ltm rule')) irule += 1;
-                } else {
+                // don't count brackets in commented or special lines
+                } else if (!line.trim().startsWith('#')) {
                     irule = irule + countChar(line, '{') - countChar(line, '}');
                 }
 

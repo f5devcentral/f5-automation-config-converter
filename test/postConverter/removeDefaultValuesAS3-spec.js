@@ -1,5 +1,5 @@
 /**
- * Copyright 2021 F5 Networks, Inc.
+ * Copyright 2022 F5 Networks, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,9 +18,9 @@
 
 const assert = require('assert');
 
-const removeDefaultValues = require('../../src/postConverter/removeDefaultValues');
+const removeDefaultValuesAS3 = require('../../src/postConverter/removeDefaultValuesAS3');
 
-describe('Extended objects (removeDefaultValues.js)', () => {
+describe('Extended objects (removeDefaultValuesAS3.js)', () => {
     it('should remove default values from AS3 objects', () => {
         const extended = {
             class: 'ADC',
@@ -56,7 +56,7 @@ describe('Extended objects (removeDefaultValues.js)', () => {
                 }
             }
         };
-        const output = removeDefaultValues(extended);
+        const output = removeDefaultValuesAS3(extended);
         const expected = {
             class: 'ADC',
             schemaVersion: '3.26.0',
@@ -110,7 +110,7 @@ describe('Extended objects (removeDefaultValues.js)', () => {
                 }
             }
         };
-        const output = removeDefaultValues(extended);
+        const output = removeDefaultValuesAS3(extended);
         const expected = {
             class: 'ADC',
             schemaVersion: '3.26.0',
@@ -175,7 +175,7 @@ describe('Extended objects (removeDefaultValues.js)', () => {
             }
         };
 
-        const output = removeDefaultValues(extended);
+        const output = removeDefaultValuesAS3(extended);
         const expected = {
             class: 'ADC',
             schemaVersion: '3.26.0',

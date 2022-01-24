@@ -1,5 +1,5 @@
 /**
- * Copyright 2021 F5 Networks, Inc.
+ * Copyright 2022 F5 Networks, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -79,8 +79,18 @@ const keywords = [
 
                     let tgt;
                     try {
-                        tgt = extractUtil.getAs3Object(data, dataPath, parentData, rootData,
-                            true, parentData, pptyName, '', null, '');
+                        tgt = extractUtil.getAs3Object(
+                            data,
+                            dataPath,
+                            parentData,
+                            rootData,
+                            true,
+                            parentData,
+                            pptyName,
+                            '',
+                            null,
+                            ''
+                        );
                     } catch (e) {
                         myerror.message = e.message;
                         f5pointsTo.errors.push(myerror);
@@ -655,8 +665,18 @@ const keywords = [
                     const rv = { now: mySchema.toString() };
                     if (Object.prototype.hasOwnProperty.call(mySchema, 'when') && (mySchema.when !== '')) {
                         try {
-                            extractUtil.getAs3Object(mySchema.when, dataPath, parentData, rootData,
-                                false, parentData, pptyName, 'string', rv, 'now');
+                            extractUtil.getAs3Object(
+                                mySchema.when,
+                                dataPath,
+                                parentData,
+                                rootData,
+                                false,
+                                parentData,
+                                pptyName,
+                                'string',
+                                rv,
+                                'now'
+                            );
                         } catch (e) {
                             myerror.message = `${mySchema.when} ${e.message}`;
                             f5expand.errors.push(myerror);

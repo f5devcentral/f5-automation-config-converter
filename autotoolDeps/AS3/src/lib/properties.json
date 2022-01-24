@@ -28,7 +28,7 @@
   "ltm data-group external": [
     { "id":"description",               "altId": "remark", "quotedString": true },
     { "id":"type",                      "altId": "keyDataType" },
-    { "id":"source-path",               "altId": "externalFilePath" },
+    { "id":"source-path",               "altId": "externalFilePath", "quotedString": true },
     { "id":"external-file-name",        "altId": "dataGroupFile" }
   ],
   "ltm data-group internal": [

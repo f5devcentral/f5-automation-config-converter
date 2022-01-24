@@ -1,0 +1,64 @@
+{
+    "schemaVersion": "1.0.0",
+    "class": "Device",
+    "async": true,
+    "Common": {
+        "class": "Tenant",
+
+        "exampleRoutingBGP": {
+            "class": "RoutingBGP",
+            "localAS": 65010,
+            "addressFamilies": [
+                {
+                    "internetProtocol": "ipv4",
+                    "redistributionList": [
+                        {
+                            "routingProtocol": "kernel",
+                            "routeMap": "exampleRouteMap1"
+                        },
+                        {
+                            "routingProtocol": "static",
+                            "routeMap": "exampleRouteMap2"
+                        }
+                    ]
+                }
+            ],
+            "gracefulRestart": {
+                "gracefulResetEnabled": true,
+                "restartTime": 120,
+                "stalePathTime": 60
+            },
+            "holdTime": 35,
+            "keepAlive": 10,
+            "neighbors": [
+                {
+                    "address": "10.1.1.2",
+                    "ebgpMultihop": 2,
+                    "peerGroup": "Neighbor"
+                },
+                {
+                    "address": "10.1.1.3",
+                    "ebgpMultihop": 3,
+                    "peerGroup": "Neighbor"
+                }
+            ],
+            "peerGroups": [
+                {
+                    "name": "Neighbor",
+                    "addressFamilies": [
+                        {
+                            "internetProtocol": "ipv4",
+                            "routeMap": {
+                                "in": "exampleRouteMap1",
+                                "out": "exampleRouteMap2"
+                            },
+                            "softReconfigurationInboundEnabled": true
+                        }
+                    ],
+                    "remoteAS": 65020
+                }
+            ],
+            "routerId": "10.1.1.1"
+        }
+    }
+}

@@ -1,5 +1,5 @@
 /**
- * Copyright 2021 F5 Networks, Inc.
+ * Copyright 2022 F5 Networks, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,8 @@ const logObjects = require('./lib/logObjects');
 const getMergedAS3Properties = require('./util/getMergedAS3Properties');
 const parser = require('./engines/parser');
 const readFiles = require('./preConverter/readFiles');
-const removeDefaultValues = require('./postConverter/removeDefaultValues');
+const removeDefaultValuesAS3 = require('./postConverter/removeDefaultValuesAS3');
+const removeDefaultValuesDO = require('./postConverter/removeDefaultValuesDO');
 const removeIapp = require('./preConverter/removeIapp');
 const removeInvalidRefs = require('./postConverter/removeInvalidRefs');
 const supported = require('./lib/AS3/customDict');
@@ -39,7 +40,17 @@ async function mainRunner(data, config) {
 
     // DO branch
     if (config.declarativeOnboarding) {
-        const doDecl = doConverter(json, config);
+        let doDecl = doConverter(json, config);
+
+        // post-converters
+        if (config.safeMode) {
+            log.info('Running in safe mode, skipping postConverter transformations');
+        } else if (!config.showExtended) {
+            // Remove default values using DO schema
+            log.debug('Removing default DO values from declaration');
+            doDecl = removeDefaultValuesDO(doDecl);
+        }
+
         return {
             declaration: doDecl,
             metaData: { }
@@ -75,7 +86,7 @@ async function mainRunner(data, config) {
         // Remove default values using AS3 schema
         if (!config.showExtended) {
             log.debug('Removing default AS3 values from declaration');
-            declaration = removeDefaultValues(declaration);
+            declaration = removeDefaultValuesAS3(declaration);
         }
 
         // Remove any ref that points to a non-existant object

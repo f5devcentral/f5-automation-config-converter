@@ -1,5 +1,5 @@
 /**
- * Copyright 2021 F5 Networks, Inc.
+ * Copyright 2022 F5 Networks, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -200,8 +200,7 @@ const convertEngine = (confObj, confKey) => {
     Object.keys(confObj).forEach((configProp) => {
         if (idMap.includes(configProp)) {
             let propVal = confObj[configProp];
-            const index = idMap.indexOf(configProp);
-            const dictEntry = dict[index];
+            const dictEntry = dict[idMap.indexOf(configProp)];
 
             // handle extend (array, object).
             if (dictEntry.extend === 'object') {
