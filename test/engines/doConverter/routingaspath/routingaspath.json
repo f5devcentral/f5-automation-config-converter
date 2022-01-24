@@ -1,0 +1,26 @@
+{
+    "schemaVersion": "1.0.0",
+    "class": "Device",
+    "async": true,
+    "Common": {
+        "class": "Tenant",
+        "exampleRoutingAsPath1": {
+            "class": "RoutingAsPath",
+            "entries": [
+                {
+                    "name": 10,
+                    "regex": "^165001 *"
+                }
+            ]
+        },
+        "exampleRoutingAsPath2": {
+            "class": "RoutingAsPath",
+            "entries": [
+                {
+                    "name": 20,
+                    "regex": "^165005$"
+                }
+            ]
+        }
+    }
+}

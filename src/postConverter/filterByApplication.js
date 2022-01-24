@@ -1,5 +1,5 @@
 /**
- * Copyright 2021 F5 Networks, Inc.
+ * Copyright 2022 F5 Networks, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@
 
 /* eslint-disable no-continue, no-use-before-define */
 const declarationBase = require('../util/convert/declarationBase');
+const log = require('../util/log');
 
 const searchforObject = (json, obj, tenant, application) => {
     /* Search for linked object by name or path.
@@ -37,7 +38,7 @@ const searchforObject = (json, obj, tenant, application) => {
         foundObject = {
             objName: obj, objTenant: tenant, objApplication: application, obj: json[tenant][application][obj]
         };
-    } else if (json.Common.Shared[obj]) {
+    } else if (json.Common && json.Common.Shared[obj]) {
         foundObject = {
             objName: obj, objTenant: 'Common', objApplication: 'Shared', obj: json.Common.Shared[obj]
         };
@@ -122,6 +123,13 @@ module.exports = (json, config) => {
         vsName = application;
         application = 'Shared';
     }
+
+    // Check if vsName is presented in json
+    if (!(targetJson[tenant] && targetJson[tenant][application] && targetJson[tenant][application][vsName])) {
+        log.warn(`Target virtual server is not found in json: ${config.vsName}`);
+        return json;
+    }
+
     let tenantTarget = tenant;
     if (config.tenantTarget) {
         tenantTarget = config.tenantTarget;

@@ -1,0 +1,21 @@
+{
+    "schemaVersion": "1.0.0",
+    "class": "Device",
+    "async": true,
+    "Common": {
+        "class": "Tenant",
+        "snmpUser1": {
+            "class": "SnmpUser",
+            "authentication": {
+                "protocol": "sha",
+                "password": "pass1W0rd!"
+            },
+            "privacy": {
+                "protocol": "aes",
+                "password": "P@ssW0rd"
+            },
+            "oid": ".1",
+            "access": "rw"
+        }
+    }
+}

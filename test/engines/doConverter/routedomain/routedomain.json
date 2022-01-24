@@ -1,0 +1,39 @@
+{
+    "schemaVersion": "1.0.0",
+    "class": "Device",
+    "async": true,
+    "Common": {
+        "class": "Tenant",
+        "route_domain_47": {
+            "class": "RouteDomain",
+            "id": 47,
+            "parent": "/Common/0",
+            "connectionLimit": 44,
+            "flowEvictionPolicy": "/Common/default-eviction-policy",
+            "routingProtocols": [
+                "PIM",
+                "RIP"
+            ],
+            "vlans": [
+                "/Common/domain_vlan"
+            ]
+        },
+        "SelfIp_10_30_0_11_IPv4": {
+            "class": "SelfIp",
+            "address": "10.30.0.11%47/16",
+            "vlan": "/Common/domain_vlan",
+            "trafficGroup": "traffic-group-local-only",
+            "allowService": "none"
+        },
+        "domain_vlan": {
+            "class": "VLAN",
+            "tag": 4093,
+            "interfaces": [
+                {
+                    "name": "1.3",
+                    "tagged": false
+                }
+            ]
+        }
+    }
+}

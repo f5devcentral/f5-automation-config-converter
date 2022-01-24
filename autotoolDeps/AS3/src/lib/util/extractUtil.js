@@ -1,5 +1,5 @@
 /**
- * Copyright 2021 F5 Networks, Inc.
+ * Copyright 2022 F5 Networks, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -210,6 +210,7 @@ function getAs3Object(path, src, origin, root, patch, dest, destPpty, fetch, val
         target = obj[p];
     }
 
+    // eslint-disable-next-line no-unreachable-loop
     while ((fetch !== '') && (typeof val === 'object') && (valPpty !== '')) {
         // caller wants pointed-to value (transparent
         // to our usual polymorphism)

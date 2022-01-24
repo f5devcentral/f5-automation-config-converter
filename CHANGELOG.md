@@ -1,6 +1,31 @@
 # Changelog
 Changes to this project are documented in this file.
 
+## 1.18.0
+
+## Added
+- CHARON-352: Add support for class: RouteDomain
+- CHARON-353: Add DO support for RouteMap
+- CHARON-354: Add DO support for RoutingAsPath
+- CHARON-355: Add DO support for RoutingBGP
+- CHARON-356: Add DO support for RoutingPrefixList
+- CHARON-565: Add DO support for RoutingAccessList
+- CHARON-341: Add DO support for FirewallPolicy
+- CHARON-363: Add DO support for SyslogRemoteServer
+- CHARON-350: Add DO support for RemoteAuthRole
+- CHARON-359: Add DO support for SnmpCommunity
+- CHARON-360: Add DO support for SnmpTrapDestination
+- CHARON-386: Add function to remove default DO values
+
+## Fixed
+- CHARON-544: Parser breakage with commented line contained { or } in iRule
+- CHARON-567: ([GitHub Issue 77](https://github.com/f5devcentral/f5-automation-config-converter/issues/77)): Error when -v option is used to filter output by virtual server name
+
+## Changed
+
+## Removed
+- CHARON-558: Remove revision history from docs
+
 ## 1.17.0
 
 ## Added

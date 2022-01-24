@@ -4,7 +4,7 @@
     "async": true,
     "Common": {
         "class": "Tenant",
-        "f5-aws-dns": {
+        "custom": {
             "class": "DNS_Resolver",
             "routeDomain": "0",
             "forwardZones": [

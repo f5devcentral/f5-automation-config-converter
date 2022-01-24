@@ -36,11 +36,7 @@ ltm rule /Common/validation_rule {
 
 2. Observe the following error message:
 ```out
-<<<<<<< HEAD
-Error parsing input file. Please email us at solutionsfeedback@f5.com and include the following error:
-=======
 Error parsing input file. Please open an issue at https://github.com/f5devcentral/f5-automation-config-converter/issues and include the following error:
->>>>>>> main-github
 
 
 TypeError: Cannot read property 'length' of undefined

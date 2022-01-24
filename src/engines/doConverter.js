@@ -1,5 +1,5 @@
 /**
- * Copyright 2021 F5 Networks, Inc.
+ * Copyright 2022 F5 Networks, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -122,7 +122,16 @@ module.exports = (json, config) => {
                 .replace('$', ''))
                 .includes(name)) return;
 
-            const tmshCmd = item.path.split('/').splice(2).join(' ');
+            let tmshCmd = item.path.split('/').splice(2).join(' ');
+
+            if (tmshCmd.includes(key) && customMaps[item.schemaClass].reduceTmshPath) {
+                // override for objects where configItems.json path is overly specific
+                tmshCmd = tmshCmd.split(' ').slice(0, -1).join(' ');
+            }
+
+            // Exclude convert RouteDomain to Route class instead
+            if (key.startsWith('net route-domain')) tmshCmd += ' ';
+
             if (key.includes(tmshCmd)
                 || (key.startsWith('cm device /Common/') && tmshCmd.startsWith('cm device ~Common~'))) {
                 const schemaClass = item.schemaClass;
@@ -190,15 +199,19 @@ module.exports = (json, config) => {
                     });
 
                 // customPostHandling equivalent
-                // this is modifying object in-place
                 if (customMaps[schemaClass].customHandling) {
-                    customMaps[schemaClass].customHandling(declaration.Common[className], name, currentDevice);
+                    const tmp = declaration.Common[className];
+                    delete declaration.Common[className];
+
+                    const customObjs = customMaps[schemaClass].customHandling(tmp, className, name, currentDevice);
+                    Object.assign(declaration.Common, customObjs);
                 }
 
                 // SNMP and HA classes specific: remove empty stanzas
                 const classArr = ['TrafficGroup', 'Route', 'SnmpAgent', 'SnmpTrapEvents',
                     'ConfigSync', 'FailoverUnicast', 'FailoverMulticast', 'MirrorIp'];
-                if (Object.keys(declaration.Common[className]).length === 1
+                if (declaration.Common[className]
+                    && Object.keys(declaration.Common[className]).length === 1
                     && classArr.find((c) => className.includes(c))) {
                     delete declaration.Common[className];
                 }

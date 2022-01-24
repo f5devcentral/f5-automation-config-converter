@@ -1,5 +1,5 @@
 /**
- * Copyright 2021 F5 Networks, Inc.
+ * Copyright 2022 F5 Networks, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -98,6 +98,13 @@ class Settings {
                 // setItem is not atomic, updates need to be serial
                 return promiseUtil.series(updates).then(() => storage.persist());
             });
+    }
+
+    static reloadSettings() {
+        if (storage) {
+            return storage.clearCache();
+        }
+        return Promise.resolve();
     }
 
     /**

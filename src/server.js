@@ -1,5 +1,5 @@
 /**
- * Copyright 2021 F5 Networks, Inc.
+ * Copyright 2022 F5 Networks, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,6 +43,7 @@ app.post('/converter', upload.any(), (req, res, next) => {
         logFile: fields.log,
         output: fields.output,
         controls: checkBool(fields.controls),
+        declarativeOnboarding: checkBool(fields.declarativeOnboarding),
         disableAnalytics: checkBool(fields.disableAnalytics),
         safeMode: checkBool(fields.safeMode),
         server: true,
@@ -50,62 +51,9 @@ app.post('/converter', upload.any(), (req, res, next) => {
         applicationTarget: fields.applicationTarget,
         tenantTarget: fields.tenantTarget,
         container: checkBool(process.env.DOCKER_CONTAINER),
-        showExtended: checkBool(fields.showExtended)
-    };
-
-    return Promise.resolve()
-        // Extract configs from UCS and .conf/scf files
-        .then(async () => Object.assign({}, ...await Promise.all(
-            req.files.map((file) => {
-                const filename = file.originalname;
-                if (file.fieldname === 'ucs') {
-                    return extract(file.buffer)
-                        .then((fileArr) => Object.assign(...fileArr
-                            .filter((x) => x.type !== 'directory')
-                            .filter((x) => !x.path.includes('._'))
-                            .map((x) => ({ [x.path]: x.data.toString() }))));
-                }
-                return { [filename]: file.buffer.toString() };
-            })
-        )))
-
-        // Process (parse and convert) input files
-        .then((files) => main(files, config))
-
-        // Build response object
-        .then((results) => {
-            if (checkBool(fields.verbose)) {
-                return res.status(201).json({
-                    config,
-                    logs: results.metaData.logs,
-                    output: results.declaration,
-                    recognized: results.metaData.recognized,
-                    unsupported: results.metaData.unSupported,
-                    supported: results.metaData.supported
-                });
-            }
-            return res.status(201).json(results.declaration);
-        })
-        .catch((err) => next(err));
-});
-
-app.post('/as3converter', upload.any(), (req, res, next) => {
-    const checkBool = (str) => str === 'true';
-    const fields = req.body;
-
-    // fix config inputs
-    const config = {
-        logFile: fields.log,
-        output: fields.output,
-        controls: checkBool(fields.controls),
-        disableAnalytics: checkBool(fields.disableAnalytics),
-        safeMode: checkBool(fields.safeMode),
-        server: true,
-        vsName: fields.vsName,
-        applicationTarget: fields.applicationTarget,
-        tenantTarget: fields.tenantTarget,
-        container: checkBool(process.env.DOCKER_CONTAINER),
-        showExtended: checkBool(fields.showExtended)
+        showExtended: checkBool(fields.showExtended),
+        supportedObjects: fields.supportedObjects,
+        unsupportedObjects: fields.unsupportedObjects
     };
 
     return Promise.resolve()

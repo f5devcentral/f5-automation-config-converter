@@ -1,5 +1,5 @@
 /**
- * Copyright 2021 F5 Networks, Inc.
+ * Copyright 2022 F5 Networks, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,6 +45,11 @@ describe('filter config (filterByApplication.js)', () => {
         const config = { vsName: '/f5demo/f5demoApps/test_vs' };
         const resultJson = filterByApplication(srcJson, config);
         assert.deepStrictEqual(targetOnlyVs.f5demo, resultJson.f5demo);
+    });
+    it('full config in result, unknown virtual server specified', () => {
+        const config = { vsName: '/f5demo/f5demoApps/test_unknown_vs' };
+        const resultJson = filterByApplication(srcJson, config);
+        assert.deepStrictEqual(srcJson, resultJson);
     });
     it('full config in result, no virtual server specified', () => {
         const config = { applicationTarget: 'Appl', tenantTarget: 'Ten' };

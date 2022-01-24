@@ -1,5 +1,5 @@
 /**
- * Copyright 2021 F5 Networks, Inc.
+ * Copyright 2022 F5 Networks, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -80,8 +80,18 @@ function fetchValue(targetData, dataPath, parent, dest, destPpty, root, that, sc
     case 'reuseFrom': {
         const rv = {};
         try {
-            extractUtil.getAs3Object(targetData[morph], dataPath.concat('/', morph), parent, root,
-                true, rv, 'ptr', ((morph === 'copyFrom') ? 'string' : 'object'), rv, 'val');
+            extractUtil.getAs3Object(
+                targetData[morph],
+                dataPath.concat('/', morph),
+                parent,
+                root,
+                true,
+                rv,
+                'ptr',
+                ((morph === 'copyFrom') ? 'string' : 'object'),
+                rv,
+                'val'
+            );
             if (rv.ptr === '') {
                 return Promise.reject(new Error(`${targetData[morph]} points nowhere`));
             }

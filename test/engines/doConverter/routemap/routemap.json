@@ -1,0 +1,42 @@
+{
+    "schemaVersion": "1.0.0",
+    "class": "Device",
+    "async": true,
+    "Common": {
+        "class": "Tenant",
+        "exampleRouteMap1": {
+            "class": "RouteMap",
+            "entries": [
+                {
+                    "name": "33",
+                    "action": "permit",
+                    "match": {
+                        "asPath": "exampleRoutingAsPath1",
+                        "ipv4": {
+                            "address": {
+                                "prefixList": "exampleRoutingPrefixList1"
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        "exampleRouteMap2": {
+            "class": "RouteMap",
+            "entries": [
+                {
+                    "name": "44",
+                    "action": "deny",
+                    "match": {
+                        "asPath": "exampleRoutingAsPath2",
+                        "ipv4": {
+                            "address": {
+                                "prefixList": "exampleRoutingPrefixList2"
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}

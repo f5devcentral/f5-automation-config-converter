@@ -1,3 +1,9 @@
+.. raw:: html
+
+   <a href="https://clouddocs.f5.com/products/extensions/f5-automation-config-converter/latest/">
+      <img src="_static/ACC_Robot.svg" alt="F5 ACC" width="200">
+   </a>
+
 F5 Automation Config Converter (ACC)
 ====================================
 |
@@ -25,4 +31,3 @@ Previous buttons to explore the documentation.
    userguide/classes
    userguide/faq
    userguide/troubleshooting
-   userguide/revision-history.rst
