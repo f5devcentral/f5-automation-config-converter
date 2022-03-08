@@ -1,6 +1,32 @@
 # Changelog
 Changes to this project are documented in this file.
 
+## 1.19.0
+
+## Added
+- CHARON-331: Add DO support for class: Authentication
+- CHARON-336: Add DO support for class: DeviceCertificate
+- CHARON-396: Refactor analytics for DO mode
+- CHARON-398: Analyze generated DO declarations (count classes, objects, metadata, etc)
+- CHARON-596: Add DO support for ManagementIpFirewall
+- CHARON-601: [AS3] Add support and tests for GSLB_Domain (gtm wideip cname)
+- CHARON-602: [AS3] Add support and tests for GSLB_Monitor (gtm monitor external)
+
+## Fixed
+- CHARON-490: Clean up empty (and default) DO classes
+- CHARON-579: Don't convert default route-domain 0
+- CHARON-584: ([GitHub Issue 78](https://github.com/f5devcentral/f5-automation-config-converter/issues/78)):
+iRule regex parsing might cause an indefinite hang
+- CHARON-587: ([GitHub Issue 79](https://github.com/f5devcentral/f5-automation-config-converter/issues/79)):
+Strings containing braces might cause an indefinite hang
+- CHARON-604: iRule parsing hangs in 1.19-RC1
+- CHARON-605: Add support for HTTP_Profile.webSocketsEnabled and HTTP_Profile.webSocketMasking
+- CHARON-607: Add log messages for filter by virtual server name
+
+## Changed
+
+## Removed
+
 ## 1.18.0
 
 ## Added

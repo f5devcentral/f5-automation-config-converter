@@ -72,11 +72,11 @@ describe('TLS_Server: ltm profile client-ssl', () => {
         // TLS_Server
         let originalTlsDec = ex1.AS3_Tenant.Application1.testItem1;
         let convertedTlsDec = json.AS3_Tenant.Application1.testItem1;
-        compareDeclaration(originalTlsDec, convertedTlsDec, []);
+        compareDeclaration(originalTlsDec, convertedTlsDec);
 
         originalTlsDec = ex1.AS3_Tenant.Application2.testItem2;
         convertedTlsDec = json.AS3_Tenant.Application2.testItem2;
-        compareDeclaration(originalTlsDec, convertedTlsDec, []);
+        compareDeclaration(originalTlsDec, convertedTlsDec);
 
         // Certificate
         let originalCertDec = ex1.AS3_Tenant.Application1.tlsservercert;
@@ -138,7 +138,7 @@ describe('TLS_Server: ltm profile client-ssl', () => {
 
         const originalDec = ex3.AS3_Tenant.AS3_Application;
         const convertedDec = json.AS3_Tenant.AS3_Application;
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex3 validation', () => validator(json)
@@ -152,7 +152,7 @@ describe('TLS_Server: ltm profile client-ssl', () => {
 
         const originalDec = ex4.AS3_Tenant.AS3_Application;
         const convertedDec = json.AS3_Tenant.AS3_Application;
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex4 validation', () => validator(json)
@@ -166,7 +166,7 @@ describe('TLS_Server: ltm profile client-ssl', () => {
 
         const originalDec = ex5.AS3_Tenant.AS3_Application;
         const convertedDec = json.AS3_Tenant.AS3_Application;
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex5 validation', () => validator(json)
@@ -212,7 +212,7 @@ describe('TLS_Server: ltm profile client-ssl', () => {
 
         const originalDec = ex7.Common.Shared;
         const convertedDec = json.Common.Shared;
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex7 validation', () => validator(json)
@@ -225,7 +225,7 @@ describe('TLS_Server: ltm profile client-ssl', () => {
 
         const originalDec = ex8;
         const convertedDec = json;
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex8 validation', () => validator(json)
@@ -238,7 +238,7 @@ describe('TLS_Server: ltm profile client-ssl', () => {
 
         const originalDec = ex9;
         const convertedDec = json;
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex9 validation', () => validator(json)
@@ -251,7 +251,7 @@ describe('TLS_Server: ltm profile client-ssl', () => {
 
         const originalDec = ex10;
         const convertedDec = json;
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex10 validation', () => validator(json)
@@ -265,7 +265,7 @@ describe('TLS_Server: ltm profile client-ssl', () => {
 
         const originalDec = ex11;
         const convertedDec = json;
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex11 validation', () => validator(json)

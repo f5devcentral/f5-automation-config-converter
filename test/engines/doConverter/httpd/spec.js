@@ -31,7 +31,7 @@ describe('HTTPD: sys httpd', () => {
         const data = await readFiles(['./test/engines/doConverter/httpd/httpd.conf']);
         const parsed = parse(data);
         declaration = doConverter(parsed);
-        assert.deepStrictEqual(declaration, ex1);
+        assert.deepStrictEqual(ex1, declaration);
     });
 
     it('ex1 validation', () => validator(declaration)

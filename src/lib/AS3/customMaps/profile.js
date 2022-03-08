@@ -431,6 +431,24 @@ module.exports = {
         }
     },
 
+    // HTTP_Profile (websocket profile maps to http)
+    'ltm profile websocket': {
+        class: 'HTTP_Profile',
+
+        keyValueRemaps: {
+            masking: (key, val) => ({ webSocketMasking: unquote(val) })
+        },
+
+        customHandling: (rootObj, loc) => {
+            const newObj = {};
+
+            rootObj.webSocketsEnabled = true;
+
+            newObj[loc.profile] = rootObj;
+            return newObj;
+        }
+    },
+
     // HTTP2_Profile
     'ltm profile http2': {
         class: 'HTTP2_Profile',

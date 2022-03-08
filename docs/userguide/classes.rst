@@ -1,7 +1,7 @@
 .. _classes:
 
-Which key AS3 classes/features are supported?
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Which AS3 classes/features are supported?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 As a rule of thumb, ACC provides best-effort support for all AS3 classes EXCEPT for WAF_Policy.
 
@@ -45,8 +45,8 @@ As a rule of thumb, ACC provides best-effort support for all AS3 classes EXCEPT 
 
 | GSLB:
 * GSLB_Data_Center
-* GSLB_Domain (A, AAAA, MX)
-* GSLB_Monitor (HTTP, HTTPS, ICMP, TCP, UDP)
+* GSLB_Domain (A, AAAA, CNAME, MX)
+* GSLB_Monitor (EXTERNAL, HTTP, HTTPS, ICMP, TCP, UDP)
 * GSLB_Pool (A, AAAA, CNAME, MX)
 * GSLB_Prober_Pool
 * GSLB_Server
@@ -149,16 +149,18 @@ As a rule of thumb, ACC provides best-effort support for all AS3 classes EXCEPT 
 * Service_TCP
 * Service_UDP
 
-Which key DO classes are supported?
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Which DO classes are supported?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 ACC provides best-effort support for the following DO classes:
 
 * Analytics
+* Authentication
 * ConfigSync
 * DagGlobals
 * DbVariables
 * DeviceGroup
+* DeviceCertificate
 * DNS
 * DNS_Resolver
 * FailoverMulticast
@@ -174,6 +176,7 @@ ACC provides best-effort support for the following DO classes:
 * HTTPD
 * License
 * ManagementIp
+* ManagementIpFirewall
 * ManagementRoute
 * MirrorIp
 * NTP

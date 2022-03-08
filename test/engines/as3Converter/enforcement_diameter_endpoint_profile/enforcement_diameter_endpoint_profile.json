@@ -14,13 +14,13 @@
                 "parentProfile": {
                     "use": "/AS3_Tenant/AS3_Application/diamProf"
                 },
-                "destinationHost": "pcrfdest.net.com",
-                "destinationRealm": "net.com",
+                "destinationHost": "pcrfdest.net.test",
+                "destinationRealm": "net.test",
                 "fatalGraceTime": 120,
                 "messageMaxRetransmits": 5,
                 "messageRetransmitDelay": 1200,
-                "originHost": "pcrf.xnet.com",
-                "originRealm": "xnet.com",
+                "originHost": "pcrf.xnet.test",
+                "originRealm": "xnet.test",
                 "productName": "BIG-IP",
                 "supportedApps": [
                     "Sd"

@@ -27,7 +27,7 @@
                 "hostHeader": "7.7.7.7",
                 "previewLength": 3,
                 "refererHeader": "<referer>",
-                "uri": "http://test.com:777",
+                "uri": "http://test.test:777",
                 "userAgentHeader": "user",
                 "class": "ICAP_Profile"
             }

@@ -17,7 +17,9 @@
 'use strict';
 
 const assert = require('assert');
+const sinon = require('sinon');
 const filterByApplication = require('../../../src/postConverter/filterByApplication');
+const log = require('../../../src/util/log');
 
 const targetJson = require('./filtered.json');
 const targetOnlyVs = require('./filtered_only_vs.json');
@@ -26,25 +28,52 @@ const targetOnlyVsAndTen = require('./filtered_vs_and_tenant.json');
 const srcJson = require('./full.json');
 
 describe('filter config (filterByApplication.js)', () => {
+    afterEach(() => {
+        sinon.restore();
+    });
     it('should extract virtual server and dependents from full config, all options specified', () => {
+        const consoleLogSpy = sinon.spy(log, 'info');
         const config = { vsName: '/f5demo/f5demoApps/test_vs', applicationTarget: 'Appl', tenantTarget: 'Ten' };
         const resultJson = filterByApplication(srcJson, config);
         assert.deepStrictEqual(targetJson.Ten, resultJson.Ten);
+        sinon.assert.callCount(consoleLogSpy, 3);
+        sinon.assert.calledWith(consoleLogSpy, 'Tenant Target: Ten');
+        sinon.assert.calledWith(consoleLogSpy, 'Application Target: Appl');
+        sinon.assert.calledWith(consoleLogSpy, 'Target virtual server is found in json: /f5demo/f5demoApps/test_vs');
     });
     it('should extract virtual server and dependents from full config, virtual server and target tenant specified', () => {
+        const consoleLogSpy = sinon.spy(log, 'info');
         const config = { vsName: '/f5demo/f5demoApps/test_vs', tenantTarget: 'Ten' };
         const resultJson = filterByApplication(srcJson, config);
         assert.deepStrictEqual(targetOnlyVsAndTen.Ten, resultJson.Ten);
+        sinon.assert.callCount(consoleLogSpy, 2);
+        sinon.assert.calledWith(consoleLogSpy, 'Tenant Target: Ten');
+        sinon.assert.calledWith(consoleLogSpy, 'Target virtual server is found in json: /f5demo/f5demoApps/test_vs');
     });
     it('should extract virtual server and dependents from full config, virtual server and  target application specified', () => {
+        const consoleLogSpy = sinon.spy(log, 'info');
         const config = { vsName: '/f5demo/f5demoApps/test_vs', applicationTarget: 'Appl' };
         const resultJson = filterByApplication(srcJson, config);
         assert.deepStrictEqual(targetOnlyVsAndAppl.f5demo, resultJson.f5demo);
+        sinon.assert.callCount(consoleLogSpy, 2);
+        sinon.assert.calledWith(consoleLogSpy, 'Application Target: Appl');
+        sinon.assert.calledWith(consoleLogSpy, 'Target virtual server is found in json: /f5demo/f5demoApps/test_vs');
     });
     it('should extract virtual server and dependents from full config, only virtual server specified', () => {
+        const consoleLogSpy = sinon.spy(log, 'info');
         const config = { vsName: '/f5demo/f5demoApps/test_vs' };
         const resultJson = filterByApplication(srcJson, config);
         assert.deepStrictEqual(targetOnlyVs.f5demo, resultJson.f5demo);
+        sinon.assert.callCount(consoleLogSpy, 1);
+        sinon.assert.calledWith(consoleLogSpy, 'Target virtual server is found in json: /f5demo/f5demoApps/test_vs');
+    });
+    it('full config in result, unknown virtual server specified', () => {
+        const consoleLogSpy = sinon.spy(log, 'warn');
+        const config = { vsName: '/f5demo/f5demoApps/test_unknown_vs' };
+        const resultJson = filterByApplication(srcJson, config);
+        assert.deepStrictEqual(srcJson, resultJson);
+        sinon.assert.callCount(consoleLogSpy, 1);
+        sinon.assert.calledWith(consoleLogSpy, 'Target virtual server is not found in json: /f5demo/f5demoApps/test_unknown_vs');
     });
     it('full config in result, unknown virtual server specified', () => {
         const config = { vsName: '/f5demo/f5demoApps/test_unknown_vs' };

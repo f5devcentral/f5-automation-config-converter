@@ -1,0 +1,24 @@
+{
+    "class": "ADC",
+    "schemaVersion": "3.34.0",
+    "id": "declarationId",
+    "label": "theDeclaration",
+    "remark": "All properties declaration",
+    "AS3_Tenant": {
+        "class": "Tenant",
+        "AS3_Application": {
+            "class": "Application",
+            "template": "generic",
+            "testWebSocketProfile": {
+                "webSocketMasking": "preserve",
+                "class": "HTTP_Profile",
+                "webSocketsEnabled": true
+            },
+            "testWebSocketProfile2": {
+                "webSocketMasking": "selective",
+                "class": "HTTP_Profile",
+                "webSocketsEnabled": true
+            }
+        }
+    }
+}

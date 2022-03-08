@@ -33,7 +33,7 @@ describe('ManagementIp: sys management-ip', () => {
         const data = await readFiles(['./test/engines/doConverter/managementip/managementip.conf']);
         const parsed = parse(data);
         declaration = doConverter(parsed);
-        assert.deepStrictEqual(declaration, ex1);
+        assert.deepStrictEqual(ex1, declaration);
     });
 
     it('ex1 validation', () => validator(declaration)
@@ -43,7 +43,7 @@ describe('ManagementIp: sys management-ip', () => {
         const data = await readFiles(['./test/engines/doConverter/managementip/managementip2.conf']);
         const parsed = parse(data);
         declaration = doConverter(parsed);
-        assert.deepStrictEqual(declaration, ex2);
+        assert.deepStrictEqual(ex2, declaration);
     });
 
     it('ex2 validation', () => validator(declaration)
@@ -53,7 +53,7 @@ describe('ManagementIp: sys management-ip', () => {
         const data = await readFiles(['./test/engines/doConverter/managementip/managementip3.conf']);
         const parsed = parse(data);
         declaration = doConverter(parsed);
-        assert.deepStrictEqual(declaration, ex3);
+        assert.deepStrictEqual(ex3, declaration);
     });
 
     it('ex3 validation', () => validator(declaration)

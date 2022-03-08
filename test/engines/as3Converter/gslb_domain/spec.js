@@ -28,6 +28,7 @@ const ex1 = require('./gslb_domain.json');
 const ex2 = require('./gslb_domain2.json');
 const ex3 = require('./gslb_domain3.json');
 const ex4 = require('./gslb_domain4.json');
+const ex5 = require('./gslb_domain5.json');
 
 let json;
 
@@ -39,7 +40,7 @@ describe('GSLB_Domain: gtm wideip', () => {
 
         const originalDec = ex1.AS3_Tenant.AS3_Application;
         const convertedDec = json.AS3_Tenant.AS3_Application;
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex1 validation', () => validator(json)
@@ -53,7 +54,7 @@ describe('GSLB_Domain: gtm wideip', () => {
 
         const originalDec = ex2.AS3_Tenant.AS3_Application;
         const convertedDec = json.AS3_Tenant.AS3_Application;
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex2 validation', () => validator(json)
@@ -67,7 +68,7 @@ describe('GSLB_Domain: gtm wideip', () => {
 
         const originalDec = ex3.AS3_Tenant.AS3_Application;
         const convertedDec = json.AS3_Tenant.AS3_Application;
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex3 validation', () => validator(json)
@@ -81,9 +82,23 @@ describe('GSLB_Domain: gtm wideip', () => {
 
         const originalDec = ex4.AS3_Tenant.AS3_Application;
         const convertedDec = json.AS3_Tenant.AS3_Application;
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex4 validation', () => validator(json)
+        .then((data) => assert(data.isValid, JSON.stringify(data, null, 4))));
+
+    // Test gtm cname
+    it('ex5', async () => {
+        const data = await readFiles(['./test/engines/as3Converter/gslb_domain/gslb_domain5.conf']);
+        const parsed = parse(data);
+        json = as3Converter(parsed).declaration;
+
+        const originalDec = ex5.AS3_Tenant.AS3_Application;
+        const convertedDec = json.AS3_Tenant.AS3_Application;
+        compareDeclaration(originalDec, convertedDec);
+    });
+
+    it('ex5 validation', () => validator(json)
         .then((data) => assert(data.isValid, JSON.stringify(data, null, 4))));
 });

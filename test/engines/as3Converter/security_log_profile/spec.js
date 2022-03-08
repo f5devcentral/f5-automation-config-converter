@@ -43,7 +43,7 @@ describe('Security_Log_Profile: security log profile', () => {
 
         const originalDec = ex1.AS3_Tenant.AS3_Application;
         const convertedDec = json.AS3_Tenant.AS3_Application;
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex1 validation', () => validator(json)
@@ -56,7 +56,7 @@ describe('Security_Log_Profile: security log profile', () => {
 
         const originalDec = ex2.AS3_Tenant.AS3_Application;
         const convertedDec = json.AS3_Tenant.AS3_Application;
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex2 validation', () => validator(json)
@@ -69,7 +69,7 @@ describe('Security_Log_Profile: security log profile', () => {
 
         const originalDec = ex3.AS3_Tenant.AS3_Application;
         const convertedDec = json.AS3_Tenant.AS3_Application;
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex3 validation', () => validator(json)
@@ -82,7 +82,7 @@ describe('Security_Log_Profile: security log profile', () => {
 
         const originalDec = ex4.AS3_Tenant.AS3_Application;
         const convertedDec = json.AS3_Tenant.AS3_Application;
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex4 validation', () => validator(json)
@@ -95,7 +95,7 @@ describe('Security_Log_Profile: security log profile', () => {
 
         const originalDec = ex5.Common.Shared;
         const convertedDec = json.Common.Shared;
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex5 validation', () => validator(json)
@@ -108,7 +108,7 @@ describe('Security_Log_Profile: security log profile', () => {
 
         const originalDec = ex6.AS3_Tenant.AS3_Application;
         const convertedDec = json.AS3_Tenant.AS3_Application;
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex6 validation', () => validator(json)
@@ -121,7 +121,7 @@ describe('Security_Log_Profile: security log profile', () => {
 
         const originalDec = ex7.Common.Shared;
         const convertedDec = json.Common.Shared;
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex7 validation', () => validator(json)
@@ -134,7 +134,7 @@ describe('Security_Log_Profile: security log profile', () => {
 
         const originalDec = ex8.AS3_Tenant.AS3_Application;
         const convertedDec = json.AS3_Tenant.AS3_Application;
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex8 validation', () => validator(json)

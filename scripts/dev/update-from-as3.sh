@@ -12,6 +12,7 @@ node scripts/build/schema-build.js
 
 
 FILES=("lib/adcParser.js" \
+"lib/adcParserCheckResource.js" \
 "lib/adcParserComponents.js" \
 "lib/adcParserFetch.js" \
 "lib/adcParserFormats.js" \

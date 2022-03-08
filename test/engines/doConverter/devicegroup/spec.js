@@ -36,7 +36,7 @@ describe('DeviceGroup: cm device-group', () => {
         const data = await readFiles(['./test/engines/doConverter/devicegroup/devicegroup.conf']);
         const parsed = parse(data);
         declaration = doConverter(parsed);
-        assert.deepStrictEqual(declaration, ex1);
+        assert.deepStrictEqual(ex1, declaration);
     });
 
     it('ex1 validation', () => validator(declaration)
@@ -46,7 +46,7 @@ describe('DeviceGroup: cm device-group', () => {
         const data = await readFiles(['./test/engines/doConverter/devicegroup/devicegroup2.conf']);
         const parsed = parse(data);
         declaration = doConverter(parsed);
-        assert.deepStrictEqual(declaration, ex2);
+        assert.deepStrictEqual(ex2, declaration);
     });
 
     it('ex2 validation', () => validator(declaration)
@@ -57,7 +57,7 @@ describe('DeviceGroup: cm device-group', () => {
         const data = await readFiles(['./test/engines/doConverter/devicegroup/devicegroup3.conf']);
         const parsed = parse(data);
         declaration = doConverter(parsed);
-        assert.deepStrictEqual(declaration, ex3);
+        assert.deepStrictEqual(ex3, declaration);
     });
 
     // test with empty HA classes
@@ -65,7 +65,7 @@ describe('DeviceGroup: cm device-group', () => {
         const data = await readFiles(['./test/engines/doConverter/devicegroup/devicegroup4.conf']);
         const parsed = parse(data);
         declaration = doConverter(parsed);
-        assert.deepStrictEqual(declaration, ex4);
+        assert.deepStrictEqual(ex4, declaration);
     });
 
     it('ex4 validation', () => validator(declaration)
@@ -76,7 +76,7 @@ describe('DeviceGroup: cm device-group', () => {
         const data = await readFiles(['./test/engines/doConverter/devicegroup/devicegroup5.conf']);
         const parsed = parse(data);
         declaration = doConverter(parsed);
-        assert.deepStrictEqual(declaration, ex5);
+        assert.deepStrictEqual(ex5, declaration);
     });
 
     it('ex5 validation', () => validator(declaration)
@@ -87,7 +87,7 @@ describe('DeviceGroup: cm device-group', () => {
         const data = await readFiles(['./test/engines/doConverter/devicegroup/devicegroup6.conf']);
         const parsed = parse(data);
         declaration = doConverter(parsed);
-        assert.deepStrictEqual(declaration, ex6);
+        assert.deepStrictEqual(ex6, declaration);
     });
 
     it('ex6 validation', () => validator(declaration)

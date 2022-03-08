@@ -31,7 +31,7 @@ describe('Provision: sys provision', () => {
         const data = await readFiles(['./test/engines/doConverter/provision/provision.conf']);
         const parsed = parse(data);
         declaration = doConverter(parsed);
-        assert.deepStrictEqual(declaration, ex1);
+        assert.deepStrictEqual(ex1, declaration);
     });
 
     it('ex1 validation', () => validator(declaration)

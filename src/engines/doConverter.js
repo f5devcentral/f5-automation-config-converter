@@ -22,6 +22,7 @@ const configItems = require('../../autotoolDeps/DO/src/lib/configItems.json');
 const customMaps = require('../lib/DO/doCustomMaps');
 const log = require('../util/log');
 const declarationBase = require('../util/convert/declarationBase');
+const loadDeviceCert = require('../util/convert/loadDeviceCert');
 const readFiles = require('../preConverter/readFiles');
 const unquote = require('../util/convert/unquote');
 
@@ -73,7 +74,7 @@ module.exports = (json, config) => {
     // filter devices if more than 1 in config
     const deviceKeys = Object.keys(confObj).filter((item) => item.startsWith('cm device '));
     if (deviceKeys.length > 1) {
-        const selfKeys = Object.keys(confObj).filter((item) => item.startsWith('net self'));
+        const selfKeys = Object.keys(confObj).filter((item) => item.startsWith('net self '));
 
         // collect all self addresses
         const selfAddresses = [];
@@ -122,6 +123,8 @@ module.exports = (json, config) => {
                 .replace('$', ''))
                 .includes(name)) return;
 
+            if (!item.path) return;
+
             let tmshCmd = item.path.split('/').splice(2).join(' ');
 
             if (tmshCmd.includes(key) && customMaps[item.schemaClass].reduceTmshPath) {
@@ -130,7 +133,8 @@ module.exports = (json, config) => {
             }
 
             // Exclude convert RouteDomain to Route class instead
-            if (key.startsWith('net route-domain')) tmshCmd += ' ';
+            // Exclude convert self-allow to SelfIp class
+            if (key.startsWith('net route-domain') || key.startsWith('net self')) tmshCmd += ' ';
 
             if (key.includes(tmshCmd)
                 || (key.startsWith('cm device /Common/') && tmshCmd.startsWith('cm device ~Common~'))) {
@@ -177,7 +181,7 @@ module.exports = (json, config) => {
                             // handle basic coercion of DO values
                             if (propObj.truth === propVal || propVal === 'true') propVal = true;
                             if (propObj.falsehood === propVal || propVal === 'false') propVal = false;
-                            if (!Array.isArray(propVal) && parseInt(propVal, 10)
+                            if (!Array.isArray(propVal) && Number.isInteger(parseInt(propVal, 10))
                                 && !propVal.includes('.') && !propVal.includes(':')) propVal = parseInt(propVal, 10);
                             if (typeof propVal === 'string') propVal = unquote(propVal);
 
@@ -212,7 +216,7 @@ module.exports = (json, config) => {
                     'ConfigSync', 'FailoverUnicast', 'FailoverMulticast', 'MirrorIp'];
                 if (declaration.Common[className]
                     && Object.keys(declaration.Common[className]).length === 1
-                    && classArr.find((c) => className.includes(c))) {
+                    && classArr.find((c) => declaration.Common[className].class.includes(c))) {
                     delete declaration.Common[className];
                 }
             }
@@ -230,7 +234,83 @@ module.exports = (json, config) => {
             }
             declaration.Common[name] = userObj;
         }
+
+        // working with auth objects
+        if (!declaration.Common.Authentication) {
+            declaration.Common.Authentication = {
+                class: 'Authentication'
+            };
+        }
+        if (key.includes('auth source')) {
+            const sourceObj = declaration.Common.source;
+            delete sourceObj.type;
+            Object.assign(declaration.Common.Authentication, sourceObj);
+            delete declaration.Common.source;
+        }
+        if (key.includes('auth remote-user')) {
+            const remoteUserObj = declaration.Common['remote-user'];
+            delete remoteUserObj.class;
+            declaration.Common.Authentication.remoteUsersDefaults = remoteUserObj;
+            delete declaration.Common['remote-user'];
+        }
+        if (key.startsWith('auth ldap')) {
+            const ldapName = key.split('/').at(-1);
+            const ldapObj = declaration.Common[ldapName];
+            if (ldapObj.bindPassword) ldapObj.bindPassword = '';
+            delete ldapObj.class;
+            if (ldapObj.sslCiphers) ldapObj.sslCiphers = ldapObj.sslCiphers.split(':');
+            declaration.Common.Authentication.ldap = ldapObj;
+            delete declaration.Common[ldapName];
+        }
+        if (key.startsWith('auth tacacs')) {
+            const tacacsName = key.split('/').at(-1);
+            const tacacsObj = declaration.Common[tacacsName];
+            if (tacacsObj.secret) tacacsObj.secret = '';
+            delete tacacsObj.class;
+            declaration.Common.Authentication.tacacs = tacacsObj;
+            delete declaration.Common[tacacsName];
+        }
+        if (key.startsWith('auth radius ')) {
+            const tmpRadius = confObj[key];
+            if (tmpRadius.servers) {
+                Object.keys(tmpRadius.servers).forEach((serverFullName) => {
+                    const keyServerName = `auth radius-server ${serverFullName}`;
+                    if (confObj[keyServerName]) {
+                        if (confObj[keyServerName].secret) confObj[keyServerName].secret = '';
+                        if (!tmpRadius.servers.primary) {
+                            tmpRadius.servers.primary = confObj[keyServerName];
+                        } else {
+                            tmpRadius.servers.secondary = confObj[keyServerName];
+                        }
+                        delete tmpRadius.servers[serverFullName];
+                    }
+                });
+            }
+            declaration.Common.Authentication.radius = tmpRadius;
+            delete declaration.Common[key.split('/').at(-1)];
+        }
+        if (key.startsWith('auth radius-server')) {
+            delete declaration.Common[key.split('/').at(-1)];
+        }
     });
+
+    // Delete temp Auth object
+    if (Object.keys(declaration.Common.Authentication).length === 1) delete declaration.Common.Authentication;
+
+    // DeviceCertificate: custom handing, not in configItems
+    const certData = loadDeviceCert(json);
+    if (certData) {
+        const deviceCert = {
+            class: 'DeviceCertificate',
+            certificate: {
+                base64: Buffer.from(certData.certificate).toString('base64')
+            },
+            privateKey: {
+                base64: Buffer.from(certData.privateKey).toString('base64')
+            }
+        };
+        declaration.Common.deviceCertificate = deviceCert;
+    }
 
     // License: get info from bigip.license file
     const regKey = getRegKey();

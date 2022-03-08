@@ -52,12 +52,12 @@ describe('Monitor SIP: ltm monitor sip', () => {
         const convertedDec = json.AS3_Tenant.AS3_Application;
 
         assert.strictEqual(
-            normalizeCert(convertedDec.sip_monitor_certificate.certificate),
-            normalizeCert(originalDec.sip_monitor_certificate.certificate)
+            normalizeCert(originalDec.sip_monitor_certificate.certificate),
+            normalizeCert(convertedDec.sip_monitor_certificate.certificate)
         );
         assert.strictEqual(
-            normalizeCert(convertedDec.sip_monitor_certificate.privateKey),
-            normalizeCert(originalDec.sip_monitor_certificate.privateKey)
+            normalizeCert(originalDec.sip_monitor_certificate.privateKey),
+            normalizeCert(convertedDec.sip_monitor_certificate.privateKey)
         );
         compareDeclaration(originalDec, convertedDec, monitorSipAllowlist);
     });

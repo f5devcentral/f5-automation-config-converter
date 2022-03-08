@@ -56,7 +56,7 @@ describe('Parser utils (util/parse)', () => {
 }
 "`
             };
-            assert.deepStrictEqual(output, expected);
+            assert.deepStrictEqual(expected, output);
         });
     });
 
@@ -64,7 +64,7 @@ describe('Parser utils (util/parse)', () => {
         it('should count the leading whitespace', () => {
             const input = '    example text';
             const output = countIndent(input);
-            assert.strictEqual(output, 4);
+            assert.strictEqual(4, output);
         });
     });
 
@@ -72,7 +72,7 @@ describe('Parser utils (util/parse)', () => {
         it('should return the object title', () => {
             const input = 'ltm profile tcp /AS3_Tenant/AS3_Application/testItem {';
             const output = getTitle(input);
-            assert.strictEqual(output, 'ltm profile tcp /AS3_Tenant/AS3_Application/testItem');
+            assert.strictEqual('ltm profile tcp /AS3_Tenant/AS3_Application/testItem', output);
         });
     });
 
@@ -80,7 +80,7 @@ describe('Parser utils (util/parse)', () => {
         it('should return an array', () => {
             const input = 'known-methods { GET POST }';
             const output = objToArr(input);
-            assert.deepStrictEqual(output, ['GET', 'POST']);
+            assert.deepStrictEqual(['GET', 'POST'], output);
         });
     });
 
@@ -88,19 +88,19 @@ describe('Parser utils (util/parse)', () => {
         it('should remove 4 preceeding spaces from all lines in array', () => {
             const input = ['    example', '    text'];
             const output = removeIndent(input);
-            assert.deepStrictEqual(output, ['example', 'text']);
+            assert.deepStrictEqual(['example', 'text'], output);
         });
 
         it('should only remove 4 spaces', () => {
             const input = ['      datadatadata'];
             const output = removeIndent(input);
-            assert.deepStrictEqual(output, ['  datadatadata']);
+            assert.deepStrictEqual(['  datadatadata'], output);
         });
 
         it('should not remove any other characters', () => {
             const input = ['test text here'];
             const output = removeIndent(input);
-            assert.deepStrictEqual(output, ['test text here']);
+            assert.deepStrictEqual(['test text here'], output);
         });
     });
 
@@ -108,19 +108,19 @@ describe('Parser utils (util/parse)', () => {
         it('should return an object', () => {
             const input = 'description none';
             const output = strToObj(input);
-            assert.deepStrictEqual(output, { description: 'none' });
+            assert.deepStrictEqual({ description: 'none' }, output);
         });
 
         it('should return an object with a stringified key', () => {
             const input = 'ip-df-mode preserve';
             const output = strToObj(input);
-            assert.deepStrictEqual(output, { 'ip-df-mode': 'preserve' });
+            assert.deepStrictEqual({ 'ip-df-mode': 'preserve' }, output);
         });
 
         it('should stringify integers', () => {
             const input = 'idle-timeout 86400';
             const output = strToObj(input);
-            assert.deepStrictEqual(output, { 'idle-timeout': '86400' });
+            assert.deepStrictEqual({ 'idle-timeout': '86400' }, output);
         });
     });
 });

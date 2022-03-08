@@ -28,11 +28,11 @@
                     "heavyURLProtection": {
                         "detectionThreshold": 16,
                         "excludeList": [
-                            "example.com"
+                            "example.test"
                         ],
                         "protectList": [
                             {
-                                "url": "www.google.com",
+                                "url": "www.example2.test",
                                 "threshold": 0
                             }
                         ]
@@ -48,13 +48,13 @@
                         "gracePeriod": 4000,
                         "crossDomainRequests": "validate-bulk",
                         "siteDomains": [
-                            "www.google.com"
+                            "www.example2.test"
                         ],
                         "externalDomains": [
-                            "www.yahoo.com"
+                            "www.example.test"
                         ],
                         "urlAllowlist": [
-                            "www.bing.com"
+                            "www.example3.test"
                         ]
                     },
                     "botSignatures": {

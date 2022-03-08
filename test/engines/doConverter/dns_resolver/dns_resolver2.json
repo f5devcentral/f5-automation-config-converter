@@ -9,13 +9,13 @@
             "routeDomain": "0",
             "forwardZones": [
                 {
-                    "name": "amazonaws.com",
+                    "name": "example.test",
                     "nameservers": [
                         "8.8.8.8:53"
                     ]
                 },
                 {
-                    "name": "idservice.net",
+                    "name": "idservice.test",
                     "nameservers": [
                         "8.8.8.8:53"
                     ]

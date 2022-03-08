@@ -53,7 +53,7 @@
                             {
                                 "check": "dns_domains_blacklist",
                                 "action": "reject",
-                                "value": "123.com 12345.com"
+                                "value": "123.test 12345.test"
                             },
                             {
                                 "check": "dns_experimental_resource_records",

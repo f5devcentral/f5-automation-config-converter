@@ -70,11 +70,11 @@
             "trafficGroup": "traffic-group-local-only",
             "allowService": "all"
         },
-        "ConfigSync__ltm-48_test_com": {
+        "ConfigSync__ltm-48_test_test": {
             "class": "ConfigSync",
             "configsyncIp": "10.20.0.48"
         },
-        "FailoverUnicast__ltm-48_test_com": {
+        "FailoverUnicast__ltm-48_test_test": {
             "class": "FailoverUnicast",
             "addressPorts": [
                 {
@@ -83,13 +83,13 @@
                 }
             ]
         },
-        "FailoverMulticast__ltm-48_test_com": {
+        "FailoverMulticast__ltm-48_test_test": {
             "class": "FailoverMulticast",
             "interface": "eth0",
             "address": "224.0.0 245",
             "port": 62960
         },
-        "MirrorIp__ltm-48_test_com": {
+        "MirrorIp__ltm-48_test_test": {
             "class": "MirrorIp",
             "primaryIp": "10.20.0.48"
         },
@@ -99,8 +99,8 @@
             "autoSync": true,
             "saveOnAutoSync": true,
             "members": [
-                "ltm-48.test.com",
-                "ltm-49.test.com"
+                "ltm-48.test.test",
+                "ltm-49.test.test"
             ],
             "owner": "/Common/ha_group/members/0"
         }

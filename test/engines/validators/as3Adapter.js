@@ -21,6 +21,7 @@ const as3Schema = require('../../../autotoolDeps/AS3/src/schema/latest/adc-schem
 
 const parser = new AS3Parser();
 parser.cloudSecrets = [];
+parser.checks = [];
 parser.components = [];
 parser.fetches = [];
 parser.secrets = [];

@@ -37,7 +37,7 @@ describe('Protocol_Inspection_Profile: security protocol-inspection profile', ()
 
         const originalDec = ex1.AS3_Tenant.AS3_Application;
         const convertedDec = json.AS3_Tenant.AS3_Application;
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex1 validation', () => validator(json)
@@ -50,7 +50,7 @@ describe('Protocol_Inspection_Profile: security protocol-inspection profile', ()
 
         const originalDec = ex2.AS3_Tenant.AS3_Application;
         const convertedDec = json.AS3_Tenant.AS3_Application;
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex2 validation', () => validator(json)

@@ -52,7 +52,7 @@ describe('Rewrite_Profile: ltm profile rewrite', () => {
         const originalDec = ex1.AS3_Tenant.AS3_Application.testItem;
         const convertedDec = json.AS3_Tenant.AS3_Application.testItem;
         convertedDec.javaSignKeyPassphrase.ciphertext = Buffer.from('f5f5').toString('base64');
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
 
         const originalCertDec = ex1.AS3_Tenant.AS3_Application.cert_and_key_with_bundle;
         originalCertDec.privateKey = process.env.TEST_KEY;

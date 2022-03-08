@@ -16,7 +16,24 @@
 
 'use strict';
 
-module.exports = (declaration) => {
+function processStats(stats, declaration, path) {
+    stats.maps.applications.push(path);
+    Object.keys(declaration).forEach((key) => {
+        const objKey = declaration[key];
+        if (typeof objKey === 'object' && objKey.class) {
+            stats.maps.objects.push(`${path}/${key}`);
+            stats.total += 1;
+
+            if (stats.classes[objKey.class]) {
+                stats.classes[objKey.class] += 1;
+            } else {
+                stats.classes[objKey.class] = 1;
+            }
+        }
+    });
+}
+
+module.exports = (declaration, config = {}) => {
     const stats = {
         classes: {},
         maps: {
@@ -26,35 +43,25 @@ module.exports = (declaration) => {
         },
         total: 0
     };
-    Object.keys(declaration).forEach((key) => {
-        const tenant = declaration[key];
-        if (typeof tenant === 'object' && tenant.class === 'Tenant') {
-            stats.maps.tenants.push(`/${key}`);
 
-            Object.keys(tenant).forEach((tenKey) => {
-                const application = tenant[tenKey];
+    if (config.declarativeOnboarding) {
+        processStats(stats, declaration.Common, '/Common');
+    } else {
+        Object.keys(declaration).forEach((key) => {
+            const tenant = declaration[key];
+            if (typeof tenant === 'object' && tenant.class === 'Tenant') {
+                stats.maps.tenants.push(`/${key}`);
 
-                if (typeof application === 'object' && application.class === 'Application') {
-                    stats.maps.applications.push(`/${key}/${tenKey}`);
+                Object.keys(tenant).forEach((tenKey) => {
+                    const application = tenant[tenKey];
 
-                    Object.keys(application).forEach((appKey) => {
-                        const profile = application[appKey];
-
-                        if (typeof profile === 'object' && profile.class) {
-                            stats.maps.objects.push(`/${key}/${tenKey}/${appKey}`);
-                            stats.total += 1;
-
-                            if (stats.classes[profile.class]) {
-                                stats.classes[profile.class] += 1;
-                            } else {
-                                stats.classes[profile.class] = 1;
-                            }
-                        }
-                    });
-                }
-            });
-        }
-    });
+                    if (typeof application === 'object' && application.class === 'Application') {
+                        processStats(stats, application, `/${key}/${tenKey}`);
+                    }
+                });
+            }
+        });
+    }
 
     // alpha-sort classes array
     const newObj = {};

@@ -58,7 +58,8 @@
                     "remoteAS": 65020
                 }
             ],
-            "routerId": "10.1.1.1"
+            "routerId": "10.1.1.1",
+            "routeDomain": 0
         }
     }
 }

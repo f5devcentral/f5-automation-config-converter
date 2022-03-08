@@ -14,7 +14,7 @@
             "testItem": {
                 "class": "Monitor",
                 "monitorType": "smtp",
-                "domain": "smtp2.org"
+                "domain": "smtp2.test"
             }
         }
     }

@@ -142,7 +142,7 @@
                 "members": [
                     {
                         "ratio": 10,
-                        "domainName": "example.com",
+                        "domainName": "example.test",
                         "isDomainNameStatic": true
                     }
                 ],

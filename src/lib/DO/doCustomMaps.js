@@ -23,18 +23,17 @@
 
 const portDict = require('../portDict.json');
 const unquote = require('../../util/convert/unquote');
-
-const camelize = (s) => s.replace(/-./g, (x) => x.toUpperCase()[1]);
-const recursiveCamelize = (obj) => {
-    const newObj = {};
-    Object.keys(obj).forEach((key) => {
-        newObj[camelize(key)] = typeof obj[key] === 'object' ? recursiveCamelize(obj[key]) : obj[key];
-    });
-    return newObj;
-};
+const recursiveCamelize = require('../../util/convert/recursiveCamelize');
 
 module.exports = {
     Analytics: {},
+
+    Authentication: {
+        properties: [
+            { id: 'type', newId: 'enabledSourceType' }
+        ],
+        namedClass: true
+    },
 
     ConfigSync: {
         namedClass: true
@@ -43,6 +42,9 @@ module.exports = {
     DagGlobals: {},
 
     DbVariables: {},
+
+    // DeviceCertificate: custom handling, not in configItems
+    DeviceCertificate: {},
 
     DeviceGroup: {
         properties: [
@@ -240,6 +242,45 @@ module.exports = {
         }
     },
 
+    ManagementIpFirewall: {
+        properties: [
+            { id: 'rules' }
+        ],
+
+        customHandling: (rootObj, className) => {
+            const cRoot = recursiveCamelize(rootObj);
+
+            cRoot.rules = Object.keys(cRoot.rules).map((r) => {
+                const rule = cRoot.rules[r];
+
+                const newObj = {
+                    destination: {},
+                    source: {}
+                };
+
+                Object.keys(newObj).forEach((i) => {
+                    ['addressLists', 'portLists'].forEach((p) => {
+                        if (rule[i][p]) {
+                            newObj[i][p] = Object.keys(rule[i][p]).map((ref) => `/Common/${ref}`);
+                        }
+                    });
+                });
+
+                return {
+                    action: rule.action,
+                    destination: newObj.destination,
+                    loggingEnabled: rule.log === 'yes',
+                    name: r,
+                    protocol: rule.ipProtocol,
+                    remark: unquote(rule.description),
+                    source: newObj.source
+                };
+            });
+
+            return { [className]: cRoot };
+        }
+    },
+
     ManagementRoute: {
         namedClass: true
     },
@@ -284,6 +325,12 @@ module.exports = {
         keyValueRemaps: {
             vlans: (val) => ({ vlans: Object.keys(val) }),
             routingProtocols: (val) => ({ routingProtocols: Object.keys(val) })
+        },
+
+        customHandling: (rootObj, className) => {
+            // Don't convert default rd0
+            if (rootObj.id === 0) return {};
+            return { [className]: rootObj };
         }
     },
 
@@ -653,7 +700,11 @@ module.exports = {
         }
     },
 
-    System: {},
+    System: {
+        keyValueRemaps: {
+            mgmtDhcpEnabled: (val) => ({ mgmtDhcpEnabled: Boolean(val) })
+        }
+    },
 
     TrafficControl: {},
 

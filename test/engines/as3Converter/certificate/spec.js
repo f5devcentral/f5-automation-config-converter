@@ -53,10 +53,10 @@ describe('Certificate: file sys ssl-cert', () => {
         originalDec.privateKey = process.env.TEST_KEY;
         const convertedDec = json.AS3_Tenant.AS3_Application.theCert;
 
-        assert.strictEqual(normalizeCert(convertedDec.certificate), normalizeCert(originalDec.certificate));
-        assert.strictEqual(normalizeCert(convertedDec.chainCA), normalizeCert(originalDec.chainCA));
-        assert.strictEqual(convertedDec.class, originalDec.class);
-        assert.strictEqual(convertedDec.privateKey, originalDec.privateKey);
+        assert.strictEqual(normalizeCert(originalDec.certificate), normalizeCert(convertedDec.certificate));
+        assert.strictEqual(normalizeCert(originalDec.chainCA), normalizeCert(convertedDec.chainCA));
+        assert.strictEqual(originalDec.class, convertedDec.class);
+        assert.strictEqual(originalDec.privateKey, convertedDec.privateKey);
     });
 
     it('ex1 validation', () => validator(json)

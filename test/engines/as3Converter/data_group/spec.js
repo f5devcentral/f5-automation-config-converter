@@ -29,6 +29,7 @@ const ex2 = require('./data_group2.json');
 const ex3 = require('./data_group3.json');
 const ex4 = require('./data_group4.json');
 const ex5 = require('./data_group5.json');
+const ex6 = require('./data_group6.json');
 
 let json;
 
@@ -40,7 +41,7 @@ describe('Data_Group: ltm data-group internal', () => {
 
         const originalDec = ex1.AS3_Tenant.AS3_Application;
         const convertedDec = json.AS3_Tenant.AS3_Application;
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex1 validation', () => validator(json)
@@ -53,7 +54,7 @@ describe('Data_Group: ltm data-group internal', () => {
 
         const originalDec = ex2.AS3_Tenant.AS3_Application;
         const convertedDec = json.AS3_Tenant.AS3_Application;
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex2 validation', () => validator(json)
@@ -67,7 +68,7 @@ describe('Data_Group: ltm data-group internal', () => {
 
         const originalDec = ex3.AS3_Tenant.AS3_Application;
         const convertedDec = json.AS3_Tenant.AS3_Application;
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex3 validation', () => validator(json)
@@ -81,24 +82,38 @@ describe('Data_Group: ltm data-group internal', () => {
 
         const originalDec = ex4.AS3_Tenant.AS3_Application;
         const convertedDec = json.AS3_Tenant.AS3_Application;
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex4 validation', () => validator(json)
         .then((data) => assert(data.isValid, JSON.stringify(data, null, 4))));
-});
 
-describe('Data_Group: ltm data-group external', () => {
+    // different brackets and specific keys
     it('ex5', async () => {
         const data = await readFiles(['./test/engines/as3Converter/data_group/data_group5.conf']);
         const parsed = parse(data);
         json = as3Converter(parsed).declaration;
 
-        const originalDec = ex5;
-        const convertedDec = json;
-        compareDeclaration(originalDec, convertedDec, []);
+        const originalDec = ex5.Common.Shared;
+        const convertedDec = json.Common.Shared;
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex5 validation', () => validator(json)
+        .then((data) => assert(data.isValid, JSON.stringify(data, null, 4))));
+});
+
+describe('Data_Group: ltm data-group external', () => {
+    it('ex6', async () => {
+        const data = await readFiles(['./test/engines/as3Converter/data_group/data_group6.conf']);
+        const parsed = parse(data);
+        json = as3Converter(parsed).declaration;
+
+        const originalDec = ex6;
+        const convertedDec = json;
+        compareDeclaration(originalDec, convertedDec);
+    });
+
+    it('ex6 validation', () => validator(json)
         .then((data) => assert(data.isValid, JSON.stringify(data, null, 4))));
 });

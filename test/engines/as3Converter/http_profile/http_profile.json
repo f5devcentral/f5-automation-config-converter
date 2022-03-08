@@ -31,7 +31,7 @@
                     "GirlScout",
                     "CookieMonsterSpecialReserve"
                 ],
-                "fallbackRedirect": "http://fallbacks-r-us.hosts.org"
+                "fallbackRedirect": "http://fallbacks-r-us.hosts.test"
             },
             "pHttpCookies2": {
                 "class": "HTTP_Profile",

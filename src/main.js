@@ -51,9 +51,14 @@ async function mainRunner(data, config) {
             doDecl = removeDefaultValuesDO(doDecl);
         }
 
+        const doStats = declarationStats(doDecl, config);
+
         return {
             declaration: doDecl,
-            metaData: { }
+            metaData: {
+                declarationInfo: doStats,
+                jsonCount: countObjects(json)
+            }
         };
     }
 
@@ -67,10 +72,6 @@ async function mainRunner(data, config) {
 
     // Clean up supported and AS3: remove iapp objects
     const unsupportedObj = removeIapp(as3Json, supportedJson, converted.iappSupported);
-
-    // Send analytics
-    analytics(data, converted, config);
-
     Object.assign(unsupportedObj, ...converted.unsupportedObjects);
 
     // post-converters
@@ -100,8 +101,6 @@ async function mainRunner(data, config) {
             as3Json,
             as3JsonCount: countObjects(as3Json),
             declarationInfo: declarationStats(declaration),
-            declarationInfoTotal: declarationStats(declaration).total,
-            declarationInfoClasses: declarationStats(declaration).classes,
             jsonCount: countObjects(json),
             supportedJson,
             supportedJsonCount: countObjects(supportedJson),
@@ -127,6 +126,9 @@ module.exports = {
 
         const result = await mainRunner(data, config);
 
+        // Send analytics
+        analytics(data, result.declaration, config);
+
         logObjects(result, config);
 
         return {
@@ -135,7 +137,6 @@ module.exports = {
                 logs: log.memory(),
                 recognized: result.metaData.as3Json,
                 declarationInfo: result.metaData.declarationInfo,
-
                 supported: result.metaData.supportedJson,
                 unSupported: result.metaData.unsupportedObj
             }
@@ -155,7 +156,6 @@ module.exports = {
             metaData: {
                 recognized: result.metaData.as3Json,
                 declarationInfo: result.metaData.declarationInfo,
-
                 supported: result.metaData.supportedJson,
                 unSupported: result.metaData.unsupportedObj
             }

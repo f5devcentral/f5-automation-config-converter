@@ -1,0 +1,17 @@
+{
+    "schemaVersion": "1.0.0",
+    "class": "Device",
+    "async": true,
+    "Common": {
+        "class": "Tenant",
+        "deviceCertificate": {
+            "class": "DeviceCertificate",
+            "certificate": {
+                "base64": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tClRlc3RDcnRUZXN0Q3J0VGVzdENydFRlc3RDcnRUZXN0Q3J0VGVzdENydFRlc3RDcnRUZXN0Q3J0VGVzdENydApUZXN0Q3J0VGVzdENydFRlc3RDcnRUZXN0Q3J0VGVzdENydFRlc3RDcnRUZXN0Q3J0VGVzdENydFRlc3RDcnQKVGVzdENydFRlc3RDcnRUZXN0Q3J0VGVzdENydFRlc3RDcnRUZXN0Q3J0VGVzdENydFRlc3RDcnRUZXN0Q3J0ClRlc3RDcnRUZXN0Q3J0VGVzdENydFRlc3RDcnRUZXN0Q3J0VGVzdENydFRlc3RDcnRUZXN0Q3J0VGVzdENydApUZXN0Q3J0VGVzdENydFRlc3RDcnRUZXN0Q3J0PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg=="
+            },
+            "privateKey": {
+                "base64": ""
+            }
+        }
+    }
+}

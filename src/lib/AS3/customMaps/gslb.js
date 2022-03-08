@@ -23,6 +23,24 @@ const unquote = require('../../../util/convert/unquote');
 
 module.exports = {
 
+    // GSLB Monitor External
+    'gtm monitor external': {
+        class: 'GSLB_Monitor',
+
+        lookupOverride: 'gtm monitor',
+
+        keyValueRemaps: {
+            remark: (key, val) => ({ remark: unquote(val) })
+        },
+
+        customHandling: (rootObj, loc) => {
+            const newObj = {};
+            rootObj.monitorType = 'external';
+            newObj[loc.profile] = rootObj;
+            return newObj;
+        }
+    },
+
     // GSLB Monitor HTTP
     'gtm monitor http': {
         class: 'GSLB_Monitor',
@@ -398,6 +416,34 @@ module.exports = {
         }
     },
 
+    // GSLB_Domain (CNAME)
+    'gtm wideip cname': {
+        class: 'GSLB_Domain',
+
+        keyValueRemaps: {
+            aliases: (key, val) => ({ aliases: Object.keys(val).map((x) => x.replace(/\\/g, '')) })
+        },
+
+        customHandling: (rootObj, loc) => {
+            const newObj = {};
+            rootObj.resourceRecordType = 'CNAME';
+            rootObj.domainName = loc.original.split('/').pop();
+
+            // lastResortPool
+            if (rootObj.lastResortPool) {
+                rootObj.lastResortPoolType = rootObj.lastResortPool.split(' ')[0].toUpperCase();
+                rootObj.lastResortPool = handleObjectRef(rootObj.lastResortPool.split(' ')[1]);
+            }
+
+            // pools
+            if (rootObj.pools) {
+                rootObj.pools = Object.keys(rootObj.pools).map((x) => handleObjectRef(x));
+            }
+            newObj[loc.profile] = rootObj;
+            return newObj;
+        }
+    },
+
     // GSLB_Domain (MX)
     'gtm wideip mx': {
         class: 'GSLB_Domain',
@@ -561,25 +607,30 @@ module.exports = {
                     // domain
                     if (keySplit.length !== 2) {
                         if (Object.keys(member).includes('static-target')) {
-                            return {
+                            const tmpObj = {
                                 domainName: keySplit[0],
                                 isDomainNameStatic: member['static-target'] === 'yes',
                                 ratio: parseInt(member.ratio, 10)
                             };
+                            if (!tmpObj.ratio) delete tmpObj.ratio;
+                            return tmpObj;
                         }
 
-                        return {
-                            domainName: handleObjectRef(`/Common/${x}`),
-                            priority: parseInt(member.priority, 10),
+                        const tmpObj = {
+                            domainName: keySplit[0],
                             ratio: parseInt(member.ratio, 10)
                         };
+                        if (!tmpObj.ratio) delete tmpObj.ratio;
+                        return tmpObj;
                     }
 
-                    return {
+                    const tmpObj = {
                         ratio: parseInt(member.ratio, 10),
                         server: handleObjectRef(keySplit[0]),
                         virtualServer: keySplit[1]
                     };
+                    if (!tmpObj.ratio) delete tmpObj.ratio;
+                    return tmpObj;
                 });
             }
 

@@ -38,7 +38,7 @@ describe('Monitor FTP: ltm monitor ftp', () => {
         const convertedDec = json.AS3_Tenant.AS3_Application;
         convertedDec.testItem.passphrase.ciphertext = Buffer.from('f5f5').toString('base64');
         convertedDec.testItem.passphrase.protected = Buffer.from(JSON.stringify({ alg: 'dir', enc: 'none' })).toString('base64');
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex1 validation', () => validator(json)

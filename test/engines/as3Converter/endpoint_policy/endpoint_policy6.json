@@ -28,7 +28,7 @@
                                 "serverName": {
                                     "operand": "does-not-contain",
                                     "values": [
-                                        "test1.com"
+                                        "test1.test"
                                     ]
                                 }
                             }, {
@@ -58,7 +58,7 @@
                                 "host": {
                                     "operand": "does-not-start-with",
                                     "values": [
-                                        "site.com"
+                                        "site.test"
                                     ]
                                 }
                             }

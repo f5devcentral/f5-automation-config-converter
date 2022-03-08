@@ -32,7 +32,7 @@ describe('ManagementRoute: sys management-route', () => {
         const data = await readFiles(['./test/engines/doConverter/managementroute/managementroute.conf']);
         const parsed = parse(data);
         declaration = doConverter(parsed);
-        assert.deepStrictEqual(declaration, ex1);
+        assert.deepStrictEqual(ex1, declaration);
     });
 
     it('ex1 validation', () => validator(declaration)
@@ -42,7 +42,7 @@ describe('ManagementRoute: sys management-route', () => {
         const data = await readFiles(['./test/engines/doConverter/managementroute/managementroute2.conf']);
         const parsed = parse(data);
         declaration = doConverter(parsed);
-        assert.deepStrictEqual(declaration, ex2);
+        assert.deepStrictEqual(ex2, declaration);
     });
 
     it('ex2 validation', () => validator(declaration)

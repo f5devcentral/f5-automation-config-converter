@@ -13,8 +13,8 @@
             "testItem": {
                 "class": "Rewrite_Profile",
                 "bypassList": [
-                    "https://www.google.com",
-                    "http://www.a.uri.com"
+                    "https://www.example2.test",
+                    "http://www.a.uri.test"
                 ],
                 "clientCachingType": "no-cache",
                 "javaCaFile": {
@@ -38,8 +38,8 @@
                     "rewriteHeadersEnabled": false
                 },
                 "rewriteList": [
-                    "https://www.example.com",
-                    "https://www.rewritethis.net"
+                    "https://www.example.test",
+                    "https://www.rewritethis.test"
                 ],
                 "rewriteMode": "uri-translation",
                 "setCookieRules": [
@@ -70,13 +70,13 @@
                         "type": "response",
                         "client": {
                             "path": "/",
-                            "host": "www.google.com",
+                            "host": "www.example2.test",
                             "scheme": "https",
                             "port": "100"
                         },
                         "server": {
                             "path": "/",
-                            "host": "www.example.com",
+                            "host": "www.example.test",
                             "scheme": "http",
                             "port": "80"
                         }

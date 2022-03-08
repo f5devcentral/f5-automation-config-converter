@@ -26,6 +26,7 @@ const readFiles = require('../../../../src/preConverter/readFiles');
 const validator = require('../../validators/as3Adapter');
 
 const ex1 = require('./gslb_monitor.json');
+const ex2 = require('./gslb_monitor2.json');
 
 const monitorHttpsAllowlist = ['certificate', 'passphrase', 'chainCA'];
 
@@ -52,13 +53,26 @@ describe('GSLB_Monitor: gtm monitor', () => {
         const o = ex1.AS3_Tenant;
         o.httpsMonitor.theCert.privateKey = process.env.TEST_KEY;
         const c = json.AS3_Tenant;
-        compareDeclaration(o.httpMonitor, c.httpMonitor, []);
+        compareDeclaration(o.httpMonitor, c.httpMonitor);
         compareDeclaration(o.httpsMonitor, c.httpsMonitor, monitorHttpsAllowlist);
-        compareDeclaration(o.icmpMonitor, c.icmpMonitor, []);
-        compareDeclaration(o.tcpMonitor, c.tcpMonitor, []);
-        compareDeclaration(o.udpMonitor, c.udpMonitor, []);
+        compareDeclaration(o.icmpMonitor, c.icmpMonitor);
+        compareDeclaration(o.tcpMonitor, c.tcpMonitor);
+        compareDeclaration(o.udpMonitor, c.udpMonitor);
     });
 
     it('ex1 validation', () => validator(json)
+        .then((data) => assert(data.isValid, JSON.stringify(data, null, 4))));
+
+    it('ex2', async () => {
+        const data = await readFiles(['./test/engines/as3Converter/gslb_monitor/gslb_monitor2.conf']);
+        const parsed = parse(data);
+        json = as3Converter(parsed).declaration;
+
+        const originalDec = ex2.AS3_Tenant.AS3_Application;
+        const convertedDec = json.AS3_Tenant.AS3_Application;
+        compareDeclaration(originalDec, convertedDec);
+    });
+
+    it('ex2 validation', () => validator(json)
         .then((data) => assert(data.isValid, JSON.stringify(data, null, 4))));
 });

@@ -40,7 +40,7 @@ describe('Monitor LDAP: ltm monitor ldap', () => {
         convertedDec.monitorLDAP_nonDefault1.passphrase.protected = Buffer.from(JSON.stringify({ alg: 'dir', enc: 'none' })).toString('base64');
         convertedDec.monitorLDAP_nonDefault2.passphrase.ciphertext = Buffer.from('f5f5').toString('base64');
         convertedDec.monitorLDAP_nonDefault2.passphrase.protected = Buffer.from(JSON.stringify({ alg: 'dir', enc: 'none' })).toString('base64');
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex1 validation', () => validator(json)

@@ -31,7 +31,7 @@ describe('GSLBProberPool: gtm prober-pool', () => {
         const data = await readFiles(['./test/engines/doConverter/gslbproberpool/gslbproberpool.conf']);
         const parsed = parse(data);
         declaration = doConverter(parsed);
-        assert.deepStrictEqual(declaration, ex1);
+        assert.deepStrictEqual(ex1, declaration);
     });
 
     it('ex1 validation', () => validator(declaration)

@@ -38,7 +38,7 @@ describe('Monitor MYSQL: ltm monitor mysql', () => {
         const convertedDec = json.AS3_Tenant.AS3_Application;
         convertedDec.monitorMySQL_AllProperties.passphrase.ciphertext = Buffer.from('f5f5').toString('base64');
         convertedDec.monitorMySQL_AllProperties.passphrase.protected = Buffer.from(JSON.stringify({ alg: 'dir', enc: 'none' })).toString('base64');
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex1 validation', () => validator(json)

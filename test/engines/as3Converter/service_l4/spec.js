@@ -38,15 +38,15 @@ describe('Service L4: ltm virtual', () => {
 
         const o = ex1.AS3_Tenant;
         const c = json.AS3_Tenant;
-        compareDeclaration(o.testapp1, c.testapp1, []);
-        compareDeclaration(o.testapp2, c.testapp2, []);
-        compareDeclaration(o.testapp3, c.testapp3, []);
-        compareDeclaration(o.testapp4, c.testapp4, []);
-        compareDeclaration(o.testapp5, c.testapp5, []);
-        compareDeclaration(o.testapp6, c.testapp6, []);
-        compareDeclaration(o.testapp7, c.testapp7, []);
-        compareDeclaration(o.testapp8, c.testapp8, []);
-        compareDeclaration(o.testapp9, c.testapp9, []);
+        compareDeclaration(o.testapp1, c.testapp1);
+        compareDeclaration(o.testapp2, c.testapp2);
+        compareDeclaration(o.testapp3, c.testapp3);
+        compareDeclaration(o.testapp4, c.testapp4);
+        compareDeclaration(o.testapp5, c.testapp5);
+        compareDeclaration(o.testapp6, c.testapp6);
+        compareDeclaration(o.testapp7, c.testapp7);
+        compareDeclaration(o.testapp8, c.testapp8);
+        compareDeclaration(o.testapp9, c.testapp9);
     });
 
     it('ex1 validation', () => validator(json)
@@ -59,7 +59,7 @@ describe('Service L4: ltm virtual', () => {
 
         const o = ex2.AS3_Tenant;
         const c = json.AS3_Tenant;
-        compareDeclaration(o.AS3_Application, c.AS3_Application, []);
+        compareDeclaration(o.AS3_Application, c.AS3_Application);
     });
 
     it('ex2 validation', () => validator(json)
@@ -73,7 +73,7 @@ describe('Service L4: ltm virtual', () => {
 
         const originalDec = ex3.Common.Shared;
         const convertedDec = json.Common.Shared;
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex3 validation', () => validator(json)

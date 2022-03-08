@@ -13,12 +13,12 @@
                 "members": [
                     {
                         "addressDiscovery": "fqdn",
-                        "hostname": "we.we.com",
+                        "hostname": "we.we.test",
                         "servicePort": 80
                     },
                     {
                         "addressDiscovery": "fqdn",
-                        "hostname": "we2.we.com",
+                        "hostname": "we2.we.test",
                         "servicePort": 80
                     }
                 ],

@@ -22,7 +22,7 @@
                                 "serverName": {
                                     "operand": "equals",
                                     "values": [
-                                        "test1.com"
+                                        "test1.test"
                                     ]
                                 }
                             },
@@ -32,7 +32,7 @@
                                 "npn": {
                                     "operand": "equals",
                                     "values": [
-                                        "test1.com"
+                                        "test1.test"
                                     ]
                                 }
                             },
@@ -42,10 +42,10 @@
                                 "alpn": {
                                     "operand": "equals",
                                     "values": [
-                                        "test1.com",
-                                        "test2.com",
-                                        "test3.com",
-                                        "test4.com"
+                                        "test1.test",
+                                        "test2.test",
+                                        "test3.test",
+                                        "test4.test"
                                     ]
                                 }
                             }

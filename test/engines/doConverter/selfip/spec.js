@@ -25,6 +25,7 @@ const validator = require('../../validators/doAdapter');
 const ex1 = require('./selfip.json');
 const ex2 = require('./selfip2.json');
 const ex3 = require('./selfip3.json');
+const ex4 = require('./selfip4.json');
 
 let declaration;
 
@@ -33,7 +34,7 @@ describe('SelfIp: net self', () => {
         const data = await readFiles(['./test/engines/doConverter/selfip/selfip.conf']);
         const parsed = parse(data);
         declaration = doConverter(parsed);
-        assert.deepStrictEqual(declaration, ex1);
+        assert.deepStrictEqual(ex1, declaration);
     });
 
     it('ex1 validation', () => validator(declaration)
@@ -43,7 +44,7 @@ describe('SelfIp: net self', () => {
         const data = await readFiles(['./test/engines/doConverter/selfip/selfip2.conf']);
         const parsed = parse(data);
         declaration = doConverter(parsed);
-        assert.deepStrictEqual(declaration, ex2);
+        assert.deepStrictEqual(ex2, declaration);
     });
 
     it('ex2 validation', () => validator(declaration)
@@ -53,9 +54,19 @@ describe('SelfIp: net self', () => {
         const data = await readFiles(['./test/engines/doConverter/selfip/selfip3.conf']);
         const parsed = parse(data);
         declaration = doConverter(parsed);
-        assert.deepStrictEqual(declaration, ex3);
+        assert.deepStrictEqual(ex3, declaration);
     });
 
     it('ex3 validation', () => validator(declaration)
+        .then((data) => assert(data.isValid, JSON.stringify(data, null, 4))));
+
+    it('ex4', async () => {
+        const data = await readFiles(['./test/engines/doConverter/selfip/selfip4.conf']);
+        const parsed = parse(data);
+        declaration = doConverter(parsed);
+        assert.deepStrictEqual(ex4, declaration);
+    });
+
+    it('ex4 validation', () => validator(declaration)
         .then((data) => assert(data.isValid, JSON.stringify(data, null, 4))));
 });

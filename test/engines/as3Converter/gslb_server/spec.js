@@ -37,7 +37,7 @@ describe('GSLB_Server: gtm server', () => {
 
         const originalDec = ex1.Common.Shared;
         const convertedDec = json.Common.Shared;
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex1 validation', () => validator(json)
@@ -51,7 +51,7 @@ describe('GSLB_Server: gtm server', () => {
 
         const originalDec = ex2.Common.Shared;
         const convertedDec = json.Common.Shared;
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex2 validation', () => validator(json)

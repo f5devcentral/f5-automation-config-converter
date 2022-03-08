@@ -44,7 +44,7 @@ describe('iApp: sys application service', () => {
         originalDec.test_gce_iapp_73.members[0].encodedCredentials = encCred;
         originalDec.test_aws_iapp_25.members[0].secretAccessKey = encCred;
         originalDec.test_azure_iapp_7447.members[0].apiAccessKey = encCred;
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex1 validation', () => validator(json)
@@ -58,7 +58,7 @@ describe('iApp: sys application service', () => {
 
         const originalDec = ex2.Common.Shared;
         const convertedDec = json.Common.Shared;
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex2 validation', () => validator(json)
@@ -72,7 +72,7 @@ describe('iApp: sys application service', () => {
 
         const originalDec = ex3.AS3_Tenant['AS3_Application.app'];
         const convertedDec = json.AS3_Tenant['AS3_Application.app'];
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex3 validation', () => validator(json)
@@ -86,7 +86,7 @@ describe('iApp: sys application service', () => {
 
         const originalDec = ex4.AS3_Tenant['AS3_Application.app'];
         const convertedDec = json.AS3_Tenant['AS3_Application.app'];
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex4 validation', () => validator(json)
@@ -100,7 +100,7 @@ describe('iApp: sys application service', () => {
 
         const originalDec = ex5.Common.Shared;
         const convertedDec = json.Common.Shared;
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex5 validation', () => validator(json)

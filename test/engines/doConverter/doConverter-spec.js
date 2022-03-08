@@ -20,9 +20,11 @@
 
 describe('Declarative Onboarding (doConverter.js)', () => {
     require('./analytics/spec');
+    require('./authentication/spec');
     require('./configsync/spec');
     require('./dagglobals/spec');
     require('./dbvariables/spec');
+    require('./devicecertificate/spec');
     require('./devicegroup/spec');
     require('./dns/spec');
     require('./dns_resolver/spec');

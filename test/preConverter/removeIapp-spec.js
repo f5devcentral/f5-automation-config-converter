@@ -37,6 +37,6 @@ describe('Test removeIapp function (removeIapp.js)', () => {
 
         // Clean up supported and AS3: remove iapp objects
         const unsupportedObj = removeIapp(as3Json, supportedJson, []);
-        assert.deepStrictEqual(unsupportedObj, ex0);
+        assert.deepStrictEqual(ex0, unsupportedObj);
     });
 });

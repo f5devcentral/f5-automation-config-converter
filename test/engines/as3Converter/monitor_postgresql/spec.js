@@ -37,7 +37,7 @@ describe('Monitor PostgreSQL: ltm monitor postgresql', () => {
 
         const originalDec = ex1.AS3_Tenant.AS3_Application;
         const convertedDec = json.AS3_Tenant.AS3_Application;
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex1 validation', () => validator(json)
@@ -50,7 +50,7 @@ describe('Monitor PostgreSQL: ltm monitor postgresql', () => {
 
         const originalDec = ex2.Common.Shared;
         const convertedDec = json.Common.Shared;
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex2 validation', () => validator(json)

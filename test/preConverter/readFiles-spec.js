@@ -30,17 +30,17 @@ describe('Load config (readFiles.js)', () => {
         ];
         const files = await readFiles(['./test/basic_install.ucs']);
         assert.deepStrictEqual(Object.keys(files), fileList);
-        assert.strictEqual(typeof files['config/bigip.conf'], 'string');
-        assert.strictEqual(typeof files['config/bigip_base.conf'], 'string');
+        assert.strictEqual('string', typeof files['config/bigip.conf']);
+        assert.strictEqual('string', typeof files['config/bigip_base.conf']);
     });
 
     it('should read files from a config', async () => {
         const files = await readFiles(['./test/main/main.conf']);
-        assert.strictEqual(typeof files['./test/main/main.conf'], 'string');
+        assert.strictEqual('string', typeof files['./test/main/main.conf']);
     });
 
     it('should persist the data via readFiles.data', async () => {
         const files = await readFiles(['./test/basic_install.ucs']);
-        assert.deepStrictEqual(readFiles.data, files);
+        assert.deepStrictEqual(files, readFiles.data);
     });
 });

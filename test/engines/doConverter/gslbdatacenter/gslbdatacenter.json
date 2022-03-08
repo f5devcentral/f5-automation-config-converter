@@ -15,7 +15,7 @@
         "test_datacenter_2": {
             "class": "GSLBDataCenter",
             "contact": "main contact",
-            "location": "ss.f5.com",
+            "location": "ss.example.test",
             "proberFallback": "outside-datacenter",
             "proberPool": "/Common/test_prober_pool",
             "proberPreferred": "pool",

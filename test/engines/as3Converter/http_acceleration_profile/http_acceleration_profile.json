@@ -37,7 +37,7 @@
                     "."
                 ],
                 "uriIncludeList": [
-                    "www.uri.com"
+                    "www.uri.test"
                 ],
                 "uriIncludeOverrideList": [
                     "1.1.2.2",

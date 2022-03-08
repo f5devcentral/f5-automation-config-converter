@@ -8,7 +8,8 @@
             "class": "System",
             "hostname": "test.acc",
             "autoCheck": true,
-            "autoPhonehome": false
+            "autoPhonehome": false,
+            "mgmtDhcpEnabled": true
         }
     }
 }

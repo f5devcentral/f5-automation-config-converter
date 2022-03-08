@@ -41,10 +41,14 @@ module.exports = {
             // remap data_group records
             if (rootObj.records) {
                 rootObj.records = Object.keys(rootObj.records)
-                    .map((x) => ({
-                        key: rootObj.keyDataType === 'integer' ? parseInt(x, 10) : x,
-                        value: unquote(rootObj.records[x].data || '')
-                    }));
+                    .map((x) => {
+                        // eslint-disable-next-line no-useless-escape
+                        const keyValue = rootObj.keyDataType === 'integer' ? parseInt(x, 10) : x.replace(/\"/g, '').replace(/\\\\/g, '\\');
+                        return {
+                            key: keyValue === ' ' ? '\\ ' : keyValue,
+                            value: unquote(rootObj.records[x].data || '')
+                        };
+                    });
             }
 
             newObj[loc.profile] = rootObj;

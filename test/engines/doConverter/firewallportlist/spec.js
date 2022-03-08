@@ -32,7 +32,7 @@ describe('FirewallPortList: security firewall port-list', () => {
         const data = await readFiles(['./test/engines/doConverter/firewallportlist/firewallportlist.conf']);
         const parsed = parse(data);
         declaration = doConverter(parsed);
-        assert.deepStrictEqual(declaration, ex1);
+        assert.deepStrictEqual(ex1, declaration);
     });
 
     it('ex1 validation', () => validator(declaration)
@@ -42,7 +42,7 @@ describe('FirewallPortList: security firewall port-list', () => {
         const data = await readFiles(['./test/engines/doConverter/firewallportlist/firewallportlist2.conf']);
         const parsed = parse(data);
         declaration = doConverter(parsed);
-        assert.deepStrictEqual(declaration, ex2);
+        assert.deepStrictEqual(ex2, declaration);
     });
 
     it('ex2 validation', () => validator(declaration)

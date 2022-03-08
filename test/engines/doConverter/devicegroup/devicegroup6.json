@@ -4,7 +4,7 @@
     "async": true,
     "Common": {
         "class": "Tenant",
-        "FailoverUnicast__ltm-48_test_com": {
+        "FailoverUnicast__ltm-48_test_test": {
             "class": "FailoverUnicast",
             "addressPorts": [
                 {
@@ -13,7 +13,7 @@
                 }
             ]
         },
-        "FailoverMulticast__ltm-48_test_com": {
+        "FailoverMulticast__ltm-48_test_test": {
             "class": "FailoverMulticast",
             "interface": "eth0",
             "address": "224.0.0 245",
@@ -25,8 +25,8 @@
             "autoSync": true,
             "saveOnAutoSync": true,
             "members": [
-                "ltm-48.test.com",
-                "ltm-49.test.com"
+                "ltm-48.test.test",
+                "ltm-49.test.test"
             ],
             "owner": "/Common/ha_group/members/0"
         },

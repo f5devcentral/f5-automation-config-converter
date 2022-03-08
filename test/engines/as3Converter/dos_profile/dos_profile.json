@@ -21,13 +21,13 @@
                         "gracePeriod": 4000,
                         "crossDomainRequests": "validate-bulk",
                         "siteDomains": [
-                            "www.google.com"
+                            "www.example.test"
                         ],
                         "externalDomains": [
-                            "www.yahoo.com"
+                            "www.example2.test"
                         ],
                         "urlAllowlist": [
-                            "www.bing.com"
+                            "www.example3.test"
                         ]
                     },
                     "botSignatures": {

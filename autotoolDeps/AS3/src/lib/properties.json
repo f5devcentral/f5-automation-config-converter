@@ -1015,7 +1015,8 @@
     { "id":"vlans-disabled" },
     { "id":"metadata",                  "extend": "objArray" },
     { "id":"clone-pools",               "extend": "objArray" },
-    { "id":"throughput-capacity",       "altId": "maximumBandwidth", "intToString": true }
+    { "id":"throughput-capacity",       "altId": "maximumBandwidth", "intToString": true },
+    { "id":"ip-intelligence-policy" }
   ],
   "ltm virtual persist": [
     { "id":"name" },

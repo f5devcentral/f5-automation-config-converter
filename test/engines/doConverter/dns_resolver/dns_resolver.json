@@ -4,23 +4,35 @@
     "async": true,
     "Common": {
         "class": "Tenant",
-        "dnsResolver": {
+        "customDnsResolver": {
             "class": "DNS_Resolver",
             "answerDefaultZones": true,
-            "cacheSize": 5767167,
-            "randomizeQueryNameCase": false,
-            "routeDomain": "0",
+            "cacheSize": 12000,
             "forwardZones": [
                 {
-                    "name": "forward.net",
+                    "name": "testZone1",
                     "nameservers": [
-                        "10.10.10.10:53",
-                        "10.10.10.11:53"
+                        "93.184.216.34:44",
+                        "93.184.216.34:48",
+                        "93.184.216.34:52"
+                    ]
+                },
+                {
+                    "name": "testZone2",
+                    "nameservers": [
+                        "173.231.210.103:53",
+                        "173.231.210.103:77"
                     ]
                 }
             ],
+            "randomizeQueryNameCase": false,
+            "routeDomain": "rd_56",
             "useIpv6": false,
             "useUdp": false
+        },
+        "rd_56": {
+            "class": "RouteDomain",
+            "id": 56
         }
     }
 }

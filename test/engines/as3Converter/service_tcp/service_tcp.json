@@ -36,7 +36,7 @@
             "icap_monitor": {
                 "class": "Monitor",
                 "monitorType": "tcp",
-                "send": "OPTIONS icap://icap.example.net/ ICAP/1.0\r\nUser-Agent: f5-ADC\r\n\r\n",
+                "send": "OPTIONS icap://icap.example.test/ ICAP/1.0\r\nUser-Agent: f5-ADC\r\n\r\n",
                 "receive": "ICAP/1.0 200 OK",
                 "adaptive": false
             }

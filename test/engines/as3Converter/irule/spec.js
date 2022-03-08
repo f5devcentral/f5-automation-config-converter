@@ -25,6 +25,8 @@ const validator = require('../../validators/as3Adapter');
 const ex1 = require('./irule.json');
 const ex2 = require('./irule2.json');
 const ex3 = require('./irule3.json');
+const ex4 = require('./irule4.json');
+const ex5 = require('./irule5.json');
 
 let json;
 
@@ -72,5 +74,33 @@ describe('iRule: ltm rule', () => {
     });
 
     it('ex3 validation', () => validator(json)
+        .then((data) => assert(data.isValid, JSON.stringify(data, null, 4))));
+
+    // Check iRule with escaped brackets { or }
+    it('ex4', async () => {
+        const data = await readFiles(['./test/engines/as3Converter/irule/irule4.conf']);
+        const parsed = parse(data);
+        json = as3Converter(parsed).declaration;
+
+        const originalDec = ex4.Common.Shared;
+        const convertedDec = json.Common.Shared;
+        assert.deepStrictEqual(originalDec.test_iRule, convertedDec.test_iRule);
+    });
+
+    it('ex4 validation', () => validator(json)
+        .then((data) => assert(data.isValid, JSON.stringify(data, null, 4))));
+
+    // Exclude specific iRule lines: set and STREAM
+    it('ex5', async () => {
+        const data = await readFiles(['./test/engines/as3Converter/irule/irule5.conf']);
+        const parsed = parse(data);
+        json = as3Converter(parsed).declaration;
+
+        const originalDec = ex5.Common.Shared;
+        const convertedDec = json.Common.Shared;
+        assert.deepStrictEqual(originalDec.test_iRule, convertedDec.test_iRule);
+    });
+
+    it('ex5 validation', () => validator(json)
         .then((data) => assert(data.isValid, JSON.stringify(data, null, 4))));
 });

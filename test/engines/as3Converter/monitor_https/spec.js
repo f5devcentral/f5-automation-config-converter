@@ -53,12 +53,12 @@ describe('Monitor HTTPS: ltm monitor https', () => {
         const convertedDec = json.AS3_Tenant.AS3_Application;
 
         assert.strictEqual(
-            normalizeCert(convertedDec.https_monitor_certificate.certificate),
-            normalizeCert(originalDec.https_monitor_certificate.certificate)
+            normalizeCert(originalDec.https_monitor_certificate.certificate),
+            normalizeCert(convertedDec.https_monitor_certificate.certificate)
         );
         assert.strictEqual(
-            normalizeCert(convertedDec.https_monitor_certificate.privateKey),
-            normalizeCert(originalDec.https_monitor_certificate.privateKey)
+            normalizeCert(originalDec.https_monitor_certificate.privateKey),
+            normalizeCert(convertedDec.https_monitor_certificate.privateKey)
         );
 
         compareDeclaration(originalDec, convertedDec, monitorHttpsAllowlist);

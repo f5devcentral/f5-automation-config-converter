@@ -13,21 +13,21 @@
                 "answerDefaultZones": true,
                 "remark": "DNS Cache",
                 "localZones": {
-                    "norecords.com": {
+                    "norecords.test": {
                         "type": "transparent",
                         "records": []
                     },
-                    "onerecord.com": {
+                    "onerecord.test": {
                         "type": "transparent",
                         "records": [
-                            "wiki.onerecord.com 300 IN A 10.10.10.124"
+                            "wiki.onerecord.test 300 IN A 10.10.10.124"
                         ]
                     },
-                    "tworecords.com": {
+                    "tworecords.test": {
                         "type": "transparent",
                         "records": [
-                            "wiki.tworecords.com 300 IN A 10.10.10.125",
-                            "wiki.tworecords.com 300 IN A 10.10.10.126"
+                            "wiki.tworecords.test 300 IN A 10.10.10.125",
+                            "wiki.tworecords.test 300 IN A 10.10.10.126"
                         ]
                     }
                 },

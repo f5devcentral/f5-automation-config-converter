@@ -19,8 +19,8 @@
                     "fdf5:4153:6600::/54"
                 ],
                 "fqdns": [
-                    "test1.org",
-                    "test2.org"
+                    "test1.test",
+                    "test2.test"
                 ],
                 "geo": [
                     "US:California",

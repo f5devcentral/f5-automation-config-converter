@@ -50,7 +50,7 @@ function orchestrate(arr) {
             // edge case: nested object
             // RECURSIVE FUNCTION
             // quoted bracket "{" won't trigger recursion
-            if (arr[i].endsWith('{')) {
+            if (arr[i].endsWith('{') && arr.length !== 1) {
                 let c = 0;
                 while (arr[i + c] !== '    }') {
                     c += 1;
@@ -105,8 +105,13 @@ function orchestrate(arr) {
 
                 // treat as typical string
                 } else {
-                    arr[i] = arr[i].trim();
-                    obj = Object.assign(obj, strToObj(arr[i]));
+                    const tmp = strToObj(arr[i].trim());
+                    // edge case for gtm monitor external and user-defined property
+                    if (key.startsWith('gtm monitor external') && Object.keys(tmp).includes('user-defined')) {
+                        if (!obj['user-defined']) obj['user-defined'] = {};
+                        const tmpObj = strToObj(tmp['user-defined']);
+                        obj['user-defined'][Object.keys(tmpObj)[0]] = Object.values(tmpObj)[0];
+                    } else obj = Object.assign(obj, tmp);
                 }
 
             // else report exception
@@ -146,15 +151,20 @@ function groupObjects(arr) {
                 const line = arr[i + c];
                 let subcount = 0;
 
-                // don't count brackets in commented or special lines inside iRules
-                if (!(line.trim().startsWith('#') && ruleFlag)) {
-                    line.split('').forEach((char) => {
+                // don't count escaped brackets or brackets in commented or special lines inside iRules
+                let previousChar = '';
+                if (!((line.trim().startsWith('#') || line.trim().startsWith('set')
+                    || line.trim().startsWith('STREAM')) && ruleFlag)) {
+                    // exclude quoted parts
+                    const updatedline = line.trim().replace(/\\"/g, '').replace(/".+"/g, '');
+                    updatedline.split('').forEach((char) => {
                         // count brackets if functional (not stringified)
                         // closing root-level obj
-                        const split = line.split('{');
-                        const quoted = split.length > 1 && split[0].includes('"') && split[1].includes('"');
-                        if (char === '{' && !quoted) subcount += 1;
-                        if (char === '}' && !quoted) subcount -= 1;
+                        if (previousChar !== '\\') {
+                            if (char === '{') subcount += 1;
+                            if (char === '}') subcount -= 1;
+                        }
+                        previousChar = char;
                     });
 
                     // abort if run into next rule

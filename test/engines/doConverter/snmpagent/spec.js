@@ -31,7 +31,7 @@ describe('SnmpAgent: sys snmp', () => {
         const data = await readFiles(['./test/engines/doConverter/snmpagent/snmpagent.conf']);
         const parsed = parse(data);
         declaration = doConverter(parsed);
-        assert.deepStrictEqual(declaration, ex1);
+        assert.deepStrictEqual(ex1, declaration);
     });
 
     it('ex1 validation', () => validator(declaration)

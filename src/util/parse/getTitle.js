@@ -17,4 +17,4 @@
 'use strict';
 
 // get title of root-level bigip-object
-module.exports = (str) => str.split('{')[0].trim();
+module.exports = (str) => str.replace(/\s?\{\s?}?$/, '').trim();

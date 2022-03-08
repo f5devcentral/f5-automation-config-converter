@@ -36,7 +36,7 @@ describe('GSLB_Prober_Pool: gtm prober-pool', () => {
 
         const originalDec = ex1.Common.Shared;
         const convertedDec = json.Common.Shared;
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex1 validation', () => validator(json)

@@ -1,6 +1,6 @@
 {
     "ltm monitor http /Web/http_ext_web_LAO": {
-        "send": "\"GET /web/home.do HTTP/1.1\\r\\nConnection: Close\\r\\nHost: example.com\\r\\n\""
+        "send": "\"GET /web/home.do HTTP/1.1\\r\\nConnection: Close\\r\\nHost: example.test\\r\\n\""
     },
 
     "sys log-rotate": {
@@ -18,7 +18,7 @@
         "ip-dscp": "0",
         "recv": "none",
         "recv-disable": "none",
-        "send": "\"GET / HTTP/1.1\\r\\nHost: example.org\\r\\nConnection: Close\\r\\n\\r\\n\"",
+        "send": "\"GET / HTTP/1.1\\r\\nHost: example.test\\r\\nConnection: Close\\r\\n\\r\\n\"",
         "time-until-up": "0",
         "timeout": "31"
     },
@@ -34,7 +34,7 @@
         "ip-dscp": "0",
         "recv": "none",
         "recv-disable": "none",
-        "send": "\"GET / HTTP/1.1\\\\r\\\\nHost: example.org\\\\r\\\\nConnection: Close\\\\r\\\\n\\\\r\\\\n\"",
+        "send": "\"GET / HTTP/1.1\\\\r\\\\nHost: example.test\\\\r\\\\nConnection: Close\\\\r\\\\n\\\\r\\\\n\"",
         "time-until-up": "0",
         "timeout": "31"
     }

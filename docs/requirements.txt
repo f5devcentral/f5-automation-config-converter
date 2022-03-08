@@ -1,5 +1,5 @@
-f5-sphinx-theme>=2.0.1
-sphinx==1.8.5
+f5-sphinx-theme>=2.0.8
+sphinx<2
 sphinxjp.themes.basicstrap
 cloud_sptheme
 sphinx-copybutton

@@ -29,6 +29,7 @@ const Config = require('./config');
 
 const secrets = require('./adcParserSecrets');
 const fetches = require('./adcParserFetch');
+const checks = require('./adcParserCheckResource');
 const certUtil = require('./util/certUtil');
 
 const DEVICE_TYPES = require('./constants').DEVICE_TYPES;
@@ -189,6 +190,7 @@ class As3Parser {
         this.longSecrets = [];
         this.components = [];
         this.fetches = [];
+        this.checks = [];
 
         if (typeof this.validator === 'undefined') {
             // someone didn't call loadSchema() or didn't notice it failed
@@ -368,7 +370,8 @@ function as3Digest(declaration) {
                 return Promise.resolve();
             }
             return fetches.handleFetch(this, this.fetches)
-                .then(() => components.handleComponents(this.context, this.components));
+                .then(() => components.handleComponents(this.context, this.components))
+                .then(() => checks.handleCheckResource(this.context, this.checks));
         })
         .then(() => id)
         .catch((e) => {

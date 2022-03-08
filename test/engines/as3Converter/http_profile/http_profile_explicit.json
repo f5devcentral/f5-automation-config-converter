@@ -25,7 +25,7 @@
                 "connectErrorMessage": "<html><head><title>CONNECT Error!!!!!</title></head><body><h2>CONNECT ERROR<</body></html>",
                 "dnsErrorMessage": "<html><head><title>DNS Error</title></head><body><h2>DNS ERROR</h2></body></html>",
                 "doNotProxyHosts": [
-                    "f5.com",
+                    "example.test",
                     "198.168.1.111"
                 ],
                 "tunnelName": "/Common/http-tunnel",

@@ -70,7 +70,8 @@ module.exports = (objName, file) => {
         '/Common/tcp': 'tcp',
         '/Common/udp': 'udp',
         '/Common/wan-optimized-compression': 'http-compression',
-        '/Common/webacceleration': 'web-acceleration'
+        '/Common/webacceleration': 'web-acceleration',
+        '/Common/websocket': 'websocket'
     };
     if (Object.keys(dict).includes(objName)) return dict[objName];
 

@@ -1566,6 +1566,16 @@ class Util {
 
         return modules.some((module) => provisioned.indexOf(module) !== -1);
     }
+
+    static getExtraHeaders(urlObj) {
+        const extraHeaders = {};
+
+        if (urlObj.url.indexOf('windows.net') >= 0) {
+            extraHeaders['x-ms-version'] = '2017-11-09';
+        }
+
+        return extraHeaders;
+    }
 }
 
 module.exports = Util;

@@ -23,6 +23,7 @@ const readFiles = require('../../../../src/preConverter/readFiles');
 const validator = require('../../validators/doAdapter');
 
 const ex1 = require('./tunnel.json');
+const ex2 = require('./tunnel2.json');
 
 let declaration;
 
@@ -31,9 +32,19 @@ describe('Tunnel: net tunnels tunnel', () => {
         const data = await readFiles(['./test/engines/doConverter/tunnel/tunnel.conf']);
         const parsed = parse(data);
         declaration = doConverter(parsed);
-        assert.deepStrictEqual(declaration, ex1);
+        assert.deepStrictEqual(ex1, declaration);
     });
 
     it('ex1 validation', () => validator(declaration)
+        .then((data) => assert(data.isValid, JSON.stringify(data, null, 4))));
+
+    it('ex2', async () => {
+        const data = await readFiles(['./test/engines/doConverter/tunnel/tunnel2.conf']);
+        const parsed = parse(data);
+        declaration = doConverter(parsed);
+        assert.deepStrictEqual(ex2, declaration);
+    });
+
+    it('ex2 validation', () => validator(declaration)
         .then((data) => assert(data.isValid, JSON.stringify(data, null, 4))));
 });

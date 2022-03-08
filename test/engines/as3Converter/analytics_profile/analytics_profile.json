@@ -86,9 +86,9 @@
                     ],
                     "urlFilterType": "white-list",
                     "urlPathPrefixes": [
-                        "a.org",
-                        "b.org",
-                        "c.org"
+                        "a.test",
+                        "b.test",
+                        "c.test"
                     ],
                     "userAgentSubstrings": [
                         "Mozilla (01",

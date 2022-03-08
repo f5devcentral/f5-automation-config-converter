@@ -6,18 +6,9 @@
             { "id": "hostname" },
             { "id": "consoleInactivityTimeout" },
             { "id": "guiAudit", "newId": "guiAuditLog", "truth": "enabled", "falsehood": "disabled", "skipWhenOmitted": true },
-            { "id": "mgmtDhcp" }
+            { "id": "mgmtDhcp", "newId": "mgmtDhcpEnabled", "truth": "enabled", "falsehood": "disabled", "skipWhenOmitted": true }
         ],
-        "nameless": true,
-        "declaration": {
-            "properties": [
-                {
-                    "$comment": "We need to know this value for rollback but it is not in the schema",
-                    "id": "mgmtDhcp",
-                    "remove": true
-                }
-            ]
-        }
+        "nameless": true
     },
     {
         "path": "/tm/cli/global-settings",
@@ -51,6 +42,7 @@
         ],
         "singleValue": true,
         "silent": true,
+        "nameless": true,
         "declaration": false
     },
     {
@@ -73,6 +65,7 @@
             { "id": "level" }
         ],
         "singleValue": true,
+        "nameless": true,
         "declaration": {
             "properties": [
                 {
@@ -89,7 +82,8 @@
         "properties": [
             { "id": "servers" },
             { "id": "timezone" }
-        ]
+        ],
+        "nameless": true
     },
     {
         "path": "/tm/sys/dns",
@@ -97,7 +91,8 @@
         "properties": [
             { "id": "nameServers" },
             { "id": "search" }
-        ]
+        ],
+        "nameless": true
     },
     {
         "path": "/tm/net/dns-resolver",
@@ -233,7 +228,8 @@
         "schemaClass": "RouteMap",
         "properties": [
             { "id": "name" },
-            { "id": "entriesReference", "dereferenceId": "entries" }
+            { "id": "entriesReference", "dereferenceId": "entries" },
+            { "id": "routeDomain" }
         ],
         "references": {
             "entriesReference": [
@@ -271,6 +267,7 @@
             },
             { "id": "keepAlive" },
             { "id": "holdTime" },
+            { "id": "routeDomain" },
             { "id": "peerGroupReference", "dereferenceId": "peerGroups" },
             { "id": "neighborReference", "dereferenceId": "neighbors" }
         ],
@@ -380,10 +377,9 @@
         "path": "/tm/cm/traffic-group",
         "schemaClass": "MAC_Masquerade",
         "properties": [
-            { "id": "mac"}
+            { "id": "mac" }
         ],
-        "declaration": false,
-        "nameless": true
+        "declaration": false
     },
     {
         "path": "/tm/analytics/global-settings",
@@ -399,6 +395,7 @@
             { "id": "sourceId", "defaultWhenOmitted": "none" },
             { "id": "tenantId", "defaultWhenOmitted": "default" }
         ],
+        "nameless": true,
         "declaration": {
             "properties": [
                 { "id": "offboxProtocol", "removeIfValue": "none" }
@@ -1132,5 +1129,15 @@
             ]
         },
         "nameless": true
+    },
+    {
+        "schemaClass": "License",
+        "nameless": true,
+        "properties": []
+    },
+    {
+        "schemaClass": "DeviceTrust",
+        "nameless": true,
+        "properties": []
     }
 ]

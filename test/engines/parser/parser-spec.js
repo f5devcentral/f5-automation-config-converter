@@ -40,90 +40,90 @@ describe('Parse the config (parse.js)', () => {
     it('should parse the bigip-object into json-object', async () => {
         const data = await readFiles(['./test/engines/parser/ex1.conf']);
         const json = parse(data);
-        assert.deepStrictEqual(json, ex1);
+        assert.deepStrictEqual(ex1, json);
     });
 
     it('should parse nested bigip-objects into json-objects', async () => {
         const data = await readFiles(['./test/engines/parser/ex2.conf']);
         const json = parse(data);
-        assert.deepStrictEqual(json, ex2);
+        assert.deepStrictEqual(ex2, json);
     });
 
     it('should handle a mix of different data types', async () => {
         const data = await readFiles(['./test/engines/parser/ex3.conf']);
         const json = parse(data);
-        assert.deepStrictEqual(json, ex3);
+        assert.deepStrictEqual(ex3, json);
     });
 
     it('should handle iRules', async () => {
         const data = await readFiles(['./test/engines/parser/ex4.conf']);
         const json = parse(data);
-        assert.deepStrictEqual(json, ex4);
+        assert.deepStrictEqual(ex4, json);
     });
 
     it('should handle multiple iRules', async () => {
         const data = await readFiles(['./test/engines/parser/ex5.conf']);
         const json = parse(data);
-        assert.deepStrictEqual(json, ex5);
+        assert.deepStrictEqual(ex5, json);
     });
 
     it('should handle irregular (user-defined) indentation in iRules', async () => {
         const data = await readFiles(['./test/engines/parser/ex6.conf']);
         const json = parse(data);
-        assert.deepStrictEqual(json, ex6);
+        assert.deepStrictEqual(ex6, json);
     });
 
-    it('should recognize a quoted bracket "{"', async () => {
+    it('should recognize a quoted string', async () => {
         const data = await readFiles(['./test/engines/parser/ex7.conf']);
         const json = parse(data);
-        assert.deepStrictEqual(json, ex7);
+        assert.deepStrictEqual(ex7, json);
     });
 
     it('should recognize a multiline string', async () => {
         const data = await readFiles(['./test/engines/parser/ex8.conf']);
         const json = parse(data);
-        assert.deepStrictEqual(json, ex8);
+        assert.deepStrictEqual(ex8, json);
     });
 
     it('should handle escape chars', async () => {
         const data = await readFiles(['./test/engines/parser/ex9.conf']);
         const json = parse(data);
-        assert.deepStrictEqual(json, ex9);
+        assert.deepStrictEqual(ex9, json);
     });
 
     it('should skip cli script section', async () => {
         const data = await readFiles(['./test/engines/parser/ex10.conf']);
         const json = parse(data);
-        assert.deepStrictEqual(json, ex10);
+        assert.deepStrictEqual(ex10, json);
     });
 
     it('should handle windows line endings', async () => {
         const data = await readFiles(['./test/engines/parser/ex11.conf']);
         const json = parse(data);
-        assert.deepStrictEqual(json, ex11);
+        assert.deepStrictEqual(ex11, json);
     });
 
     it('should handle {} within string value', async () => {
         const data = await readFiles(['./test/engines/parser/ex12.conf']);
         const json = parse(data);
-        assert.deepStrictEqual(json, ex12);
+        assert.deepStrictEqual(ex12, json);
     });
 
     it('should handle invalid CSS', async () => {
         const data = await readFiles(['./test/engines/parser/ex13.conf']);
         const json = parse(data);
-        assert.deepStrictEqual(json, ex13);
+        assert.deepStrictEqual(ex13, json);
     });
 
     it('should right filter commented lines', async () => {
         const data = await readFiles(['./test/engines/parser/ex14.conf']);
         const json = parse(data);
-        assert.deepStrictEqual(json, ex14);
+        assert.deepStrictEqual(ex14, json);
     });
 
     it('should handle an unnamed array of objects', async () => {
         const data = await readFiles(['./test/engines/parser/ex15.conf']);
         const json = parse(data);
-        assert.deepStrictEqual(json, ex15);
+        assert.deepStrictEqual(ex15, json);
     });
 });

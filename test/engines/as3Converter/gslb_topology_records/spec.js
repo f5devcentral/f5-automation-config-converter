@@ -38,7 +38,7 @@ describe('GSLB_Topology_Records: gtm topology', () => {
         const convertedDec = json.Common.Shared;
         originalDec.topology = originalDec.recordsGSLB;
         delete originalDec.recordsGSLB;
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex1 validation', () => validator(json)

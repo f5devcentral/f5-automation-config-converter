@@ -15,7 +15,7 @@
                 "dnsResolver": {
                     "bigip": "/Common/1.2.3.4"
                 },
-                "responderUrl": "http://cert.ocsp1.test.com",
+                "responderUrl": "http://cert.ocsp1.test",
                 "timeout": 300
             }
         }

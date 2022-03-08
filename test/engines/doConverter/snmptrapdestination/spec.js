@@ -36,7 +36,7 @@ describe('SnmpTrapDestination: sys snmp', () => {
         declaration.Common.myV3SnmpDestination.authentication.password = 'P@ssW0rd';
         declaration.Common.myV3SnmpDestination.privacy.password = 'P@ssW0rd';
 
-        assert.deepStrictEqual(declaration, ex1);
+        assert.deepStrictEqual(ex1, declaration);
     });
 
     it('ex1 validation', () => validator(declaration)

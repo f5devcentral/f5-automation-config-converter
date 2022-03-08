@@ -137,7 +137,7 @@ describe('Service HTTPS: ltm virtual', () => {
 
         const originalDec = ex5.AS3_Tenant.AS3_Application;
         const convertedDec = json.AS3_Tenant.AS3_Application;
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex5 validation', () => validator(json)
@@ -151,7 +151,7 @@ describe('Service HTTPS: ltm virtual', () => {
 
         const originalDec = ex6.AS3_Tenant.AS3_Application;
         const convertedDec = json.AS3_Tenant.AS3_Application;
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex6 validation', () => validator(json)
@@ -165,7 +165,7 @@ describe('Service HTTPS: ltm virtual', () => {
 
         const originalDec = ex7.AS3_Tenant.AS3_Application;
         const convertedDec = json.AS3_Tenant.AS3_Application;
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex7 validation', () => validator(json)
@@ -179,7 +179,7 @@ describe('Service HTTPS: ltm virtual', () => {
 
         const originalDec = ex8.AS3_Tenant.AS3_Application;
         const convertedDec = json.AS3_Tenant.AS3_Application;
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex8 validation', () => validator(json)
@@ -226,7 +226,7 @@ describe('Service HTTPS: ltm virtual', () => {
 
         const originalDec = ex10.AS3_Tenant.AS3_Application;
         const convertedDec = json.AS3_Tenant.AS3_Application;
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex10 validation', () => validator(json)
@@ -240,7 +240,7 @@ describe('Service HTTPS: ltm virtual', () => {
 
         const originalDec = ex11.AS3_Tenant.AS3_Application;
         const convertedDec = json.AS3_Tenant.AS3_Application;
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex11 validation', () => validator(json)
@@ -253,7 +253,7 @@ describe('Service HTTPS: ltm virtual', () => {
 
         const originalDec = ex12.AS3_Tenant.AS3_Application;
         const convertedDec = json.AS3_Tenant.AS3_Application;
-        compareDeclaration(convertedDec, originalDec);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex12 validation', () => validator(json)
@@ -266,10 +266,10 @@ describe('Service HTTPS: ltm virtual', () => {
 
         let originalDec = ex13.AS3_Tenant.AS3_Application;
         let convertedDec = json.AS3_Tenant.AS3_Application;
-        compareDeclaration(convertedDec, originalDec);
+        compareDeclaration(originalDec, convertedDec);
         originalDec = ex13.Common.Shared;
         convertedDec = json.Common.Shared;
-        compareDeclaration(convertedDec, originalDec);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex13 validation', () => validator(json)
@@ -283,7 +283,7 @@ describe('Service HTTPS: ltm virtual', () => {
 
         const originalDec = ex14.AS3_Tenant.AS3_Application;
         const convertedDec = json.AS3_Tenant.AS3_Application;
-        compareDeclaration(convertedDec, originalDec);
+        compareDeclaration(originalDec, convertedDec);
     });
 
     it('ex14 validation', () => validator(json)

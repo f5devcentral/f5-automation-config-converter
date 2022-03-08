@@ -1,4 +1,26 @@
 {
+  "gtm monitor external": [
+    { "id":"description",               "altId": "remark", "quotedString": true }
+  ],
+  "gtm monitor gateway-icmp": [
+    { "id":"description",               "altId": "remark", "quotedString": true }
+  ],
+  "gtm monitor http": [
+    { "id":"description",               "altId": "remark", "quotedString": true }
+  ],
+  "gtm monitor https": [
+    { "id":"description",               "altId": "remark", "quotedString": true }
+  ],
+  "gtm monitor tcp": [
+    { "id":"description",               "altId": "remark", "quotedString": true }
+  ],
+  "gtm monitor udp": [
+    { "id":"description",               "altId": "remark", "quotedString": true }
+  ],
+  "gtm pool a": [],
+  "gtm pool aaaa": [],
+  "gtm pool cname": [],
+  "gtm pool mx": [],
   "sys application service": [
     { "id":"variables",   "extend": "objArray", "default": null },
     { "id":"description", "altId": "remark", "quotedString": true },

@@ -10,7 +10,7 @@
             "autoFailbackTime": 50,
             "haLoadFactor": 2,
             "haOrder": [
-                "do.example.com"
+                "do.example.test"
             ]
         }
     }

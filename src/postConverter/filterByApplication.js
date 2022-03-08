@@ -133,10 +133,12 @@ module.exports = (json, config) => {
     let tenantTarget = tenant;
     if (config.tenantTarget) {
         tenantTarget = config.tenantTarget;
+        log.info(`Tenant Target: ${tenantTarget}`);
     }
     let applicationTarget = vsName;
     if (config.applicationTarget) {
         applicationTarget = config.applicationTarget;
+        log.info(`Application Target: ${applicationTarget}`);
     }
     const dependents = {};
     try {
@@ -159,6 +161,7 @@ module.exports = (json, config) => {
             template: vsObj.class.split('_')[1].toLowerCase(),
             ...dependents
         };
+        log.info(`Target virtual server is found in json: ${config.vsName}`);
         return declObj;
     } catch (e) {
         e.message = `Error filtering by application. Please open an issue at https://github.com/f5devcentral/f5-automation-config-converter/issues and include the following error:\n${e.message}`;

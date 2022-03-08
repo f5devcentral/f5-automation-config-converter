@@ -31,7 +31,7 @@ describe('GSLBMonitor: gtm monitor', () => {
         const data = await readFiles(['./test/engines/doConverter/gslbmonitor/gslbmonitor.conf']);
         const parsed = parse(data);
         declaration = doConverter(parsed);
-        assert.deepStrictEqual(declaration, ex1);
+        assert.deepStrictEqual(ex1, declaration);
     });
 
     it('ex1 validation', () => validator(declaration)

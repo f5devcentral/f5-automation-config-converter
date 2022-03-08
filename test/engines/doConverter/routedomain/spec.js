@@ -23,6 +23,7 @@ const readFiles = require('../../../../src/preConverter/readFiles');
 const validator = require('../../validators/doAdapter');
 
 const ex1 = require('./routedomain.json');
+const ex2 = require('./routedomain2.json');
 
 let declaration;
 
@@ -31,9 +32,20 @@ describe('RouteDomain: net route-domain', () => {
         const data = await readFiles(['./test/engines/doConverter/routedomain/routedomain.conf']);
         const parsed = parse(data);
         declaration = doConverter(parsed);
-        assert.deepStrictEqual(declaration, ex1);
+        assert.deepStrictEqual(ex1, declaration);
     });
 
     it('ex1 validation', () => validator(declaration)
+        .then((data) => assert(data.isValid, JSON.stringify(data, null, 4))));
+
+    // don't convert default rd0
+    it('ex2', async () => {
+        const data = await readFiles(['./test/engines/doConverter/routedomain/routedomain2.conf']);
+        const parsed = parse(data);
+        declaration = doConverter(parsed);
+        assert.deepStrictEqual(ex2, declaration);
+    });
+
+    it('ex2 validation', () => validator(declaration)
         .then((data) => assert(data.isValid, JSON.stringify(data, null, 4))));
 });

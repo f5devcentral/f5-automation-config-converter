@@ -177,14 +177,14 @@ function fetchValue(targetData, dataPath, parent, dest, destPpty, root, that, sc
         return Promise.resolve()
             .then(() => authHeaderUtil.getAuthHeader(that.context, urlObj.authentication))
             .then((authHeader) => Object.assign(hdrs, authHeader))
-            .then(() => getExtraHeaders(urlObj))
+            .then(() => util.getExtraHeaders(urlObj))
             .then((extraHeaders) => Object.assign(hdrs, extraHeaders))
             .then(() => {
                 if (cset !== '') {
                     hdrs['Accept-Charset'] = cset;
                 }
 
-                const timeout = util.getDeepValue(that, 'context.tasks[that.context.currentIndex].resourceTimeout');
+                const timeout = util.getDeepValue(that, `context.tasks.${that.context.currentIndex}.resourceTimeout`);
 
                 const options = {
                     headers: hdrs,
@@ -227,7 +227,7 @@ function fetchValue(targetData, dataPath, parent, dest, destPpty, root, that, sc
                         // TODO:  deal with binary cert/key formats
                         // like pkcs#12, pkcs#7
 
-                        body = body.toString('base64'); // TODO: remove this hack
+                        body = body.toString(); // TODO: remove this hack
                     }
                     break;
 
@@ -305,16 +305,6 @@ function fetchValue(targetData, dataPath, parent, dest, destPpty, root, that, sc
 
     return Promise.resolve(true);
 } // fetchValue()
-
-function getExtraHeaders(urlObj) {
-    const extraHeaders = {};
-
-    if (urlObj.url.indexOf('windows.net') >= 0) {
-        extraHeaders['x-ms-version'] = '2017-11-09';
-    }
-
-    return extraHeaders;
-}
 
 function handleFetch(that, fetches) {
     return Promise.all(fetches.map((f) => fetchValue(

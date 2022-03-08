@@ -259,7 +259,7 @@ describe('Automation Config Converter API', function apiTest() {
                 const json = JSON.parse(data);
                 const originalDec = ex2.AS3_Tenant2.AS3_Application2;
                 const convertedDec = json.AS3_Tenant2.AS3_Application2;
-                compareDeclaration(originalDec, convertedDec, []);
+                compareDeclaration(originalDec, convertedDec);
             }));
 
         it('should create supported objs file if requested', () => chai.request(server)

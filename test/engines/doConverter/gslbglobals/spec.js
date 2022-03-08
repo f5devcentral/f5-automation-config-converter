@@ -31,7 +31,7 @@ describe('GSLBGlobals: gtm global-settings', () => {
         const data = await readFiles(['./test/engines/doConverter/gslbglobals/gslbglobals.conf']);
         const parsed = parse(data);
         declaration = doConverter(parsed);
-        assert.deepStrictEqual(declaration, ex1);
+        assert.deepStrictEqual(ex1, declaration);
     });
 
     it('ex1 validation', () => validator(declaration)

@@ -49,7 +49,7 @@ const getAssetId = (config) => {
         .catch(() => {});
 };
 
-module.exports = (data, convertObj, config) => {
+module.exports = (data, declaration, config) => {
     if (config.disableAnalytics) return Promise.resolve();
 
     let runtime = 'cli';
@@ -68,7 +68,7 @@ module.exports = (data, convertObj, config) => {
 
     const extraFields = {
         arguments: process.argv.slice(2),
-        declarationSize: JSON.stringify(convertObj.declaration).length,
+        declarationSize: JSON.stringify(declaration).length,
         engine: config.declarativeOnboarding ? 'DO' : 'AS3',
         inputSize: JSON.stringify(data).length,
         isContainer: process.env.DOCKER_CONTAINER === 'true',
@@ -84,7 +84,7 @@ module.exports = (data, convertObj, config) => {
     const record = new Record('ACC Telemetry Data', '1');
 
     return Promise.resolve()
-        .then(() => record.addClassCount(convertObj.declaration))
+        .then(() => record.addClassCount(declaration))
         .then(() => record.addJsonObject(platformInfo))
         .then(() => record.addJsonObject(extraFields))
         .then(() => getAssetId(config))

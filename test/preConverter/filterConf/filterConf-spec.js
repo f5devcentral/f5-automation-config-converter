@@ -37,6 +37,6 @@ describe('Test filterConf function (filterConf.js)', () => {
 
         // apply whitelist for AS3 and ACC support
         const as3Json = filterConf(json, as3PropertiesExt);
-        assert.deepStrictEqual(as3Json, ex0);
+        assert.deepStrictEqual(ex0, as3Json);
     });
 });

@@ -46,9 +46,10 @@ module.exports = (pathOrBuffer) => decompress(pathOrBuffer)
             return false;
         }
 
-        // keep var/tmp/filestore_temp/files_d/*
-        if (file.path.startsWith('var/tmp/filestore_temp/files_d/Common_d'
-            && (file.path.includes('.crt') || file.path.includes('.key')))) {
+        // keep var/tmp/filestore_temp/files_d/* and var/tmp/cert_tmp/conf
+        if ((file.path.startsWith('var/tmp/filestore_temp/files_d/Common_d')
+             || file.path.startsWith('var/tmp/cert_temp/conf'))
+            && (file.path.endsWith('.crt') || file.path.endsWith('.key'))) {
             return true;
         }
 

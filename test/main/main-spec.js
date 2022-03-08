@@ -160,6 +160,6 @@ describe('Test main function (main.js)', () => {
         const json = await mainAPI(data);
         const originalDec = ex.AS3_Tenant.AS3_Application;
         const convertedDec = json.declaration.AS3_Tenant.AS3_Application;
-        compareDeclaration(originalDec, convertedDec, []);
+        compareDeclaration(originalDec, convertedDec);
     });
 });

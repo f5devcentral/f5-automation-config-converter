@@ -19,7 +19,8 @@
                         }
                     }
                 }
-            ]
+            ],
+            "routeDomain": 0
         },
         "exampleRouteMap2": {
             "class": "RouteMap",
@@ -36,7 +37,8 @@
                         }
                     }
                 }
-            ]
+            ],
+            "routeDomain": 0
         }
     }
 }

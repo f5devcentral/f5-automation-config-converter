@@ -170,7 +170,7 @@ const keywords = [
         // Apply this keyword to an array of Pool_Member
         // objects.  This function will delve into each
         // Pool_Member to check its fqdn hostname or each of
-        // its static serverAddresses against that.nodelist.
+        // its static serverAddresses/servers against that.nodelist.
         // If a match is found, we modify the Pool_Members
         // element to convert fqdn or a single serverAddr to
         // bigip=node, or for multiple serverAddrs, add a
@@ -189,7 +189,45 @@ const keywords = [
                 type: 'boolean'
             },
             compile() {
+                function getAddresses(node) {
+                    let addresses = (node.serverAddresses || []).map((address) => address);
+                    addresses = addresses.concat((node.servers || []).map((server) => server.address));
+                    return addresses;
+                }
+
+                function checkDuplicateServerNames(node, error, errors) {
+                    (node.servers || []).reduce((currentNames, currentNode) => {
+                        if (currentNames.indexOf(currentNode.name) === -1) {
+                            currentNames.push(currentNode.name);
+                        } else {
+                            error.message = `servers array has duplicate name ${currentNode.name}`;
+                            errors.push(error);
+                        }
+                        return currentNames;
+                    }, []);
+                }
+
+                function removeAddressFromNode(node, address) {
+                    let addressIndex = (node.serverAddresses || [])
+                        .findIndex((serverAddr) => address === serverAddr);
+                    if (addressIndex >= 0) {
+                        node.serverAddresses.splice(addressIndex, 1);
+                    }
+                    addressIndex = (node.servers || [])
+                        .findIndex((server) => address === server.address);
+                    if (addressIndex >= 0) {
+                        node.servers.splice(addressIndex, 1);
+                    }
+                }
+
                 return function f5node(data, dataPath, parentData, pptyName, rootData) {
+                    f5node.errors = [];
+                    const myerror = {
+                        keyword: 'f5node',
+                        params: { keyword: 'f5node' },
+                        message: ''
+                    };
+
                     data.forEach((node) => {
                         if (node.addressDiscovery && node.addressDiscovery.use) {
                             const path = node.addressDiscovery.use.split('/');
@@ -201,13 +239,30 @@ const keywords = [
                             addressDiscoveryRef.resources.push({ item: parentData, path: resourcePath, member: node });
                         }
 
-                        (node.serverAddresses || []).forEach((address) => {
+                        const addresses = getAddresses(node);
+                        const processedAddresses = [];
+                        addresses.forEach((address) => {
                             const currentTenant = dataPath.split('/')[1];
                             if (!address.includes('%') && !node.routeDomain && rootData[currentTenant].defaultRouteDomain) {
                                 node.routeDomain = rootData[currentTenant].defaultRouteDomain;
                             }
+
+                            const fullAddress = address.includes('%') ? address : `${address}%${node.routeDomain}`;
+                            if (processedAddresses.indexOf(fullAddress) === -1) {
+                                processedAddresses.push(fullAddress);
+                            } else {
+                                const error = Object.assign({}, myerror);
+                                error.message = `serverAddresses/servers array has duplicate address ${fullAddress}`;
+                                f5node.errors.push(error);
+                            }
                         });
+
+                        checkDuplicateServerNames(node, myerror, f5node.errors);
                     });
+
+                    if (f5node.errors.length !== 0) {
+                        return false;
+                    }
 
                     if (typeof rootData.scratch !== 'undefined' || that.nodelist.length === 0) {
                         // don't want to fool with ltm-nodes right now
@@ -215,25 +270,18 @@ const keywords = [
                         return true;
                     }
 
-                    f5node.errors = [];
-                    const myerror = {
-                        keyword: 'f5node',
-                        params: { keyword: 'f5node' },
-                        message: ''
-                    };
-
                     const tenant = dataPath.split('/')[1];
                     const nodelist = that.nodelist;
                     let node;
 
                     const len = data.length; // need not scan extra elems we append
                     let i;
-                    let elem;
                     let j;
+                    let elem;
                     let addr;
                     let elemRef;
                     let trunc;
-                    let n;
+                    let index;
                     let extra;
 
                     for (i = 0; i < len; i += 1) {
@@ -245,11 +293,12 @@ const keywords = [
                         }
 
                         if (elem.addressDiscovery === 'fqdn') {
-                            n = util.binarySearch(that.nodelist,
+                            // Get the index of the node in the existing node list
+                            index = util.binarySearch(that.nodelist,
                                 (x) => ((elem.hostname < x.key) ? -1 : ((elem.hostname > x.key) ? 1 : 0))); // eslint-disable-line no-loop-func, no-nested-ternary, max-len
 
-                            if (n >= 0) {
-                                node = nodelist[n];
+                            if (index >= 0) {
+                                node = nodelist[index];
                                 if (node.partition === tenant) {
                                     // audit process will handle this
                                     continue; // eslint-disable-line no-continue
@@ -286,18 +335,19 @@ const keywords = [
                         if (elem.addressDiscovery !== 'static') {
                             continue; // eslint-disable-line no-continue
                         }
-                        // otherwise
 
-                        for (j = 0; (Array.isArray(elem.serverAddresses)
-                            && (j < elem.serverAddresses.length)); j += 1) {
-                            addr = elem.serverAddresses[j];
+                        // otherwise
+                        const addresses = getAddresses(elem);
+                        for (j = 0; j < addresses.length; j += 1) {
+                            addr = addresses[j];
                             addr = ipUtil.minimizeIP(addr).replace(/%0$/, '');
 
-                            n = util.binarySearch(that.nodelist,
+                            // Get the index of the node in the existing node list
+                            index = util.binarySearch(that.nodelist,
                                 (x) => ((addr < x.key) ? -1 : ((addr > x.key) ? 1 : 0))); // eslint-disable-line no-loop-func, no-nested-ternary, max-len
 
-                            if (n >= 0) {
-                                node = nodelist[n];
+                            if (index >= 0) {
+                                node = nodelist[index];
                                 if (node.partition === tenant) {
                                     // audit process will handle this
                                     continue; // eslint-disable-line no-continue
@@ -336,10 +386,10 @@ const keywords = [
                                     return false;
                                 }
 
-                                if (elem.serverAddresses.length === 1) {
+                                if (addresses.length === 1) {
                                     elem.bigip = node.fullPath;
                                     elem.remark = `(replaces AS3 ${addr})`;
-                                    ['addressDiscovery', 'serverAddresses'].forEach((p) => { // eslint-disable-line no-loop-func
+                                    ['addressDiscovery', 'serverAddresses', 'servers'].forEach((p) => { // eslint-disable-line no-loop-func
                                         delete elem[p];
                                     });
                                 } else {
@@ -347,12 +397,14 @@ const keywords = [
 
                                     extra.bigip = node.fullPath;
                                     extra.remark = `(replaces AS3 ${addr})`;
-                                    ['addressDiscovery', 'serverAddresses'].forEach((p) => { // eslint-disable-line no-loop-func
+                                    ['addressDiscovery', 'serverAddresses', 'servers'].forEach((p) => { // eslint-disable-line no-loop-func
                                         delete extra[p];
                                     });
 
                                     data.push(extra);
-                                    elem.serverAddresses.splice(j, 1);
+
+                                    addresses.splice(j, 1);
+                                    removeAddressFromNode(elem, addr);
                                     j -= 1;
                                 }
                             }
@@ -535,13 +587,17 @@ const keywords = [
 
                 if (util.getDeepValue(that.context, 'target.deviceType') === DEVICE_TYPES.BIG_IQ) {
                     if (typeof data === 'string') {
-                        data = {
+                        if (data.length > 2000) {
+                            return true;
+                        }
+
+                        parentData[parentProperty] = {
                             ciphertext: util.base64Encode(data),
                             protected: 'eyJhbGciOiJkaXIiLCJlbmMiOiJub25lIn0',
                             miniJWE: true,
                             ignoreChanges: false
                         };
-                        that.secrets.push(data);
+                        that.secrets.push([parentData[parentProperty], dataPath]);
                         return true;
                     }
                     throw new Error(`BIG-IQ received the following already encrypted data, instead of a string: ${JSON.stringify(data)}`);
@@ -875,6 +931,26 @@ const keywords = [
 
                     return true;
                 };
+            }
+        })
+    },
+    {
+        name: 'f5checkResource',
+        definition: (that) => ({
+            validate(schema, data, parentSchema, dataPath, parentData, pptyName, rootData) {
+                if (typeof rootData.scratch !== 'undefined') {
+                    // don't want to check resources right now
+                    return true;
+                }
+
+                that.checks.push({
+                    data,
+                    dataPath,
+                    parentData,
+                    pptyName,
+                    rootData
+                });
+                return true;
             }
         })
     }

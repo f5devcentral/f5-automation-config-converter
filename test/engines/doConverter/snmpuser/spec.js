@@ -36,7 +36,7 @@ describe('SnmpUser: sys snmp', () => {
         declaration.Common.snmpUser1.authentication.password = 'pass1W0rd!';
         declaration.Common.snmpUser1.privacy.password = 'P@ssW0rd';
 
-        assert.deepStrictEqual(declaration, ex1);
+        assert.deepStrictEqual(ex1, declaration);
     });
 
     it('ex1 validation', () => validator(declaration)

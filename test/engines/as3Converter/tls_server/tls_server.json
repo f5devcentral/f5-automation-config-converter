@@ -45,7 +45,7 @@
                         "certificate": "/AS3_Tenant/Application2/webcert1"
                     },
                     {
-                        "matchToSNI": "www.wheeee.com",
+                        "matchToSNI": "www.wheeee.test",
                         "certificate": "/AS3_Tenant/Application2/webcert2"
                     }
                 ]
