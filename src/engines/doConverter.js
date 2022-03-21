@@ -182,7 +182,7 @@ module.exports = (json, config) => {
                             if (propObj.truth === propVal || propVal === 'true') propVal = true;
                             if (propObj.falsehood === propVal || propVal === 'false') propVal = false;
                             if (!Array.isArray(propVal) && Number.isInteger(parseInt(propVal, 10))
-                                 && !propVal.includes('.') && !propVal.includes(':')) propVal = parseInt(propVal, 10);
+                                && !propVal.includes('.') && !propVal.includes(':')) propVal = parseInt(propVal, 10);
                             if (typeof propVal === 'string') propVal = unquote(propVal);
 
                             // supported classes: keyValueRemaps
@@ -215,8 +215,8 @@ module.exports = (json, config) => {
                 const classArr = ['TrafficGroup', 'Route', 'SnmpAgent', 'SnmpTrapEvents',
                     'ConfigSync', 'FailoverUnicast', 'FailoverMulticast', 'MirrorIp'];
                 if (declaration.Common[className]
-                     && Object.keys(declaration.Common[className]).length === 1
-                     && classArr.find((c) => declaration.Common[className].class.includes(c))) {
+                    && Object.keys(declaration.Common[className]).length === 1
+                    && classArr.find((c) => declaration.Common[className].class.includes(c))) {
                     delete declaration.Common[className];
                 }
             }
