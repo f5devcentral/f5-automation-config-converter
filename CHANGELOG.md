@@ -1,19 +1,13 @@
 # Changelog
 Changes to this project are documented in this file.
 
-## 1.20.0
-
-## Added
+## 1.19.1
 
 ## Fixed
 - CHARON-621: ([GitHub Issue 82](https://github.com/f5devcentral/f5-automation-config-converter/issues/82)):
 TLS1.0 in Certificate Name does not convert properly
 - CHARON-625: ([GitHub Issue 85](https://github.com/f5devcentral/f5-automation-config-converter/issues/85)):
 v1.19.0 DO convert fails with stack trace
-
-## Changed
-
-## Removed
 
 ## 1.19.0
 
