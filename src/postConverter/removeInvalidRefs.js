@@ -48,15 +48,17 @@ function deleteRef(obj, origObj, objName) {
         .forEach((key) => {
             if (Array.isArray(obj[key])) {
                 // array of wrapped refs
-                obj[key].forEach((item, i) => {
-                    if (!item.use) return;
-                    const refdObj = getRefdObj(item, origObj);
+                for (let i = 0; i < obj[key].length; i += 1) {
+                    if (!obj[key][i].use) return;
+                    const refdObj = getRefdObj(obj[key][i], origObj);
                     if (!refdObj) {
                         // remove item from array
-                        log.warn(`Invalid reference removed: ${objName}.${key}: ${JSON.stringify(item)}`);
+                        log.warn(`Invalid reference removed: ${objName}.${key}: ${JSON.stringify(obj[key][i])}`);
                         obj[key].splice(i, 1);
+                        i -= 1;
                     }
-                });
+                }
+                if (obj[key].length === 0) delete obj[key];
             } else if (obj[key].use) {
                 const refdObj = getRefdObj(obj[key], origObj);
                 if (!refdObj) {

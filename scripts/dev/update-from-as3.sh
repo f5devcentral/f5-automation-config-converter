@@ -17,14 +17,16 @@ FILES=("lib/adcParser.js" \
 "lib/adcParserFetch.js" \
 "lib/adcParserFormats.js" \
 "lib/adcParserKeywords.js" \
-"lib/adcParserSecrets.js" \
 "lib/config.js" \
 "lib/constants.js" \
 "lib/log.js" \
+"lib/postProcessor.js" \
 "lib/postValidator.js" \
 "lib/properties.json" \
 "lib/tracer.js" \
 "lib/validator.js" \
+"lib/tag/longSecretTag.js" \
+"lib/tag/secretTag.js" \
 "lib/util/authHeaderUtil.js" \
 "lib/util/certUtil.js" \
 "lib/util/cloudLibUtils.js" \
@@ -36,7 +38,7 @@ FILES=("lib/adcParser.js" \
 )
 
 # Extract files from AS3
-mkdir -p ../src/lib/util ../src/schema/latest
+mkdir -p ../src/lib/tag ../src/lib/util ../src/schema/latest
 for F in ${FILES[@]}; do
     cp "./src/$F" "../src/$F"
 done
@@ -50,6 +52,9 @@ git config --global user.name "F5 Automation Config Converter Pipeline"
 git checkout $CI_BRANCH_NAME
 git remote set-url origin https://$ACC_ACCESS_TOKEN@$CI_SERVER_HOST/$CI_PROJECT_PATH.git
 
+mkdir -p autotoolDeps/AS3/src/lib/tag
+mkdir -p autotoolDeps/AS3/src/lib/util
+mkdir -p autotoolDeps/AS3/src/schema/latest
 
 # Use git to diff the files, update, commit and push
 for F in ${FILES[@]}; do

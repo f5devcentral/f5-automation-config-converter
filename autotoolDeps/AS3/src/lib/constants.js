@@ -38,6 +38,7 @@ module.exports = {
     MAX_PATH_LENGTH: 195,
     reqSchemaFile: '/var/config/rest/iapps/f5-appsvcs/schema/latest/as3-request-schema.json',
     settingsSchemaFile: '/var/config/rest/iapps/f5-appsvcs/schema/latest/settings-schema.json',
+    adcSchemaId: 'urn:uuid:f83d84a1-b27b-441a-ae32-314b3de3315a',
     tmosVersion: '0.0.0',
     cloudLibsBaseDir: '/config/cloud/as3',
     cloudLibsLogFolder: '/var/log/cloudlibs',

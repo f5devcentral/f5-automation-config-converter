@@ -32,7 +32,7 @@ parser.context = {
         provisionedModules: ['afm', 'apm', 'asm', 'avr', 'em', 'fps', 'gtm', 'pem']
     }
 };
-parser.loadSchema(as3Schema);
+parser.loadSchemas([as3Schema]);
 
 module.exports = (declaration) => {
     const isValid = parser.validator(declaration);

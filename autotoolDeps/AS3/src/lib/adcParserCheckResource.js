@@ -25,6 +25,10 @@ function checkResource(targetData, dataPath, parent, destPpty, root, context) {
         !targetData.url ? { url: targetData } : targetData
     );
 
+    if (urlObj.url.startsWith('file:')) {
+        return Promise.resolve(true);
+    }
+
     const hdrs = {};
     return Promise.resolve()
         .then(() => authHeaderUtil.getAuthHeader(context, urlObj.authentication))

@@ -39,6 +39,7 @@ const ex11 = require('./service_https11.json');
 const ex12 = require('./service_https12.json');
 const ex13 = require('./service_https13.json');
 const ex14 = require('./service_https14.json');
+const ex15 = require('./service_https15.json');
 
 const serviceHttpsAllowlist = ['certificate', 'chainCA', 'passphrase'];
 
@@ -287,5 +288,19 @@ describe('Service HTTPS: ltm virtual', () => {
     });
 
     it('ex14 validation', () => validator(json)
+        .then((data) => assert(data.isValid, JSON.stringify(data, null, 4))));
+
+    // bad reference and special names
+    it('ex15', async () => {
+        const data = await readFiles(['./test/engines/as3Converter/service_https/service_https15.conf']);
+        const parsed = parse(data);
+        json = as3Converter(parsed).declaration;
+
+        const originalDec = ex15.AS3_Tenant.AS3_Application;
+        const convertedDec = json.AS3_Tenant.AS3_Application;
+        compareDeclaration(originalDec, convertedDec);
+    });
+
+    it('ex15 validation', () => validator(json)
         .then((data) => assert(data.isValid, JSON.stringify(data, null, 4))));
 });

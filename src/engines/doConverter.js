@@ -254,7 +254,7 @@ module.exports = (json, config) => {
             delete declaration.Common['remote-user'];
         }
         if (key.startsWith('auth ldap')) {
-            const ldapName = key.split('/').at(-1);
+            const ldapName = key.split('/').pop();
             const ldapObj = declaration.Common[ldapName];
             if (ldapObj.bindPassword) ldapObj.bindPassword = '';
             delete ldapObj.class;
@@ -263,15 +263,8 @@ module.exports = (json, config) => {
             delete declaration.Common[ldapName];
         }
         if (key.startsWith('auth tacacs')) {
-            const tacacsName = key.split('/').at(-1);
-            const tacacsObj = declaration.Common[tacacsName];
-            if (tacacsObj.secret) tacacsObj.secret = '';
-            delete tacacsObj.class;
-            declaration.Common.Authentication.tacacs = tacacsObj;
-            delete declaration.Common[tacacsName];
-        }
+            const tacacsName = key.split('/').pop();
         if (key.startsWith('auth radius ')) {
-            const tmpRadius = confObj[key];
             if (tmpRadius.servers) {
                 Object.keys(tmpRadius.servers).forEach((serverFullName) => {
                     const keyServerName = `auth radius-server ${serverFullName}`;
@@ -287,12 +280,12 @@ module.exports = (json, config) => {
                 });
             }
             declaration.Common.Authentication.radius = tmpRadius;
-            delete declaration.Common[key.split('/').at(-1)];
+            delete declaration.Common[key.split('/').pop()];
         }
         if (key.startsWith('auth radius-server')) {
-            delete declaration.Common[key.split('/').at(-1)];
+            delete declaration.Common[key.split('/').pop()];
         }
-    });
+    };
 
     // Delete temp Auth object
     if (Object.keys(declaration.Common.Authentication).length === 1) delete declaration.Common.Authentication;
@@ -323,4 +316,4 @@ module.exports = (json, config) => {
     }
 
     return declaration;
-};
+}

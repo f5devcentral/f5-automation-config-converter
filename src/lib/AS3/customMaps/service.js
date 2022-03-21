@@ -23,6 +23,7 @@ const getObjectType = require('../../../util/convert/getObjectType');
 const handleObjectRef = require('../../../util/convert/handleObjectRef');
 const isIPv4 = require('../../../util/convert/isIPv4');
 const isIPv6 = require('../../../util/convert/isIPv6');
+const log = require('../../../util/log');
 const portDict = require('../../portDict.json');
 const returnEmptyObjIfNone = require('../../../util/convert/returnEmptyObjIfNone');
 const unquote = require('../../../util/convert/unquote');
@@ -117,14 +118,11 @@ const getServiceType = (obj, file) => {
         const profDict = serviceProfileProperties[profType];
         if (profDict) {
             if (profDict === 'clientTLS' || profDict === 'serverTLS') {
-                const name = prof.split('/').pop();
-                if (!name.match(/[_.-]\d+-{0,1}$/ig)) {
-                    if (!service[profDict]) service[profDict] = [];
-                    if (!getObjectType(prof, '')) {
-                        service[profDict].push({ bigip: handleSharedPath(prof) });
-                    } else {
-                        service[profDict].push(handleObjectRef(prof));
-                    }
+                if (!service[profDict]) service[profDict] = [];
+                if (!getObjectType(prof, '')) {
+                    service[profDict].push({ bigip: handleSharedPath(prof) });
+                } else {
+                    service[profDict].push(handleObjectRef(prof));
                 }
             } else if (profDict === 'profileTCP' || profDict === 'profileHTTP2') {
                 if (!service[profDict]) service[profDict] = {};
@@ -138,6 +136,8 @@ const getServiceType = (obj, file) => {
             } else {
                 service[profDict] = handleObjectRef(prof);
             }
+        } else {
+            log.warn(`Invalid reference dropped: ${prof}`);
         }
     });
 
@@ -158,8 +158,16 @@ const getServiceType = (obj, file) => {
         // if we have multiple profiles, all of them should be just in /Common
         } else if (Object.keys(service).includes(prof) && service[prof].length > 1) {
             const tmp = service[prof];
-            for (let i = 0; i < tmp.length; i += 1) tmp[i] = { bigip: `/Common/${path.basename(tmp[i].bigip || tmp[i].use)}` };
-            service[prof] = tmp;
+            for (let i = 0; i < tmp.length; i += 1) {
+                // Clean up duplicate profiles here
+                if ((tmp[i].bigip || tmp[i].use).match(/[_.-]\d+-{0,1}$/ig)) {
+                    tmp.splice(i, 1);
+                    i -= 1;
+                }
+                tmp[i] = { bigip: `/Common/${path.basename(tmp[i].bigip || tmp[i].use)}` };
+            }
+            // Check if we still have multiple profiles
+            service[prof] = (tmp.length === 1) ? handleSharedPath(tmp[0].bigip) : tmp;
         }
     });
     return service;

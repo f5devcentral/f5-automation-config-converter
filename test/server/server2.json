@@ -28,7 +28,6 @@
                     "21.21.21.21"
                 ],
                 "virtualPort": 201,
-                "persistenceMethods": [],
                 "snat": "auto"
             },
             "testAppVirtual2": {
@@ -42,7 +41,6 @@
                 },
                 "sourceAddress": "11.11.11.0/24",
                 "virtualType": "internal",
-                "persistenceMethods": [],
                 "snat": "none"
             },
             "testRequestProfile2": {
@@ -76,7 +74,6 @@
                     "31.31.31.31"
                 ],
                 "virtualPort": 201,
-                "persistenceMethods": [],
                 "snat": "none"
             },
             "httpProfile2": {

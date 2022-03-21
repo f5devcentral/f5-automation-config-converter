@@ -29,6 +29,51 @@ let babyAjv; // baby ajv used to check f5pointsTo targets
 
 const keywords = [
     {
+        name: 'f5PostProcess',
+        definition: (that) => ({
+            metaSchema: {
+                type: 'object',
+                properties: {
+                    tag: {
+                        type: 'string',
+                        minLength: 1
+                    },
+                    data: {
+                        type: 'object'
+                    }
+                },
+                required: ['tag'],
+                additionalProperties: false
+            },
+            validate(schema) {
+                const args = Array.from(arguments);
+                let instancePath;
+                let parentDataProperty;
+                if (typeof args[3] === 'object') {
+                    // Fetch data from AJV 7+
+                    instancePath = args[3].instancePath;
+                    parentDataProperty = args[3].parentDataProperty;
+                } else {
+                    // Fetch data from AJV 6
+                    instancePath = args[3];
+                    parentDataProperty = args[5];
+                }
+
+                if (typeof that.postProcess[schema.tag] === 'undefined') {
+                    that.postProcess[schema.tag] = [];
+                }
+
+                that.postProcess[schema.tag].push({
+                    instancePath,
+                    parentDataProperty,
+                    schemaData: schema.data
+                });
+
+                return true;
+            }
+        })
+    },
+    {
         // custom keyword 'f5pointsTo" both validates and
         // fixes up AS3 pointers
         //
@@ -541,81 +586,6 @@ const keywords = [
         })
     },
     {
-        // custom keyword 'f5secret' replaces a
-        // plaintext secret value in a declaration
-        // with a SecureVault cryptogram
-        //
-        // If special property "scratch" exists in the root
-        // of the document this function becomes a no-op
-        //
-        name: 'f5secret',
-        definition: (that) => ({
-            type: 'object',
-            errors: true,
-            modifying: true,
-            metaSchema: {
-                type: 'boolean'
-            },
-            validate: (schema, data, parentSchema, dataPath, parentData, parentProperty, root) => {
-                if (typeof root.scratch !== 'undefined') {
-                    // don't want to encrypt secrets right now
-                    return true;
-                }
-
-                that.secrets.push([data, dataPath]);
-                return true;
-            }
-        })
-    },
-    {
-        // Encrypt secret that is too long to be handled by f5secret
-        // Hopefully we can convert the f5secret and cloudLibsEncrypt to this
-        // someday but it only runs locally (as does f5secret)
-        name: 'f5LongSecret',
-        definition: (that) => ({
-            errors: true,
-            modifying: true,
-            validate: (schema, data, parentSchema, dataPath, parentData, parentProperty, root) => {
-                if (typeof root.scratch !== 'undefined') {
-                    // don't want to encrypt secrets right now
-                    return true;
-                }
-
-                if (isAlreadyEncrypted(data, dataPath, 'f5LongSecret')) {
-                    return true;
-                }
-
-                if (util.getDeepValue(that.context, 'target.deviceType') === DEVICE_TYPES.BIG_IQ) {
-                    if (typeof data === 'string') {
-                        if (data.length > 2000) {
-                            return true;
-                        }
-
-                        parentData[parentProperty] = {
-                            ciphertext: util.base64Encode(data),
-                            protected: 'eyJhbGciOiJkaXIiLCJlbmMiOiJub25lIn0',
-                            miniJWE: true,
-                            ignoreChanges: false
-                        };
-                        that.secrets.push([parentData[parentProperty], dataPath]);
-                        return true;
-                    }
-                    throw new Error(`BIG-IQ received the following already encrypted data, instead of a string: ${JSON.stringify(data)}`);
-                }
-
-                if (typeof data !== 'string') {
-                    data = util.base64Decode(data.ciphertext).toString();
-                }
-                that.longSecrets.push({
-                    parent: parentData,
-                    key: parentProperty,
-                    secret: data
-                });
-                return true;
-            }
-        })
-    },
-    {
         // custom keyword 'f5fetch' copies values into
         // declarations from anywhere (in the world!)
         //
@@ -955,27 +925,6 @@ const keywords = [
         })
     }
 ];
-
-function isAlreadyEncrypted(data, dataPath, keyword) {
-    let JOSE = { enc: 'none' };
-
-    if (typeof data === 'object' && data.protected) {
-        const joseString = util.fromBase64(data.protected).toString();
-        try {
-            JOSE = JSON.parse(joseString);
-        } catch (e) {
-            const myerror = {
-                dataPath: dataPath || 'unknown path',
-                keyword,
-                params: {},
-                message: `Error parsing 'protected' property: ${e.message}`
-            };
-            throw new AJV.ValidationError([myerror]);
-        }
-    }
-
-    return JOSE.enc !== 'none';
-}
 
 module.exports = {
     keywords

@@ -75,11 +75,6 @@ describe('filter config (filterByApplication.js)', () => {
         sinon.assert.callCount(consoleLogSpy, 1);
         sinon.assert.calledWith(consoleLogSpy, 'Target virtual server is not found in json: /f5demo/f5demoApps/test_unknown_vs');
     });
-    it('full config in result, unknown virtual server specified', () => {
-        const config = { vsName: '/f5demo/f5demoApps/test_unknown_vs' };
-        const resultJson = filterByApplication(srcJson, config);
-        assert.deepStrictEqual(srcJson, resultJson);
-    });
     it('full config in result, no virtual server specified', () => {
         const config = { applicationTarget: 'Appl', tenantTarget: 'Ten' };
         const resultJson = filterByApplication(srcJson, config);

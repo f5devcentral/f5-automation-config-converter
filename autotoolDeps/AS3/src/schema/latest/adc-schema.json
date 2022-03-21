@@ -346,7 +346,9 @@
             }
           ],
           "f5fetch": "object",
-          "f5secret": true
+          "f5PostProcess": {
+            "tag": "secret"
+          }
         }
       },
       "required": [
@@ -390,7 +392,9 @@
               ]
             }
           ],
-          "f5LongSecret": true
+          "f5PostProcess": {
+            "tag": "longSecret"
+          }
         }
       },
       "required": [
@@ -4960,7 +4964,9 @@
               }
             ],
             "f5fetch": "object",
-            "f5secret": true
+            "f5PostProcess": {
+              "tag": "secret"
+            }
           }
         },
         "if": {
@@ -5957,7 +5963,9 @@
               ]
             }
           ],
-          "f5LongSecret": true
+          "f5PostProcess": {
+            "tag": "longSecret"
+          }
         }
       },
       "dependencies": {
@@ -6056,7 +6064,9 @@
               ]
             }
           ],
-          "f5LongSecret": true
+          "f5PostProcess": {
+            "tag": "longSecret"
+          }
         },
         "resourceType": {
           "description": "Type of resource identified by resourceId. This can be used in place of tagKey/tagValue.",
@@ -6200,7 +6210,9 @@
               ]
             }
           ],
-          "f5LongSecret": true
+          "f5PostProcess": {
+            "tag": "longSecret"
+          }
         },
         "projectId": {
           "title": "Project Id",
@@ -6262,7 +6274,9 @@
               ]
             }
           ],
-          "f5LongSecret": true
+          "f5PostProcess": {
+            "tag": "longSecret"
+          }
         },
         "trustCA": {
           "title": "Trusted CA bundle",
@@ -6808,7 +6822,9 @@
             }
           ],
           "f5fetch": "object",
-          "f5secret": true
+          "f5PostProcess": {
+            "tag": "secret"
+          }
         },
         "filename": {
           "title": "Filename",
@@ -6870,7 +6886,9 @@
             }
           ],
           "f5fetch": "object",
-          "f5secret": true
+          "f5PostProcess": {
+            "tag": "secret"
+          }
         },
         "transparent": {
           "title": "Transparent",
@@ -7042,7 +7060,9 @@
             }
           ],
           "f5fetch": "object",
-          "f5secret": true
+          "f5PostProcess": {
+            "tag": "secret"
+          }
         },
         "count": {
           "title": "Count",
@@ -7125,7 +7145,9 @@
             }
           ],
           "f5fetch": "object",
-          "f5secret": true
+          "f5PostProcess": {
+            "tag": "secret"
+          }
         },
         "count": {
           "title": "Count",
@@ -7433,7 +7455,9 @@
             }
           ],
           "f5fetch": "object",
-          "f5secret": true
+          "f5PostProcess": {
+            "tag": "secret"
+          }
         },
         "base": {
           "title": "Base",
@@ -7644,7 +7668,9 @@
             }
           ],
           "f5fetch": "object",
-          "f5secret": true
+          "f5PostProcess": {
+            "tag": "secret"
+          }
         },
         "secret": {
           "title": "Secret",
@@ -7663,7 +7689,9 @@
             }
           ],
           "f5fetch": "object",
-          "f5secret": true
+          "f5PostProcess": {
+            "tag": "secret"
+          }
         },
         "nasIpAddress": {
           "title": "IP Address",
@@ -8579,7 +8607,9 @@
             }
           ],
           "f5fetch": "object",
-          "f5secret": true
+          "f5PostProcess": {
+            "tag": "secret"
+          }
         },
         "chainCA": {
           "title": "CA chain",
@@ -9731,7 +9761,9 @@
             }
           ],
           "f5fetch": "object",
-          "f5secret": true
+          "f5PostProcess": {
+            "tag": "secret"
+          }
         },
         "fallbackRedirect": {
           "title": "Fallback Redirect",
@@ -11077,7 +11109,9 @@
             }
           ],
           "f5fetch": "object",
-          "f5secret": true
+          "f5PostProcess": {
+            "tag": "secret"
+          }
         },
         "minimumRto": {
           "title": "Minimum retransmission timeout",
@@ -12333,7 +12367,9 @@
             }
           ],
           "f5fetch": "object",
-          "f5secret": true
+          "f5PostProcess": {
+            "tag": "secret"
+          }
         },
         "certificate": {
           "description": "AS3 pointer to client Certificate declaration (optional)",
@@ -15070,7 +15106,9 @@
             }
           ],
           "f5fetch": "object",
-          "f5secret": true
+          "f5PostProcess": {
+            "tag": "secret"
+          }
         },
         "publicKey": {
           "description": "The public key of the authentication algorithm (rsa, dss, etc...)",
@@ -15939,7 +15977,9 @@
             }
           ],
           "f5fetch": "object",
-          "f5secret": true
+          "f5PostProcess": {
+            "tag": "secret"
+          }
         }
       },
       "required": [
@@ -26375,7 +26415,9 @@
             }
           ],
           "f5fetch": "object",
-          "f5secret": true
+          "f5PostProcess": {
+            "tag": "secret"
+          }
         },
         "password": {
           "description": "The password of the RADIUS AAA profile for RADIUS server authentication",
@@ -26393,7 +26435,9 @@
             }
           ],
           "f5fetch": "object",
-          "f5secret": true
+          "f5PostProcess": {
+            "tag": "secret"
+          }
         },
         "transactionTimeout": {
           "description": "The number of seconds to wait before resending authentication or accounting transaction messages to the RADIUS server",

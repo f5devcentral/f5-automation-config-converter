@@ -18,16 +18,17 @@
 
 const AJV = require('ajv');
 const f = require('fs');
+const promiseUtil = require('@f5devcentral/atg-shared-utilities').promiseUtils;
 const log = require('./log');
 const parserFormats = require('./adcParserFormats');
 const parserKeywords = require('./adcParserKeywords');
 const myValidator = require('./validator');
 const util = require('./util/util');
 const components = require('./adcParserComponents');
+const PostProcessor = require('./postProcessor');
 const PostValidator = require('./postValidator');
 const Config = require('./config');
 
-const secrets = require('./adcParserSecrets');
 const fetches = require('./adcParserFetch');
 const checks = require('./adcParserCheckResource');
 const certUtil = require('./util/certUtil');
@@ -35,100 +36,99 @@ const certUtil = require('./util/certUtil');
 const DEVICE_TYPES = require('./constants').DEVICE_TYPES;
 
 class As3Parser {
-    constructor(deviceType, schemaPath) {
+    constructor(deviceType, schemaPaths) {
         this.deviceType = deviceType;
-        this.defaultSchemaSource = schemaPath || 'file:///var/config/rest/iapps/f5-appsvcs/schema/latest/adc-schema.json';
-        this.parsed = undefined; // most-recently-parsed declaration
-        this.schema = undefined; // schema used with this.parsed
+        this.defaultSchemaSources = schemaPaths || ['file:///var/config/rest/iapps/f5-appsvcs/schema/latest/adc-schema.json'];
+        this.schemas = [];
         this.nodelist = [];
         this.virtualAddressList = [];
         this.validator = undefined;
         this.options = {};
+        this.postProcess = {};
     }
 
     /**
-     * return a promise to compile a schema for use by
-     * digest().  If supplied, argument 'source' is an
+     * return a promise to compile schemas for use by
+     * digest().  If supplied, argument 'sources' contains an
      * AS3 schema (as an object) or else a filename or URL
      * (file:/http(s):) from which to load an AS3 schema,
-     * if undefined or "" we load the default AS3 schema
+     * if undefined or empty array we load the default AS3 schema
      *
      * @public
-     * @param {object|string} source - if not empty overrides default schema
-     * @param {string} [saveCache=no] - refresh ajv-async-code cache file?
-     * @returns {Promise} - resolves to schema's "$id" value
+     * @param {object[]|string[]} [sources] - if not empty overrides default schema(s)
+     * @returns {Promise} - resolves to array of schema "$id" values
      */
-    loadSchema(source) {
+    loadSchemas(sources) {
+        const schemas = [];
         // first get an AJV instance with our custom keywords, etc.
         const ajv = prepareParserAjv.call(this);
 
-        let schemaURL = '';
         const R_OK = (typeof f.R_OK === 'undefined') ? f.constants.R_OK : f.R_OK;
 
-        // did caller supply actual schema or a URL to schema?
-        if ((typeof source === 'object') && (source !== null)
-            && Object.prototype.hasOwnProperty.call(source, '$id')) {
-            // caller provided a schema
-            this.schema = source;
-        } else if ((typeof source === 'undefined')
-                || ((typeof source === 'string')
-                                            && (source === ''))) {
-            // caller wishes to use default schema
-            schemaURL = this.defaultSchemaSource;
-        } else if ((typeof source === 'string')
-                && (source.match(/^(https?|file):/)
-                    || (f.accessSync(source, R_OK) === undefined))) {
-            schemaURL = source;
-        } else {
-            return Promise.reject(new Error('loadSchema argument must be schema, URL, or filename'));
+        if (!sources || (Array.isArray(sources) && sources.length === 0)) {
+            sources = this.defaultSchemaSources;
+        } else if (!Array.isArray(sources)) {
+            return Promise.reject(new Error('loadSchemas argument must be an Array'));
         }
 
-        if (typeof this.schema === 'undefined') {
-            // must fetch schema from URL
-            const loadOpts = {
-                why: 'for schema',
-                timeout: this.targetTimeout
-            };
+        const promiseFuncs = sources.map((source, idx, array) => () => {
+            let promise;
+            // did caller supply actual schema or a URL to schema?
+            if ((typeof source === 'object') && (source !== null)
+                && Object.prototype.hasOwnProperty.call(source, '$id')) {
+                // caller provided a schema
+                schemas.push(source);
+                promise = Promise.resolve(source);
+            } else if ((typeof source === 'string')
+                    && (source.match(/^(https?|file):/)
+                        || (f.accessSync(source, R_OK) === undefined))) {
+                // must fetch schema from URL
+                const loadOpts = {
+                    why: 'for schema',
+                    timeout: this.targetTimeout
+                };
 
-            return util.loadJSON(schemaURL, loadOpts)
-                .then((s) => {
-                    if (!Object.prototype.hasOwnProperty.call(s, '$id')) {
-                        throw new Error(`${schemaURL} did not return an AS3 schema`);
-                    }
-
-                    this.schema = s;
-
-                    // compile schema to AJV validation function
-                    // (which returns Promise, because async mode)
-                    try {
-                        this.validator = ajv.compile(this.schema);
-                    } catch (e) {
-                        e.message = `compiling schema ${schemaURL
-                        } failed, error: ${e.message}`;
+                promise = util.loadJSON(source, loadOpts)
+                    .then((s) => {
+                        if (!Object.prototype.hasOwnProperty.call(s, '$id')) {
+                            throw new Error('AS3 schema must contain an $id property');
+                        }
+                        schemas.push(s);
+                        return s;
+                    })
+                    .catch((e) => {
+                        e.message = `loading schema ${source} failed, error: ${e.message}`;
                         log.error(e);
-                        this.validator = undefined;
                         throw e;
+                    });
+            } else {
+                return Promise.reject(new Error('loadSchemas argument must be schema, URL, or filename'));
+            }
+
+            return promise.then((schema) => {
+                // compile schema to AJV validation function
+                try {
+                    if (idx < array.length - 1) {
+                        ajv.addSchema(schema);
+                    } else {
+                        this.validator = ajv.compile(schema);
                     }
-
-                    return this.schema.$id;
-                })
-                .catch((e) => {
-                    e.message = `loading schema failed, error: ${e.message}`;
+                } catch (e) {
+                    e.message = `compiling schema ${schema.$id} failed, error: ${e.message}`;
                     log.error(e);
+                    this.validator = undefined;
                     throw e;
-                });
-        }
+                }
 
-        // compile schema to AJV validation function
-        try {
-            this.validator = ajv.compile(this.schema);
-        } catch (e) {
-            e.message = `compiling supplied schema failed, error: ${e.message}`;
-            log.error(e);
-            return Promise.reject(e);
-        }
+                return schema.$id;
+            });
+        });
 
-        return Promise.resolve(this.schema.$id); // success
+        return promiseUtil.series(promiseFuncs)
+            .then((results) => {
+                this.schemas = schemas;
+                return results;
+            });
     }
 
     /**
@@ -186,8 +186,6 @@ class As3Parser {
             previousDeclaration: {}
         };
         this.options = Object.assign(this.options, defaultOpts, options);
-        this.secrets = [];
-        this.longSecrets = [];
         this.components = [];
         this.fetches = [];
         this.checks = [];
@@ -347,6 +345,8 @@ function as3Digest(declaration) {
         getVirtualAddresses = util.getVirtualAddressList(this.context);
     }
 
+    this.postProcess = {};
+
     return getNodelist
         .then((nodelist) => { this.nodelist = nodelist; })
         .then(() => getVirtualAddresses)
@@ -357,9 +357,8 @@ function as3Digest(declaration) {
         .then((result) => {
             id = result;
         })
+        .then(() => PostProcessor.process(this.context, declaration, this.postProcess))
         .then(() => PostValidator.validate(this.context, declaration))
-        .then(() => secrets.handleSecrets(this.context, this.secrets))
-        .then(() => secrets.handleLongSecrets(this.context, this.longSecrets))
         .then(() => {
             if (this.options.copySecrets && this.options.baseDeclaration) {
                 copySecrets(declaration, this.options.baseDeclaration);

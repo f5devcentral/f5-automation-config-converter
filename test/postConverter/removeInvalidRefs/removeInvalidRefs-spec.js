@@ -23,6 +23,7 @@ const validator = require('../../engines/validators/as3Adapter');
 const ex1 = require('./removeInvalidRefs.json');
 const ex2 = require('./removeInvalidRefs2.json');
 const ex3 = require('./removeInvalidRefs3.json');
+const ex4 = require('./removeInvalidRefs4.json');
 
 describe('Remove invalid refs (removeInvalidRefs.js)', () => {
     describe('wrapped bigip/use ref', () => {
@@ -54,6 +55,17 @@ describe('Remove invalid refs (removeInvalidRefs.js)', () => {
         it('should remove refs to non-existent classes', () => {
             removeInvalidRefs(ex3);
             return validator(ex3)
+                .then((data) => assert(data.isValid, JSON.stringify(data, null, 4)));
+        });
+    });
+
+    describe('remove multiple refs', () => {
+        it('should not validate declarations with invalid refs', () => validator(ex4)
+            .then((data) => assert(!data.isValid)));
+
+        it('should remove refs to non-existent classes', () => {
+            removeInvalidRefs(ex4);
+            return validator(ex4)
                 .then((data) => assert(data.isValid, JSON.stringify(data, null, 4)));
         });
     });
