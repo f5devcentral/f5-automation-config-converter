@@ -41,8 +41,8 @@ const getRegKey = () => {
 };
 
 /* Determine if device uses any of selfIp from list.
-   Return true or false.
- */
+    Return true or false.
+  */
 const validateDevice = (deviceObj, selfIpList) => Boolean(selfIpList.find((selfIP) => {
     if (deviceObj.mirrorIp && deviceObj.mirrorIp === selfIP) return true;
     if (deviceObj.configsyncIp && deviceObj.configsyncIp === selfIP) return true;
@@ -137,7 +137,7 @@ module.exports = (json, config) => {
             if (key.startsWith('net route-domain') || key.startsWith('net self')) tmshCmd += ' ';
 
             if (key.includes(tmshCmd)
-                || (key.startsWith('cm device /Common/') && tmshCmd.startsWith('cm device ~Common~'))) {
+                 || (key.startsWith('cm device /Common/') && tmshCmd.startsWith('cm device ~Common~'))) {
                 const schemaClass = item.schemaClass;
 
                 // create DO object in declaration if it doesnt exist
@@ -182,7 +182,7 @@ module.exports = (json, config) => {
                             if (propObj.truth === propVal || propVal === 'true') propVal = true;
                             if (propObj.falsehood === propVal || propVal === 'false') propVal = false;
                             if (!Array.isArray(propVal) && Number.isInteger(parseInt(propVal, 10))
-                                && !propVal.includes('.') && !propVal.includes(':')) propVal = parseInt(propVal, 10);
+                                 && !propVal.includes('.') && !propVal.includes(':')) propVal = parseInt(propVal, 10);
                             if (typeof propVal === 'string') propVal = unquote(propVal);
 
                             // supported classes: keyValueRemaps
@@ -215,8 +215,8 @@ module.exports = (json, config) => {
                 const classArr = ['TrafficGroup', 'Route', 'SnmpAgent', 'SnmpTrapEvents',
                     'ConfigSync', 'FailoverUnicast', 'FailoverMulticast', 'MirrorIp'];
                 if (declaration.Common[className]
-                    && Object.keys(declaration.Common[className]).length === 1
-                    && classArr.find((c) => declaration.Common[className].class.includes(c))) {
+                     && Object.keys(declaration.Common[className]).length === 1
+                     && classArr.find((c) => declaration.Common[className].class.includes(c))) {
                     delete declaration.Common[className];
                 }
             }
@@ -264,7 +264,14 @@ module.exports = (json, config) => {
         }
         if (key.startsWith('auth tacacs')) {
             const tacacsName = key.split('/').pop();
+            const tacacsObj = declaration.Common[tacacsName];
+            if (tacacsObj.secret) tacacsObj.secret = '';
+            delete tacacsObj.class;
+            declaration.Common.Authentication.tacacs = tacacsObj;
+            delete declaration.Common[tacacsName];
+        }
         if (key.startsWith('auth radius ')) {
+            const tmpRadius = confObj[key];
             if (tmpRadius.servers) {
                 Object.keys(tmpRadius.servers).forEach((serverFullName) => {
                     const keyServerName = `auth radius-server ${serverFullName}`;
@@ -285,7 +292,7 @@ module.exports = (json, config) => {
         if (key.startsWith('auth radius-server')) {
             delete declaration.Common[key.split('/').pop()];
         }
-    };
+    });
 
     // Delete temp Auth object
     if (Object.keys(declaration.Common.Authentication).length === 1) delete declaration.Common.Authentication;
@@ -316,4 +323,4 @@ module.exports = (json, config) => {
     }
 
     return declaration;
-}
+};
