@@ -1,6 +1,11 @@
 # Changelog
 Changes to this project are documented in this file.
 
+## 1.19.2
+
+## Fixed
+- CHARON-633: CVE-2022-0778 libretls vulnerability
+
 ## 1.19.1
 
 ## Fixed
