@@ -1112,8 +1112,8 @@
         "schemaClass": "ManagementIpFirewall",
         "requiredModules": [
             {
-                "module": "afm",
-                "maxVersion": "13.1"
+                "maxVersion": "13.1",
+                "module": "afm"
             }
         ],
         "properties": [

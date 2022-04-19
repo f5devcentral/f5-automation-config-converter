@@ -30,7 +30,6 @@ const parser = require('./engines/parser');
 const readFiles = require('./preConverter/readFiles');
 const removeDefaultValuesAS3 = require('./postConverter/removeDefaultValuesAS3');
 const removeDefaultValuesDO = require('./postConverter/removeDefaultValuesDO');
-const removeIapp = require('./preConverter/removeIapp');
 const removeInvalidRefs = require('./postConverter/removeInvalidRefs');
 const supported = require('./lib/AS3/customDict');
 
@@ -51,28 +50,22 @@ async function mainRunner(data, config) {
             doDecl = removeDefaultValuesDO(doDecl);
         }
 
-        const doStats = declarationStats(doDecl, config);
-
         return {
             declaration: doDecl,
-            metaData: {
-                declarationInfo: doStats,
+            metadata: {
+                declarationInfo: declarationStats(doDecl, config),
                 jsonCount: countObjects(json)
             }
         };
     }
 
     // apply allowlist for AS3 and ACC support
-    const as3Json = filterConf(json, getMergedAS3Properties());
-    const supportedJson = filterConf(json, supported);
+    const as3Recognized = filterConf(json, getMergedAS3Properties());
+    const as3Converted = filterConf(json, supported);
 
     // Convert json to AS3
     const converted = as3Converter(json, config);
     let declaration = converted.declaration;
-
-    // Clean up supported and AS3: remove iapp objects
-    const unsupportedObj = removeIapp(as3Json, supportedJson, converted.iappSupported);
-    Object.assign(unsupportedObj, ...converted.unsupportedObjects);
 
     // post-converters
     if (config.safeMode) {
@@ -97,14 +90,13 @@ async function mainRunner(data, config) {
 
     return {
         declaration,
-        metaData: {
-            as3Json,
-            as3JsonCount: countObjects(as3Json),
+        metadata: {
             declarationInfo: declarationStats(declaration),
             jsonCount: countObjects(json),
-            supportedJson,
-            supportedJsonCount: countObjects(supportedJson),
-            unsupportedObj
+            as3Recognized,
+            as3Converted,
+            as3NotConverted: converted.as3NotConverted,
+            unsupportedStats: converted.unsupportedStats
         }
     };
 }
@@ -127,20 +119,12 @@ module.exports = {
         const result = await mainRunner(data, config);
 
         // Send analytics
-        analytics(data, result.declaration, config);
+        analytics(data, result, config);
 
         logObjects(result, config);
+        result.metadata.logs = log.memory();
 
-        return {
-            declaration: result.declaration,
-            metaData: {
-                logs: log.memory(),
-                recognized: result.metaData.as3Json,
-                declarationInfo: result.metaData.declarationInfo,
-                supported: result.metaData.supportedJson,
-                unSupported: result.metaData.unsupportedObj
-            }
-        };
+        return result;
     },
 
     // Function designed for integration with f5-chariot project, no external support.
@@ -151,14 +135,9 @@ module.exports = {
         data = { 'config.conf': data };
         const result = await mainRunner(data, config);
 
-        return {
-            declaration: result.declaration,
-            metaData: {
-                recognized: result.metaData.as3Json,
-                declarationInfo: result.metaData.declarationInfo,
-                supported: result.metaData.supportedJson,
-                unSupported: result.metaData.unsupportedObj
-            }
-        };
+        // Send analytics
+        analytics(data, result, config);
+
+        return result;
     }
 };

@@ -27,9 +27,6 @@ const ex = require('./main.json');
 describe('Test main function (main.js)', () => {
     afterEach(() => {
         unlink('output.json').catch();
-        unlink('recognized.json').catch();
-        unlink('supported.json').catch();
-        unlink('unsupported.json').catch();
     });
 
     it('Should not fail if bad or encrypted ucs provided', async () => {
@@ -42,37 +39,11 @@ describe('Test main function (main.js)', () => {
         assert(fs.existsSync('output.json'));
     });
 
-    it('Should create logObjects when configured', async () => {
-        assert(!fs.existsSync('recognized.json'));
-        assert(!fs.existsSync('supported.json'));
-        assert(!fs.existsSync('unsupported.json'));
-
-        const config = {
-            conf: './test/main/main.conf',
-            output: 'output.json',
-            disableAnalytics: true,
-            debug: true,
-            summary: true,
-            recognized: true,
-            recognizedObjects: 'recognized.json',
-            supported: true,
-            supportedObjects: 'supported.json',
-            unsupported: true,
-            unsupportedObjects: 'unsupported.json'
-        };
-
-        await main(null, config);
-
-        assert(fs.existsSync('recognized.json'));
-        assert(fs.existsSync('supported.json'));
-        assert(fs.existsSync('unsupported.json'));
-    });
-
     it('Should be callable from 3rd party script as function, metadata test', async () => {
         const data = fs.readFileSync('./test/main/main.conf', 'utf-8');
 
         const exMetadata = {
-            recognized: {
+            as3Recognized: {
                 'ltm pool /AS3_Tenant/AS3_Application/web_pool': {
                     'min-active-members': '1'
                 },
@@ -115,7 +86,8 @@ describe('Test main function (main.js)', () => {
                 },
                 total: 2
             },
-            supported: {
+            jsonCount: 3,
+            as3Converted: {
                 'ltm pool /AS3_Tenant/AS3_Application/web_pool': {
                     'min-active-members': '1'
                 },
@@ -148,10 +120,11 @@ describe('Test main function (main.js)', () => {
                     'traffic-group': '/Common/traffic-group-1'
                 }
             },
-            unSupported: {}
+            as3NotConverted: {},
+            unsupportedStats: {}
         };
         const json = await mainAPI(data);
-        const convertedMetadata = json.metaData;
+        const convertedMetadata = json.metadata;
         assert.deepStrictEqual(exMetadata, convertedMetadata);
     });
 

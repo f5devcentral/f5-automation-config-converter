@@ -29,7 +29,7 @@ module.exports = {
             const newObj = {};
 
             const split = loc.original.split(' ');
-            const path = split[split.length - 1];
+            const path = split.at(-1);
 
             // skip certificates from /Common/
             if (path.startsWith('/Common/') && path.split('/').length === 3) return {};

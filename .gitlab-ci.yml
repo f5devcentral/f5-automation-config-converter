@@ -169,7 +169,7 @@ publish_docs:
   image: $CONTAINTHEDOCS_IMAGE
   stage: publish
   needs: [build_docs]
-  only: [main]
+  only: [docs-latest]
   environment:
     name: production
     url: https://clouddocs.f5.com/products/extensions/f5-automation-config-converter/latest/

@@ -26,10 +26,7 @@ module.exports = {
 
         keyValueRemaps: {
             members: (key, val) => ({
-                snatAddresses: Object.keys(val).map((addr) => {
-                    const split = addr.split('/');
-                    return split[split.length - 1];
-                })
+                snatAddresses: Object.keys(val).map((addr) => addr.split('/').at(-1))
             }),
 
             remark: (key, val) => ({ remark: unquote(val) })

@@ -1,6 +1,20 @@
 # Changelog
 Changes to this project are documented in this file.
 
+## 1.20.0
+
+## Added
+- CHARON-582: [VSCODE] Coordinate use of TEEM_KEY works for integration/docker-image runtimes
+
+## Fixed
+- CHARON-623: ([GitHub Issue 86](https://github.com/f5devcentral/f5-automation-config-converter/issues/86)):
+ServerTLS missing from conversion when using RESTAPI vsName filter
+- CHARON-635: [Paycom] TypeError: Error converting input file
+
+## Changed
+
+## Removed
+
 ## 1.19.2
 
 ## Fixed
@@ -37,6 +51,7 @@ Strings containing braces might cause an indefinite hang
 - CHARON-607: Add log messages for filter by virtual server name
 
 ## Changed
+- CHARON-570: Large refactor of recognized/supported/unsupported into as3Recognized/as3Converted/as3NotConverted
 
 ## Removed
 

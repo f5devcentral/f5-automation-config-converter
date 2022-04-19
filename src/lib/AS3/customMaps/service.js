@@ -242,7 +242,7 @@ module.exports = {
             if (rootObj.pool) {
                 const poolSplit = rootObj.pool.split('/');
                 if ((loc.app === 'Shared' && poolSplit.length === 3) || (poolSplit[1] === loc.tenant && poolSplit[2] === loc.app)) {
-                    rootObj.pool = poolSplit[poolSplit.length - 1];
+                    rootObj.pool = poolSplit.at(-1);
                 } else {
                     rootObj.pool = handleSharedPath(rootObj.pool);
                 }
@@ -265,7 +265,7 @@ module.exports = {
                 const ipv6 = split.length > 2;
                 if (ipv6) split = rootObj.destination.split('.');
                 const addrSplit = split[0].split('/');
-                let addr = addrSplit[addrSplit.length - 1];
+                let addr = addrSplit.at(-1);
                 if (addr && !isIPv4(addr) && !isIPv6(addr)) {
                     addr = handleObjectRef(split[0]);
                 }

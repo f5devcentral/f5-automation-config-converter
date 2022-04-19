@@ -113,11 +113,11 @@ module.exports = (json, config) => {
 
     if (!config.vsName) return json;
     const targetJson = JSON.parse(JSON.stringify(json));
-    const virualServer = config.vsName;
+    const virtualServer = config.vsName;
 
-    const tenant = virualServer.split('/')[1];
-    let application = virualServer.split('/')[2];
-    let vsName = virualServer.split('/')[3];
+    const tenant = virtualServer.split('/')[1];
+    let application = virtualServer.split('/')[2];
+    let vsName = virtualServer.split('/')[3];
 
     if (!vsName) {
         vsName = application;
@@ -135,7 +135,7 @@ module.exports = (json, config) => {
         tenantTarget = config.tenantTarget;
         log.info(`Tenant Target: ${tenantTarget}`);
     }
-    let applicationTarget = vsName;
+    let applicationTarget = application;
     if (config.applicationTarget) {
         applicationTarget = config.applicationTarget;
         log.info(`Application Target: ${applicationTarget}`);

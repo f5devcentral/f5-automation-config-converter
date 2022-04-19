@@ -392,55 +392,13 @@ describe('Converter utils (util/convert)', () => {
         });
     });
 
-    describe('Test merge properties files (getMergedAS3Properties.js)', () => {
-        it('Should merge without losing data', () => {
-            const as3Properties = {
-                'sys application service': [
-                    { id: 'description', altId: 'remark', quotedString: true },
-                    { id: 'template' },
-                    { id: 'template2' },
-                    {
-                        id: 'variables',
-                        extend: 'objArray',
-                        default: null,
-                        qwerty: 'qwerty'
-                    }
-                ]
-            };
-
-            const as3PropertiesCustom = {
-                // same as existing object
-                'sys application service': [
-                    // equal id with equal value
-                    { id: 'template' },
-                    // equal id with more values
-                    { id: 'template2', altId: 'tmp' },
-                    // equal id with different field value
-                    { id: 'variables', default: '', qwerty: 'qwerty' }
-                ],
-                'sys application': [ // additional object object
-                    { id: 'template1' }
-                ]
-            };
-
-            const ex0 = {
-                'sys application service': [
-                    { id: 'template' },
-                    { id: 'template2', altId: 'tmp' },
-                    {
-                        id: 'variables',
-                        extend: 'objArray',
-                        default: null,
-                        qwerty: 'qwerty'
-                    },
-                    { id: 'description', altId: 'remark', quotedString: true }
-                ],
-                'sys application': [{ id: 'template1' }]
-            };
-
-            // extend as3Properties with custom
-            const as3PropertiesExt = getMergedAS3Properties(as3Properties, as3PropertiesCustom);
-            assert.deepStrictEqual(ex0, as3PropertiesExt);
+    describe('Merging recognized properties (getMergedAS3Properties.js)', () => {
+        it('Should merge properties.json with as3PropertiesCustom.json', () => {
+            const mergedAS3Properties = getMergedAS3Properties();
+            // 'gtm monitor http' not found in properties.json
+            assert(mergedAS3Properties['gtm monitor http']);
+            // 'ltm virtual' only found in properties.json
+            assert(mergedAS3Properties['ltm virtual']);
         });
     });
 });

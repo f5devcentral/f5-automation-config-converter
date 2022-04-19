@@ -17,52 +17,43 @@
 'use strict';
 
 const fs = require('fs');
+const countObjects = require('../util/countObjects');
 const log = require('../util/log');
 
 module.exports = (result, config) => {
     const jsonDeclaration = JSON.stringify(result.declaration, null, 4);
     const {
-        jsonCount, as3Json, as3JsonCount, supportedJson, supportedJsonCount,
-        declarationInfo, unsupportedObj
-    } = result.metaData;
+        jsonCount, as3Recognized, as3Converted, as3NotConverted, declarationInfo
+    } = result.metadata;
 
     if (config.declarativeOnboarding) {
         log.info(`${jsonCount} BIG-IP objects detected total`);
         log.info(`${declarationInfo.total} DO stanzas generated`);
     } else {
-        // Log recognized objects
-        if (config.recognized) {
-            log.info('------ Recognized objects ------');
-            Object.keys(as3Json).forEach((x) => log.info(x));
-            log.info('-- end of Recognized objects ---');
-        }
-        if (config.recognizedObjects) {
-            fs.writeFileSync(config.recognizedObjects, JSON.stringify(as3Json, null, 4));
+        // Log as3Recognized objects
+        if (config.as3Recognized) {
+            log.info('------ AS3-Recognized objects ------');
+            Object.keys(as3Recognized).forEach((x) => log.info(x));
+            log.info('--- end of AS3-Recognized objects ---');
         }
 
-        // Log supported objects
-        if (config.supported) {
-            log.info('------- Supported objects ------');
-            Object.keys(supportedJson).forEach((x) => log.info(x));
-            log.info('--- end of Supported objects ---');
-        }
-        if (config.supportedObjects) {
-            fs.writeFileSync(config.supportedObjects, JSON.stringify(supportedJson, null, 4));
+        // Log converted objects
+        if (config.as3Converted) {
+            log.info('------- AS3-Converted objects ------');
+            Object.keys(as3Converted).forEach((x) => log.info(x));
+            log.info('--- end of AS3-Converted objects ---');
         }
 
-        // Log unsupported/unconverted objects
-        if (config.unsupported) {
-            log.info('------ Unsupported objects -----');
-            Object.keys(unsupportedObj).forEach((x) => log.info(x));
-            log.info('-- end of Unsupported objects --');
-        }
-        if (config.unsupportedObjects) {
-            fs.writeFileSync(config.unsupportedObjects, JSON.stringify(unsupportedObj, null, 4));
+        // Log not converted objects
+        if (config.as3NotConverted) {
+            log.info('------- AS3-Not-Converted objects ------');
+            Object.keys(as3NotConverted).forEach((x) => log.info(x));
+            log.info('--- end of AS3-Not-Converted objects ---');
         }
 
         log.info(`${jsonCount} BIG-IP objects detected total`);
-        log.info(`${as3JsonCount} BIG-IP objects recognized by AS3`);
-        log.info(`${supportedJsonCount} BIG-IP objects supported by ACC`);
+        log.info(`${countObjects(as3Recognized)} BIG-IP objects recognized by AS3`);
+        log.info(`${countObjects(as3Converted)} BIG-IP objects supported by ACC`);
         log.info(`${declarationInfo.total} AS3 stanzas generated`);
     }
 

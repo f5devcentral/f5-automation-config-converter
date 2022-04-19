@@ -16,10 +16,10 @@
 
 'use strict';
 
-const as3PropertiesCustomDef = require('../lib/AS3/as3PropertiesCustom.json');
-const as3PropertiesDef = require('../../autotoolDeps/AS3/src/lib/properties.json');
+const as3PropertiesCustom = require('../lib/AS3/as3PropertiesCustom.json');
+const as3Properties = require('../../autotoolDeps/AS3/src/lib/properties.json');
 
-module.exports = (as3PropertiesCustom = as3PropertiesCustomDef, as3Properties = as3PropertiesDef) => {
+module.exports = () => {
     Object.keys(as3PropertiesCustom).forEach((property) => {
         if (property in as3Properties) {
             const ids = {};

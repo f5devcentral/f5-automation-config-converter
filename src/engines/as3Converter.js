@@ -36,7 +36,6 @@ const log = require('../util/log');
 const prependObjProps = require('../util/convert/prependObjProps');
 
 const defaults = require('../lib/bigipDefaults.json');
-const notAS3Supported = require('../lib/AS3/notAS3Supported.json');
 
 const deDupeObjectNames = (json) => {
     const supported = ['ltm pool', 'ltm profile', 'ltm virtual', 'ltm rule', 'ltm policy', 'ltm monitor'];
@@ -166,24 +165,6 @@ const defaultsFromInheritance = (json) => {
     return json;
 };
 
-const reduceNoise = (arr) => {
-    const newArr = [];
-    arr.forEach((str) => {
-        let save = true;
-        notAS3Supported.forEach((item) => {
-            save = str.includes(item) ? false : save;
-        });
-        if (save) {
-            defaults.forEach((item) => {
-                const objPath = `/${str.split('/').slice(1).join('/')}`;
-                if (item === objPath) save = false;
-            });
-        }
-        if (save) newArr.push(str);
-    });
-    return newArr;
-};
-
 const convertEngine = (confObj, confKey) => {
     let obj = {};
     const def = customDict[confKey];
@@ -264,7 +245,7 @@ module.exports = (json, config) => {
     try {
         // start with basic json structure
         const declObj = declarationBase.AS3(config);
-        const unsupportedArr = [];
+        const unconvertedArr = [];
 
         // use for cleanup redirect services
         const redirectVS = [];
@@ -448,7 +429,7 @@ module.exports = (json, config) => {
                     if (loc.app === 'Shared') declObj[loc.tenant][loc.app].template = 'shared';
                 } else if (!customDict[confKey]) {
                     // Log object as 'unsupported' by ACC
-                    unsupportedArr.push(fileKey);
+                    unconvertedArr.push(fileKey);
                 }
             } catch (e) {
                 log.error(`Error converting: ${fileKey}`);
@@ -468,7 +449,7 @@ module.exports = (json, config) => {
                 if (confKey === 'ltm virtual') {
                     const loc = findLocation(fileKey);
                     const partObj = declObj[loc.tenant][loc.app];
-                    const objVS = loc.profile ? partObj[loc.profile] : partObj;
+                    const objVS = (loc.profile && partObj) ? partObj[loc.profile] : partObj;
 
                     // skip empty objects
                     if (objVS !== undefined) {
@@ -490,17 +471,11 @@ module.exports = (json, config) => {
             });
         });
 
-        // cleanup 'unsupported' results
-        const reduced = reduceNoise(unsupportedArr);
-        const fullObjReduced = reduced.map((x) => {
-            const obj = {};
-            obj[x] = json[x];
-            return obj;
-        });
+        const as3NotConverted = Object.assign({}, ...unconvertedArr.map((x) => ({ [x]: json[x] })));
 
         // count occurrences of unsupported tmsh keys
         const unsupportedStats = {};
-        reduced.map((x) => getKey(x)).forEach((type) => {
+        unconvertedArr.map((x) => getKey(x)).forEach((type) => {
             if (!unsupportedStats[type]) unsupportedStats[type] = 0;
             unsupportedStats[type] += 1;
         });
@@ -508,8 +483,7 @@ module.exports = (json, config) => {
         return {
             declaration: declObj,
             iappSupported,
-            unsupported: reduced,
-            unsupportedObjects: fullObjReduced,
+            as3NotConverted,
             unsupportedStats
         };
     } catch (e) {

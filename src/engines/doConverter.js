@@ -41,8 +41,8 @@ const getRegKey = () => {
 };
 
 /* Determine if device uses any of selfIp from list.
-    Return true or false.
-  */
+   Return true or false.
+ */
 const validateDevice = (deviceObj, selfIpList) => Boolean(selfIpList.find((selfIP) => {
     if (deviceObj.mirrorIp && deviceObj.mirrorIp === selfIP) return true;
     if (deviceObj.configsyncIp && deviceObj.configsyncIp === selfIP) return true;
@@ -111,7 +111,7 @@ module.exports = (json, config) => {
 
     Object.keys(confObj).forEach((key) => {
         const keyArr = key.split(' ');
-        const name = keyArr[keyArr.length - 1].replace('/Common/', '');
+        const name = keyArr.at(-1).replace('/Common/', '');
 
         configItems.forEach((item) => {
             // this ensures no broken conversion while DO-feature is WIP
@@ -137,7 +137,7 @@ module.exports = (json, config) => {
             if (key.startsWith('net route-domain') || key.startsWith('net self')) tmshCmd += ' ';
 
             if (key.includes(tmshCmd)
-                 || (key.startsWith('cm device /Common/') && tmshCmd.startsWith('cm device ~Common~'))) {
+                || (key.startsWith('cm device /Common/') && tmshCmd.startsWith('cm device ~Common~'))) {
                 const schemaClass = item.schemaClass;
 
                 // create DO object in declaration if it doesnt exist
@@ -175,7 +175,7 @@ module.exports = (json, config) => {
                         if (typeof propVal !== 'undefined') {
                             // multiple tmsh objects w/ one value map to one DO obj
                             if (item.singleValue) {
-                                newId = keyArr[keyArr.length - 1];
+                                newId = keyArr.at(-1);
                             }
 
                             // handle basic coercion of DO values

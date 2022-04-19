@@ -42,6 +42,7 @@ class As3Parser {
         this.schemas = [];
         this.nodelist = [];
         this.virtualAddressList = [];
+        this.accessProfileList = [];
         this.validator = undefined;
         this.options = {};
         this.postProcess = {};
@@ -340,9 +341,11 @@ function as3Digest(declaration) {
     let id;
     let getNodelist = Promise.resolve([]);
     let getVirtualAddresses = Promise.resolve([]);
+    let getAccessProfileList = Promise.resolve([]);
     if (!declaration.scratch) {
         getNodelist = util.getNodelist(this.context);
         getVirtualAddresses = util.getVirtualAddressList(this.context);
+        getAccessProfileList = util.getAccessProfileList(this.context);
     }
 
     this.postProcess = {};
@@ -351,6 +354,8 @@ function as3Digest(declaration) {
         .then((nodelist) => { this.nodelist = nodelist; })
         .then(() => getVirtualAddresses)
         .then((virtualAddressList) => { this.virtualAddressList = virtualAddressList.filter((address) => address.partition === 'Common'); })
+        .then(() => getAccessProfileList)
+        .then((accessProfileList) => { this.accessProfileList = accessProfileList; })
         .then(() => Config.getAllSettings())
         .then((settings) => { this.settings = settings; })
         .then(() => validate.call(this, declaration))

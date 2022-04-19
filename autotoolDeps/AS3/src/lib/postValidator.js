@@ -66,11 +66,6 @@ function protocolInspectionProfile(context, declaration) {
         err = new Error('Auto Publish property is only available on TMOS 14.0+');
     }
 
-    // Check Protocol Inspection Profiles in general - check last to supersede any other checks
-    if (profiles.some((profile) => isVersionTooLow(profile, '13.1'))) {
-        err = new Error('Protocol Inspection Profiles are only available on TMOS 13.1+');
-    }
-
     if (err) {
         err.statusCode = 422;
         return Promise.reject(err);

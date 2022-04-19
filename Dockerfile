@@ -1,7 +1,9 @@
 # syntax = docker/dockerfile:1.3
 FROM node:lts-alpine
 ENV DOCKER_CONTAINER true
-ENV TEEM_API_ENVIRONMENT "production"
+ARG TEEM_CONTEXT
+ENV TEEM_API_ENVIRONMENT $TEEM_CONTEXT
+
 WORKDIR /app
 
 COPY . .

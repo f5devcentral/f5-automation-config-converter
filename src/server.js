@@ -51,9 +51,7 @@ app.post('/converter', upload.any(), (req, res, next) => {
         applicationTarget: fields.applicationTarget,
         tenantTarget: fields.tenantTarget,
         container: checkBool(process.env.DOCKER_CONTAINER),
-        showExtended: checkBool(fields.showExtended),
-        supportedObjects: fields.supportedObjects,
-        unsupportedObjects: fields.unsupportedObjects
+        showExtended: checkBool(fields.showExtended)
     };
 
     return Promise.resolve()
@@ -80,11 +78,11 @@ app.post('/converter', upload.any(), (req, res, next) => {
             if (checkBool(fields.verbose)) {
                 return res.status(201).json({
                     config,
-                    logs: results.metaData.logs,
+                    logs: results.metadata.logs,
                     output: results.declaration,
-                    recognized: results.metaData.recognized,
-                    unsupported: results.metaData.unSupported,
-                    supported: results.metaData.supported
+                    as3Recognized: results.metadata.as3Recognized,
+                    as3Converted: results.metadata.as3Converted,
+                    as3NotConverted: results.metadata.as3NotConverted
                 });
             }
             return res.status(201).json(results.declaration);

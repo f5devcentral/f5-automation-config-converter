@@ -26,24 +26,20 @@ module.exports = () => {
         .option('-c, --conf <path>', 'Specify path to input conf/SCF file.')
         .option('-u, --ucs <path>', 'Specify path to input UCS file.')
         .option('-o, --output <path>', 'Specify output file for the converted declaration.')
-        .option('-d, --debug', 'Logs generated declaration to stdout.')
+        .option('-d, --debug', 'Log generated declaration to console.')
         .option('--controls', 'Add debugging "Controls" stanza to declaration.')
         .option('--disable-analytics', 'Disable analytics and reporting.')
-        .option('--log <file>', 'Writes log output to the specified file.')
-        .option('--recognized', 'Logs list of recognized BIG-IP object types to console.')
-        .option('--recognized-objects <path>', 'Logs recognized BIG-IP objects to specified output file.')
-        .option('--summary', 'Displays count of each generated declaration class.')
+        .option('--log <file>', 'Output log to the specified file.')
+        .option('--summary', 'Display summary of generated declaration.')
         .option('--safe-mode <bool>', 'Enable to skip post-conversion processing.')
         .option('-v, --vs-name <tenant/application/vs_name>', 'Filter output by the virtual server name.')
         .option('-a, --application-target <application_target>', 'Put virtual server to specific application. Works only if --vs-name specified. Original VS application used if option not specified.')
         .option('-t, --tenant-target <tenant_target>', 'Put virtual server to specific tenant. Works only if --vs-name specified. Original VS tenant used if option not specified.')
         .option('-e, --extended', 'Show default values in converted stanzas.')
-        .option('--declarative-onboarding', 'Enable experimental DO conversion.')
-
-        .option('--supported', 'Logs list of supported BIG-IP object types to console.')
-        .option('--supported-objects <path>', 'Logs supported BIG-IP objects to specified output file.')
-        .option('--unsupported', 'Logs list of unsupported BIG-IP object types to console.')
-        .option('--unsupported-objects <path>', 'Logs unsupported BIG-IP objects to specified output file.');
+        .option('--as3-recognized', 'Log list of AS3-recognized BIG-IP object types to console.')
+        .option('--as3-converted', 'Log ACC/AS3-converted tmsh objects to console.')
+        .option('--as3-not-converted', 'Log tmsh that were not directly converted')
+        .option('--declarative-onboarding', 'Enable DO conversion instead of AS3.');
 
     program.parse(process.argv);
     const options = program.opts();
@@ -58,23 +54,19 @@ module.exports = () => {
         disableAnalytics: options.disableAnalytics,
         logFile: options.log,
         output: options.output || 'output.json',
-        recognized: options.recognized,
-        recognizedObjects: options.recognizedObjects,
         safeMode: options.safeMode === 'true',
         summary: options.summary,
         ucs: options.ucs,
         showExtended: options.extended,
-        declarativeOnboarding: options.declarativeOnboarding,
-
-        supported: options.supported,
-        supportedObjects: options.supportedObjects,
-        unsupported: options.unsupported,
-        unsupportedObjects: options.unsupportedObjects
+        as3Recognized: options.as3Recognized,
+        as3Converted: options.as3Converted,
+        as3NotConverted: options.as3NotConverted,
+        declarativeOnboarding: options.declarativeOnboarding
     };
 
     if ((config.ucs && config.conf) || (!config.ucs && !config.conf)) {
         console.error('Invalid option, please select one input type: UCS or conf/SCF.');
-        process.exit(0);
+        process.exit(1);
     }
     return config;
 };

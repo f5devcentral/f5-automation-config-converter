@@ -862,6 +862,58 @@ class Util {
     } // getVirtualAddressList()
 
     /**
+     * return a promise to discover all the apm profile access
+     * objects on a BIG-IP.  Promise resolves to an array
+     * (possibly only the default /Common/access) describing
+     * the profiles or rejects with error.
+     *
+     * accessProfileObj:
+     *      fullPath: "/P/F/N"
+     *      partition: "P"
+     *      type: "type"
+     *
+     * @public
+     * @param {object} context - info needed to access target BIG-IP
+     * @returns {Promise}
+     */
+    static getAccessProfileList(context) {
+        if ((typeof context !== 'object') || (context === null)) {
+            return Promise.reject(new Error('getAccessProfileList(): argument context required'));
+        }
+
+        if (!this.isOneOfProvisioned(context.target, ['apm'])) {
+            return Promise.resolve([]);
+        }
+
+        const opts = {
+            path: '/mgmt/tm/apm/profile/access?$select=fullPath,partition,type',
+            why: 'query target BIG-IP current apm profile access list'
+        };
+
+        return this.iControlRequest(context, opts)
+            .then((resp) => {
+                const list = [];
+
+                if (!Object.prototype.hasOwnProperty.call(resp, 'items')
+                    || !Array.isArray(resp.items) || (resp.items.length < 1)) {
+                    return list;
+                }
+
+                resp.items.forEach((item) => {
+                    const accessProfile = {
+                        fullPath: item.fullPath,
+                        partition: item.partition,
+                        type: item.type
+                    };
+
+                    list.push(accessProfile);
+                });
+
+                return list;
+            });
+    } // getAccessProfileList()
+
+    /**
      * return a promise to query AS3 version info.
      * Fetches version from a cached variable or
      * /var/config/rest/iapps/f5-appsvcs/version file
