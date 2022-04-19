@@ -51,12 +51,6 @@ ACC command Line Options
 
 * **-o** option specifies the output file name.  You must specify this as being in the **data** directory (with the Docker **-v** option).  When the output file is written in the container it is written to the **/app/data** directory of the container which maps back to the current directory outside of the container where output.json will actually be written.
 * **-u** option specifies a UCS file for the application to read.  For either .conf or SCF files, use the **-c** flag. This must be specified as being in the *data* directory (as specified with the **-v** option).  When the input file is read by the application, it is read from the **/app/data** directory of the container which maps back to the current directory outside of the container where input file is actually read.  This flag is required and you must use only one option of **-u** or **-c**, depending on your input file.
-* **--recognized** option logs to **stdout** a list of configuration objects that ACC recognized.
-* **--recognized-objects** option logs to specified file of objects (JSON format) that were recognized.
-* **--supported** option logs to **stdout** a list of configuration objects that ACC will convert.
-* **--supported-objects** option logs to specified file of objects (JSON format) that were converted.
-* **--unsupported** option logs to **stdout** a list of configuration objects that ACC did not convert. **Note:** Objects that will never receive AS3 support are filtered out of this list.
-* **--unsupported-objects** option logs to specified file of objects (JSON format) that were not converted. **Note:** Objects that will never receive AS3 support are filtered out of this list.
 * **--summary** option logs to **stdout** counts of each generated class.
 * **--disable-analytics** option will disable usage reporting. Only conversion metadata is collected and reports are correlated using a pseudonymized uuid. Analytics are enabled by default. All data is collected in accordance with the `F5 Privacy Policy <https://www.f5.com/company/policies/privacy-notice>`_.
 * **--controls** option adds debugging "Controls" stanza to declaration.
@@ -64,6 +58,9 @@ ACC command Line Options
 * **-v** option filters output by the virtual server name specified. Only this virtual server and dependent objects will be posted to the resulting file.
 * **-a** option puts the virtual server to specific application. Works only if the **-v** option is specified. The original VS application is used if this option not specified.
 * **-t** option puts the virtual server to specific tenant. Works only if **-v**  option specified. The original VS tenant is used if this option not specified.
+* **--as3-recognized** option logs to **stdout** a list of configuration objects that are recognized by AS3.
+* **--as3-converted** option logs to **stdout** a list of configuration objects that ACC will convert.
+* **--as3-not-converted** option logs to **stdout** a list of configuration objects that ACC did not convert.
 * REST-API usage related options when the container is started with **serve** option.  **--verbose** prints more details in the REST-API response.
 
 .. NOTE:: The 3 options of **-v**, **-a** and **-t** typically work together with **-a** and **-t** having the ability to work independently. If **-v** is used, then all other virtual servers are ignored. If **-t** is used, then the virtual server will be placed into this tenant name, even if it was originally in /Common/. If **-a** is used, then the original virtual server will be placed under the application name specified. By default the virtual server name will be used as the application.

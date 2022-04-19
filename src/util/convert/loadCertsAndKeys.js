@@ -22,11 +22,11 @@ const readFiles = require('../../preConverter/readFiles');
 module.exports = (mockPath, loc, file) => {
     const nameSplit = mockPath.split('/');
     const isKey = mockPath.includes('.key');
-    const bigipName = nameSplit[nameSplit.length - 1].replace(/-/g, '_').split('.');
+    const bigipName = nameSplit.at(-1).replace(/-/g, '_').split('.');
     const name = bigipName.length > 1 ? bigipName.slice(0, -1).join('_') : bigipName[0];
     try {
         const certPath = file[`sys file ssl-${isKey ? 'key' : 'cert'} ${mockPath}`]['cache-path'];
-        const fileName = certPath.split('/')[certPath.split('/').length - 1].replace(/:/g, '');
+        const fileName = certPath.split('/').at(-1).replace(/:/g, '');
         const value = readFiles.data[`/var/tmp/filestore_temp/files_d/${loc.tenant}_d/certificate_${isKey ? 'key_' : ''}d/${fileName}`];
 
         if (!value) throw Error();

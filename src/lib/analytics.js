@@ -49,7 +49,7 @@ const getAssetId = (config) => {
         .catch(() => {});
 };
 
-module.exports = (data, declaration, config) => {
+module.exports = (data, result, config) => {
     if (config.disableAnalytics) return Promise.resolve();
 
     let runtime = 'cli';
@@ -68,11 +68,12 @@ module.exports = (data, declaration, config) => {
 
     const extraFields = {
         arguments: process.argv.slice(2),
-        declarationSize: JSON.stringify(declaration).length,
+        declarationSize: JSON.stringify(result.declaration).length,
         engine: config.declarativeOnboarding ? 'DO' : 'AS3',
         inputSize: JSON.stringify(data).length,
         isContainer: process.env.DOCKER_CONTAINER === 'true',
-        runtime
+        runtime,
+        unsupportedStats: result.unsupportedStats
     };
 
     const assetInfo = {
@@ -84,12 +85,13 @@ module.exports = (data, declaration, config) => {
     const record = new Record('ACC Telemetry Data', '1');
 
     return Promise.resolve()
-        .then(() => record.addClassCount(declaration))
+        .then(() => record.addClassCount(result.declaration))
         .then(() => record.addJsonObject(platformInfo))
         .then(() => record.addJsonObject(extraFields))
         .then(() => getAssetId(config))
         .then((assetId) => { assetInfo.id = assetId; })
-        .then(() => fs.readFile('TEEM_KEY', 'utf-8'))
+        // TEEM_KEY var can be set by external apps
+        .then(() => process.env.TEEM_KEY || fs.readFile('TEEM_KEY', 'utf-8'))
         .then((key) => new TeemDevice(assetInfo, key).reportRecord(record))
         .catch(() => {});
 };

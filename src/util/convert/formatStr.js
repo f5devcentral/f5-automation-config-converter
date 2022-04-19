@@ -36,7 +36,7 @@ module.exports = (str) => {
     } else {
         // unquoter with spaces take last element as object path
         const split = str.split(' ');
-        newStr = split[split.length - 1];
+        newStr = split.at(-1);
     }
 
     // remove preceeding '_'

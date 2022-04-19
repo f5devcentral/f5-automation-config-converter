@@ -24,28 +24,30 @@ const assert = chai.assert;
 
 const analytics = require('../../src/lib/analytics');
 
-describe('Check collect analytics', () => {
+describe('Test analytics prep (analytics.js)', () => {
     const data = {};
     data['config/bigip_base.conf'] = 'test';
     data['config/bigip.license'] = 'test';
 
-    const declaration = {
-        schemaVersion: '1.0.0',
-        class: 'Device',
-        async: true,
-        Common: {
-            class: 'Tenant',
-            test: 'TestDeclaration'
+    const result = {
+        declaration: {
+            schemaVersion: '1.0.0',
+            class: 'Device',
+            async: true,
+            Common: {
+                class: 'Tenant',
+                test: 'TestDeclaration'
+            }
         }
     };
 
     it('Check common stats', () => {
-        const stats = analytics(data, declaration, 'config');
+        const stats = analytics(data, result, 'config');
         return assert.isFulfilled(stats);
     });
 
     it('Check stats with no data', () => {
-        const stats = analytics('test', declaration, 'config');
+        const stats = analytics('test', result, 'config');
         return assert.isFulfilled(stats);
     });
 });

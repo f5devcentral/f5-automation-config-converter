@@ -78,9 +78,8 @@ module.exports = (objName, file) => {
     // fix for un-prefixed profiles on /Common 16.1
     const keys = Object.keys(file).map((key) => {
         const split = key.split(' ');
-        split[split.length - 1] = !split[split.length - 1].includes('/')
-            ? `/Common/${split[split.length - 1]}`
-            : split[split.length - 1];
+        const profPath = split.pop();
+        split.push(profPath.includes('/') ? profPath : `/Common/${profPath}`);
         return split.join(' ');
     });
 

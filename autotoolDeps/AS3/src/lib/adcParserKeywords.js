@@ -288,8 +288,9 @@ const keywords = [
                         const processedAddresses = [];
                         addresses.forEach((address) => {
                             const currentTenant = dataPath.split('/')[1];
-                            if (!address.includes('%') && !node.routeDomain && rootData[currentTenant].defaultRouteDomain) {
-                                node.routeDomain = rootData[currentTenant].defaultRouteDomain;
+                            const defaultRD = rootData[currentTenant].defaultRouteDomain;
+                            if (!address.includes('%') && !node.routeDomain && typeof defaultRD === 'number') {
+                                node.routeDomain = defaultRD;
                             }
 
                             const fullAddress = address.includes('%') ? address : `${address}%${node.routeDomain}`;

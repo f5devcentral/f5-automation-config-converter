@@ -46,6 +46,7 @@ const ex19 = require('./service_http19.json');
 const ex20 = require('./service_http20.json');
 const ex21 = require('./service_http21.json');
 const ex22 = require('./service_http22.json');
+const ex23 = require('./service_http23.json');
 
 let json;
 
@@ -356,5 +357,18 @@ describe('Service HTTP: ltm virtual', () => {
     });
 
     it('ex22 validation', () => validator(json)
+        .then((data) => assert(data.isValid, JSON.stringify(data, null, 4))));
+
+    it('ex23', async () => {
+        const data = await readFiles(['./test/engines/as3Converter/service_http/service_http23.conf']);
+        const parsed = parse(data);
+        json = as3Converter(parsed).declaration;
+
+        const originalDec = ex23.Common.Shared;
+        const convertedDec = json.Common.Shared;
+        compareDeclaration(originalDec, convertedDec);
+    });
+
+    it('ex23 validation', () => validator(json)
         .then((data) => assert(data.isValid, JSON.stringify(data, null, 4))));
 });
