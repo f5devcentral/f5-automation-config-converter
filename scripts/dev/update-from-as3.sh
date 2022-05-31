@@ -1,9 +1,17 @@
+#!/bin/bash
+set -x
+
+# shellcheck disable=SC1091
+source "$(dirname "${BASH_SOURCE[0]}")/update-util.sh"
+
+validate_env_vars
+
 # Get latest AS3 dependencies from gitlab
 echo "Checking for AS3 updates..."
 
-cd ../
-git clone https://$AS3_ACCESS_TOKEN@$CI_SERVER_HOST/$CI_PROJECT_ROOT_NAMESPACE/f5-appsvcs.git
-cd f5-appsvcs
+cd ../ || exit 1
+git clone https://"$AS3_ACCESS_TOKEN"@"$CI_SERVER_HOST"/"$CI_PROJECT_ROOT_NAMESPACE"/f5-appsvcs.git
+cd f5-appsvcs || exit 1
 git checkout develop
 
 # Build adc-schema.json
@@ -25,7 +33,10 @@ FILES=("lib/adcParser.js" \
 "lib/properties.json" \
 "lib/tracer.js" \
 "lib/validator.js" \
+"lib/tag/index.js" \
 "lib/tag/longSecretTag.js" \
+"lib/tag/minVersionTag.js" \
+"lib/tag/nodeTag.js" \
 "lib/tag/secretTag.js" \
 "lib/util/authHeaderUtil.js" \
 "lib/util/certUtil.js" \
@@ -39,40 +50,28 @@ FILES=("lib/adcParser.js" \
 
 # Extract files from AS3
 mkdir -p ../src/lib/tag ../src/lib/util ../src/schema/latest
-for F in ${FILES[@]}; do
+for F in "${FILES[@]}"; do
     cp "./src/$F" "../src/$F"
 done
 
 
-cd ../f5-automation-config-converter
+cd ../f5-automation-config-converter || exit 1
 
-git config --global user.email $RUNNER_EMAIL
-git config --global user.name "F5 Automation Config Converter Pipeline"
+set_git_user_config
 
-git checkout $CI_BRANCH_NAME
-git remote set-url origin https://$ACC_ACCESS_TOKEN@$CI_SERVER_HOST/$CI_PROJECT_PATH.git
+git checkout "$CI_BRANCH_NAME"
+git remote set-url origin https://"$ACC_ACCESS_TOKEN"@"$CI_SERVER_HOST"/"$CI_PROJECT_PATH".git
 
 mkdir -p autotoolDeps/AS3/src/lib/tag
 mkdir -p autotoolDeps/AS3/src/lib/util
 mkdir -p autotoolDeps/AS3/src/schema/latest
 
 # Use git to diff the files, update, commit and push
-for F in ${FILES[@]}; do
+for F in "${FILES[@]}"; do
     mv "../src/$F" "autotoolDeps/AS3/src/$F"
 done
 
+commit_changes "AS3" "$UPDATE_BRANCH_NAME"
 
-if [ -z "$(git status --porcelain)" ]; then
-  echo "No AS3 changes detected..."
-else
-    export AUTOTOOL_DIFF=true
-    echo "AS3 changes detected!"
-
-    git checkout $UPDATE_BRANCH_NAME 2>/dev/null || git checkout -b $UPDATE_BRANCH_NAME;
-
-    git add .
-    git status
-    git commit -m "Auto-update to AS3 files"
-fi
-
-git checkout $CI_BRANCH_NAME
+# Set context back to reference branch
+git checkout "$CI_BRANCH_NAME"

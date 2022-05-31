@@ -26,6 +26,7 @@
                 "adaptive": false,
                 "interval": 5,
                 "dscp": 0,
+                "receive": "",
                 "send": "GET 123/\\r\\n",
                 "timeUntilUp": 0,
                 "timeout": 16,

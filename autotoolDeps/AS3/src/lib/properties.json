@@ -753,9 +753,9 @@
   ],
   "ltm profile ftp": [
     { "id":"allow-ftps",                "truth": "enabled", "falsehood": "disabled" },
-    { "id":"allow-active-mode",         "altId": "activeModeEnabled", "truth": "enabled", "falsehood": "disabled", "minVersion": "14.0" },
+    { "id":"allow-active-mode",         "altId": "activeModeEnabled", "truth": "enabled", "falsehood": "disabled" },
     { "id":"description",               "altId": "remark", "quotedString": true },
-    { "id":"enforce-tls-session-reuse", "altId": "enforceTlsSessionReuseEnabled", "truth": "enabled", "falsehood": "disabled", "minVersion": "14.0" },
+    { "id":"enforce-tls-session-reuse", "altId": "enforceTlsSessionReuseEnabled", "truth": "enabled", "falsehood": "disabled" },
     { "id":"ftps-mode",                 "minVersion": "14.0" },
     { "id":"inherit-parent-profile",    "altId": "inheritParentProfileEnabled", "truth": "enabled", "falsehood": "disabled" },
     { "id":"port" },
@@ -1108,6 +1108,11 @@
   "net timer-policy rules timers": [
     { "id":"name" },
     { "id":"value" }
+  ],
+  "net address-list": [
+    { "id":"description",               "altId": "remark", "quotedString": true},
+    { "id":"addresses",                 "extend": "array"},
+    { "id":"address-lists",             "extend": "array"}
   ],
   "pem reporting format-script": [
     { "id":"description",               "altId": "remark", "quotedString": true },
@@ -2048,11 +2053,13 @@
     { "id":"pool-lb-mode" },
     { "id":"pools",                     "extend": "objArray" },
     { "id":"pools-cname",               "extend": "array" },
+    { "id":"rules",                     "extend": "array", "altId": "iRules" },
     { "id":"last-resort-pool",          "default": "" }
   ],
   "gtm wideip a pools": [
     { "id":"name" },
-    { "id":"order" }
+    { "id":"order" },
+    { "id":"ratio" }
   ],
   "gtm wideip aaaa": [
     { "id":"aliases",                   "extend": "array" },
@@ -2061,11 +2068,13 @@
     { "id":"pool-lb-mode" },
     { "id":"pools",                     "extend": "objArray" },
     { "id":"pools-cname",               "extend": "array" },
+    { "id":"rules",                     "extend": "array", "altId": "iRules" },
     { "id":"last-resort-pool",          "default": "" }
   ],
   "gtm wideip aaaa pools": [
     { "id":"name" },
-    { "id":"order" }
+    { "id":"order" },
+    { "id":"ratio" }
   ],
   "gtm wideip cname": [
     { "id":"aliases",                   "extend": "array" },
@@ -2073,11 +2082,13 @@
     { "id":"disabled" },
     { "id":"pool-lb-mode" },
     { "id":"pools",                     "extend": "objArray" },
+    { "id":"rules",                     "extend": "array", "altId": "iRules" },
     { "id":"last-resort-pool",          "default": "" }
   ],
   "gtm wideip cname pools": [
     { "id":"name" },
-    { "id":"order" }
+    { "id":"order" },
+    { "id": "ratio" }
   ],
   "gtm wideip mx": [
     { "id":"aliases",                   "extend": "array" },
@@ -2086,11 +2097,13 @@
     { "id":"pool-lb-mode" },
     { "id":"pools",                     "extend": "objArray" },
     { "id":"pools-cname",               "extend": "array" },
+    { "id":"rules",                     "extend": "array", "altId": "iRules" },
     { "id":"last-resort-pool",          "default": "" }
   ],
   "gtm wideip mx pools": [
     { "id":"name" },
-    { "id":"order" }
+    { "id":"order" },
+    { "id":"ratio" }
   ],
   "gtm region" : [
     { "id":"description",               "altId": "remark", "quotedString": true },
@@ -2107,6 +2120,9 @@
     { "id":"region" },
     { "id":"state", "quotedString": true },
     { "id":"subnet" }
+  ],
+  "gtm rule": [
+    { "id":"api-anonymous",             "altId": "iRule" }
   ],
   "gtm topology": [
     { "id":"records",                   "extend": "objArray"}

@@ -29,7 +29,7 @@ describe('Test analytics prep (analytics.js)', () => {
     data['config/bigip_base.conf'] = 'test';
     data['config/bigip.license'] = 'test';
 
-    const result = {
+    const results = {
         declaration: {
             schemaVersion: '1.0.0',
             class: 'Device',
@@ -38,16 +38,29 @@ describe('Test analytics prep (analytics.js)', () => {
                 class: 'Tenant',
                 test: 'TestDeclaration'
             }
+        },
+        metadata: {
+            as3Recognized: {
+                'ltm pool /Common/test': {}
+            },
+            jsonCount: 1,
+            as3ConvertedCount: 1,
+            as3Converted: {
+                'ltm pool /Common/test': {}
+            },
+            as3NotConverted: {
+                'test test /Common/test': {}
+            }
         }
     };
 
     it('Check common stats', () => {
-        const stats = analytics(data, result, 'config');
+        const stats = analytics(data, results, 'config');
         return assert.isFulfilled(stats);
     });
 
     it('Check stats with no data', () => {
-        const stats = analytics('test', result, 'config');
+        const stats = analytics('test', results, 'config');
         return assert.isFulfilled(stats);
     });
 });

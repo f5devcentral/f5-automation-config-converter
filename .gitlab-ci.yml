@@ -38,13 +38,12 @@ update_autotool_deps:
     - >
       if [ "$AUTOTOOL_DIFF" = "true" ]; then
         git push -f origin ${UPDATE_BRANCH_NAME}
-        node ./scripts/dev/createMR.js
       fi
   tags: [cm-official-docker-executor]
 
 
 # BUILD #
-build_docs:
+create_docs:
   image: $CONTAINTHEDOCS_IMAGE
   stage: build
   needs: []
@@ -119,12 +118,17 @@ docker_test:
 pages:
   stage: docs
   only: [develop]
-  needs: [coverage]
+  needs: [create_docs, coverage]
   tags: [cm-official-docker-executor]
-  variables:
-    COVERAGE_DOCS: public/coverage-docs
   script:
+    - PUBLIC_DIR='./public'
+    - PUBLIC_DOCS=${PUBLIC_DIR}/public-docs
+    - COVERAGE_DOCS=${PUBLIC_DIR}/coverage-docs
+    - mkdir -p ${PUBLIC_DIR}
+    - mkdir -p ${PUBLIC_DOCS}
     - mkdir -p ${COVERAGE_DOCS}
+    - cp docs/index.html ${PUBLIC_DIR}/index.html
+    - cp -R docs/_build/html/* ${PUBLIC_DOCS}
     - cp -R coverage/* ${COVERAGE_DOCS}
   artifacts:
     paths: [public]
@@ -143,7 +147,7 @@ pack_code:
 publish_staging_docs:
   image: $CONTAINTHEDOCS_IMAGE
   stage: publish
-  needs: [build_docs]
+  needs: [create_docs]
   only: [docs-staging]
   environment:
     name: staging
@@ -168,7 +172,7 @@ publish_image:
 publish_docs:
   image: $CONTAINTHEDOCS_IMAGE
   stage: publish
-  needs: [build_docs]
+  needs: [create_docs]
   only: [docs-latest]
   environment:
     name: production

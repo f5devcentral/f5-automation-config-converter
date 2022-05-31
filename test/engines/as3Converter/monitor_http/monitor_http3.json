@@ -66,6 +66,7 @@
                 "remark": "test monitor",
                 "interval": 5,
                 "dscp": 0,
+                "receive": "",
                 "send": "GET /\\r\\n",
                 "timeUntilUp": 0,
                 "timeout": 16,

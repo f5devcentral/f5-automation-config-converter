@@ -134,7 +134,7 @@ module.exports = {
         keyValueRemaps: {
             passphrase: (key, val) => ({ passphrase: buildProtectedObj(val) }),
 
-            receive: (key, val) => returnEmptyObjIfNone(val, { receive: unquote(val) }),
+            receive: (key, val) => ({ receive: (val === 'none') ? '' : unquote(val) }),
 
             receiveDown: (key, val) => returnEmptyObjIfNone(val, { receiveDown: unquote(val) }),
 
@@ -164,7 +164,7 @@ module.exports = {
 
             passphrase: (key, val) => ({ passphrase: buildProtectedObj(val) }),
 
-            receive: (key, val) => returnEmptyObjIfNone(val, { receive: unquote(val) }),
+            receive: (key, val) => ({ receive: (val === 'none') ? '' : unquote(val) }),
 
             receiveDown: (key, val) => returnEmptyObjIfNone(val, { receiveDown: unquote(val) }),
 
@@ -196,7 +196,7 @@ module.exports = {
 
             passphrase: (key, val) => ({ passphrase: buildProtectedObj(val) }),
 
-            receive: (key, val) => returnEmptyObjIfNone(val, { receive: unquote(val) }),
+            receive: (key, val) => ({ receive: (val === 'none') ? '' : unquote(val) }),
 
             receiveDown: (key, val) => returnEmptyObjIfNone(val, { receiveDown: unquote(val) }),
 

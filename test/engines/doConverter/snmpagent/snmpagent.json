@@ -6,7 +6,7 @@
         "class": "Tenant",
         "SnmpAgent": {
             "class": "SnmpAgent",
-            "contact": "Op Center <ops@example.test>",
+            "contact": "Support <support@f5.com>",
             "location": "Seattle, WA",
             "allowList": [
                 "10.30.100.0/23",

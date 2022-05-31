@@ -19,8 +19,7 @@
 const jsonpointer = require('jsonpointer');
 const promiseUtil = require('@f5devcentral/atg-shared-utilities').promiseUtils;
 const util = require('./util/util');
-const SecretTag = require('./tag/secretTag');
-const LongSecretTag = require('./tag/longSecretTag');
+const Tag = require('./tag');
 
 /**
  * An object that describes how to fetch the target declaration data
@@ -39,13 +38,21 @@ class PostProcessor {
     /**
      * Process declaration data that was tagged by the f5PostProcess keyword during AJV validation.
      * DECLARATION IS MODIFIED!
+     *
+     * Each tag processor should throw an error or return a promise which is either:
+     *     - resolved with 'undefined' or
+     *     - resolved with an object with the format
+     *         {
+     *             warnings: [<array_of_processing_warnings]
+     *         }
      * @param {Object} context - The current context object
      * @param {Object} declaration - The current declaration that was validated by AJV
+     * @param {Object} originalDeclaration - The original declaration that was sent by the user
      * @param {Object.<PostProcessInfoGroup>} [postProcess] - The saved info that will be used to
      *                                                        gather and process declaration data
      * @returns {Promise} - Promise resolves when all data is processed
      */
-    static process(context, declaration, postProcess) {
+    static process(context, declaration, originalDeclaration, postProcess) {
         if (!context) {
             return Promise.reject(new Error('Context is required.'));
         }
@@ -54,13 +61,20 @@ class PostProcessor {
         }
 
         const postProcessObj = util.simpleCopy(postProcess) || {};
-        const tagProcessors = [SecretTag, LongSecretTag];
-        const processFunctions = tagProcessors.map((processor) => () => {
+        const processFunctions = Object.keys(Tag).map((tagKey) => () => {
+            const processor = Tag[tagKey];
             const data = gatherData(declaration, postProcessObj[processor.TAG]);
-            return processor.process(context, declaration, data);
+            return processor.process(context, declaration, data, originalDeclaration);
         });
 
-        return promiseUtil.series(processFunctions);
+        return promiseUtil.series(processFunctions)
+            .then((results) => results.reduce((acc, curVal) => {
+                if (curVal) {
+                    acc.warnings = acc.warnings.concat(curVal.warnings);
+                }
+                return acc;
+            },
+            { warnings: [] }));
     }
 }
 
@@ -73,6 +87,7 @@ class PostProcessor {
  */
 function gatherData(declaration, infoGroup) {
     return (infoGroup || []).map((info) => ({
+        tenant: info.instancePath ? info.instancePath.split('/')[1] : 'unknown tenant',
         instancePath: info.instancePath,
         parentDataProperty: info.parentDataProperty,
         schemaData: info.schemaData,

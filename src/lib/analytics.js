@@ -49,6 +49,17 @@ const getAssetId = (config) => {
         .catch(() => {});
 };
 
+const getKeyCount = (tmpObj) => {
+    const keyList = Object.keys(tmpObj);
+    const keyCount = {};
+    keyList.forEach((key) => {
+        const tmp = key.split(' ').slice(0, 2).join(' ');
+        keyCount[tmp] = (keyCount[tmp] || 0) + 1;
+    });
+
+    return keyCount;
+};
+
 module.exports = (data, result, config) => {
     if (config.disableAnalytics) return Promise.resolve();
 
@@ -75,6 +86,19 @@ module.exports = (data, result, config) => {
         runtime,
         unsupportedStats: result.unsupportedStats
     };
+
+    // Expand AS3 analytics with more data
+    if (extraFields.engine === 'AS3') {
+        // supported
+        extraFields.as3Converted = Object.keys(result.metadata.as3Converted).length;
+        extraFields.as3ConvertedKeyCount = getKeyCount(result.metadata.as3Converted);
+        // unsupported
+        extraFields.as3NotConverted = Object.keys(result.metadata.as3NotConverted).length;
+        extraFields.as3NotConvertedKeyCount = getKeyCount(result.metadata.as3NotConverted);
+        // recognized
+        extraFields.as3Recognized = Object.keys(result.metadata.as3Recognized).length;
+        extraFields.as3RecognizedKeyCount = getKeyCount(result.metadata.as3Recognized);
+    }
 
     const assetInfo = {
         name: 'Automation Config Converter',

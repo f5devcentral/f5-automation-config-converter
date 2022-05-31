@@ -48,7 +48,8 @@ class SecretTag {
 
         const promises = secrets.map((s) => encryptSecret(context, s.data, s.instancePath));
 
-        return Promise.all(promises);
+        return Promise.all(promises)
+            .then(() => Promise.resolve());
     }
 }
 

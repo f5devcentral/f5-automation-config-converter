@@ -1,6 +1,24 @@
 # Changelog
 Changes to this project are documented in this file.
 
+## 1.21.0
+
+## Added
+- CHARON-634: Add as3Converted/as3NotConverted/as3Recognized to TEEM data
+- CHARON-665: Check all default profiles presented in ACC
+
+## Fixed
+- CHARON-513 DO selfIP: add mixed conversion for allow-service
+- CHARON-647: ([GitHub Issue 75](https://github.com/f5devcentral/f5-automation-config-converter/issues/75)):
+ACC not convert recv none string into AS3 declaration correctly
+- CHARON-662: ([GitHub Issue 88](https://github.com/f5devcentral/f5-automation-config-converter/issues/88)):
+ACC missing TCP Profile values after conversion
+- CHARON-686: CVE-2022-24434 dicer vulnerability
+
+## Changed
+
+## Removed
+
 ## 1.20.0
 
 ## Added

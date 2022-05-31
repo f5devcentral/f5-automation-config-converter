@@ -19,7 +19,9 @@
             "vlan": "/Common/external",
             "trafficGroup": "traffic-group-1",
             "allowService": [
-                "tcp:443"
+                "tcp:433",
+                "tcp:472",
+                "default"
             ]
         },
         "SelfIp_external": {

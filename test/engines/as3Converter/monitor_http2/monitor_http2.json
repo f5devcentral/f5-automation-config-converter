@@ -57,6 +57,7 @@
             "monitorHTTP2_Simple": {
                 "adaptive": false,
                 "dscp": 0,
+                "receive": "",
                 "send": "GET /\\r\\n\\r\\n",
                 "class": "Monitor",
                 "monitorType": "http2",

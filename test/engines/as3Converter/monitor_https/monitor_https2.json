@@ -60,6 +60,7 @@
                 "adaptive": false,
                 "interval": 6,
                 "dscp": 0,
+                "receive": "",
                 "send": "GET /\\r\\n",
                 "clientTLS": {
                     "use": "/AS3_Tenant/AS3_Application/customServerssl"

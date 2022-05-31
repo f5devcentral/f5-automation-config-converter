@@ -16,6 +16,7 @@
 
 'use strict';
 
+const fs = require('fs');
 const log = require('./log');
 const util = require('./util/util');
 const authHeaderUtil = require('./util/authHeaderUtil');
@@ -53,7 +54,7 @@ function fetchValue(targetData, dataPath, parent, dest, destPpty, root, that, sc
 
     // look for F5string-style polymorphism
     // (these properties are mutually exclusive)
-    const poly = ['base64', 'url', 'copyFrom', 'reuseFrom', 'include', 'text'];
+    const poly = ['base64', 'url', 'copyFrom', 'reuseFrom', 'include', 'text', 'file'];
     let i;
     let morph = '';
     for (i = 0; i < poly.length; i += 1) {
@@ -100,6 +101,19 @@ function fetchValue(targetData, dataPath, parent, dest, destPpty, root, that, sc
         }
         value = rv.val;
         break;
+    }
+    case 'file': {
+        return new Promise((resolve, reject) => {
+            fs.readFile((targetData.file), 'utf8', (err, data) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+
+                dest[destPpty] = data.toString();
+                resolve(true);
+            });
+        });
     }
     case 'url': {
         let mtype;

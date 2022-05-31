@@ -47,6 +47,9 @@ const ex20 = require('./service_http20.json');
 const ex21 = require('./service_http21.json');
 const ex22 = require('./service_http22.json');
 const ex23 = require('./service_http23.json');
+const ex24 = require('./service_http24.json');
+const ex25 = require('./service_http25.json');
+const ex26 = require('./service_http26.json');
 
 let json;
 
@@ -370,5 +373,47 @@ describe('Service HTTP: ltm virtual', () => {
     });
 
     it('ex23 validation', () => validator(json)
+        .then((data) => assert(data.isValid, JSON.stringify(data, null, 4))));
+
+    // add default tcp profiles
+    it('ex24', async () => {
+        const data = await readFiles(['./test/engines/as3Converter/service_http/service_http24.conf']);
+        const parsed = parse(data);
+        json = as3Converter(parsed).declaration;
+
+        const originalDec = ex24.Common.Shared;
+        const convertedDec = json.Common.Shared;
+        compareDeclaration(originalDec, convertedDec);
+    });
+
+    it('ex24 validation', () => validator(json)
+        .then((data) => assert(data.isValid, JSON.stringify(data, null, 4))));
+
+    // add more default tcp profiles
+    it('ex25', async () => {
+        const data = await readFiles(['./test/engines/as3Converter/service_http/service_http25.conf']);
+        const parsed = parse(data);
+        json = as3Converter(parsed).declaration;
+
+        const originalDec = ex25.Common.Shared;
+        const convertedDec = json.Common.Shared;
+        compareDeclaration(originalDec, convertedDec);
+    });
+
+    it('ex25 validation', () => validator(json)
+        .then((data) => assert(data.isValid, JSON.stringify(data, null, 4))));
+
+    // add more default profiles
+    it('ex26', async () => {
+        const data = await readFiles(['./test/engines/as3Converter/service_http/service_http26.conf']);
+        const parsed = parse(data);
+        json = as3Converter(parsed).declaration;
+
+        const originalDec = ex26.Common.Shared;
+        const convertedDec = json.Common.Shared;
+        compareDeclaration(originalDec, convertedDec);
+    });
+
+    it('ex26 validation', () => validator(json)
         .then((data) => assert(data.isValid, JSON.stringify(data, null, 4))));
 });

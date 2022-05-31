@@ -203,9 +203,9 @@ class As3Parser {
         // TODO: Update as3Digest() to receive 'context' instead of 'this'
         // return as3Digest.call(this, declaration) --> return as3Digest(context, declaration)
         return as3Digest.call(this, declaration)
-            .then((id) => {
-                log.debug(`success parsing declaration ${id}`);
-                return id;
+            .then((results) => {
+                log.debug('success parsing declaration');
+                return results;
             });
     }
 }
@@ -335,10 +335,10 @@ function validate(declaration) {
  * a HUGE side-effect of modifying declaration!
  *
  * @param {object} declaration - AS3 declaration to digest, WILL BE MODIFIED!
- * @returns {Promise} - resolves to "id" of declaration (declaration is MODIFIED)
-*/
+ * @returns {Promise} - resolves when declaration is digested (declaration is MODIFIED)
+ */
 function as3Digest(declaration) {
-    let id;
+    const originalDeclaration = util.simpleCopy(declaration);
     let getNodelist = Promise.resolve([]);
     let getVirtualAddresses = Promise.resolve([]);
     let getAccessProfileList = Promise.resolve([]);
@@ -350,6 +350,8 @@ function as3Digest(declaration) {
 
     this.postProcess = {};
 
+    const results = {};
+
     return getNodelist
         .then((nodelist) => { this.nodelist = nodelist; })
         .then(() => getVirtualAddresses)
@@ -359,10 +361,10 @@ function as3Digest(declaration) {
         .then(() => Config.getAllSettings())
         .then((settings) => { this.settings = settings; })
         .then(() => validate.call(this, declaration))
-        .then((result) => {
-            id = result;
+        .then(() => PostProcessor.process(this.context, declaration, originalDeclaration, this.postProcess))
+        .then((postProcessResults) => {
+            results.warnings = postProcessResults.warnings;
         })
-        .then(() => PostProcessor.process(this.context, declaration, this.postProcess))
         .then(() => PostValidator.validate(this.context, declaration))
         .then(() => {
             if (this.options.copySecrets && this.options.baseDeclaration) {
@@ -377,7 +379,7 @@ function as3Digest(declaration) {
                 .then(() => components.handleComponents(this.context, this.components))
                 .then(() => checks.handleCheckResource(this.context, this.checks));
         })
-        .then(() => id)
+        .then(() => results)
         .catch((e) => {
             if (e instanceof AJV.ValidationError) {
                 const errs = [];

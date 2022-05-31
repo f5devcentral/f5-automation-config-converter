@@ -17,7 +17,6 @@
 'use strict';
 
 const AJV = require('ajv');
-const ipUtil = require('@f5devcentral/atg-shared-utilities').ipUtils;
 const log = require('./log');
 const util = require('./util/util');
 const extractUtil = require('./util/extractUtil');
@@ -39,7 +38,7 @@ const keywords = [
                         minLength: 1
                     },
                     data: {
-                        type: 'object'
+                        type: ['string', 'object']
                     }
                 },
                 required: ['tag'],
@@ -196,273 +195,6 @@ const keywords = [
         })
     },
     {
-        // custom keyword 'f5node' replaces an fqdn or
-        // static-addr pool member with a reference to an
-        // existing ltm node to avert conflicts.  This is
-        // a concession to the user who tries to deploy a
-        // declaration onto a BIG-IP which still has traces
-        // of previous configuration lingering on it.
-        //
-        // However, only existing nodes in /Common are
-        // really linkable-- TMOS doesn't like nodes in
-        // sister partitions.  For non-eligible nodes we
-        // generate a suitable error message.  The existing
-        // node list is fetched in advance.
-        //
-        // IF YOU MODIFY THE SCHEMA FOR Pool_Member YOU
-        // MAY HAVE TO MODIFY THIS FUNCTION AS WELL
-        //
-        // Apply this keyword to an array of Pool_Member
-        // objects.  This function will delve into each
-        // Pool_Member to check its fqdn hostname or each of
-        // its static serverAddresses/servers against that.nodelist.
-        // If a match is found, we modify the Pool_Members
-        // element to convert fqdn or a single serverAddr to
-        // bigip=node, or for multiple serverAddrs, add a
-        // Pool_Members element and remove the conflicting
-        // serverAddr
-        //
-        // If special property "scratch" exists in the root
-        // of the document this function becomes a no-op
-        //
-        name: 'f5node',
-        definition: (that) => ({
-            type: 'array',
-            errors: true,
-            modifying: true,
-            metaSchema: {
-                type: 'boolean'
-            },
-            compile() {
-                function getAddresses(node) {
-                    let addresses = (node.serverAddresses || []).map((address) => address);
-                    addresses = addresses.concat((node.servers || []).map((server) => server.address));
-                    return addresses;
-                }
-
-                function checkDuplicateServerNames(node, error, errors) {
-                    (node.servers || []).reduce((currentNames, currentNode) => {
-                        if (currentNames.indexOf(currentNode.name) === -1) {
-                            currentNames.push(currentNode.name);
-                        } else {
-                            error.message = `servers array has duplicate name ${currentNode.name}`;
-                            errors.push(error);
-                        }
-                        return currentNames;
-                    }, []);
-                }
-
-                function removeAddressFromNode(node, address) {
-                    let addressIndex = (node.serverAddresses || [])
-                        .findIndex((serverAddr) => address === serverAddr);
-                    if (addressIndex >= 0) {
-                        node.serverAddresses.splice(addressIndex, 1);
-                    }
-                    addressIndex = (node.servers || [])
-                        .findIndex((server) => address === server.address);
-                    if (addressIndex >= 0) {
-                        node.servers.splice(addressIndex, 1);
-                    }
-                }
-
-                return function f5node(data, dataPath, parentData, pptyName, rootData) {
-                    f5node.errors = [];
-                    const myerror = {
-                        keyword: 'f5node',
-                        params: { keyword: 'f5node' },
-                        message: ''
-                    };
-
-                    data.forEach((node) => {
-                        if (node.addressDiscovery && node.addressDiscovery.use) {
-                            const path = node.addressDiscovery.use.split('/');
-                            // The path is expected to look like: /tenant/app/item
-                            const addressDiscoveryRef = rootData[path[1]][path[2]][path[3]];
-                            addressDiscoveryRef.resources = addressDiscoveryRef.resources || [];
-                            // dataPath contains /members on the end and this is to remove that
-                            const resourcePath = dataPath.substring(0, dataPath.length - 8);
-                            addressDiscoveryRef.resources.push({ item: parentData, path: resourcePath, member: node });
-                        }
-
-                        const addresses = getAddresses(node);
-                        const processedAddresses = [];
-                        addresses.forEach((address) => {
-                            const currentTenant = dataPath.split('/')[1];
-                            const defaultRD = rootData[currentTenant].defaultRouteDomain;
-                            if (!address.includes('%') && !node.routeDomain && typeof defaultRD === 'number') {
-                                node.routeDomain = defaultRD;
-                            }
-
-                            const fullAddress = address.includes('%') ? address : `${address}%${node.routeDomain}`;
-                            if (processedAddresses.indexOf(fullAddress) === -1) {
-                                processedAddresses.push(fullAddress);
-                            } else {
-                                const error = Object.assign({}, myerror);
-                                error.message = `serverAddresses/servers array has duplicate address ${fullAddress}`;
-                                f5node.errors.push(error);
-                            }
-                        });
-
-                        checkDuplicateServerNames(node, myerror, f5node.errors);
-                    });
-
-                    if (f5node.errors.length !== 0) {
-                        return false;
-                    }
-
-                    if (typeof rootData.scratch !== 'undefined' || that.nodelist.length === 0) {
-                        // don't want to fool with ltm-nodes right now
-                        // (probably just expanding defaults in old decl)
-                        return true;
-                    }
-
-                    const tenant = dataPath.split('/')[1];
-                    const nodelist = that.nodelist;
-                    let node;
-
-                    const len = data.length; // need not scan extra elems we append
-                    let i;
-                    let j;
-                    let elem;
-                    let addr;
-                    let elemRef;
-                    let trunc;
-                    let index;
-                    let extra;
-
-                    for (i = 0; i < len; i += 1) {
-                        elem = data[i];
-                        elemRef = `pool member ${dataPath}/${i}`;
-
-                        if (Object.prototype.hasOwnProperty.call(elem, 'bigip')) {
-                            continue; // eslint-disable-line no-continue
-                        }
-
-                        if (elem.addressDiscovery === 'fqdn') {
-                            // Get the index of the node in the existing node list
-                            index = util.binarySearch(that.nodelist,
-                                (x) => ((elem.hostname < x.key) ? -1 : ((elem.hostname > x.key) ? 1 : 0))); // eslint-disable-line no-loop-func, no-nested-ternary, max-len
-
-                            if (index >= 0) {
-                                node = nodelist[index];
-                                if (node.partition === tenant) {
-                                    // audit process will handle this
-                                    continue; // eslint-disable-line no-continue
-                                }
-                                // if the node is directly in /Common, tag it and leave it for audit
-                                if (node.partition === 'Common' && node.fullPath.match(/\//g).length === 2
-                                    && node.metadata && node.metadata.find((k) => k.name === 'references')) {
-                                    node.commonNode = true;
-                                    continue; // eslint-disable-line no-continue
-                                } else {
-                                    node.commonNode = false;
-                                }
-                                if (node.partition !== 'Common') {
-                                    myerror.message = `${elemRef
-                                    } fqdn hostname ${elem.hostname
-                                    } conflicts with bigip`
-                                        + ` fqdn node ${node.fullPath}`;
-                                    f5node.errors.push(myerror);
-                                    return false;
-                                }
-                                trunc = (elem.hostname.length < 46)
-                                    ? elem.hostname : elem.hostname.replace(/^(.{44}).*$/, '$1~');
-
-                                elem.bigip = node.fullPath;
-                                elem.remark = `(replaces AS3 ${trunc})`;
-                                ['addressDiscovery', 'hostname', 'addressFamily', 'autoPopulate',
-                                    'queryInterval', 'downInterval'].forEach((p) => { // eslint-disable-line no-loop-func
-                                    delete elem[p];
-                                });
-                            }
-                            continue; // eslint-disable-line no-continue
-                        }
-
-                        if (elem.addressDiscovery !== 'static') {
-                            continue; // eslint-disable-line no-continue
-                        }
-
-                        // otherwise
-                        const addresses = getAddresses(elem);
-                        for (j = 0; j < addresses.length; j += 1) {
-                            addr = addresses[j];
-                            addr = ipUtil.minimizeIP(addr).replace(/%0$/, '');
-
-                            // Get the index of the node in the existing node list
-                            index = util.binarySearch(that.nodelist,
-                                (x) => ((addr < x.key) ? -1 : ((addr > x.key) ? 1 : 0))); // eslint-disable-line no-loop-func, no-nested-ternary, max-len
-
-                            if (index >= 0) {
-                                node = nodelist[index];
-                                if (node.partition === tenant) {
-                                    // audit process will handle this
-                                    continue; // eslint-disable-line no-continue
-                                }
-                                // If the node exists in /Common, the address conflicts with that node, and
-                                // the value of shareNodes is false. Check for metadata since we treat AS3
-                                // Common nodes a little different than BIG-IP Common nodes
-                                if (node.partition === 'Common' && node.key === addr && node.metadata && !elem.shareNodes) {
-                                    myerror.message = `The node /${tenant}/${addr} conflicts with /Common/${node.key}`;
-                                    f5node.errors.push(myerror);
-                                    return false;
-                                }
-                                // if the node is directly in /Common, tag it and leave it for audit
-                                if (node.partition === 'Common' && node.fullPath.match(/\//g).length === 2
-                                    && node.metadata && node.metadata.find((k) => k.name === 'references')) {
-                                    node.commonNode = true;
-                                    continue; // eslint-disable-line no-continue
-                                } else {
-                                    node.commonNode = false;
-                                }
-                                if (node.ephemeral) {
-                                    myerror.message = `${elemRef
-                                    } static address ${addr
-                                    } conflicts with an ephemeral address`
-                                        + ` to which ${node.domain} resolves`
-                                        + ` for bigip FQDN node ${node.fullPath}`;
-                                    f5node.errors.push(myerror);
-                                    return false;
-                                }
-                                if (node.partition !== 'Common') {
-                                    myerror.message = `${elemRef
-                                    } static address ${addr
-                                    } conflicts with bigip`
-                                        + ` node ${node.fullPath}`;
-                                    f5node.errors.push(myerror);
-                                    return false;
-                                }
-
-                                if (addresses.length === 1) {
-                                    elem.bigip = node.fullPath;
-                                    elem.remark = `(replaces AS3 ${addr})`;
-                                    ['addressDiscovery', 'serverAddresses', 'servers'].forEach((p) => { // eslint-disable-line no-loop-func
-                                        delete elem[p];
-                                    });
-                                } else {
-                                    extra = util.simpleCopy(elem);
-
-                                    extra.bigip = node.fullPath;
-                                    extra.remark = `(replaces AS3 ${addr})`;
-                                    ['addressDiscovery', 'serverAddresses', 'servers'].forEach((p) => { // eslint-disable-line no-loop-func
-                                        delete extra[p];
-                                    });
-
-                                    data.push(extra);
-
-                                    addresses.splice(j, 1);
-                                    removeAddressFromNode(elem, addr);
-                                    j -= 1;
-                                }
-                            }
-                        }
-                    }
-
-                    return true;
-                };
-            }
-        })
-    },
-    {
         // custom keyword 'f5bigComponent' tests whether
         // a named BIG-IP configuration component such as
         // "/Common/fubar" of the required type such as
@@ -602,7 +334,7 @@ const keywords = [
         //
         name: 'f5fetch',
         definition: (that) => ({
-            type: 'object',
+            type: ['object', 'string'],
             errors: true,
             modifying: true,
             metaSchema: {
@@ -614,6 +346,12 @@ const keywords = [
                     // don't want to fetch anything right now
                     // (probably just expanding defaults in old decl)
                     return true;
+                }
+
+                if (typeof data === 'string') {
+                    data = {
+                        [pptyName]: data
+                    };
                 }
 
                 that.fetches.push({
