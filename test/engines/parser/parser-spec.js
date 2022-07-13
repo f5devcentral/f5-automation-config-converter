@@ -17,8 +17,10 @@
 'use strict';
 
 const assert = require('assert');
+const sinon = require('sinon');
 const parse = require('../../../src/engines/parser');
 const readFiles = require('../../../src/preConverter/readFiles');
+const log = require('../../../src/util/log');
 
 const ex1 = require('./ex1.json');
 const ex2 = require('./ex2.json');
@@ -35,6 +37,7 @@ const ex12 = require('./ex12.json');
 const ex13 = require('./ex13.json');
 const ex14 = require('./ex14.json');
 const ex15 = require('./ex15.json');
+// no json counterparts for ex16.conf and ex17.conf because of a thrown exception or a warning
 
 describe('Parse the config (parse.js)', () => {
     it('should parse the bigip-object into json-object', async () => {
@@ -125,5 +128,25 @@ describe('Parse the config (parse.js)', () => {
         const data = await readFiles(['./test/engines/parser/ex15.conf']);
         const json = parse(data);
         assert.deepStrictEqual(ex15, json);
+    });
+
+    it('should throw an exception for mis-indented "}"', async () => {
+        const data = await readFiles(['./test/engines/parser/ex16.conf']);
+        assert.throws(
+            () => parse(data),
+            Error
+        );
+        assert.throws(
+            () => parse(data),
+            /.*Missing or mis-indented '}' for line: ' {4}devices {'$/
+        );
+    });
+
+    it('should give a warning for mis-indented property', async () => {
+        const consoleLogSpy = sinon.spy(log, 'warn');
+        const data = await readFiles(['./test/engines/parser/ex17.conf']);
+        parse(data);
+        sinon.assert.callCount(consoleLogSpy, 1);
+        sinon.assert.calledWith(consoleLogSpy, "UNRECOGNIZED LINE: 'auto-sync enabled'");
     });
 });

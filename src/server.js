@@ -45,6 +45,8 @@ app.post('/converter', upload.any(), (req, res, next) => {
         controls: checkBool(fields.controls),
         declarativeOnboarding: checkBool(fields.declarativeOnboarding),
         disableAnalytics: checkBool(fields.disableAnalytics),
+        next: checkBool(fields.next),
+        nextNotConverted: checkBool(fields.nextNotConverted),
         safeMode: checkBool(fields.safeMode),
         server: true,
         vsName: fields.vsName,
@@ -82,7 +84,9 @@ app.post('/converter', upload.any(), (req, res, next) => {
                     output: results.declaration,
                     as3Recognized: results.metadata.as3Recognized,
                     as3Converted: results.metadata.as3Converted,
-                    as3NotConverted: results.metadata.as3NotConverted
+                    as3NotConverted: results.metadata.as3NotConverted,
+                    as3NextNotConverted: results.metadata.as3NextNotConverted,
+                    keyNextConverted: results.metadata.keyNextConverted
                 });
             }
             return res.status(201).json(results.declaration);

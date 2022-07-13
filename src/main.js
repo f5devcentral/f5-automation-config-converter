@@ -33,12 +33,74 @@ const removeDefaultValuesDO = require('./postConverter/removeDefaultValuesDO');
 const removeInvalidRefs = require('./postConverter/removeInvalidRefs');
 const supported = require('./lib/AS3/customDict');
 
+/**
+ * Filter objects by array
+ *
+ * Note:
+ * - mutates 'obj'
+ *
+ * @param {Object} obj - json
+ * @param {Array} filter - array of objects by filter
+ *
+ * @returns {Object} source json object
+ * @returns {Array} list of Next supported keys
+ */
+const nextFilteredObjects = (obj, filter) => {
+    const as3NextNotConverted = {};
+    const keyNextConverted = [];
+
+    const filterArray = filter.slice(0);
+
+    Object.keys(obj).forEach((key) => {
+        const i = filterArray.indexOf(key.split(' ').splice(-1)[0]);
+        if (i !== -1) {
+            as3NextNotConverted[key] = obj[key];
+            filterArray.splice(i, 1);
+        } else {
+            keyNextConverted.push(key);
+        }
+    });
+
+    // -- try to recognize undefined objects
+    // objects can have name /<>/<>/test or /Common/test
+    // in second case for /Common/test it will be replaced to /Common/Shared/test for AS3
+    // when we try to identify type of objects we remove 'Shared' and use full name
+    // if we had initial name like /Common/test/test, such object will not be identified
+    // and we should make additional checks
+    filterArray.forEach((item) => {
+        const tmpStr = item.split('/').at(-1);
+        let foundKey = '';
+
+        for (let i = 0; i < keyNextConverted.length; i += 1) {
+            if (keyNextConverted[i].endsWith(tmpStr)) {
+                foundKey = keyNextConverted[i];
+                as3NextNotConverted[foundKey] = obj[foundKey];
+                keyNextConverted.splice(i, 1);
+                break;
+            }
+        }
+
+        if (foundKey === '') {
+            as3NextNotConverted[`<--undefined type--> ${item}`] = {};
+        }
+    });
+
+    return { as3NextNotConverted, keyNextConverted };
+};
+
 async function mainRunner(data, config) {
+    // Check if 'next' requested with next-not-converted
+    if (config.nextNotConverted) {
+        config.next = true;
+    }
+
     log.debug(`Config ${JSON.stringify(config, null, 4)}`);
     const json = parser(data);
 
     // DO branch
     if (config.declarativeOnboarding) {
+        if (config.next) log.warn('DO Next is not supported. Doing DO conversion');
+
         let doDecl = doConverter(json, config);
 
         // post-converters
@@ -66,6 +128,10 @@ async function mainRunner(data, config) {
     // Convert json to AS3
     const converted = as3Converter(json, config);
     let declaration = converted.declaration;
+
+    // Additional metrics for next
+    const { as3NextNotConverted, keyNextConverted } = nextFilteredObjects(as3Converted,
+        converted.keyNextNotSupported);
 
     // post-converters
     if (config.safeMode) {
@@ -95,6 +161,8 @@ async function mainRunner(data, config) {
             jsonCount: countObjects(json),
             as3Recognized,
             as3Converted,
+            keyNextConverted,
+            as3NextNotConverted,
             as3NotConverted: converted.as3NotConverted,
             unsupportedStats: converted.unsupportedStats
         }

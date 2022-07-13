@@ -50,12 +50,18 @@ describe('Test analytics prep (analytics.js)', () => {
             },
             as3NotConverted: {
                 'test test /Common/test': {}
-            }
+            },
+            as3NextNotConverted: 6,
+            as3NextNotConvertedKeyCount: { 'security dos': 6 },
+            as3NextConverted: 11,
+            as3NextConvertedKeyCount: { 'ltm pool': 11 },
+            keyNextConverted: ['ltm pool /Common/test']
         }
     };
 
     it('Check common stats', () => {
-        const stats = analytics(data, results, 'config');
+        const config = { next: true };
+        const stats = analytics(data, results, config);
         return assert.isFulfilled(stats);
     });
 

@@ -1,6 +1,26 @@
 # Changelog
 Changes to this project are documented in this file.
 
+## 1.22.0
+
+## Added
+- CHARON-669: [AS3Next] Implement pruning logic using installed NPM package
+- CHARON-671: [AS3Next] AS3 Next Metric
+- CHARON-672: [AS3Next] Fix AS3 Next TEEM Data
+- CHARON-673: [AS3Next] Pre-view label when using AS3 Next conversion
+- CHARON-682: [AS3Next] AS3 next package reference
+- CHARON-684: [AS3Next] Obtain shared schema version
+- CHARON-690: [AS3Next] Test AS3Next declarations on real BIG-IP next, fix
+- CHARON-694: [AS3Next] Provide right API output for Next
+
+## Fixed
+- CHARON-692: ([GitHub Issue 89](https://github.com/f5devcentral/f5-automation-config-converter/issues/89)):
+Add protection against mis-indented input
+
+## Changed
+
+## Removed
+
 ## 1.21.0
 
 ## Added

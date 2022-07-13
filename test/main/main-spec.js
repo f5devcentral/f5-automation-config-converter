@@ -120,6 +120,12 @@ describe('Test main function (main.js)', () => {
                     'traffic-group': '/Common/traffic-group-1'
                 }
             },
+            keyNextConverted: [
+                'ltm pool /AS3_Tenant/AS3_Application/web_pool',
+                'ltm virtual /AS3_Tenant/AS3_Application/serviceMain',
+                'ltm virtual-address /AS3_Tenant/10.0.1.10'
+            ],
+            as3NextNotConverted: {},
             as3NotConverted: {},
             unsupportedStats: {}
         };
@@ -131,6 +137,15 @@ describe('Test main function (main.js)', () => {
     it('Should be callable from 3rd party script as function, declaration test', async () => {
         const data = fs.readFileSync('./test/main/main.conf', 'utf-8');
         const json = await mainAPI(data);
+        const originalDec = ex.AS3_Tenant.AS3_Application;
+        const convertedDec = json.declaration.AS3_Tenant.AS3_Application;
+        compareDeclaration(originalDec, convertedDec);
+    });
+
+    it('Should be callable from 3rd party script as function, next test', async () => {
+        const data = fs.readFileSync('./test/main/main.conf', 'utf-8');
+        const config = { nextNotConverted: true };
+        const json = await mainAPI(data, config);
         const originalDec = ex.AS3_Tenant.AS3_Application;
         const convertedDec = json.declaration.AS3_Tenant.AS3_Application;
         compareDeclaration(originalDec, convertedDec);

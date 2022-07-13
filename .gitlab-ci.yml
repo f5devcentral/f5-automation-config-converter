@@ -2,6 +2,7 @@ image: $ATG_IMG_REGISTRY_URL/node:lts
 
 stages:
   - update
+  - fetch-dependencies
   - atg-shared-checks
   - build
   - test
@@ -41,6 +42,19 @@ update_autotool_deps:
       fi
   tags: [cm-official-docker-executor]
 
+fetch_dependencies:
+  stage: fetch-dependencies
+  needs: []
+  script:
+    - . ./scripts/build/fetch-dependencies.sh
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - dependencies
+      - package.json
+      - package-lock.json
+  tags: [cm-official-docker-executor]
+
 
 # BUILD #
 create_docs:
@@ -54,7 +68,6 @@ create_docs:
       if [ "$CI_COMMIT_REF_NAME" = "docs-staging" ] || [ "$CI_COMMIT_REF_NAME" = "docs-latest" ]; then
         rm -r _templates
       fi
-    - npm ci
     - make html
     - make test
   artifacts:
@@ -66,7 +79,7 @@ create_docs:
 build_image:
   image: $ATG_IMG_REGISTRY_URL/docker:20
   stage: build
-  needs: []
+  needs: [fetch_dependencies]
   script:
     - source scripts/build/image-build.sh
   artifacts:
@@ -170,15 +183,38 @@ publish_image:
   tags: [cm-official-docker-executor]
 
 publish_docs:
-  image: $CONTAINTHEDOCS_IMAGE
+  image: ${CONTAINTHEDOCS_IMAGE}
   stage: publish
   needs: [create_docs]
   only: [docs-latest]
   environment:
     name: production
-    url: https://clouddocs.f5.com/products/extensions/f5-automation-config-converter/latest/
+    url: https://clouddocs.f5.com/products/extensions/f5-automation-config-converter/latest
   script:
     - aws s3 sync docs/_build/html s3://clouddocs.f5.com/products/extensions/f5-automation-config-converter/latest
     # create invalidation to clear cloudfront cache
     - aws cloudfront create-invalidation --distribution-id $AWS_DIST --paths /products/extensions/f5-automation-config-converter/latest
   tags: [cm-official-docker-executor]
+
+# TEST #
+#
+# all jobs below belongs to automation-toolchain/atg-shared-templates 
+# and ACC pipeline need to make them to wait for artifacts from 
+# 'fetch_dependencies' job, otherwise those jobs will fail due not
+# complete list of dependencies
+lint:
+  stage: test
+  needs: [fetch_dependencies]
+
+coverage:
+  stage: test
+  needs: [fetch_dependencies]
+
+audit:
+  stage: test
+  needs: [fetch_dependencies]
+
+unit_test:
+  stage: test
+  needs: [fetch_dependencies]
+ 

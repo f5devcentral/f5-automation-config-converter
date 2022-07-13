@@ -23,7 +23,8 @@ const log = require('../util/log');
 module.exports = (result, config) => {
     const jsonDeclaration = JSON.stringify(result.declaration, null, 4);
     const {
-        jsonCount, as3Recognized, as3Converted, as3NotConverted, declarationInfo
+        jsonCount, as3Recognized, as3Converted, as3NotConverted,
+        as3NextNotConverted, declarationInfo, keyNextConverted
     } = result.metadata;
 
     if (config.declarativeOnboarding) {
@@ -54,7 +55,22 @@ module.exports = (result, config) => {
         log.info(`${jsonCount} BIG-IP objects detected total`);
         log.info(`${countObjects(as3Recognized)} BIG-IP objects recognized by AS3`);
         log.info(`${countObjects(as3Converted)} BIG-IP objects supported by ACC`);
-        log.info(`${declarationInfo.total} AS3 stanzas generated`);
+
+        if (config.next) {
+            // Log not converted Next objects
+            if (config.nextNotConverted) {
+                log.info('------- AS3-Next-Not-Converted objects ------');
+                Object.keys(as3NextNotConverted).forEach((x) => log.info(x));
+                log.info('--- end of AS3-Next-Not-Converted objects ---');
+            } else {
+                log.info('------- AS3 Next ------');
+            }
+
+            log.info(`${keyNextConverted.length} BIG-IP objects supported by ACC for AS3 Next`);
+            log.info(`${declarationInfo.total} AS3 Next stanzas generated`);
+        } else {
+            log.info(`${declarationInfo.total} AS3 stanzas generated`);
+        }
     }
 
     if (config.summary) log.info(JSON.stringify(declarationInfo.classes, null, 4));

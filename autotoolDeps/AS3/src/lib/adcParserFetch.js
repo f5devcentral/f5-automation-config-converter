@@ -241,7 +241,7 @@ function fetchValue(targetData, dataPath, parent, dest, destPpty, root, that, sc
                         // TODO:  deal with binary cert/key formats
                         // like pkcs#12, pkcs#7
 
-                        body = body.toString(); // TODO: remove this hack
+                        body = body.toString();
                     }
                     break;
 
@@ -303,7 +303,7 @@ function fetchValue(targetData, dataPath, parent, dest, destPpty, root, that, sc
             // TODO:  deal with binary cert/key formats
             // like pkcs#12, pkcs#7
 
-            value = value.toString('base64'); // TODO: remove this hack
+            value = value.toString();
         }
         break;
 

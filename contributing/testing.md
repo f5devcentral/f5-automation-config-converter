@@ -1,8 +1,14 @@
 # Testing
 
 ### Running the Tests
+Environment variable "TEST_KEY" should be set to run the unit tests. A possible solution is to copy the value of "TEST_KEY" variable (ACC gitlab project -> Settings -> CI/CD) to a file. And to add "export TEST_KEY=<path to the file>" to ~/.bashrc
+To run all the unit tests:
 ```
 npm run test
+```
+To run the unit tests of a single file:
+```
+npx mocha test/<path to the test file> --timeout 60000
 ```
 
 ### Converter Tests

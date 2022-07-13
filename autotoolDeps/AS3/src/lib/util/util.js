@@ -1287,14 +1287,6 @@ class Util {
                 + (d.getUTCHours() || d.getMinutes() ? `${d.getMinutes()}:` : '') + d.getSeconds();
     }
 
-    static uuidv4() {
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-            const r = Math.trunc(Math.random() * 16);
-            const v = c === 'x' ? r : (r & 0x3 | 0x8); // eslint-disable-line no-bitwise, no-mixed-operators
-            return v.toString(16);
-        });
-    }
-
     /**
      * Encode utf8 string to base64
      *
@@ -1500,7 +1492,7 @@ class Util {
                 reject(e);
             });
         }))).catch((e) => {
-            log.debug(e);
+            log.error(e);
             log.error('Could not determine device port');
         });
     }

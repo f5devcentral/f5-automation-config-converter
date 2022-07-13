@@ -54,6 +54,9 @@ function orchestrate(arr) {
                 let c = 0;
                 while (arr[i + c] !== '    }') {
                     c += 1;
+                    if ((i + c) >= arr.length) {
+                        throw new Error(`Missing or mis-indented '}' for line: '${arr[i]}'`);
+                    }
                 }
                 const subObjArr = removeIndent(arr.slice(i, i + c + 1));
 
@@ -116,7 +119,7 @@ function orchestrate(arr) {
 
             // else report exception
             } else {
-                log.warn('UNRECOGNIZED LINE:', arr[i], '\n');
+                log.warn(`UNRECOGNIZED LINE: '${arr[i]}'`);
             }
         }
     }

@@ -50,7 +50,7 @@ const getAssetId = (config) => {
 };
 
 const getKeyCount = (tmpObj) => {
-    const keyList = Object.keys(tmpObj);
+    const keyList = Array.isArray(tmpObj) ? tmpObj : Object.keys(tmpObj);
     const keyCount = {};
     keyList.forEach((key) => {
         const tmp = key.split(' ').slice(0, 2).join(' ');
@@ -89,9 +89,22 @@ module.exports = (data, result, config) => {
 
     // Expand AS3 analytics with more data
     if (extraFields.engine === 'AS3') {
-        // supported
-        extraFields.as3Converted = Object.keys(result.metadata.as3Converted).length;
-        extraFields.as3ConvertedKeyCount = getKeyCount(result.metadata.as3Converted);
+        if (config.next) {
+            extraFields.engine = 'AS3Next';
+
+            // as3Next unsupported
+            extraFields.as3NextNotConverted = Object.keys(result.metadata.as3NextNotConverted).length;
+            extraFields.as3NextNotConvertedKeyCount = getKeyCount(result.metadata.as3NextNotConverted);
+
+            // supported
+            extraFields.as3NextConverted = result.metadata.keyNextConverted.length;
+            extraFields.as3NextConvertedKeyCount = getKeyCount(result.metadata.keyNextConverted);
+        } else {
+            // supported
+            extraFields.as3Converted = Object.keys(result.metadata.as3Converted).length;
+            extraFields.as3ConvertedKeyCount = getKeyCount(result.metadata.as3Converted);
+        }
+
         // unsupported
         extraFields.as3NotConverted = Object.keys(result.metadata.as3NotConverted).length;
         extraFields.as3NotConvertedKeyCount = getKeyCount(result.metadata.as3NotConverted);

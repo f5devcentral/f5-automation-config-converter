@@ -21,6 +21,7 @@ const buildProtectedObj = require('../../src/util/convert/buildProtectedObj');
 const convertToNameValueObj = require('../../src/util/convert/convertToNameValueObj');
 const declarationBase = require('../../src/util/convert/declarationBase');
 const dedupeArray = require('../../src/util/convert/dedupeArray');
+const deleteProperty = require('../../src/util/convert/deleteProperty');
 const enabledToEnable = require('../../src/util/convert/enabledToEnable');
 const findLocation = require('../../src/util/convert/findLocation');
 const formatStr = require('../../src/util/convert/formatStr');
@@ -399,6 +400,31 @@ describe('Converter utils (util/convert)', () => {
             assert(mergedAS3Properties['gtm monitor http']);
             // 'ltm virtual' only found in properties.json
             assert(mergedAS3Properties['ltm virtual']);
+        });
+    });
+
+    describe('Delete property by path (deleteProperty.js)', () => {
+        it('Should delete properties', () => {
+            const input = { a: [{ key: 'true' }, { key2: 'false' }], b: 10 };
+            const property = '/a/1/key2';
+            deleteProperty(input, property);
+            assert.deepEqual({ a: [{ key: 'true' }], b: 10 }, input);
+        });
+
+        it('Should delete properties and clean up empty objects', () => {
+            const input = { a: [{ key: 'true' }], b: 10 };
+            const property = '/a/0';
+            deleteProperty(input, property);
+            assert.deepEqual({ b: 10 }, input);
+        });
+
+        it('Should delete properties and clean up difficult objects', () => {
+            const input = { a: 'testA', b: { b_1: { value: 'test_value' }, b_2: { value: 'test_value' } } };
+            const property1 = '/b/b_1/value';
+            const property2 = '/b/b_2/value';
+            deleteProperty(input, property1);
+            deleteProperty(input, property2);
+            assert.deepEqual({ a: 'testA' }, input);
         });
     });
 });

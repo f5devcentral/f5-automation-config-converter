@@ -7,7 +7,7 @@
 F5 Automation Config Converter (ACC)
 ====================================
 | The F5 Automation Config Converter (ACC) converts configuration files to either an `Application Services 3 Extension (AS3) <https://clouddocs.f5.com/products/extensions/f5-appsvcs-extension/latest/>`_
-| or an `F5 Declarative Onboarding (DO) <https://clouddocs.f5.com/products/extensions/f5-declarative-onboarding/latest/>`_ declaration. The source code for ACC can be found on `GitHub`_.
+| or an `F5 Declarative Onboarding (DO) <https://clouddocs.f5.com/products/extensions/f5-declarative-onboarding/latest/>`_ declaration. The source code for ACC can be found on `GitHub <https://github.com/f5devcentral/f5-automation-config-converter/releases>`_.
 * AS3 configures applications and services on a BIG-IP device that already has its initial settings.
 * DO conversions configure system settings such as licensing and provisioning, network settings such as VLANs and Self IPs, and clustering settings.
 | Conversions are based on supported classes.  For a list of the objects that are converted, see :ref:`Classes<classes>`.

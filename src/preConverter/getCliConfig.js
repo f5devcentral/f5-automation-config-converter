@@ -38,6 +38,8 @@ module.exports = () => {
         .option('--declarative-onboarding', 'Enable DO conversion instead of AS3.')
         .option('--disable-analytics', 'Disable analytics and reporting.')
         .option('--log <file>', 'Output log to the specified file.')
+        .option('--next', 'Enable conversion for AS3 Next.')
+        .option('--next-not-converted', 'Enable conversion for AS3 Next and provide list of not supported.')
         .option('--safe-mode <bool>', 'Enable to skip post-conversion processing.')
         .option('--summary', 'Display summary of generated declaration.');
 
@@ -55,6 +57,8 @@ module.exports = () => {
         declarativeOnboarding: options.declarativeOnboarding,
         disableAnalytics: options.disableAnalytics,
         logFile: options.log,
+        next: options.next,
+        nextNotConverted: options.nextNotConverted,
         output: options.output || 'output.json',
         safeMode: options.safeMode === 'true',
         showExtended: options.extended,

@@ -21,10 +21,12 @@
 const deepmerge = require('deepmerge');
 const path = require('path');
 
+const f5AppSvcsSchema = require('@automation-toolchain/f5-appsvcs-schema');
 const customDict = require('../lib/AS3/customDict');
 const customHandling = require('../lib/AS3/customHandling');
 const declarationBase = require('../util/convert/declarationBase');
 const dedupeArray = require('../util/convert/dedupeArray');
+const deleteProperty = require('../util/convert/deleteProperty');
 const findLocation = require('../util/convert/findLocation');
 const getKey = require('../util/getKey');
 const getMergedAS3Properties = require('../util/getMergedAS3Properties');
@@ -239,6 +241,53 @@ const convertEngine = (confObj, confKey) => {
         }
     });
     return obj;
+};
+
+/**
+ * Func descriptions goes here
+ *
+ * @param {Object} declarationNext - AS3 declaration ready to clean up for get Next
+ * @param {Object} config - config
+ * @param {boolean} config.next - flag enables AS3 to AS3 Next conversion
+ *
+ * @returns {Object} declarationNext - when clean up completed
+ */
+const as3NextCleanUp = (declarationNext, config) => {
+    let keyNextNotSupported = [];
+    if (config && config.next) {
+        log.info('AS3 Next conversion enabled');
+
+        const cleanUpList = f5AppSvcsSchema.validate(declarationNext, { mode: 'lazy', runtime: 'next' }).ignoredAttributes;
+
+        keyNextNotSupported = cleanUpList
+            .filter((item) => item.split('/').length === 4)
+            .map((item) => item.replace('/Common/Shared/', '/Common/'));
+
+        cleanUpList.forEach((pathToProp) => {
+            // temporary workaround for AS3 Next bug
+            log.debug(`Delete property from object: ${pathToProp}`);
+            if (pathToProp !== '/schemaVersion') {
+                if (!pathToProp.startsWith('/')) {
+                    log.error(`Wrong path received from ignoredAttributes: ${pathToProp}`);
+                }
+                deleteProperty(declarationNext, pathToProp);
+            }
+        });
+
+        // validator and AS3 Next use the same shared schema
+        const schema = f5AppSvcsSchema.getSchemaByRuntime('next');
+        declarationNext.schemaVersion = schema.definitions.ADC.properties.schemaVersion.enum[0];
+
+        const ignoredAttributes = f5AppSvcsSchema.validate(declarationNext, { mode: 'lazy', runtime: 'next' }).ignoredAttributes;
+        if (ignoredAttributes.length > 0) {
+            log.warn('Received AS3 Next Declaration is not fully cleaned.');
+        }
+    }
+
+    return {
+        declarationNext,
+        keyNextNotSupported
+    };
 };
 
 module.exports = (json, config) => {
@@ -473,6 +522,9 @@ module.exports = (json, config) => {
 
         const as3NotConverted = Object.assign({}, ...unconvertedArr.map((x) => ({ [x]: json[x] })));
 
+        // AS3 Next conversion
+        const { declarationNext, keyNextNotSupported } = as3NextCleanUp(declObj, config);
+
         // count occurrences of unsupported tmsh keys
         const unsupportedStats = {};
         unconvertedArr.map((x) => getKey(x)).forEach((type) => {
@@ -481,9 +533,10 @@ module.exports = (json, config) => {
         });
 
         return {
-            declaration: declObj,
+            declaration: declarationNext,
             iappSupported,
             as3NotConverted,
+            keyNextNotSupported,
             unsupportedStats
         };
     } catch (e) {

@@ -416,6 +416,9 @@
     { "id":"port",                      "default": "none" },
     { "id":"path" }
   ],
+  "ltm profile smtps": [
+    { "id":"activation-mode" }
+  ],
   "ltm profile stream": [
     { "id":"chunking",                  "altId": "chunkingEnabled", "truth": "enabled", "falsehood": "disabled" },
     { "id":"chunk-size" },
@@ -542,11 +545,13 @@
   "ltm profile client-ssl": [
     { "id":"alert-timeout",             "intToString": true },
     { "id":"allow-expired-crl",         "altId": "allowExpiredCRL", "truth": "enabled", "falsehood": "disabled" },
+    { "id":"allow-non-ssl",             "altId": "nonSslConnectionsEnabled", "truth": "enabled", "falsehood": "disabled" },
     { "id":"authenticate",              "altId": "authenticationFrequency" },
     { "id":"c3d-drop-unknown-ocsp-status", "altId": "c3dOCSPUnknownStatusAction" },
     { "id":"c3d-ocsp",                  "altId": "c3dOCSP" },
     { "id":"cache-timeout" },
     { "id":"ca-file",                   "altId": "authenticationTrustCA" },
+    { "id":"cert-extension-includes",   "altId": "certificateExtensions", "extend": "array" },
     { "id":"cert-lookup-by-ipaddr-port","altId": "cacheCertificateEnabled", "truth": "enabled", "falsehood": "disabled" },
     { "id":"cert-key-chain",            "extend": "objArray", "altId": "certificates" },
     { "id":"ciphers" },
@@ -561,15 +566,19 @@
     { "id":"proxy-ca-cert" },
     { "id":"proxy-ca-key" },
     { "id":"proxy-ca-passphrase",       "quotedString": true },
+    { "id":"proxy-ssl",                 "altId": "proxySslEnabled", "truth": "enabled", "falsehood": "disabled" },
+    { "id":"proxy-ssl-passthrough",     "altId": "proxySslPassthroughEnabled", "truth": "enabled", "falsehood": "disabled" },
     { "id":"renegotiation",             "altId": "renegotiationEnabled", "truth": "enabled", "falsehood": "disabled" },
     { "id":"retain-certificate",        "altId": "retainCertificateEnabled", "truth": "true", "falsehood": "false" },
+    { "id":"secure-renegotiation" },
     { "id":"sni-default",               "truth": "true", "falsehood": "false" },
     { "id":"sni-require",               "altId": "requireSNI", "truth": "true", "falsehood": "false" },
     { "id":"server-name",               "altId": "matchToSNI"},
     { "id":"ssl-c3d",                   "altId": "c3dEnabled", "truth": "enabled", "falsehood": "disabled" },
     { "id":"ssl-forward-proxy",         "altId": "forwardProxyEnabled", "truth": "enabled", "falsehood": "disabled" },
     { "id":"ssl-forward-proxy-bypass",  "altId": "forwardProxyBypassEnabled", "truth": "enabled", "falsehood": "disabled" },
-    { "id":"hostname-whitelist",        "altId": "forwardProxyBypassAllowlist" }
+    { "id":"hostname-whitelist",        "altId": "forwardProxyBypassAllowlist" },
+    { "id":"unclean-shutdown",          "altId": "uncleanShutdownEnabled", "truth": "enabled", "falsehood": "disabled" }
   ],
   "ltm profile client-ssl cert-key-chain": [
     { "id":"cert",                      "altId": "certificate" },
@@ -628,13 +637,17 @@
     { "id":"options",                   "extend": "array" },
     { "id":"passphrase",                "quotedString": true },
     { "id":"peer-cert-mode",            "truth": "require", "falsehood": "ignore", "altId": "validateCertificate" },
+    { "id":"proxy-ssl",                 "altId": "proxySslEnabled", "truth": "enabled", "falsehood": "disabled" },
+    { "id":"proxy-ssl-passthrough",     "altId": "proxySslPassthroughEnabled", "truth": "enabled", "falsehood": "disabled" },
     { "id":"renegotiation",             "altId": "renegotiationEnabled", "truth": "enabled", "falsehood": "disabled" },
     { "id":"retain-certificate",        "altId": "retainCertificateEnabled", "truth": "true", "falsehood": "false" },
+    { "id":"secure-renegotiation" },
     { "id":"server-name",               "altId": "sendSNI" },
     { "id":"session-ticket",            "truth": "enabled", "falsehood": "disabled", "altId": "sessionTickets" },
     { "id":"ssl-c3d",                   "altId": "c3dEnabled", "truth": "enabled", "falsehood": "disabled" },
     { "id":"ssl-forward-proxy",         "altId": "forwardProxyEnabled", "truth": "enabled", "falsehood": "disabled" },
     { "id":"ssl-forward-proxy-bypass",  "altId": "forwardProxyBypassEnabled", "truth": "enabled", "falsehood": "disabled" },
+    { "id":"unclean-shutdown",          "altId": "uncleanShutdownEnabled", "truth": "enabled", "falsehood": "disabled" },
     { "id":"untrusted-cert-response-control", "truth": "ignore", "falsehood": "drop", "altId": "ignoreUntrusted" }
   ],
   "ltm profile tcp": [
@@ -1179,6 +1192,7 @@
     { "id":"type",                      "altId":"keyDataType"},
     { "id":"data-group-name" },
     { "id":"source-path",               "altId":"externalFilePath"},
+    { "id":"iControl_postFromRemote",   "extend": "object" },
     { "id":"separator" }
   ],
   "sys file ssl-cert": [
