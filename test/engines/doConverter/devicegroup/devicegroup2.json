@@ -20,7 +20,7 @@
         "FailoverMulticast__ltm-48_test_test": {
             "class": "FailoverMulticast",
             "interface": "eth0",
-            "address": "224.0.0 245",
+            "address": "192.168.0.245",
             "port": 62960
         },
         "MirrorIp__ltm-48_test_test": {
@@ -43,7 +43,7 @@
         "FailoverMulticast__ltm-49_test_test": {
             "class": "FailoverMulticast",
             "interface": "eth0",
-            "address": "224.0.0.245",
+            "address": "192.168.0.245",
             "port": 62960
         },
         "MirrorIp__ltm-49_test_test": {

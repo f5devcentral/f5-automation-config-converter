@@ -41,6 +41,7 @@ describe('Convert to AS3 declaration (as3Converter.js)', () => {
     require('./enforcement_format_script/spec');
     require('./enforcement_forwarding_endpoint/spec');
     require('./enforcement_interception_endpoint/spec');
+    require('./enforcement_irule/spec');
     require('./enforcement_listener/spec');
     require('./enforcement_policy/spec');
     require('./enforcement_profile/spec');
@@ -92,6 +93,7 @@ describe('Convert to AS3 declaration (as3Converter.js)', () => {
     require('./multiplex_profile/spec');
     require('./nat_policy/spec');
     require('./nat_source_translation/spec');
+    require('./net_address_list/spec');
     require('./persist_cookie/spec');
     require('./persist_dest-addr/spec');
     require('./persist_hash/spec');
@@ -111,6 +113,7 @@ describe('Convert to AS3 declaration (as3Converter.js)', () => {
     require('./service_http/spec');
     require('./service_https/spec');
     require('./service_l4/spec');
+    require('./service_sctp/spec');
     require('./service_tcp/spec');
     require('./service_udp/spec');
     require('./sip_profile/spec');

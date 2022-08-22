@@ -32,6 +32,20 @@ module.exports = {
         }
     },
 
+    // Enforcement_iRule; the same as iRule
+    'pem irule': {
+        class: 'Enforcement_iRule',
+
+        customHandling: (rootObj, loc, file) => {
+            const newObj = {};
+            let irule = file[loc.original];
+            irule = irule.replace(/\/Common/g, '/Common/Shared');
+            rootObj.iRule = { base64: Buffer.from(irule).toString('base64') };
+            newObj[loc.profile] = rootObj;
+            return newObj;
+        }
+    },
+
     // Enforcement_Diameter_Endpoint_Profile
     'pem profile diameter-endpoint': {
         class: 'Enforcement_Diameter_Endpoint_Profile',

@@ -24,7 +24,7 @@
                 "serverTLS": "test-iapp-1_client-ssl",
                 "redirect80": false,
                 "virtualAddresses": [
-                    "4.4.4.1"
+                    "10.4.4.1"
                 ],
                 "virtualPort": 443,
                 "persistenceMethods": [],

@@ -293,13 +293,13 @@ describe('Converter utils (util/convert)', () => {
         });
 
         it('should handle ipv4 with port', () => {
-            const input = '1.1.1.1:1';
+            const input = '10.1.1.1:1';
             const output = isIPv4(input);
             assert.strictEqual(true, output);
         });
 
         it('should return false if ipv6', () => {
-            const input = 'fdf5:4153:3300::15.0';
+            const input = '2001:db8:3300::15.0';
             const output = isIPv4(input);
             assert.strictEqual(false, output);
         });
@@ -307,13 +307,13 @@ describe('Converter utils (util/convert)', () => {
 
     describe('isIPv6', () => {
         it('should return true if ipv6', () => {
-            const input = 'fdf5:4153:3300::15';
+            const input = '2001:db8:3300::15';
             const output = isIPv6(input);
             assert.strictEqual(true, output);
         });
 
         it('should handle ipv6 with port', () => {
-            const input = 'fdf5:4153:3300::15.0';
+            const input = '2001:db8:3300::15.0';
             const output = isIPv6(input);
             assert.strictEqual(true, output);
         });

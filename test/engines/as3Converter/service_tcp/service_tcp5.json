@@ -24,7 +24,7 @@
             },
             "test_icap": {
                 "fromHeader": "<header>",
-                "hostHeader": "7.7.7.7",
+                "hostHeader": "10.7.7.7",
                 "previewLength": 3,
                 "refererHeader": "<referer>",
                 "uri": "http://test.test:777",

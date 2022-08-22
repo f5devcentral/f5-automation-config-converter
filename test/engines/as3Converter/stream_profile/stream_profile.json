@@ -28,7 +28,7 @@
                     "bigip": "/Common/http"
                 },
                 "virtualAddresses": [
-                    "5.4.3.2"
+                    "10.4.3.2"
                 ],
                 "virtualPort": 100,
                 "snat": "auto"

@@ -13,8 +13,8 @@
                 "remark": "Example Forwarding Virtual Server",
                 "virtualAddresses": [
                     [
-                        "192.0.1.11",
-                        "1.2.3.4/32"
+                        "192.168.1.11",
+                        "10.2.3.4/32"
                     ]
                 ],
                 "virtualPort": 0,

@@ -33,7 +33,7 @@
                                 "all": {
                                     "operand": "contains",
                                     "values": [
-                                        "127.0.0.1"
+                                        "10.0.0.1"
                                     ]
                                 },
                                 "normalized": true
@@ -55,7 +55,7 @@
                                 "host": {
                                     "operand": "equals",
                                     "values": [
-                                        "127.0.0.1"
+                                        "10.0.0.1"
                                     ]
                                 },
                                 "normalized": true
@@ -77,7 +77,7 @@
                                 "path": {
                                     "operand": "contains",
                                     "values": [
-                                        "127.0.0.1"
+                                        "10.0.0.1"
                                     ]
                                 },
                                 "normalized": true
@@ -185,7 +185,7 @@
                                 "type": "httpUri",
                                 "event": "request",
                                 "replace": {
-                                    "value": "http://127.0.0.1"
+                                    "value": "http://10.0.0.1"
                                 }
                             },
                             {

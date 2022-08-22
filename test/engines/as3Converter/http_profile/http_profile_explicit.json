@@ -14,7 +14,7 @@
                 "class": "HTTP_Profile",
                 "proxyType": "explicit",
                 "resolver": {
-                    "bigip": "/Common/1.2.3.4"
+                    "bigip": "/Common/10.2.3.4"
                 }
             },
             "profileHttpExplicitProxy": {
@@ -26,12 +26,12 @@
                 "dnsErrorMessage": "<html><head><title>DNS Error</title></head><body><h2>DNS ERROR</h2></body></html>",
                 "doNotProxyHosts": [
                     "example.test",
-                    "198.168.1.111"
+                    "192.168.1.111"
                 ],
                 "tunnelName": "/Common/http-tunnel",
                 "defaultConnectAction": "allow",
                 "resolver": {
-                    "bigip": "/Common/1.2.3.4"
+                    "bigip": "/Common/10.2.3.4"
                 },
                 "routeDomain": 0
             }

@@ -13,7 +13,7 @@
             "testItem": {
                 "class": "Certificate_Validator_OCSP",
                 "dnsResolver": {
-                    "bigip": "/Common/1.2.3.4"
+                    "bigip": "/Common/10.2.3.4"
                 },
                 "responderUrl": "http://cert.ocsp1.test",
                 "timeout": 300

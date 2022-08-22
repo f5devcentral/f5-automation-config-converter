@@ -32,6 +32,7 @@
       "type": "string",
       "$comment": "IMPORTANT: In enum array, please put current schema version first, oldest-supported version last.  Keep enum array sorted most-recent-first.",
       "enum": [
+        "3.40.0",
         "3.39.0",
         "3.38.0",
         "3.37.0",
@@ -346,12 +347,19 @@
           "allOf": [
             {
               "$ref": "#/definitions/Secret"
+            },
+            {
+              "f5PostProcess": {
+                "tag": "fetch",
+                "data": "object"
+              }
+            },
+            {
+              "f5PostProcess": {
+                "tag": "secret"
+              }
             }
-          ],
-          "f5fetch": "object",
-          "f5PostProcess": {
-            "tag": "secret"
-          }
+          ]
         }
       },
       "required": [
@@ -502,7 +510,10 @@
               }
             }
           ],
-          "f5include": "object"
+          "f5PostProcess": {
+            "tag": "include",
+            "data": "object"
+          }
         }
       }
     },
@@ -2250,15 +2261,18 @@
                 "description": "AS3 pointer to HTTP profile declaration",
                 "type": "string",
                 "minLength": 1,
-                "f5pointsTo": {
-                  "properties": {
-                    "class": {
-                      "const": "HTTP_Profile"
-                    }
-                  },
-                  "required": [
-                    "class"
-                  ]
+                "f5PostProcess": {
+                  "tag": "pointer",
+                  "data": {
+                    "properties": {
+                      "class": {
+                        "const": "HTTP_Profile"
+                      }
+                    },
+                    "required": [
+                      "class"
+                    ]
+                  }
                 }
               },
               "bigip": {
@@ -2298,15 +2312,18 @@
                 "description": "AS3 pointer to HTTP compression profile declaration",
                 "type": "string",
                 "minLength": 1,
-                "f5pointsTo": {
-                  "properties": {
-                    "class": {
-                      "const": "HTTP_Compress"
-                    }
-                  },
-                  "required": [
-                    "class"
-                  ]
+                "f5PostProcess": {
+                  "tag": "pointer",
+                  "data": {
+                    "properties": {
+                      "class": {
+                        "const": "HTTP_Compress"
+                      }
+                    },
+                    "required": [
+                      "class"
+                    ]
+                  }
                 }
               },
               "bigip": {
@@ -2370,9 +2387,12 @@
         "policyIAM": {
           "title": "IAM policy",
           "description": "AS3 pointer to IAM (APM) policy declaration",
-          "f5modules": [
-            "apm"
-          ],
+          "f5PostProcess": {
+            "tag": "modules",
+            "data": [
+              "apm"
+            ]
+          },
           "allOf": [
             {
               "$ref": "#/definitions/Pointer_Access_Profile"
@@ -2381,9 +2401,12 @@
         },
         "profileFPS": {
           "description": "FPS Profile to attach to service",
-          "f5modules": [
-            "fps"
-          ],
+          "f5PostProcess": {
+            "tag": "modules",
+            "data": [
+              "fps"
+            ]
+          },
           "allOf": [
             {
               "$ref": "#/definitions/Pointer_FPS_Profile"
@@ -2398,9 +2421,12 @@
         },
         "profileAccess": {
           "title": "Access profile",
-          "f5modules": [
-            "apm"
-          ],
+          "f5PostProcess": {
+            "tag": "modules",
+            "data": [
+              "apm"
+            ]
+          },
           "allOf": [
             {
               "$ref": "#/definitions/Pointer_Access_Profile"
@@ -2409,9 +2435,12 @@
         },
         "profileConnectivity": {
           "title": "Connectivity profile",
-          "f5modules": [
-            "apm"
-          ],
+          "f5PostProcess": {
+            "tag": "modules",
+            "data": [
+              "apm"
+            ]
+          },
           "allOf": [
             {
               "$ref": "#/definitions/Pointer_Connectivity_Profile"
@@ -2420,9 +2449,12 @@
         },
         "policyPerRequestAccess": {
           "title": "Per Request Access Policy",
-          "f5modules": [
-            "apm"
-          ],
+          "f5PostProcess": {
+            "tag": "modules",
+            "data": [
+              "apm"
+            ]
+          },
           "allOf": [
             {
               "$ref": "#/definitions/Pointer_Per_Request_Access_Policy"
@@ -2432,9 +2464,12 @@
         "profileVdi": {
           "title": "VDI profile",
           "description": "VDI profile to attach to service.",
-          "f5modules": [
-            "apm"
-          ],
+          "f5PostProcess": {
+            "tag": "modules",
+            "data": [
+              "apm"
+            ]
+          },
           "allOf": [
             {
               "$ref": "#/definitions/Pointer_VDI_Profile"
@@ -2444,10 +2479,13 @@
         "profileApiProtection": {
           "title": "API Protection Profile",
           "description": "API protection profile to attach to service. This property is available on BIGIP 14.1 and above.",
-          "f5modules": [
-            "apm",
-            "asm"
-          ],
+          "f5PostProcess": {
+            "tag": "modules",
+            "data": [
+              "apm",
+              "asm"
+            ]
+          },
           "allOf": [
             {
               "$ref": "#/definitions/Pointer_API_Protection_Profile"
@@ -2626,15 +2664,18 @@
                 "description": "AS3 pointer to TCP profile declaration for ingress and egress",
                 "type": "string",
                 "minLength": 1,
-                "f5pointsTo": {
-                  "properties": {
-                    "class": {
-                      "const": "TCP_Profile"
-                    }
-                  },
-                  "required": [
-                    "class"
-                  ]
+                "f5PostProcess": {
+                  "tag": "pointer",
+                  "data": {
+                    "properties": {
+                      "class": {
+                        "const": "TCP_Profile"
+                      }
+                    },
+                    "required": [
+                      "class"
+                    ]
+                  }
                 }
               },
               "bigip": {
@@ -2669,15 +2710,18 @@
                       "description": "AS3 pointer to TCP profile declaration for incoming connections",
                       "type": "string",
                       "minLength": 1,
-                      "f5pointsTo": {
-                        "properties": {
-                          "class": {
-                            "const": "TCP_Profile"
-                          }
-                        },
-                        "required": [
-                          "class"
-                        ]
+                      "f5PostProcess": {
+                        "tag": "pointer",
+                        "data": {
+                          "properties": {
+                            "class": {
+                              "const": "TCP_Profile"
+                            }
+                          },
+                          "required": [
+                            "class"
+                          ]
+                        }
                       }
                     },
                     "bigip": {
@@ -2718,15 +2762,18 @@
                       "description": "AS3 pointer to TCP profile declaration for outgoing connections",
                       "type": "string",
                       "minLength": 1,
-                      "f5pointsTo": {
-                        "properties": {
-                          "class": {
-                            "const": "TCP_Profile"
-                          }
-                        },
-                        "required": [
-                          "class"
-                        ]
+                      "f5PostProcess": {
+                        "tag": "pointer",
+                        "data": {
+                          "properties": {
+                            "class": {
+                              "const": "TCP_Profile"
+                            }
+                          },
+                          "required": [
+                            "class"
+                          ]
+                        }
                       }
                     },
                     "bigip": {
@@ -2779,15 +2826,18 @@
           },
           "then": {
             "minLength": 1,
-            "f5pointsTo": {
-              "properties": {
-                "class": {
-                  "const": "TLS_Server"
-                }
-              },
-              "required": [
-                "class"
-              ]
+            "f5PostProcess": {
+              "tag": "pointer",
+              "data": {
+                "properties": {
+                  "class": {
+                    "const": "TLS_Server"
+                  }
+                },
+                "required": [
+                  "class"
+                ]
+              }
             }
           },
           "else": {
@@ -2813,15 +2863,18 @@
           },
           "then": {
             "minLength": 1,
-            "f5pointsTo": {
-              "properties": {
-                "class": {
-                  "const": "TLS_Client"
-                }
-              },
-              "required": [
-                "class"
-              ]
+            "f5PostProcess": {
+              "tag": "pointer",
+              "data": {
+                "properties": {
+                  "class": {
+                    "const": "TLS_Client"
+                  }
+                },
+                "required": [
+                  "class"
+                ]
+              }
             }
           },
           "else": {
@@ -2959,15 +3012,18 @@
                 "description": "AS3 pointer to UDP profile declaration",
                 "type": "string",
                 "minLength": 1,
-                "f5pointsTo": {
-                  "properties": {
-                    "class": {
-                      "const": "UDP_Profile"
-                    }
-                  },
-                  "required": [
-                    "class"
-                  ]
+                "f5PostProcess": {
+                  "tag": "pointer",
+                  "data": {
+                    "properties": {
+                      "class": {
+                        "const": "UDP_Profile"
+                      }
+                    },
+                    "required": [
+                      "class"
+                    ]
+                  }
                 }
               },
               "bigip": {
@@ -2992,15 +3048,18 @@
           },
           "then": {
             "minLength": 1,
-            "f5pointsTo": {
-              "properties": {
-                "class": {
-                  "const": "TLS_Server"
-                }
-              },
-              "required": [
-                "class"
-              ]
+            "f5PostProcess": {
+              "tag": "pointer",
+              "data": {
+                "properties": {
+                  "class": {
+                    "const": "TLS_Server"
+                  }
+                },
+                "required": [
+                  "class"
+                ]
+              }
             }
           },
           "else": {
@@ -3026,15 +3085,18 @@
           },
           "then": {
             "minLength": 1,
-            "f5pointsTo": {
-              "properties": {
-                "class": {
-                  "const": "TLS_Client"
-                }
-              },
-              "required": [
-                "class"
-              ]
+            "f5PostProcess": {
+              "tag": "pointer",
+              "data": {
+                "properties": {
+                  "class": {
+                    "const": "TLS_Client"
+                  }
+                },
+                "required": [
+                  "class"
+                ]
+              }
             }
           },
           "else": {
@@ -3069,6 +3131,9 @@
         },
         "profileRADIUS": {
           "$ref": "#/definitions/Pointer_Radius_Profile"
+        },
+        "profileSIP": {
+          "$ref": "#/definitions/Pointer_SIP_Profile"
         },
         "profileTFTP": {
           "$ref": "#/definitions/Pointer_TFTP_Profile"
@@ -3534,7 +3599,9 @@
           "title": "Virtual addresses",
           "description": "Virtual server will listen to each IP address in list.  To accept connections only from certain subnet(s), replace IP address with array [IP-address, accept-from-subnet]. IP address can also be replaced by a reference to a Service_Address.",
           "type": "array",
-          "f5virtualAddress": true,
+          "f5PostProcess": {
+            "tag": "virtualAddress"
+          },
           "items": {
             "if": {
               "type": "string"
@@ -3632,15 +3699,18 @@
                 "description": "AS3 pointer to SNAT pool declaration",
                 "type": "string",
                 "minLength": 1,
-                "f5pointsTo": {
-                  "properties": {
-                    "class": {
-                      "const": "SNAT_Pool"
-                    }
-                  },
-                  "required": [
-                    "class"
-                  ]
+                "f5PostProcess": {
+                  "tag": "pointer",
+                  "data": {
+                    "properties": {
+                      "class": {
+                        "const": "SNAT_Pool"
+                      }
+                    },
+                    "required": [
+                      "class"
+                    ]
+                  }
                 }
               },
               "bigip": {
@@ -3669,15 +3739,18 @@
             },
             "then": {
               "minLength": 1,
-              "f5pointsTo": {
-                "properties": {
-                  "class": {
-                    "const": "iRule"
-                  }
-                },
-                "required": [
-                  "class"
-                ]
+              "f5PostProcess": {
+                "tag": "pointer",
+                "data": {
+                  "properties": {
+                    "class": {
+                      "const": "iRule"
+                    }
+                  },
+                  "required": [
+                    "class"
+                  ]
+                }
               }
             },
             "else": {
@@ -3694,15 +3767,18 @@
                   "description": "AS3 pointer to iRule (declared separately)",
                   "type": "string",
                   "minLength": 1,
-                  "f5pointsTo": {
-                    "properties": {
-                      "class": {
-                        "const": "iRule"
-                      }
-                    },
-                    "required": [
-                      "class"
-                    ]
+                  "f5PostProcess": {
+                    "tag": "pointer",
+                    "data": {
+                      "properties": {
+                        "class": {
+                          "const": "iRule"
+                        }
+                      },
+                      "required": [
+                        "class"
+                      ]
+                    }
                   }
                 }
               },
@@ -3721,15 +3797,18 @@
             "type": "string"
           },
           "then": {
-            "f5pointsTo": {
-              "properties": {
-                "class": {
-                  "const": "Pool"
-                }
-              },
-              "required": [
-                "class"
-              ]
+            "f5PostProcess": {
+              "tag": "pointer",
+              "data": {
+                "properties": {
+                  "class": {
+                    "const": "Pool"
+                  }
+                },
+                "required": [
+                  "class"
+                ]
+              }
             }
           },
           "else": {
@@ -3746,15 +3825,18 @@
                 "description": "AS3 pointer to pool if any (declared separately)",
                 "type": "string",
                 "minLength": 1,
-                "f5pointsTo": {
-                  "properties": {
-                    "class": {
-                      "const": "Pool"
-                    }
-                  },
-                  "required": [
-                    "class"
-                  ]
+                "f5PostProcess": {
+                  "tag": "pointer",
+                  "data": {
+                    "properties": {
+                      "class": {
+                        "const": "Pool"
+                      }
+                    },
+                    "required": [
+                      "class"
+                    ]
+                  }
                 }
               }
             },
@@ -3791,9 +3873,12 @@
         },
         "policyFirewallEnforced": {
           "title": "Firewall policy (enforced)",
-          "f5modules": [
-            "afm"
-          ],
+          "f5PostProcess": {
+            "tag": "modules",
+            "data": [
+              "afm"
+            ]
+          },
           "allOf": [
             {
               "$ref": "#/definitions/Pointer_Firewall_Policy"
@@ -3802,9 +3887,12 @@
         },
         "policyFirewallStaged": {
           "title": "Firewall policy (staged)",
-          "f5modules": [
-            "afm"
-          ],
+          "f5PostProcess": {
+            "tag": "modules",
+            "data": [
+              "afm"
+            ]
+          },
           "allOf": [
             {
               "$ref": "#/definitions/Pointer_Firewall_Policy"
@@ -3813,9 +3901,12 @@
         },
         "policyNAT": {
           "description": "AS3 pointer to NAT policy declaration",
-          "f5modules": [
-            "afm"
-          ],
+          "f5PostProcess": {
+            "tag": "modules",
+            "data": [
+              "afm"
+            ]
+          },
           "type": "object",
           "properties": {
             "bigip": {
@@ -3829,15 +3920,18 @@
               "description": "AS3 pointer to NAT policy declaration",
               "type": "string",
               "minLength": 1,
-              "f5pointsTo": {
-                "properties": {
-                  "class": {
-                    "const": "NAT_Policy"
-                  }
-                },
-                "required": [
-                  "class"
-                ]
+              "f5PostProcess": {
+                "tag": "pointer",
+                "data": {
+                  "properties": {
+                    "class": {
+                      "const": "NAT_Policy"
+                    }
+                  },
+                  "required": [
+                    "class"
+                  ]
+                }
               }
             }
           },
@@ -3873,15 +3967,18 @@
                 "description": "AS3 pointer to last-hop pool declaration",
                 "type": "string",
                 "minLength": 1,
-                "f5pointsTo": {
-                  "properties": {
-                    "class": {
-                      "const": "Pool"
-                    }
-                  },
-                  "required": [
-                    "class"
-                  ]
+                "f5PostProcess": {
+                  "tag": "pointer",
+                  "data": {
+                    "properties": {
+                      "class": {
+                        "const": "Pool"
+                      }
+                    },
+                    "required": [
+                      "class"
+                    ]
+                  }
                 }
               },
               "bigip": {
@@ -3986,10 +4083,13 @@
           "title": "Security Log Profiles",
           "description": "Specifies the log profile applied to the virtual server",
           "type": "array",
-          "f5modules": [
-            "afm",
-            "asm"
-          ],
+          "f5PostProcess": {
+            "tag": "modules",
+            "data": [
+              "afm",
+              "asm"
+            ]
+          },
           "items": {
             "type": "object",
             "properties": {
@@ -3998,15 +4098,18 @@
                 "description": "AS3 pointer to security log profile declaration",
                 "type": "string",
                 "minLength": 1,
-                "f5pointsTo": {
-                  "properties": {
-                    "class": {
-                      "const": "Security_Log_Profile"
-                    }
-                  },
-                  "required": [
-                    "class"
-                  ]
+                "f5PostProcess": {
+                  "tag": "pointer",
+                  "data": {
+                    "properties": {
+                      "class": {
+                        "const": "Security_Log_Profile"
+                      }
+                    },
+                    "required": [
+                      "class"
+                    ]
+                  }
                 }
               },
               "bigip": {
@@ -4048,9 +4151,12 @@
         },
         "profileProtocolInspection": {
           "description": "AS3 pointer to Protocol Inspection Profile declaration",
-          "f5modules": [
-            "afm"
-          ],
+          "f5PostProcess": {
+            "tag": "modules",
+            "data": [
+              "afm"
+            ]
+          },
           "allOf": [
             {
               "$ref": "#/definitions/Pointer_Protocol_Inspection_Profile"
@@ -4071,9 +4177,12 @@
         },
         "maximumBandwidth": {
           "description": "Specifies the maximum bandwidth allowed, in Mbps.",
-          "f5modules": [
-            "afm"
-          ],
+          "f5PostProcess": {
+            "tag": "modules",
+            "data": [
+              "afm"
+            ]
+          },
           "oneOf": [
             {
               "type": "integer",
@@ -4087,10 +4196,13 @@
           ]
         },
         "ipIntelligencePolicy": {
-          "f5modules": [
-            "afm",
-            "asm"
-          ],
+          "f5PostProcess": {
+            "tag": "modules",
+            "data": [
+              "afm",
+              "asm"
+            ]
+          },
           "allOf": [
             {
               "$ref": "#/definitions/Pointer_IP_Intelligence_Policy"
@@ -4104,6 +4216,16 @@
               "$ref": "#/definitions/Pointer_Integrated_Bot_Defense_Profile"
             }
           ]
+        },
+        "adminState": {
+          "title": "Administration State",
+          "description": "Specifies the state of the Service. When set to disable the Service no longer accepts new connection requests, but will allow current connections to finish processing before going to a down state.",
+          "type": "string",
+          "enum": [
+            "enable",
+            "disable"
+          ],
+          "default": "enable"
         }
       },
       "allOf": [
@@ -4578,7 +4700,10 @@
           "$ref": "#/definitions/F5string"
         }
       ],
-      "f5fetch": "string",
+      "f5PostProcess": {
+        "tag": "fetch",
+        "data": "string"
+      },
       "f5expand": {
         "when": "1/expand"
       }
@@ -4587,9 +4712,12 @@
       "title": "WAF_Policy",
       "description": "A Web Application Firewall Policy",
       "type": "object",
-      "f5modules": [
-        "asm"
-      ],
+      "f5PostProcess": {
+        "tag": "modules",
+        "data": [
+          "asm"
+        ]
+      },
       "properties": {
         "class": {
           "title": "Class",
@@ -4616,7 +4744,10 @@
           "description": "The absolute file path for the ASM policy stored on the BIG-IP",
           "type": "string",
           "minLength": 3,
-          "f5fetch": "string",
+          "f5PostProcess": {
+            "tag": "fetch",
+            "data": "string"
+          },
           "f5expand": true
         },
         "policy": {
@@ -4626,7 +4757,10 @@
               "$ref": "#/definitions/F5string"
             }
           ],
-          "f5fetch": "string",
+          "f5PostProcess": {
+            "tag": "fetch",
+            "data": "string"
+          },
           "f5expand": {
             "when": "1/expand"
           }
@@ -4994,12 +5128,19 @@
             "allOf": [
               {
                 "$ref": "#/definitions/Secret"
+              },
+              {
+                "f5PostProcess": {
+                  "tag": "fetch",
+                  "data": "object"
+                }
+              },
+              {
+                "f5PostProcess": {
+                  "tag": "secret"
+                }
               }
-            ],
-            "f5fetch": "object",
-            "f5PostProcess": {
-              "tag": "secret"
-            }
+            ]
           }
         },
         "if": {
@@ -5121,15 +5262,18 @@
           },
           "then": {
             "minLength": 1,
-            "f5pointsTo": {
-              "properties": {
-                "class": {
-                  "const": "iRule"
-                }
-              },
-              "required": [
-                "class"
-              ]
+            "f5PostProcess": {
+              "tag": "pointer",
+              "data": {
+                "properties": {
+                  "class": {
+                    "const": "iRule"
+                  }
+                },
+                "required": [
+                  "class"
+                ]
+              }
             }
           },
           "else": {
@@ -5146,15 +5290,18 @@
                 "description": "AS3 pointer to iRule (declared separately)",
                 "type": "string",
                 "minLength": 1,
-                "f5pointsTo": {
-                  "properties": {
-                    "class": {
-                      "const": "iRule"
-                    }
-                  },
-                  "required": [
-                    "class"
-                  ]
+                "f5PostProcess": {
+                  "tag": "pointer",
+                  "data": {
+                    "properties": {
+                      "class": {
+                        "const": "iRule"
+                      }
+                    },
+                    "required": [
+                      "class"
+                    ]
+                  }
                 }
               }
             },
@@ -5247,15 +5394,18 @@
           },
           "then": {
             "minLength": 1,
-            "f5pointsTo": {
-              "properties": {
-                "class": {
-                  "const": "iRule"
-                }
-              },
-              "required": [
-                "class"
-              ]
+            "f5PostProcess": {
+              "tag": "pointer",
+              "data": {
+                "properties": {
+                  "class": {
+                    "const": "iRule"
+                  }
+                },
+                "required": [
+                  "class"
+                ]
+              }
             }
           },
           "else": {
@@ -6380,15 +6530,18 @@
             "description": "AS3 pointer to monitor declaration",
             "type": "string",
             "minLength": 1,
-            "f5pointsTo": {
-              "properties": {
-                "class": {
-                  "const": "Monitor"
-                }
-              },
-              "required": [
-                "class"
-              ]
+            "f5PostProcess": {
+              "tag": "pointer",
+              "data": {
+                "properties": {
+                  "class": {
+                    "const": "Monitor"
+                  }
+                },
+                "required": [
+                  "class"
+                ]
+              }
             }
           },
           "bigip": {
@@ -6787,7 +6940,10 @@
               "$ref": "#/definitions/F5string"
             }
           ],
-          "f5fetch": "string",
+          "f5PostProcess": {
+            "tag": "fetch",
+            "data": "string"
+          },
           "f5expand": {
             "when": "1/expand"
           }
@@ -6854,12 +7010,19 @@
           "allOf": [
             {
               "$ref": "#/definitions/Secret"
+            },
+            {
+              "f5PostProcess": {
+                "tag": "fetch",
+                "data": "object"
+              }
+            },
+            {
+              "f5PostProcess": {
+                "tag": "secret"
+              }
             }
-          ],
-          "f5fetch": "object",
-          "f5PostProcess": {
-            "tag": "secret"
-          }
+          ]
         },
         "filename": {
           "title": "Filename",
@@ -6918,12 +7081,19 @@
           "allOf": [
             {
               "$ref": "#/definitions/Secret"
+            },
+            {
+              "f5PostProcess": {
+                "tag": "fetch",
+                "data": "object"
+              }
+            },
+            {
+              "f5PostProcess": {
+                "tag": "secret"
+              }
             }
-          ],
-          "f5fetch": "object",
-          "f5PostProcess": {
-            "tag": "secret"
-          }
+          ]
         },
         "transparent": {
           "title": "Transparent",
@@ -6979,15 +7149,18 @@
           "description": "AS3 pointer to client Certificate declaration, for TLS authentication (optional)",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "const": "Certificate"
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "const": "Certificate"
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "clientTLS": {
@@ -7092,12 +7265,19 @@
           "allOf": [
             {
               "$ref": "#/definitions/Secret"
+            },
+            {
+              "f5PostProcess": {
+                "tag": "fetch",
+                "data": "object"
+              }
+            },
+            {
+              "f5PostProcess": {
+                "tag": "secret"
+              }
             }
-          ],
-          "f5fetch": "object",
-          "f5PostProcess": {
-            "tag": "secret"
-          }
+          ]
         },
         "count": {
           "title": "Count",
@@ -7177,12 +7357,19 @@
           "allOf": [
             {
               "$ref": "#/definitions/Secret"
+            },
+            {
+              "f5PostProcess": {
+                "tag": "fetch",
+                "data": "object"
+              }
+            },
+            {
+              "f5PostProcess": {
+                "tag": "secret"
+              }
             }
-          ],
-          "f5fetch": "object",
-          "f5PostProcess": {
-            "tag": "secret"
-          }
+          ]
         },
         "count": {
           "title": "Count",
@@ -7289,15 +7476,18 @@
           "description": "AS3 pointer to client Certificate declaration, for TLS authentication (optional)",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "const": "Certificate"
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "const": "Certificate"
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         }
       },
@@ -7487,12 +7677,19 @@
           "allOf": [
             {
               "$ref": "#/definitions/Secret"
+            },
+            {
+              "f5PostProcess": {
+                "tag": "fetch",
+                "data": "object"
+              }
+            },
+            {
+              "f5PostProcess": {
+                "tag": "secret"
+              }
             }
-          ],
-          "f5fetch": "object",
-          "f5PostProcess": {
-            "tag": "secret"
-          }
+          ]
         },
         "base": {
           "title": "Base",
@@ -7700,12 +7897,19 @@
           "allOf": [
             {
               "$ref": "#/definitions/Secret"
+            },
+            {
+              "f5PostProcess": {
+                "tag": "fetch",
+                "data": "object"
+              }
+            },
+            {
+              "f5PostProcess": {
+                "tag": "secret"
+              }
             }
-          ],
-          "f5fetch": "object",
-          "f5PostProcess": {
-            "tag": "secret"
-          }
+          ]
         },
         "secret": {
           "title": "Secret",
@@ -7721,12 +7925,19 @@
           "allOf": [
             {
               "$ref": "#/definitions/Secret"
+            },
+            {
+              "f5PostProcess": {
+                "tag": "fetch",
+                "data": "object"
+              }
+            },
+            {
+              "f5PostProcess": {
+                "tag": "secret"
+              }
             }
-          ],
-          "f5fetch": "object",
-          "f5PostProcess": {
-            "tag": "secret"
-          }
+          ]
         },
         "nasIpAddress": {
           "title": "IP Address",
@@ -7808,15 +8019,18 @@
                 "description": "AS3 pointer to Certificate declaration",
                 "type": "string",
                 "minLength": 1,
-                "f5pointsTo": {
-                  "properties": {
-                    "class": {
-                      "const": "Certificate"
-                    }
-                  },
-                  "required": [
-                    "class"
-                  ]
+                "f5PostProcess": {
+                  "tag": "pointer",
+                  "data": {
+                    "properties": {
+                      "class": {
+                        "const": "Certificate"
+                      }
+                    },
+                    "required": [
+                      "class"
+                    ]
+                  }
                 }
               },
               "proxyCertificate": {
@@ -7824,15 +8038,18 @@
                 "description": "AS3 pointer to Certificate declaration for SSL forward proxy",
                 "type": "string",
                 "minLength": 1,
-                "f5pointsTo": {
-                  "properties": {
-                    "class": {
-                      "const": "Certificate"
-                    }
-                  },
-                  "required": [
-                    "class"
-                  ]
+                "f5PostProcess": {
+                  "tag": "pointer",
+                  "data": {
+                    "properties": {
+                      "class": {
+                        "const": "Certificate"
+                      }
+                    },
+                    "required": [
+                      "class"
+                    ]
+                  }
                 }
               }
             },
@@ -7882,15 +8099,18 @@
           },
           "then": {
             "minLength": 1,
-            "f5pointsTo": {
-              "properties": {
-                "class": {
-                  "const": "CA_Bundle"
-                }
-              },
-              "required": [
-                "class"
-              ]
+            "f5PostProcess": {
+              "tag": "pointer",
+              "data": {
+                "properties": {
+                  "class": {
+                    "const": "CA_Bundle"
+                  }
+                },
+                "required": [
+                  "class"
+                ]
+              }
             }
           },
           "else": {
@@ -7918,15 +8138,18 @@
           },
           "then": {
             "minLength": 1,
-            "f5pointsTo": {
-              "properties": {
-                "class": {
-                  "const": "CA_Bundle"
-                }
-              },
-              "required": [
-                "class"
-              ]
+            "f5PostProcess": {
+              "tag": "pointer",
+              "data": {
+                "properties": {
+                  "class": {
+                    "const": "CA_Bundle"
+                  }
+                },
+                "required": [
+                  "class"
+                ]
+              }
             }
           },
           "else": {
@@ -8381,15 +8604,18 @@
                 "description": "AS3 pointer to declaration of CA bundle",
                 "type": "string",
                 "minLength": 1,
-                "f5pointsTo": {
-                  "properties": {
-                    "class": {
-                      "const": "CA_Bundle"
-                    }
-                  },
-                  "required": [
-                    "class"
-                  ]
+                "f5PostProcess": {
+                  "tag": "pointer",
+                  "data": {
+                    "properties": {
+                      "class": {
+                        "const": "CA_Bundle"
+                      }
+                    },
+                    "required": [
+                      "class"
+                    ]
+                  }
                 }
               },
               "bigip": {
@@ -8427,15 +8653,18 @@
           "title": "Client certificate",
           "description": "AS3 pointer to client Certificate declaration (optional)",
           "type": "string",
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "const": "Certificate"
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "const": "Certificate"
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "crlFile": {
@@ -8457,15 +8686,18 @@
           "title": "C3D Certificate Authority",
           "description": "Pointer to a Certificate class which specifies the Certificate Authority values for C3D",
           "type": "string",
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "const": "Certificate"
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "const": "Certificate"
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "c3dCertificateExtensions": {
@@ -8686,10 +8918,19 @@
           "allOf": [
             {
               "$ref": "#/definitions/F5string"
+            },
+            {
+              "f5PostProcess": {
+                "tag": "fetch",
+                "data": "pkcs12"
+              }
+            },
+            {
+              "f5PostProcess": {
+                "tag": "certExtract"
+              }
             }
-          ],
-          "f5fetch": "pkcs12",
-          "f5certExtract": true
+          ]
         },
         "pkcs12Options": {
           "title": "PKCS#12 certificate+key Options",
@@ -8737,7 +8978,10 @@
               "$ref": "#/definitions/F5string"
             }
           ],
-          "f5fetch": "pki-cert",
+          "f5PostProcess": {
+            "tag": "fetch",
+            "data": "pki-cert"
+          },
           "f5bigComponent": "query sys file ssl-cert"
         },
         "privateKey": {
@@ -8748,7 +8992,10 @@
               "$ref": "#/definitions/F5string"
             }
           ],
-          "f5fetch": "pki-key",
+          "f5PostProcess": {
+            "tag": "fetch",
+            "data": "pki-key"
+          },
           "f5bigComponent": "query sys file ssl-key"
         },
         "passphrase": {
@@ -8765,12 +9012,19 @@
           "allOf": [
             {
               "$ref": "#/definitions/Secret"
+            },
+            {
+              "f5PostProcess": {
+                "tag": "fetch",
+                "data": "object"
+              }
+            },
+            {
+              "f5PostProcess": {
+                "tag": "secret"
+              }
             }
-          ],
-          "f5fetch": "object",
-          "f5PostProcess": {
-            "tag": "secret"
-          }
+          ]
         },
         "chainCA": {
           "title": "CA chain",
@@ -8787,7 +9041,10 @@
               "$ref": "#/definitions/Pointer_CA_Bundle"
             }
           ],
-          "f5fetch": "pki-bundle",
+          "f5PostProcess": {
+            "tag": "fetch",
+            "data": "pki-bundle"
+          },
           "f5bigComponent": "query sys file ssl-cert"
         },
         "staplerOCSP": {
@@ -8869,7 +9126,10 @@
               "$ref": "#/definitions/F5string"
             }
           ],
-          "f5fetch": "pki-cert",
+          "f5PostProcess": {
+            "tag": "fetch",
+            "data": "pki-cert"
+          },
           "f5bigComponent": "query sys file ssl-cert"
         }
       },
@@ -8962,15 +9222,18 @@
               "description": "AS3 pointer to data group if any (declared separately)",
               "type": "string",
               "minLength": 1,
-              "f5pointsTo": {
-                "properties": {
-                  "class": {
-                    "const": "Data_Group"
-                  }
-                },
-                "required": [
-                  "class"
-                ]
+              "f5PostProcess": {
+                "tag": "pointer",
+                "data": {
+                  "properties": {
+                    "class": {
+                      "const": "Data_Group"
+                    }
+                  },
+                  "required": [
+                    "class"
+                  ]
+                }
               }
             },
             "bigip": {
@@ -9135,9 +9398,12 @@
       "title": "Analytics_Profile",
       "type": "object",
       "description": "HTTP analytics profile with configurable options",
-      "f5modules": [
-        "avr"
-      ],
+      "f5PostProcess": {
+        "tag": "modules",
+        "data": [
+          "avr"
+        ]
+      },
       "properties": {
         "class": {
           "title": "Class",
@@ -9400,9 +9666,12 @@
       "title": "Analytics_TCP_Profile",
       "type": "object",
       "description": "TCP Analytics profile with configurable options",
-      "f5modules": [
-        "avr"
-      ],
+      "f5PostProcess": {
+        "tag": "modules",
+        "data": [
+          "avr"
+        ]
+      },
       "properties": {
         "class": {
           "title": "Class",
@@ -9927,12 +10196,19 @@
           "allOf": [
             {
               "$ref": "#/definitions/Secret"
+            },
+            {
+              "f5PostProcess": {
+                "tag": "fetch",
+                "data": "object"
+              }
+            },
+            {
+              "f5PostProcess": {
+                "tag": "secret"
+              }
             }
-          ],
-          "f5fetch": "object",
-          "f5PostProcess": {
-            "tag": "secret"
-          }
+          ]
         },
         "fallbackRedirect": {
           "title": "Fallback Redirect",
@@ -11275,12 +11551,19 @@
           "allOf": [
             {
               "$ref": "#/definitions/Secret"
+            },
+            {
+              "f5PostProcess": {
+                "tag": "fetch",
+                "data": "object"
+              }
+            },
+            {
+              "f5PostProcess": {
+                "tag": "secret"
+              }
             }
-          ],
-          "f5fetch": "object",
-          "f5PostProcess": {
-            "tag": "secret"
-          }
+          ]
         },
         "minimumRto": {
           "title": "Minimum retransmission timeout",
@@ -12086,41 +12369,29 @@
               "$ref": "#/definitions/Pointer_Enforcement_Protocol_Profile_Radius"
             }
           ],
-          "f5modules": [
-            "pem",
-            "afm"
-          ]
+          "f5PostProcess": {
+            "tag": "modules",
+            "data": [
+              "pem",
+              "afm"
+            ]
+          },
+          "default": {
+            "bigip": "/Common/_sys_radius_proto_imsi"
+          }
         },
         "subscriberDiscoveryEnabled": {
           "description": "Specifies whether to enable PEM subscriber discovery based on the content of RADIUS packets",
           "type": "boolean",
-          "f5modules": [
-            "pem",
-            "afm"
-          ]
+          "f5PostProcess": {
+            "tag": "modules",
+            "data": [
+              "pem",
+              "afm"
+            ]
+          },
+          "default": true
         }
-      },
-      "if": {
-        "f5modules": [
-          "pem",
-          "afm"
-        ]
-      },
-      "then": {
-        "allOf": [
-          {
-            "properties": {
-              "protocolProfile": {
-                "default": {
-                  "bigip": "/Common/_sys_radius_proto_imsi"
-                }
-              },
-              "subscriberDiscoveryEnabled": {
-                "default": true
-              }
-            }
-          }
-        ]
       },
       "required": [
         "class"
@@ -12317,11 +12588,14 @@
           "description": "AS3 pointer to another JWE cryptogram in this declaration to copy",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "type": "object",
-            "required": [
-              "ciphertext"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "type": "object",
+              "required": [
+                "ciphertext"
+              ]
+            }
           }
         },
         "url": {
@@ -12533,25 +12807,35 @@
           "allOf": [
             {
               "$ref": "#/definitions/Secret"
+            },
+            {
+              "f5PostProcess": {
+                "tag": "fetch",
+                "data": "object"
+              }
+            },
+            {
+              "f5PostProcess": {
+                "tag": "secret"
+              }
             }
-          ],
-          "f5fetch": "object",
-          "f5PostProcess": {
-            "tag": "secret"
-          }
+          ]
         },
         "certificate": {
           "description": "AS3 pointer to client Certificate declaration (optional)",
           "type": "string",
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "const": "Certificate"
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "const": "Certificate"
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "locationSpecificEnabled": {
@@ -13012,9 +13296,12 @@
       "title": "Access_Profile",
       "description": "Configures an Access Profile",
       "type": "object",
-      "f5modules": [
-        "apm"
-      ],
+      "f5PostProcess": {
+        "tag": "modules",
+        "data": [
+          "apm"
+        ]
+      },
       "properties": {
         "class": {
           "type": "string",
@@ -13064,9 +13351,12 @@
       "title": "Per_Request_Access_Policy",
       "description": "Configures a Per Flow Request Access Policy",
       "type": "object",
-      "f5modules": [
-        "apm"
-      ],
+      "f5PostProcess": {
+        "tag": "modules",
+        "data": [
+          "apm"
+        ]
+      },
       "properties": {
         "class": {
           "type": "string",
@@ -13373,7 +13663,10 @@
         },
         "iFile": {
           "description": "Reference to an iFile",
-          "f5fetch": "string",
+          "f5PostProcess": {
+            "tag": "fetch",
+            "data": "string"
+          },
           "allOf": [
             {
               "$ref": "#/definitions/F5string"
@@ -13391,10 +13684,13 @@
       "title": "Firewall_Address_List",
       "description": "Declares an address-list for use by firewall rules. An address list is a list of IP-address prefixes to compare against the source-IP address and/or destination-IP address in an IP packet",
       "type": "object",
-      "f5modules": [
-        "afm",
-        "asm"
-      ],
+      "f5PostProcess": {
+        "tag": "modules",
+        "data": [
+          "afm",
+          "asm"
+        ]
+      },
       "properties": {
         "class": {
           "title": "Class",
@@ -13554,9 +13850,12 @@
       "title": "Firewall_Port_List",
       "description": "Declares a port-list for use by firewall rules. A firewall rule can match a packet's source port or destination port against one of the ports in a port list, and can take some action (such as ACCEPT or DROP) for a matching packet.",
       "type": "object",
-      "f5modules": [
-        "afm"
-      ],
+      "f5PostProcess": {
+        "tag": "modules",
+        "data": [
+          "afm"
+        ]
+      },
       "properties": {
         "class": {
           "title": "Class",
@@ -13591,15 +13890,18 @@
                 "description": "AS3 pointer to firewall port list declaration",
                 "type": "string",
                 "minLength": 1,
-                "f5pointsTo": {
-                  "properties": {
-                    "class": {
-                      "const": "Firewall_Port_List"
-                    }
-                  },
-                  "required": [
-                    "class"
-                  ]
+                "f5PostProcess": {
+                  "tag": "pointer",
+                  "data": {
+                    "properties": {
+                      "class": {
+                        "const": "Firewall_Port_List"
+                      }
+                    },
+                    "required": [
+                      "class"
+                    ]
+                  }
                 }
               },
               "bigip": {
@@ -13638,9 +13940,12 @@
       "title": "Firewall_Rule_List",
       "description": "Declares a list of network firewall rules. You can reuse a rule list in multiple firewalls, such as the firewalls for self IPs, routing domains, and the global firewall.",
       "type": "object",
-      "f5modules": [
-        "afm"
-      ],
+      "f5PostProcess": {
+        "tag": "modules",
+        "data": [
+          "afm"
+        ]
+      },
       "properties": {
         "class": {
           "title": "Class",
@@ -13860,15 +14165,18 @@
               "description": "AS3 pointer to iRule declaration",
               "type": "string",
               "minLength": 1,
-              "f5pointsTo": {
-                "properties": {
-                  "class": {
-                    "const": "iRule"
-                  }
-                },
-                "required": [
-                  "class"
-                ]
+              "f5PostProcess": {
+                "tag": "pointer",
+                "data": {
+                  "properties": {
+                    "class": {
+                      "const": "iRule"
+                    }
+                  },
+                  "required": [
+                    "class"
+                  ]
+                }
               }
             },
             "bigip": {
@@ -13922,15 +14230,18 @@
                 "description": "AS3 pointer to firewall port list declaration",
                 "type": "string",
                 "minLength": 1,
-                "f5pointsTo": {
-                  "properties": {
-                    "class": {
-                      "const": "Firewall_Port_List"
-                    }
-                  },
-                  "required": [
-                    "class"
-                  ]
+                "f5PostProcess": {
+                  "tag": "pointer",
+                  "data": {
+                    "properties": {
+                      "class": {
+                        "const": "Firewall_Port_List"
+                      }
+                    },
+                    "required": [
+                      "class"
+                    ]
+                  }
                 }
               },
               "bigip": {
@@ -13986,15 +14297,18 @@
                 "description": "AS3 pointer to firewall port list declaration",
                 "type": "string",
                 "minLength": 1,
-                "f5pointsTo": {
-                  "properties": {
-                    "class": {
-                      "const": "Firewall_Port_List"
-                    }
-                  },
-                  "required": [
-                    "class"
-                  ]
+                "f5PostProcess": {
+                  "tag": "pointer",
+                  "data": {
+                    "properties": {
+                      "class": {
+                        "const": "Firewall_Port_List"
+                      }
+                    },
+                    "required": [
+                      "class"
+                    ]
+                  }
                 }
               },
               "bigip": {
@@ -14017,9 +14331,12 @@
       "title": "Firewall_Policy",
       "description": "Configures firewall policy",
       "type": "object",
-      "f5modules": [
-        "afm"
-      ],
+      "f5PostProcess": {
+        "tag": "modules",
+        "data": [
+          "afm"
+        ]
+      },
       "properties": {
         "class": {
           "title": "Class",
@@ -14069,9 +14386,12 @@
       "title": "NAT_Policy",
       "description": "Configures network address translation policy",
       "type": "object",
-      "f5modules": [
-        "afm"
-      ],
+      "f5PostProcess": {
+        "tag": "modules",
+        "data": [
+          "afm"
+        ]
+      },
       "properties": {
         "class": {
           "title": "Class",
@@ -14169,15 +14489,18 @@
                 "description": "AS3 pointer to firewall port list declaration",
                 "type": "string",
                 "minLength": 1,
-                "f5pointsTo": {
-                  "properties": {
-                    "class": {
-                      "const": "Firewall_Port_List"
-                    }
-                  },
-                  "required": [
-                    "class"
-                  ]
+                "f5PostProcess": {
+                  "tag": "pointer",
+                  "data": {
+                    "properties": {
+                      "class": {
+                        "const": "Firewall_Port_List"
+                      }
+                    },
+                    "required": [
+                      "class"
+                    ]
+                  }
                 }
               },
               "bigip": {
@@ -14219,15 +14542,18 @@
                 "description": "AS3 pointer to firewall port list declaration",
                 "type": "string",
                 "minLength": 1,
-                "f5pointsTo": {
-                  "properties": {
-                    "class": {
-                      "const": "Firewall_Port_List"
-                    }
-                  },
-                  "required": [
-                    "class"
-                  ]
+                "f5PostProcess": {
+                  "tag": "pointer",
+                  "data": {
+                    "properties": {
+                      "class": {
+                        "const": "Firewall_Port_List"
+                      }
+                    },
+                    "required": [
+                      "class"
+                    ]
+                  }
                 }
               },
               "bigip": {
@@ -14251,9 +14577,12 @@
       "title": "NAT_Source_Translation",
       "description": "Configures a Security network address translation source translation object",
       "type": "object",
-      "f5modules": [
-        "afm"
-      ],
+      "f5PostProcess": {
+        "tag": "modules",
+        "data": [
+          "afm"
+        ]
+      },
       "properties": {
         "class": {
           "title": "Class",
@@ -15278,12 +15607,19 @@
           "allOf": [
             {
               "$ref": "#/definitions/Secret"
+            },
+            {
+              "f5PostProcess": {
+                "tag": "fetch",
+                "data": "object"
+              }
+            },
+            {
+              "f5PostProcess": {
+                "tag": "secret"
+              }
             }
-          ],
-          "f5fetch": "object",
-          "f5PostProcess": {
-            "tag": "secret"
-          }
+          ]
         },
         "publicKey": {
           "description": "The public key of the authentication algorithm (rsa, dss, etc...)",
@@ -15715,7 +16051,9 @@
                 "$ref": "#/definitions/Resource_URL"
               }
             ],
-            "f5checkResource": true
+            "f5PostProcess": {
+              "tag": "checkResource"
+            }
           },
           "separator": {
             "title": "Record Key Value Separator",
@@ -16149,12 +16487,19 @@
           "allOf": [
             {
               "$ref": "#/definitions/Secret"
+            },
+            {
+              "f5PostProcess": {
+                "tag": "fetch",
+                "data": "object"
+              }
+            },
+            {
+              "f5PostProcess": {
+                "tag": "secret"
+              }
             }
-          ],
-          "f5fetch": "object",
-          "f5PostProcess": {
-            "tag": "secret"
-          }
+          ]
         }
       },
       "required": [
@@ -16324,10 +16669,13 @@
       "title": "DOS_Profile",
       "description": "Configures a Denial of Service (DOS) profile",
       "type": "object",
-      "f5modules": [
-        "afm",
-        "asm"
-      ],
+      "f5PostProcess": {
+        "tag": "modules",
+        "data": [
+          "afm",
+          "asm"
+        ]
+      },
       "properties": {
         "class": {
           "title": "Class",
@@ -16342,9 +16690,12 @@
         },
         "application": {
           "description": "Application security sub-profile",
-          "f5modules": [
-            "asm"
-          ],
+          "f5PostProcess": {
+            "tag": "modules",
+            "data": [
+              "asm"
+            ]
+          },
           "allOf": [
             {
               "$ref": "#/definitions/DOS_Profile_Application"
@@ -16353,9 +16704,12 @@
         },
         "network": {
           "description": "Network security sub-profile",
-          "f5modules": [
-            "afm"
-          ],
+          "f5PostProcess": {
+            "tag": "modules",
+            "data": [
+              "afm"
+            ]
+          },
           "allOf": [
             {
               "$ref": "#/definitions/DOS_Profile_Network"
@@ -16364,9 +16718,12 @@
         },
         "protocolDNS": {
           "description": "DNS protocol security sub-profile",
-          "f5modules": [
-            "afm"
-          ],
+          "f5PostProcess": {
+            "tag": "modules",
+            "data": [
+              "afm"
+            ]
+          },
           "allOf": [
             {
               "$ref": "#/definitions/DOS_Profile_Protocol_DNS"
@@ -16375,9 +16732,12 @@
         },
         "protocolSIP": {
           "description": "SIP protocol security sub-profile",
-          "f5modules": [
-            "afm"
-          ],
+          "f5PostProcess": {
+            "tag": "modules",
+            "data": [
+              "afm"
+            ]
+          },
           "allOf": [
             {
               "$ref": "#/definitions/DOS_Profile_Protocol_SIP"
@@ -16386,51 +16746,45 @@
         },
         "allowlist": {
           "description": "Specifies the default allowlist address list for the system to use to determine which IP addresses are legitimate. The system does not examine traffic from the IP addresses in the list when performing DoS prevention. This property is available on BIGIP 14.1 and above.",
-          "oneOf": [
+          "allOf": [
             {
-              "$ref": "#/definitions/Pointer_Firewall_Address_List"
-            },
-            {
-              "$ref": "#/definitions/Pointer_Net_Address_List"
+              "$ref": "#/definitions/Pointer_Address_List"
             }
           ]
         },
         "whitelist": {
           "description": "Deprecated. Replaced with functionally equivalent allowlist. Specifies the default allowlist address list for the system to use to determine which IP addresses are legitimate. The system does not examine traffic from the IP addresses in the list when performing DoS prevention. This property is available on BIGIP 14.1 and above.",
-          "oneOf": [
+          "allOf": [
             {
-              "$ref": "#/definitions/Pointer_Firewall_Address_List"
-            },
-            {
-              "$ref": "#/definitions/Pointer_Net_Address_List"
+              "$ref": "#/definitions/Pointer_Address_List"
             }
           ]
         },
         "applicationAllowlist": {
           "description": "Specifies the IP addresses and subnets allowlist configuration for Application Security (Overrides the global allowlist)",
-          "f5modules": [
-            "asm"
-          ],
-          "oneOf": [
+          "f5PostProcess": {
+            "tag": "modules",
+            "data": [
+              "asm"
+            ]
+          },
+          "allOf": [
             {
-              "$ref": "#/definitions/Pointer_Firewall_Address_List"
-            },
-            {
-              "$ref": "#/definitions/Pointer_Net_Address_List"
+              "$ref": "#/definitions/Pointer_Address_List"
             }
           ]
         },
         "applicationWhitelist": {
           "description": "Deprecated. Replaced with functionally equivalent applicationAllowlist. Specifies the IP addresses and subnets allowlist configuration for Application Security (Overrides the global allowlist)",
-          "f5modules": [
-            "asm"
-          ],
-          "oneOf": [
+          "f5PostProcess": {
+            "tag": "modules",
+            "data": [
+              "asm"
+            ]
+          },
+          "allOf": [
             {
-              "$ref": "#/definitions/Pointer_Firewall_Address_List"
-            },
-            {
-              "$ref": "#/definitions/Pointer_Net_Address_List"
+              "$ref": "#/definitions/Pointer_Address_List"
             }
           ]
         }
@@ -17400,18 +17754,24 @@
           "type": "integer",
           "minimum": 0,
           "maximum": 4294967295,
-          "f5modules": [
-            "afm"
-          ]
+          "f5PostProcess": {
+            "tag": "modules",
+            "data": [
+              "afm"
+            ]
+          }
         },
         "remoteTriggeredBlackHoleDuration": {
           "description": "Specifies the BGP route advertisement duration in seconds for Remote Triggered Black Hole of attacking IPs. This requires configuration of the Blacklist Publisher, and will function even when the Operation Mode is set to Transparent. A value of 0 disables Remote Triggered Black Hole. Requires the AFM module and if this property is unspecified it will be disabled.",
           "type": "integer",
           "minimum": 0,
           "maximum": 4294967295,
-          "f5modules": [
-            "afm"
-          ]
+          "f5PostProcess": {
+            "tag": "modules",
+            "data": [
+              "afm"
+            ]
+          }
         },
         "profileAcceleration": {
           "description": "Select a TCP fastL4 profile to be used as a fast-path for acceleration",
@@ -18708,15 +19068,18 @@
                 "description": "AS3 pointer to GSLB Pool declaration",
                 "type": "string",
                 "minLength": 1,
-                "f5pointsTo": {
-                  "properties": {
-                    "class": {
-                      "const": "GSLB_Pool"
-                    }
-                  },
-                  "required": [
-                    "class"
-                  ]
+                "f5PostProcess": {
+                  "tag": "pointer",
+                  "data": {
+                    "properties": {
+                      "class": {
+                        "const": "GSLB_Pool"
+                      }
+                    },
+                    "required": [
+                      "class"
+                    ]
+                  }
                 }
               },
               "ratio": {
@@ -18787,15 +19150,18 @@
             },
             "then": {
               "minLength": 1,
-              "f5pointsTo": {
-                "properties": {
-                  "class": {
-                    "const": "GSLB_iRule"
-                  }
-                },
-                "required": [
-                  "class"
-                ]
+              "f5PostProcess": {
+                "tag": "pointer",
+                "data": {
+                  "properties": {
+                    "class": {
+                      "const": "GSLB_iRule"
+                    }
+                  },
+                  "required": [
+                    "class"
+                  ]
+                }
               }
             },
             "else": {
@@ -18812,15 +19178,18 @@
                   "description": "AS3 pointer to GSLB_iRule (declared separately)",
                   "type": "string",
                   "minLength": 1,
-                  "f5pointsTo": {
-                    "properties": {
-                      "class": {
-                        "const": "GSLB_iRule"
-                      }
-                    },
-                    "required": [
-                      "class"
-                    ]
+                  "f5PostProcess": {
+                    "tag": "pointer",
+                    "data": {
+                      "properties": {
+                        "class": {
+                          "const": "GSLB_iRule"
+                        }
+                      },
+                      "required": [
+                        "class"
+                      ]
+                    }
                   }
                 }
               },
@@ -18923,9 +19292,12 @@
     "GSLB_Monitor": {
       "title": "GSLB_Monitor",
       "description": "Declares a monitor that verifies the availability and/or performance status of a particular protocol, service or application",
-      "f5modules": [
-        "gtm"
-      ],
+      "f5PostProcess": {
+        "tag": "modules",
+        "data": [
+          "gtm"
+        ]
+      },
       "type": "object",
       "properties": {
         "class": {
@@ -19092,7 +19464,10 @@
               "$ref": "#/definitions/F5string"
             }
           ],
-          "f5fetch": "string",
+          "f5PostProcess": {
+            "tag": "fetch",
+            "data": "string"
+          },
           "f5expand": {
             "when": "1/expand"
           }
@@ -19175,15 +19550,18 @@
               "description": "AS3 pointer to client Certificate declaration, for TLS authentication (optional)",
               "type": "string",
               "minLength": 1,
-              "f5pointsTo": {
-                "properties": {
-                  "class": {
-                    "const": "Certificate"
-                  }
-                },
-                "required": [
-                  "class"
-                ]
+              "f5PostProcess": {
+                "tag": "pointer",
+                "data": {
+                  "properties": {
+                    "class": {
+                      "const": "Certificate"
+                    }
+                  },
+                  "required": [
+                    "class"
+                  ]
+                }
               }
             }
           }
@@ -20455,9 +20833,12 @@
     "GSLB_Prober_Pool": {
       "title": "GSLB_Prober_Pool",
       "description": "Declares a pool of BIG-IP devices that will monitor server resources for health and performance. Note: Prober pools are not used by the bigip monitor",
-      "f5modules": [
-        "gtm"
-      ],
+      "f5PostProcess": {
+        "tag": "modules",
+        "data": [
+          "gtm"
+        ]
+      },
       "type": "object",
       "properties": {
         "class": {
@@ -20868,10 +21249,13 @@
       "type": "object",
       "title": "Security_Log_Profile",
       "description": "Configures a Security log profile",
-      "f5modules": [
-        "afm",
-        "asm"
-      ],
+      "f5PostProcess": {
+        "tag": "modules",
+        "data": [
+          "afm",
+          "asm"
+        ]
+      },
       "properties": {
         "class": {
           "title": "Class",
@@ -20981,9 +21365,12 @@
     "Security_Log_Profile_Application": {
       "description": "Specifies, when enabled, that the system logs events from applications.",
       "type": "object",
-      "f5modules": [
-        "asm"
-      ],
+      "f5PostProcess": {
+        "tag": "modules",
+        "data": [
+          "asm"
+        ]
+      },
       "properties": {
         "facility": {
           "description": "Specifies the facility category of the logged traffic",
@@ -21382,9 +21769,12 @@
       "title": "Bot Defense Log Profile",
       "description": "Specifies, when enabled, the system logs events from the Proactive Bot Defense mechanism.",
       "type": "object",
-      "f5modules": [
-        "asm"
-      ],
+      "f5PostProcess": {
+        "tag": "modules",
+        "data": [
+          "asm"
+        ]
+      },
       "properties": {
         "localPublisher": {
           "description": "Specifies, when enabled, a Log Publisher to log events to (Note: This publisher should have a single local-database destination)",
@@ -21521,12 +21911,15 @@
       "additionalProperties": false
     },
     "Security_Log_Profile_Classification": {
-      "f5modules": [
-        "afm"
-      ],
       "title": "Classification Log Profile",
       "description": "Specifies, when enabled, that the system logs events from the Classification engine.",
       "type": "object",
+      "f5PostProcess": {
+        "tag": "modules",
+        "data": [
+          "afm"
+        ]
+      },
       "properties": {
         "publisher": {
           "description": "Specifies where the system sends log messages",
@@ -21537,15 +21930,18 @@
               "description": "AS3 pointer to log publisher declaration",
               "type": "string",
               "minLength": 1,
-              "f5pointsTo": {
-                "properties": {
-                  "class": {
-                    "const": "Log_Publisher"
-                  }
-                },
-                "required": [
-                  "class"
-                ]
+              "f5PostProcess": {
+                "tag": "pointer",
+                "data": {
+                  "properties": {
+                    "class": {
+                      "const": "Log_Publisher"
+                    }
+                  },
+                  "required": [
+                    "class"
+                  ]
+                }
               }
             },
             "bigip": {
@@ -21572,9 +21968,12 @@
       "title": "DoS Application Log Profile",
       "description": "Specifies, when enabled, that the system logs detected application DoS attacks",
       "type": "object",
-      "f5modules": [
-        "asm"
-      ],
+      "f5PostProcess": {
+        "tag": "modules",
+        "data": [
+          "asm"
+        ]
+      },
       "properties": {
         "localPublisher": {
           "description": "Specifies the local log publisher used for Application DoS attacks (Note: This publisher should have a single local-database destination)",
@@ -21585,15 +21984,18 @@
               "description": "AS3 pointer to log publisher declaration",
               "type": "string",
               "minLength": 1,
-              "f5pointsTo": {
-                "properties": {
-                  "class": {
-                    "const": "Log_Publisher"
-                  }
-                },
-                "required": [
-                  "class"
-                ]
+              "f5PostProcess": {
+                "tag": "pointer",
+                "data": {
+                  "properties": {
+                    "class": {
+                      "const": "Log_Publisher"
+                    }
+                  },
+                  "required": [
+                    "class"
+                  ]
+                }
               }
             },
             "bigip": {
@@ -21617,15 +22019,18 @@
               "description": "AS3 pointer to log publisher declaration",
               "type": "string",
               "minLength": 1,
-              "f5pointsTo": {
-                "properties": {
-                  "class": {
-                    "const": "Log_Publisher"
-                  }
-                },
-                "required": [
-                  "class"
-                ]
+              "f5PostProcess": {
+                "tag": "pointer",
+                "data": {
+                  "properties": {
+                    "class": {
+                      "const": "Log_Publisher"
+                    }
+                  },
+                  "required": [
+                    "class"
+                  ]
+                }
               }
             },
             "bigip": {
@@ -21644,14 +22049,17 @@
       "additionalProperties": false
     },
     "Security_Log_Profile_Dos_Network": {
-      "f5modules": [
-        "afm",
-        "dos",
-        "em"
-      ],
       "title": "DoS Network Log Profile",
       "description": "Specifies, when enabled, that the system logs detected network DoS attacks",
       "type": "object",
+      "f5PostProcess": {
+        "tag": "modules",
+        "data": [
+          "afm",
+          "dos",
+          "em"
+        ]
+      },
       "properties": {
         "publisher": {
           "description": "Specifies the name of the log publisher used for logging Network DoS events",
@@ -21662,15 +22070,18 @@
               "description": "AS3 pointer to log publisher declaration",
               "type": "string",
               "minLength": 1,
-              "f5pointsTo": {
-                "properties": {
-                  "class": {
-                    "const": "Log_Publisher"
-                  }
-                },
-                "required": [
-                  "class"
-                ]
+              "f5PostProcess": {
+                "tag": "pointer",
+                "data": {
+                  "properties": {
+                    "class": {
+                      "const": "Log_Publisher"
+                    }
+                  },
+                  "required": [
+                    "class"
+                  ]
+                }
               }
             },
             "bigip": {
@@ -21689,12 +22100,15 @@
       "additionalProperties": false
     },
     "Security_Log_Profile_Nat": {
-      "f5modules": [
-        "afm"
-      ],
       "title": "Network Address Translation Log Profile",
       "description": "Specifies, when enabled, that the system logs Firewall NAT events",
       "type": "object",
+      "f5PostProcess": {
+        "tag": "modules",
+        "data": [
+          "afm"
+        ]
+      },
       "properties": {
         "publisher": {
           "description": "Specifies the name of the log publisher used for logging Network Address Translation events",
@@ -21705,15 +22119,18 @@
               "description": "AS3 pointer to log publisher declaration",
               "type": "string",
               "minLength": 1,
-              "f5pointsTo": {
-                "properties": {
-                  "class": {
-                    "const": "Log_Publisher"
-                  }
-                },
-                "required": [
-                  "class"
-                ]
+              "f5PostProcess": {
+                "tag": "pointer",
+                "data": {
+                  "properties": {
+                    "class": {
+                      "const": "Log_Publisher"
+                    }
+                  },
+                  "required": [
+                    "class"
+                  ]
+                }
               }
             },
             "bigip": {
@@ -21871,13 +22288,16 @@
       ]
     },
     "Security_Log_Profile_Network": {
-      "f5modules": [
-        "afm",
-        "em"
-      ],
       "title": "Network Log Profile",
       "description": "Specifies, when enabled, that the system logs ACL rule matches, TCP events, and/or TCP/IP errors sent to the network firewall",
       "type": "object",
+      "f5PostProcess": {
+        "tag": "modules",
+        "data": [
+          "afm",
+          "em"
+        ]
+      },
       "properties": {
         "publisher": {
           "description": "Specifies the name of the log publisher used for logging Network events",
@@ -21888,15 +22308,18 @@
               "description": "AS3 pointer to log publisher declaration",
               "type": "string",
               "minLength": 1,
-              "f5pointsTo": {
-                "properties": {
-                  "class": {
-                    "const": "Log_Publisher"
-                  }
-                },
-                "required": [
-                  "class"
-                ]
+              "f5PostProcess": {
+                "tag": "pointer",
+                "data": {
+                  "properties": {
+                    "class": {
+                      "const": "Log_Publisher"
+                    }
+                  },
+                  "required": [
+                    "class"
+                  ]
+                }
               }
             },
             "bigip": {
@@ -22062,15 +22485,18 @@
               "description": "AS3 pointer to log publisher declaration",
               "type": "string",
               "minLength": 1,
-              "f5pointsTo": {
-                "properties": {
-                  "class": {
-                    "const": "Log_Publisher"
-                  }
-                },
-                "required": [
-                  "class"
-                ]
+              "f5PostProcess": {
+                "tag": "pointer",
+                "data": {
+                  "properties": {
+                    "class": {
+                      "const": "Log_Publisher"
+                    }
+                  },
+                  "required": [
+                    "class"
+                  ]
+                }
               }
             },
             "bigip": {
@@ -22099,13 +22525,16 @@
       "additionalProperties": false
     },
     "Security_Log_Profile_Protocol_Dns": {
-      "f5modules": [
-        "afm",
-        "em"
-      ],
       "title": "Protocol DNS Log Profile",
       "description": "Specifies, when enabled, that the system logs DNS security events",
       "type": "object",
+      "f5PostProcess": {
+        "tag": "modules",
+        "data": [
+          "afm",
+          "em"
+        ]
+      },
       "properties": {
         "publisher": {
           "description": "Specifies the name of the log publisher used for logging DNS security events",
@@ -22116,15 +22545,18 @@
               "description": "AS3 pointer to log publisher declaration",
               "type": "string",
               "minLength": 1,
-              "f5pointsTo": {
-                "properties": {
-                  "class": {
-                    "const": "Log_Publisher"
-                  }
-                },
-                "required": [
-                  "class"
-                ]
+              "f5PostProcess": {
+                "tag": "pointer",
+                "data": {
+                  "properties": {
+                    "class": {
+                      "const": "Log_Publisher"
+                    }
+                  },
+                  "required": [
+                    "class"
+                  ]
+                }
               }
             },
             "bigip": {
@@ -22212,13 +22644,16 @@
       "additionalProperties": false
     },
     "Security_Log_Profile_Protocol_Sip_Dos": {
-      "f5modules": [
-        "afm",
-        "em"
-      ],
       "title": "Protocol SIP DoS Log Profile",
       "description": "Specifies, when enabled, that the system logs detected SIP DoS attacks",
       "type": "object",
+      "f5PostProcess": {
+        "tag": "modules",
+        "data": [
+          "afm",
+          "em"
+        ]
+      },
       "properties": {
         "publisher": {
           "description": "Specifies the name of the log publisher used for logging SIP DoS events",
@@ -22229,15 +22664,18 @@
               "description": "AS3 pointer to log publisher declaration",
               "type": "string",
               "minLength": 1,
-              "f5pointsTo": {
-                "properties": {
-                  "class": {
-                    "const": "Log_Publisher"
-                  }
-                },
-                "required": [
-                  "class"
-                ]
+              "f5PostProcess": {
+                "tag": "pointer",
+                "data": {
+                  "properties": {
+                    "class": {
+                      "const": "Log_Publisher"
+                    }
+                  },
+                  "required": [
+                    "class"
+                  ]
+                }
               }
             },
             "bigip": {
@@ -22256,13 +22694,16 @@
       "additionalProperties": false
     },
     "Security_Log_Profile_Protocol_Sip": {
-      "f5modules": [
-        "afm",
-        "em"
-      ],
       "title": "Protocol SIP Log Profile",
       "description": "Specifies, when enabled, that the system logs SIP protocol security events",
       "type": "object",
+      "f5PostProcess": {
+        "tag": "modules",
+        "data": [
+          "afm",
+          "em"
+        ]
+      },
       "properties": {
         "publisher": {
           "description": "Specifies the name of the log publisher used for logging SIP protocol security events",
@@ -22273,15 +22714,18 @@
               "description": "AS3 pointer to log publisher declaration",
               "type": "string",
               "minLength": 1,
-              "f5pointsTo": {
-                "properties": {
-                  "class": {
-                    "const": "Log_Publisher"
-                  }
-                },
-                "required": [
-                  "class"
-                ]
+              "f5PostProcess": {
+                "tag": "pointer",
+                "data": {
+                  "properties": {
+                    "class": {
+                      "const": "Log_Publisher"
+                    }
+                  },
+                  "required": [
+                    "class"
+                  ]
+                }
               }
             },
             "bigip": {
@@ -22374,13 +22818,16 @@
       "additionalProperties": false
     },
     "Security_Log_Profile_Protocol_Dns_Dos": {
-      "f5modules": [
-        "afm",
-        "em"
-      ],
       "title": "Protocol DNS DoS Log Profile",
       "description": "Specifies, when enabled, that the system logs detected DNS DoS attacks",
       "type": "object",
+      "f5PostProcess": {
+        "tag": "modules",
+        "data": [
+          "afm",
+          "em"
+        ]
+      },
       "properties": {
         "publisher": {
           "description": "Specifies the name of the log publisher used for logging DNS DoS events",
@@ -22391,15 +22838,18 @@
               "description": "AS3 pointer to log publisher declaration",
               "type": "string",
               "minLength": 1,
-              "f5pointsTo": {
-                "properties": {
-                  "class": {
-                    "const": "Log_Publisher"
-                  }
-                },
-                "required": [
-                  "class"
-                ]
+              "f5PostProcess": {
+                "tag": "pointer",
+                "data": {
+                  "properties": {
+                    "class": {
+                      "const": "Log_Publisher"
+                    }
+                  },
+                  "required": [
+                    "class"
+                  ]
+                }
               }
             },
             "bigip": {
@@ -22418,13 +22868,16 @@
       "additionalProperties": false
     },
     "Security_Log_Profile_Protocol_Inspection": {
-      "f5modules": [
-        "afm",
-        "em"
-      ],
       "title": "Protocol Inspection Log Profile",
       "description": "Specifies, when enabled, that the system logs events from the Protocol Inspection engine",
       "type": "object",
+      "f5PostProcess": {
+        "tag": "modules",
+        "data": [
+          "afm",
+          "em"
+        ]
+      },
       "properties": {
         "publisher": {
           "$ref": "#/definitions/Pointer_Log_Publisher"
@@ -22451,15 +22904,18 @@
               "description": "AS3 pointer to log publisher declaration",
               "type": "string",
               "minLength": 1,
-              "f5pointsTo": {
-                "properties": {
-                  "class": {
-                    "const": "Log_Publisher"
-                  }
-                },
-                "required": [
-                  "class"
-                ]
+              "f5PostProcess": {
+                "tag": "pointer",
+                "data": {
+                  "properties": {
+                    "class": {
+                      "const": "Log_Publisher"
+                    }
+                  },
+                  "required": [
+                    "class"
+                  ]
+                }
               }
             },
             "bigip": {
@@ -22478,13 +22934,16 @@
       "additionalProperties": false
     },
     "Security_Log_Profile_Ssh_Proxy": {
-      "f5modules": [
-        "afm",
-        "em"
-      ],
       "title": "SSH Proxy Security Log Profile",
       "description": "Specifies, when enabled, that the system logs SSH Proxy events",
       "type": "object",
+      "f5PostProcess": {
+        "tag": "modules",
+        "data": [
+          "afm",
+          "em"
+        ]
+      },
       "properties": {
         "publisher": {
           "description": "Specifies the name of the log publisher used for logging SSH Proxy events",
@@ -22495,15 +22954,18 @@
               "description": "AS3 pointer to log publisher declaration",
               "type": "string",
               "minLength": 1,
-              "f5pointsTo": {
-                "properties": {
-                  "class": {
-                    "const": "Log_Publisher"
-                  }
-                },
-                "required": [
-                  "class"
-                ]
+              "f5PostProcess": {
+                "tag": "pointer",
+                "data": {
+                  "properties": {
+                    "class": {
+                      "const": "Log_Publisher"
+                    }
+                  },
+                  "required": [
+                    "class"
+                  ]
+                }
               }
             },
             "bigip": {
@@ -22765,18 +23227,21 @@
               "description": "AS3 pointer to remote high speed log declaration",
               "type": "string",
               "minLength": 1,
-              "f5pointsTo": {
-                "properties": {
-                  "class": {
-                    "const": "Log_Destination"
+              "f5PostProcess": {
+                "tag": "pointer",
+                "data": {
+                  "properties": {
+                    "class": {
+                      "const": "Log_Destination"
+                    },
+                    "type": {
+                      "const": "remote-high-speed-log"
+                    }
                   },
-                  "type": {
-                    "const": "remote-high-speed-log"
-                  }
-                },
-                "required": [
-                  "class"
-                ]
+                  "required": [
+                    "class"
+                  ]
+                }
               }
             },
             "bigip": {
@@ -23118,15 +23583,18 @@
           },
           "then": {
             "minLength": 1,
-            "f5pointsTo": {
-              "properties": {
-                "class": {
-                  "const": "Endpoint_Strategy"
-                }
-              },
-              "required": [
-                "class"
-              ]
+            "f5PostProcess": {
+              "tag": "pointer",
+              "data": {
+                "properties": {
+                  "class": {
+                    "const": "Endpoint_Strategy"
+                  }
+                },
+                "required": [
+                  "class"
+                ]
+              }
             }
           },
           "else": {
@@ -25076,15 +25544,18 @@
           "description": "AS3 pointer to Data_Group",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "const": "Data_Group"
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "const": "Data_Group"
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         }
       },
@@ -25446,9 +25917,12 @@
     "Enforcement_Policy": {
       "title": "Enforcement_Policy",
       "description": "Configures policies for the Policy Enforcement Manager (PEM)",
-      "f5modules": [
-        "pem"
-      ],
+      "f5PostProcess": {
+        "tag": "modules",
+        "data": [
+          "pem"
+        ]
+      },
       "type": "object",
       "properties": {
         "class": {
@@ -26599,10 +27073,13 @@
     "Enforcement_Diameter_Endpoint_Profile": {
       "title": "Enforcement_Diameter_Endpoint_Profile",
       "description": "Create a listener to specify how to handle traffic for policy enforcement",
-      "f5modules": [
-        "pem"
-      ],
       "type": "object",
+      "f5PostProcess": {
+        "tag": "modules",
+        "data": [
+          "pem"
+        ]
+      },
       "properties": {
         "class": {
           "title": "Class",
@@ -26726,10 +27203,13 @@
     "Enforcement_Radius_AAA_Profile": {
       "title": "Enforcement_Radius_AAA_Profile",
       "description": "Configures a radius AAA profile",
-      "f5modules": [
-        "pem"
-      ],
       "type": "object",
+      "f5PostProcess": {
+        "tag": "modules",
+        "data": [
+          "pem"
+        ]
+      },
       "properties": {
         "class": {
           "title": "Class",
@@ -26773,12 +27253,19 @@
           "allOf": [
             {
               "$ref": "#/definitions/Secret"
+            },
+            {
+              "f5PostProcess": {
+                "tag": "fetch",
+                "data": "object"
+              }
+            },
+            {
+              "f5PostProcess": {
+                "tag": "secret"
+              }
             }
-          ],
-          "f5fetch": "object",
-          "f5PostProcess": {
-            "tag": "secret"
-          }
+          ]
         },
         "password": {
           "description": "The password of the RADIUS AAA profile for RADIUS server authentication",
@@ -26793,12 +27280,19 @@
           "allOf": [
             {
               "$ref": "#/definitions/Secret"
+            },
+            {
+              "f5PostProcess": {
+                "tag": "fetch",
+                "data": "object"
+              }
+            },
+            {
+              "f5PostProcess": {
+                "tag": "secret"
+              }
             }
-          ],
-          "f5fetch": "object",
-          "f5PostProcess": {
-            "tag": "secret"
-          }
+          ]
         },
         "transactionTimeout": {
           "description": "The number of seconds to wait before resending authentication or accounting transaction messages to the RADIUS server",
@@ -26816,10 +27310,13 @@
     "Enforcement_Profile": {
       "title": "Enforcement_Profile",
       "description": "Configures a subscriber policy manager profile",
-      "f5modules": [
-        "pem"
-      ],
       "type": "object",
+      "f5PostProcess": {
+        "tag": "modules",
+        "data": [
+          "pem"
+        ]
+      },
       "properties": {
         "class": {
           "title": "Class",
@@ -26881,10 +27378,13 @@
     "Enforcement_Subscriber_Management_Profile": {
       "title": "Enforcement_Subscriber_Management_Profile",
       "description": "Configures a subscriber management profile",
-      "f5modules": [
-        "pem"
-      ],
       "type": "object",
+      "f5PostProcess": {
+        "tag": "modules",
+        "data": [
+          "pem"
+        ]
+      },
       "properties": {
         "class": {
           "title": "Class",
@@ -26924,10 +27424,13 @@
     },
     "Enforcement_Subscriber_Management_Profile_DHCP": {
       "description": "Configures DHCP lease query settings for a subscriber management profile",
-      "f5modules": [
-        "pem"
-      ],
       "type": "object",
+      "f5PostProcess": {
+        "tag": "modules",
+        "data": [
+          "pem"
+        ]
+      },
       "properties": {
         "enabled": {
           "description": "Specifies that the subscriber management settings use DHCP lease query to communicate with DHCP servers to obtain DHCP lease information for the unknown IP address and creates a new policy enforcement session using the lease information received",
@@ -26946,10 +27449,13 @@
     "Enforcement_Listener": {
       "title": "Enforcement_Listener",
       "description": "Configures an enforcement data plane listener",
-      "f5modules": [
-        "pem"
-      ],
       "type": "object",
+      "f5PostProcess": {
+        "tag": "modules",
+        "data": [
+          "pem"
+        ]
+      },
       "properties": {
         "class": {
           "title": "Class",
@@ -26987,10 +27493,13 @@
     "Enforcement_Interception_Endpoint": {
       "title": "Enforcement_Interception_Endpoint",
       "description": "Configures an interception endpoint to clone all traffic",
-      "f5modules": [
-        "pem"
-      ],
       "type": "object",
+      "f5PostProcess": {
+        "tag": "modules",
+        "data": [
+          "pem"
+        ]
+      },
       "properties": {
         "class": {
           "title": "Class",
@@ -27023,10 +27532,13 @@
     "Enforcement_Format_Script": {
       "title": "Enforcement_Format_Script",
       "description": "Specifies a script using TCL syntax that defines a custom format for HSL reporting applied in an enforcement policy rule. The format and fields available differ depending on whether you are using session-based or flow-based reporting in the rule.",
-      "f5modules": [
-        "pem"
-      ],
       "type": "object",
+      "f5PostProcess": {
+        "tag": "modules",
+        "data": [
+          "pem"
+        ]
+      },
       "properties": {
         "class": {
           "title": "Class",
@@ -27052,10 +27564,13 @@
     "Enforcement_Forwarding_Endpoint": {
       "title": "Enforcement_Forwarding_Endpoint",
       "description": "Configures an forwarding endpoint to specify PEM policy forwarding actions",
-      "f5modules": [
-        "pem"
-      ],
       "type": "object",
+      "f5PostProcess": {
+        "tag": "modules",
+        "data": [
+          "pem"
+        ]
+      },
       "properties": {
         "class": {
           "title": "Class",
@@ -27240,6 +27755,49 @@
       ],
       "additionalProperties": false
     },
+    "Pointer_Address_List": {
+      "description": "Reference to a firewall address list or net address list",
+      "type": "object",
+      "properties": {
+        "use": {
+          "description": "AS3 pointer to firewall address list or net address list declaration",
+          "type": "string",
+          "minLength": 1,
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Firewall_Address_List",
+                    "Net_Address_List"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
+          }
+        },
+        "bigip": {
+          "description": "Pathname of existing BIG-IP firewall address list or net address list",
+          "type": "string",
+          "format": "f5bigip"
+        }
+      },
+      "additionalProperties": false,
+      "minProperties": 1,
+      "maxProperties": 1,
+      "allOf": [
+        {
+          "f5bigComponent": "query security firewall address-list"
+        },
+        {
+          "f5bigComponent": "query net address-list"
+        }
+      ]
+    },
     "Pointer_Address_Discovery": {
       "description": "Reference to a Address Discovery",
       "type": "object",
@@ -27248,17 +27806,20 @@
           "description": "AS3 pointer to Address Discovery declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "Address_Discovery"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Address_Discovery"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         }
       },
@@ -27293,17 +27854,20 @@
           "description": "AS3 pointer to bandwidth control policy declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "Bandwidth_Control_Policy"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Bandwidth_Control_Policy"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -27329,17 +27893,20 @@
           "description": "AS3 pointer to idle timeout policy declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "Idle_Timeout_Policy"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Idle_Timeout_Policy"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -27447,17 +28014,20 @@
           "description": "AS3 pointer to OCSP Cert Validator declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "Certificate_Validator_OCSP"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Certificate_Validator_OCSP"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -27483,17 +28053,20 @@
           "description": "AS3 pointer to Ca Bundle declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "CA_Bundle"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "CA_Bundle"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -27519,17 +28092,20 @@
           "description": "AS3 pointer to cipher group declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "Cipher_Group"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Cipher_Group"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -27555,17 +28131,20 @@
           "description": "AS3 pointer to cipher rule declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "Cipher_Rule"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Cipher_Rule"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -27648,17 +28227,20 @@
           "description": "AS3 pointer to classification profile declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "Classification_Profile"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Classification_Profile"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -27703,17 +28285,20 @@
           "description": "AS3 pointer to DNS cache declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "DNS_Cache"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "DNS_Cache"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -27764,17 +28349,20 @@
           "description": "AS3 pointer to Data Group declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "Data_Group"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Data_Group"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -27803,17 +28391,20 @@
           "description": "AS3 pointer to DNS Listener declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "DNS_Listener"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "DNS_Listener"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -27858,17 +28449,20 @@
           "description": "AS3 pointer to DNS nameserver declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "DNS_Nameserver"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "DNS_Nameserver"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -27894,17 +28488,20 @@
           "description": "AS3 pointer to DNS profile declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "DNS_Profile"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "DNS_Profile"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -27949,17 +28546,20 @@
           "description": "AS3 pointer to DNS TSIG key declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "DNS_TSIG_Key"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "DNS_TSIG_Key"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -27985,17 +28585,20 @@
           "description": "AS3 pointer to DNS zone declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "DNS_Zone"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "DNS_Zone"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -28021,17 +28624,20 @@
           "description": "AS3 pointer to DOS Profile declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "DOS_Profile"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "DOS_Profile"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -28055,17 +28661,20 @@
           "description": "AS3 pointer to endpoint policy declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "Endpoint_Policy"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Endpoint_Policy"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         {
@@ -28076,17 +28685,20 @@
               "description": "AS3 pointer to endpoint policy declaration",
               "type": "string",
               "minLength": 1,
-              "f5pointsTo": {
-                "properties": {
-                  "class": {
-                    "enum": [
-                      "Endpoint_Policy"
-                    ]
-                  }
-                },
-                "required": [
-                  "class"
-                ]
+              "f5PostProcess": {
+                "tag": "pointer",
+                "data": {
+                  "properties": {
+                    "class": {
+                      "enum": [
+                        "Endpoint_Policy"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "class"
+                  ]
+                }
               }
             },
             "bigip": {
@@ -28114,17 +28726,20 @@
           "description": "AS3 pointer to format script declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "Enforcement_Format_Script"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Enforcement_Format_Script"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -28150,17 +28765,20 @@
           "description": "AS3 pointer to forwarding endpoint declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "Enforcement_Forwarding_Endpoint"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Enforcement_Forwarding_Endpoint"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -28186,17 +28804,20 @@
           "description": "AS3 pointer to interception endpoint declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "Enforcement_Interception_Endpoint"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Enforcement_Interception_Endpoint"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -28222,17 +28843,20 @@
           "description": "AS3 pointer to enforcement iRule declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "Enforcement_iRule"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Enforcement_iRule"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -28258,17 +28882,20 @@
           "description": "AS3 pointer to enforcement policy declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "Enforcement_Policy"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Enforcement_Policy"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -28294,17 +28921,20 @@
           "description": "AS3 pointer to enforcement profile diameter endpoint declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "Enforcement_Diameter_Endpoint_Profile"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Enforcement_Diameter_Endpoint_Profile"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -28349,17 +28979,20 @@
           "description": "AS3 pointer to enforcement profile radius aaa declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "Enforcement_Radius_AAA_Profile"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Enforcement_Radius_AAA_Profile"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -28385,17 +29018,20 @@
           "description": "AS3 pointer to enforcement profile declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "Enforcement_Profile"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Enforcement_Profile"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -28440,17 +29076,20 @@
           "description": "AS3 pointer to service chain endpoint declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "Enforcement_Service_Chain_Endpoint"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Enforcement_Service_Chain_Endpoint"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -28476,17 +29115,20 @@
           "description": "AS3 pointer to enforcement subscriber management profile declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "Enforcement_Subscriber_Management_Profile"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Enforcement_Subscriber_Management_Profile"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -28569,17 +29211,20 @@
           "description": "AS3 pointer to firewall address list declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "Firewall_Address_List"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Firewall_Address_List"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -28605,17 +29250,20 @@
           "description": "AS3 pointer to firewall (AFM) policy declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "Firewall_Policy"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Firewall_Policy"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -28641,17 +29289,20 @@
           "description": "AS3 pointer to firewall rule list declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "Firewall_Rule_List"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Firewall_Rule_List"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -28696,17 +29347,20 @@
           "description": "AS3 pointer to FTP protocol profile declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "FTP_Profile"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "FTP_Profile"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -28732,17 +29386,20 @@
           "description": "AS3 pointer to GSLB data center declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "GSLB_Data_Center"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "GSLB_Data_Center"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -28768,17 +29425,20 @@
           "description": "AS3 pointer to GSLB domain declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "GSLB_Domain"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "GSLB_Domain"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -28804,17 +29464,20 @@
           "description": "AS3 pointer to GSLB domain declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "GSLB_Domain"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "GSLB_Domain"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -28840,17 +29503,20 @@
           "description": "AS3 pointer to GSLB domain declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "GSLB_Domain"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "GSLB_Domain"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -28876,17 +29542,20 @@
           "description": "AS3 pointer to GSLB domain declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "GSLB_Domain"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "GSLB_Domain"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -28912,17 +29581,20 @@
           "description": "AS3 pointer to GSLB monitor declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "GSLB_Monitor"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "GSLB_Monitor"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -29044,17 +29716,20 @@
           "description": "AS3 pointer to GSLB pool declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "GSLB_Pool"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "GSLB_Pool"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -29089,17 +29764,20 @@
           "description": "AS3 pointer to GSLB pool declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "GSLB_Prober_Pool"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "GSLB_Prober_Pool"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -29125,17 +29803,20 @@
           "description": "AS3 pointer to GSLB server declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "GSLB_Server"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "GSLB_Server"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -29161,17 +29842,20 @@
           "description": "AS3 pointer to GSLB server device declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "GSLB_Server_Device"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "GSLB_Server_Device"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -29197,17 +29881,20 @@
           "description": "AS3 pointer to GSLB Topology Region declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "GSLB_Topology_Region"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "GSLB_Topology_Region"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -29233,17 +29920,20 @@
           "description": "AS3 pointer to GSLB virtual server declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "GSLB_Virtual_Server"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "GSLB_Virtual_Server"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         }
       },
@@ -29259,17 +29949,20 @@
           "description": "AS3 pointer to HTML_Profile declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "HTML_Profile"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "HTML_Profile"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -29295,17 +29988,20 @@
           "description": "AS3 pointer to HTML_Rule declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "HTML_Rule"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "HTML_Rule"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -29349,17 +30045,20 @@
           "description": "AS3 pointer to HTTP/2 Profile declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "HTTP2_Profile"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "HTTP2_Profile"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -29385,17 +30084,20 @@
           "description": "AS3 pointer to HTTP Acceleration Profile declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "HTTP_Acceleration_Profile"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "HTTP_Acceleration_Profile"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -29478,17 +30180,20 @@
           "description": "AS3 pointer to NAT Source Translation declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "NAT_Source_Translation"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "NAT_Source_Translation"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -29514,17 +30219,20 @@
           "description": "AS3 pointer to net address list declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "Net_Address_List"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Net_Address_List"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -29550,17 +30258,20 @@
           "description": "AS3 pointer to Persist Profile declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "Persist"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Persist"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -29629,17 +30340,20 @@
           "description": "AS3 pointer to Access Profile declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "Access_Profile"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Access_Profile"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -29665,17 +30379,20 @@
           "description": "AS3 pointer to Per Request Access Policy declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "Per_Request_Access_Policy"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Per_Request_Access_Policy"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -29720,17 +30437,20 @@
           "description": "AS3 pointer to ipother profile declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "IP_Other_Profile"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "IP_Other_Profile"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -29756,17 +30476,20 @@
           "description": "AS3 pointer to fast L4 profile declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "L4_Profile"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "L4_Profile"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -29792,17 +30515,20 @@
           "description": "AS3 pointer to log destination declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "Log_Destination"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Log_Destination"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -29852,17 +30578,20 @@
           "description": "AS3 pointer to log publisher declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "Log_Publisher"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Log_Publisher"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -29888,17 +30617,20 @@
           "description": "AS3 pointer to radius profile declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "Radius_Profile"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Radius_Profile"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -29924,17 +30656,20 @@
           "description": "AS3 pointer to persistence profile declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "Persist"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Persist"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -29960,17 +30695,20 @@
           "description": "AS3 pointer to pool declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "Pool"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Pool"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -29996,17 +30734,20 @@
           "description": "AS3 pointer to Analytics_Profile declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "Analytics_Profile"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Analytics_Profile"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -30032,17 +30773,20 @@
           "description": "AS3 pointer to Analytics_TCP_Profile declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "Analytics_TCP_Profile"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Analytics_TCP_Profile"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -30068,17 +30812,20 @@
           "description": "AS3 pointer to FIX profile declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "FIX_Profile"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "FIX_Profile"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -30104,17 +30851,20 @@
           "description": "AS3 pointer to ICAP Profile declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "ICAP_Profile"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "ICAP_Profile"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -30140,17 +30890,20 @@
           "description": "AS3 pointer to Multiplex profile declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "Multiplex_Profile"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Multiplex_Profile"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -30214,17 +30967,20 @@
           "description": "AS3 pointer to Rewrite Profile declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "Rewrite_Profile"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Rewrite_Profile"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -30250,17 +31006,20 @@
           "description": "AS3 pointer to Protocol Inspection Profile declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "Protocol_Inspection_Profile"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Protocol_Inspection_Profile"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -30286,17 +31045,20 @@
           "description": "AS3 pointer to TCP profile declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "TCP_Profile"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "TCP_Profile"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -30322,17 +31084,20 @@
           "description": "AS3 pointer to TLS Client declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "TLS_Client"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "TLS_Client"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -30358,17 +31123,20 @@
           "description": "AS3 pointer to Request Adapt Profile declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "Adapt_Profile"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Adapt_Profile"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -30394,17 +31162,20 @@
           "description": "AS3 pointer to Response Adapt Profile declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "Adapt_Profile"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Adapt_Profile"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -30468,17 +31239,20 @@
           "description": "AS3 pointer to snat pool declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "SNAT_Pool"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "SNAT_Pool"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -30504,17 +31278,20 @@
           "description": "AS3 pointer to Security Log Profile declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "Security_Log_Profile"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Security_Log_Profile"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -30540,23 +31317,26 @@
           "description": "AS3 pointer to service declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "Service_Forwarding",
-                  "Service_HTTPS",
-                  "Service_HTTP",
-                  "Service_TCP",
-                  "Service_UDP",
-                  "Service_L4",
-                  "Service_Generic"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Service_Forwarding",
+                    "Service_HTTPS",
+                    "Service_HTTP",
+                    "Service_TCP",
+                    "Service_UDP",
+                    "Service_L4",
+                    "Service_Generic"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -30582,17 +31362,20 @@
           "description": "AS3 pointer to SSL certificate declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "Certificate"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Certificate"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -30637,17 +31420,20 @@
           "description": "AS3 pointer to stream profile declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "Stream_Profile"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Stream_Profile"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -30692,17 +31478,20 @@
           "description": "AS3 pointer to traffic log profile declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "Traffic_Log_Profile"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Traffic_Log_Profile"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -30795,17 +31584,20 @@
           "description": "AS3 pointer to Service Address declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "Service_Address"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "Service_Address"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -30831,17 +31623,20 @@
           "description": "AS3 pointer to SSH proxy profile declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "SSH_Proxy_Profile"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "SSH_Proxy_Profile"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -30886,17 +31681,20 @@
           "description": "AS3 pointer to UDP profile declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "UDP_Profile"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "UDP_Profile"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {
@@ -30960,17 +31758,20 @@
           "description": "AS3 pointer to WAF policy declaration",
           "type": "string",
           "minLength": 1,
-          "f5pointsTo": {
-            "properties": {
-              "class": {
-                "enum": [
-                  "WAF_Policy"
-                ]
-              }
-            },
-            "required": [
-              "class"
-            ]
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "WAF_Policy"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
           }
         },
         "bigip": {

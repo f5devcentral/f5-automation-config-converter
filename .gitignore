@@ -4,6 +4,7 @@
 api-bundle.js
 bundle.js
 coverage
+dependencies
 docs/_build
 docs/_static/apidocs.html
 node_modules

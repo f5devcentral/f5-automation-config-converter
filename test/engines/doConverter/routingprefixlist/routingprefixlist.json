@@ -10,13 +10,13 @@
                 {
                     "name": 10,
                     "action": "permit",
-                    "prefix": "1111:2222::/127",
+                    "prefix": "2001:db8:2222::/127",
                     "prefixLengthRange": "128"
                 },
                 {
                     "name": 15,
                     "action": "deny",
-                    "prefix": "f5f5:f5f5::/64",
+                    "prefix": "2001:db8:f5f5::/64",
                     "prefixLengthRange": "80:0"
                 }
             ]

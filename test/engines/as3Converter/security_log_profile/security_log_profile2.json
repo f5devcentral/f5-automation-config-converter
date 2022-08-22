@@ -50,7 +50,7 @@
                     "reportAnomaliesEnabled": true,
                     "servers": [
                         {
-                            "address": "9.8.7.6",
+                            "address": "10.8.7.6",
                             "port": "9876"
                         }
                     ]

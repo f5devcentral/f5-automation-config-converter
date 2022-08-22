@@ -22,74 +22,72 @@ const util = require('../util/util');
 const DEVICE_TYPES = require('../constants').DEVICE_TYPES;
 const SecretTag = require('./secretTag');
 
-class LongSecretTag {
-    /**
-     * Process long secret data that was tagged by the f5PostProcess keyword during AJV validation.
-     * Encrypt secret that is too long to be handled by f5PostProcess(secret).
-     * Hopefully we can convert f5PostProcess(secret) and cloudLibsEncrypt to this
-     * someday but it only runs locally (as does f5PostProcess(secret)).
-     *
-     * @param {Object} context - The current context object
-     * @param {Object} declaration - The current declaration that was validated by AJV
-     * @param {Object[]} [longSecrets] - The array of long secrets that will be processed
-     * @param {*} longSecrets[].data - The long secret data from the declaration
-     * @param {*} longSecrets[].parentData - The long secret's parent data from the declaration
-     * @param {string} longSecrets[].instancePath - The json pointer that was used to fetch the data
-     * @param {string} longSecrets[].parentDataProperty - The parent's property name that contains the data
-     * @returns {Promise} - Promise resolves when all data is processed
-     */
-    static process(context, declaration, longSecrets) {
-        if (!longSecrets) {
-            return Promise.resolve();
-        }
+const TAG = 'longSecret';
 
-        if (typeof declaration.scratch !== 'undefined') {
-            // don't want to encrypt secrets right now
-            return Promise.resolve();
-        }
-
-        const promises = longSecrets.map((s) => {
-            if (isAlreadyEncrypted(s.data, s.instancePath)) {
-                return Promise.resolve();
-            }
-
-            if (util.getDeepValue(context, 'target.deviceType') === DEVICE_TYPES.BIG_IQ) {
-                if (typeof s.data === 'string') {
-                    if (s.data.length > 2000) {
-                        return Promise.resolve();
-                    }
-
-                    s.parentData[s.parentDataProperty] = {
-                        ciphertext: util.base64Encode(s.data),
-                        protected: 'eyJhbGciOiJkaXIiLCJlbmMiOiJub25lIn0',
-                        miniJWE: true,
-                        ignoreChanges: false
-                    };
-                    s.data = s.parentData[s.parentDataProperty];
-                    return SecretTag.process(context, declaration, [s]);
-                }
-                const errMsg = 'BIG-IQ received the following already encrypted data, instead'
-                    + ` of a string: ${JSON.stringify(s.data)}`;
-                return Promise.reject(new Error(errMsg));
-            }
-
-            if (typeof s.data !== 'string') {
-                s.data = util.base64Decode(s.data.ciphertext).toString();
-            }
-
-            return encryptLongSecret(context, {
-                parent: s.parentData,
-                key: s.parentDataProperty,
-                secret: s.data
-            });
-        });
-
-        return Promise.all(promises)
-            .then(() => Promise.resolve());
+/**
+ * Process long secret data that was tagged by the f5PostProcess keyword during AJV validation.
+ * Encrypt secret that is too long to be handled by f5PostProcess(secret).
+ * Hopefully we can convert f5PostProcess(secret) and cloudLibsEncrypt to this
+ * someday but it only runs locally (as does f5PostProcess(secret)).
+ *
+ * @param {Object} context - The current context object
+ * @param {Object} declaration - The current declaration that was validated by AJV
+ * @param {Object[]} [longSecrets] - The array of long secrets that will be processed
+ * @param {*} longSecrets[].data - The long secret data from the declaration
+ * @param {*} longSecrets[].parentData - The long secret's parent data from the declaration
+ * @param {string} longSecrets[].instancePath - The json pointer that was used to fetch the data
+ * @param {string} longSecrets[].parentDataProperty - The parent's property name that contains the data
+ * @returns {Promise} - Promise resolves when all data is processed
+ */
+function process(context, declaration, longSecrets) {
+    if (!longSecrets) {
+        return Promise.resolve();
     }
-}
 
-LongSecretTag.TAG = 'longSecret';
+    if (typeof declaration.scratch !== 'undefined') {
+        // don't want to encrypt secrets right now
+        return Promise.resolve();
+    }
+
+    const promises = longSecrets.map((s) => {
+        if (isAlreadyEncrypted(s.data, s.instancePath)) {
+            return Promise.resolve();
+        }
+
+        if (util.getDeepValue(context, 'target.deviceType') === DEVICE_TYPES.BIG_IQ) {
+            if (typeof s.data === 'string') {
+                if (s.data.length > 2000) {
+                    return Promise.resolve();
+                }
+
+                s.parentData[s.parentDataProperty] = {
+                    ciphertext: util.base64Encode(s.data),
+                    protected: 'eyJhbGciOiJkaXIiLCJlbmMiOiJub25lIn0',
+                    miniJWE: true,
+                    ignoreChanges: false
+                };
+                s.data = s.parentData[s.parentDataProperty];
+                return SecretTag.process(context, declaration, [s]);
+            }
+            const errMsg = 'BIG-IQ received the following already encrypted data, instead'
+                + ` of a string: ${JSON.stringify(s.data)}`;
+            return Promise.reject(new Error(errMsg));
+        }
+
+        if (typeof s.data !== 'string') {
+            s.data = util.base64Decode(s.data.ciphertext).toString();
+        }
+
+        return encryptLongSecret(context, {
+            parent: s.parentData,
+            key: s.parentDataProperty,
+            secret: s.data
+        });
+    });
+
+    return Promise.all(promises)
+        .then(() => Promise.resolve());
+}
 
 function isAlreadyEncrypted(data, dataPath) {
     let JOSE = { enc: 'none' };
@@ -123,4 +121,7 @@ function encryptLongSecret(context, data) {
         });
 }
 
-module.exports = LongSecretTag;
+module.exports = {
+    process,
+    TAG
+};

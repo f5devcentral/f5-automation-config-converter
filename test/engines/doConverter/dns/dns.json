@@ -7,7 +7,7 @@
         "DNS": {
             "class": "DNS",
             "nameServers": [
-                "8.8.8.8"
+                "10.8.8.8"
             ]
         }
     }

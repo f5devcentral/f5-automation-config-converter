@@ -35,8 +35,8 @@
                         "addressDiscovery": "static",
                         "servicePort": 80,
                         "serverAddresses": [
-                            "192.0.1.170",
-                            "192.0.1.171"
+                            "192.168.1.170",
+                            "192.168.1.171"
                         ],
                         "shareNodes": true
                     }

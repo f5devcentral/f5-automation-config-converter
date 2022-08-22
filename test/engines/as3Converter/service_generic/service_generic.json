@@ -13,9 +13,9 @@
             "serviceMain": {
                 "class": "Service_Generic",
                 "virtualAddresses": [
-                    "198.19.192.19",
-                    "198.19.192.20",
-                    "198.19.192.21"
+                    "192.168.192.19",
+                    "192.168.192.20",
+                    "192.168.192.21"
                 ],
                 "virtualPort": 80,
                 "pool": "poolRoundRobin"
@@ -32,9 +32,9 @@
                         "addressDiscovery": "static",
                         "servicePort": 80,
                         "serverAddresses": [
-                            "198.19.192.58",
-                            "198.19.192.59",
-                            "198.19.192.60"
+                            "192.168.192.58",
+                            "192.168.192.59",
+                            "192.168.192.60"
                         ],
                         "shareNodes": true
                     }

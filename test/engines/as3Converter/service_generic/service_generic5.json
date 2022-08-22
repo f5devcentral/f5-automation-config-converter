@@ -13,7 +13,7 @@
                 "class": "Service_Generic",
                 "virtualPort": 200,
                 "virtualAddresses": [
-                    "21.21.21.21"
+                    "10.21.21.21"
                 ],
                 "layer4": "tcp",
                 "profileIPOther": {

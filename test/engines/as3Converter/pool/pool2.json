@@ -22,7 +22,7 @@
                         "addressDiscovery": "static",
                         "servicePort": 1,
                         "serverAddresses": [
-                            "1.1.1.1"
+                            "10.1.1.1"
                         ],
                         "shareNodes": true
                     },
@@ -30,10 +30,10 @@
                         "addressDiscovery": "static",
                         "servicePort": 80,
                         "serverAddresses": [
-                            "198.19.192.72",
-                            "198.19.192.73",
-                            "198.19.192.74",
-                            "198.19.192.75"
+                            "192.168.192.72",
+                            "192.168.192.73",
+                            "192.168.192.74",
+                            "192.168.192.75"
                         ],
                         "shareNodes": true
                     }

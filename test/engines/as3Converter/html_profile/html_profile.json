@@ -25,7 +25,7 @@
                     "use": "/AS3_Tenant/AS3_Application/testHtmlProfile"
                 },
                 "virtualAddresses": [
-                    "21.21.21.21"
+                    "10.21.21.21"
                 ],
                 "virtualPort": 200,
                 "persistenceMethods": [],

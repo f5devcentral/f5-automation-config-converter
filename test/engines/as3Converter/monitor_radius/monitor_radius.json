@@ -11,7 +11,7 @@
           "template": "generic",
           "testItem_1": {
               "interval": 10,
-              "nasIpAddress": "198.19.192.20",
+              "nasIpAddress": "192.168.192.20",
               "passphrase": {
                   "ciphertext": "JE0kYTMkQWFKVmhFb2NERmpCZm92bUFQcDJTdz09",
                   "protected": "eyJhbGciOiJkaXIiLCJlbmMiOiJmNXN2In0=",
@@ -28,7 +28,7 @@
               "username": "Adm-nM+nkey",
               "class": "Monitor",
               "monitorType": "radius",
-              "targetAddress": "198.19.192.17",
+              "targetAddress": "192.168.192.17",
               "targetPort": 1812
           },
           "testItem_2": {

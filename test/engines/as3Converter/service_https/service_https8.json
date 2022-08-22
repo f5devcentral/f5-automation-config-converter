@@ -32,7 +32,7 @@
                 },
                 "redirect80": false,
                 "virtualAddresses": [
-                    "11.12.77.11"
+                    "10.12.77.11"
                 ],
                 "virtualPort": 443,
                 "snat": "none"
@@ -60,7 +60,7 @@
                 },
                 "redirect80": false,
                 "virtualAddresses": [
-                    "11.12.77.12"
+                    "10.12.77.12"
                 ],
                 "virtualPort": 443,
                 "snat": "none"
@@ -88,7 +88,7 @@
                 },
                 "redirect80": false,
                 "virtualAddresses": [
-                    "11.12.77.13"
+                    "10.12.77.13"
                 ],
                 "virtualPort": 443,
                 "snat": "none"
@@ -116,7 +116,7 @@
                 },
                 "redirect80": false,
                 "virtualAddresses": [
-                    "11.12.77.14"
+                    "10.12.77.14"
                 ],
                 "virtualPort": 443,
                 "snat": "none"
@@ -144,7 +144,7 @@
                 },
                 "redirect80": false,
                 "virtualAddresses": [
-                    "11.12.77.15"
+                    "10.12.77.15"
                 ],
                 "virtualPort": 443,
                 "snat": "none"
@@ -172,7 +172,7 @@
                 },
                 "redirect80": false,
                 "virtualAddresses": [
-                    "11.12.77.16"
+                    "10.12.77.16"
                 ],
                 "virtualPort": 443,
                 "snat": "none"
@@ -200,7 +200,7 @@
                 },
                 "redirect80": false,
                 "virtualAddresses": [
-                    "11.12.77.17"
+                    "10.12.77.17"
                 ],
                 "virtualPort": 443,
                 "snat": "none"
@@ -224,7 +224,7 @@
                     "bigip": "/Common/tcp"
                 },
                 "virtualAddresses": [
-                    "11.12.77.18"
+                    "10.12.77.18"
                 ],
                 "virtualPort": 443,
                 "snat": "none"

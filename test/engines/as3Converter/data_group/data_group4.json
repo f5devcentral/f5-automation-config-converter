@@ -22,7 +22,7 @@
             "address_datagroup": {
                 "records": [
                     {
-                        "key": "2.2.2.2/32",
+                        "key": "10.2.2.2/32",
                         "value": "address some data with special !@#${}[]12345"
                     }
                 ],

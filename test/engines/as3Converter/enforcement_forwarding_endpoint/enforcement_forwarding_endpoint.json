@@ -38,7 +38,7 @@
             "snatPool": {
                 "class": "SNAT_Pool",
                 "snatAddresses": [
-                    "4.3.2.1"
+                    "10.3.2.1"
                 ]
             }
         }

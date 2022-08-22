@@ -1,9 +1,9 @@
 
 AS3 classes:
 
-91 total AS3 classes
-ACC support for 84
-~92.3% coverage
+93 total AS3 classes
+ACC support for 88
+~94.6% coverage
 
 
 Access_Profile
@@ -38,7 +38,7 @@ Address_Discovery
 # Enforcement_Radius_AAA_Profile
 # Enforcement_Service_Chain_Endpoint
 # Enforcement_Subscriber_Management_Profile
-Enforcement_iRule
+# Enforcement_iRule
 # FIX_Profile
 # FTP_Profile
 # Firewall_Address_List
@@ -47,6 +47,7 @@ Enforcement_iRule
 # Firewall_Rule_List
 # GSLB_Data_Center
 # GSLB_Domain
+# GSLB_iRule
 # GSLB_Monitor
 # GSLB_Pool
 # GSLB_Prober_Pool
@@ -69,6 +70,7 @@ Enforcement_iRule
 # Multiplex_Profile
 # NAT_Policy
 # NAT_Source_Translation
+# Net_Address_List
 Per_Request_Access_Policy
 # Persist
 # Pool
@@ -85,7 +87,7 @@ Per_Request_Access_Policy
 # Service_HTTP
 # Service_HTTPS
 # Service_L4
-Service_SCTP
+# Service_SCTP
 # Service_TCP
 # Service_UDP
 # Stream_Profile

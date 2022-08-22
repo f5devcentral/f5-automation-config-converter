@@ -298,13 +298,13 @@ function getAs3Object(path, src, origin, root, patch, dest, destPpty, fetch, val
     return target; // success
 } // getAs3Object()
 
-const extractPkcs12 = function (value, dest, that) {
+const extractPkcs12 = function (context, value, dest) {
     const pkcs12String = typeof value === 'string' ? value : value.toString('base64');
     return Promise.resolve()
         .then(() => {
             // if this is on a get, don't extract, the orig passphrases will have been replaced
             // problematic when ?show=full or ?show=expanded
-            if (that.context.tasks[that.context.currentIndex].action === 'retrieve') {
+            if (context.tasks[context.currentIndex].action === 'retrieve') {
                 return Promise.resolve();
             }
 
@@ -315,7 +315,7 @@ const extractPkcs12 = function (value, dest, that) {
                     }
 
                     const encryptedPwd = util.fromBase64(dest.passphrase.ciphertext).toString();
-                    return cloudLibUtils.decryptFromRemote(that.context, encryptedPwd);
+                    return cloudLibUtils.decryptFromRemote(context, encryptedPwd);
                 })
                 .then((plainPwd) => {
                     // if you use openssl press enter on pwd prompt without specifying a value,

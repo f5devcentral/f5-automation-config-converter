@@ -16,7 +16,7 @@
 
 'use strict';
 
-// input: 'ltm node /Web/1.1.1.1'
+// input: 'ltm node /Web/10.1.1.1'
 // output: 'ltm node'
 
 module.exports = (val) => {

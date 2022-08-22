@@ -48,8 +48,7 @@ describe('Firewall_Rule_List: security firewall rule-list', () => {
         const data = await readFiles(['./test/engines/as3Converter/firewall_rule_list/firewall_rule_list_autogen.conf']);
         const parsed = parse(data);
         json = as3Converter(parsed).declaration;
-        // don't compare.  contains randomly named objects.
-        // just make sure no errors thrown and then pass on to nightly test.
+        // don't compare. contains randomly named objects.
     });
 
     it('ex2 validation', () => validator(json)

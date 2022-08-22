@@ -28,11 +28,7 @@ const components = require('./adcParserComponents');
 const PostProcessor = require('./postProcessor');
 const PostValidator = require('./postValidator');
 const Config = require('./config');
-
-const fetches = require('./adcParserFetch');
-const checks = require('./adcParserCheckResource');
 const certUtil = require('./util/certUtil');
-
 const DEVICE_TYPES = require('./constants').DEVICE_TYPES;
 
 class As3Parser {
@@ -45,7 +41,7 @@ class As3Parser {
         this.accessProfileList = [];
         this.validator = undefined;
         this.options = {};
-        this.postProcess = {};
+        this.postProcess = [];
     }
 
     /**
@@ -189,7 +185,6 @@ class As3Parser {
         this.options = Object.assign(this.options, defaultOpts, options);
         this.components = [];
         this.fetches = [];
-        this.checks = [];
 
         if (typeof this.validator === 'undefined') {
             // someone didn't call loadSchema() or didn't notice it failed
@@ -348,7 +343,7 @@ function as3Digest(declaration) {
         getAccessProfileList = util.getAccessProfileList(this.context);
     }
 
-    this.postProcess = {};
+    this.postProcess = [];
 
     const results = {};
 
@@ -375,9 +370,7 @@ function as3Digest(declaration) {
             if (this.deviceType === DEVICE_TYPES.BIG_IQ) {
                 return Promise.resolve();
             }
-            return fetches.handleFetch(this, this.fetches)
-                .then(() => components.handleComponents(this.context, this.components))
-                .then(() => checks.handleCheckResource(this.context, this.checks));
+            return components.handleComponents(this.context, this.components);
         })
         .then(() => results)
         .catch((e) => {

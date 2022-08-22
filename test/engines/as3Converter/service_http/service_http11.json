@@ -11,7 +11,7 @@
                 "class": "Service_HTTP",
                 "virtualPort": 8080,
                 "virtualAddresses": [
-                    "1.2.3.4"
+                    "10.2.3.4"
                 ],
                 "profileBotDefense": {
                     "bigip": "/Common/bot-defense"

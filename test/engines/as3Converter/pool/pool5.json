@@ -19,8 +19,8 @@
                         "addressDiscovery": "static",
                         "servicePort": 0,
                         "serverAddresses": [
-                            "198.19.192.80",
-                            "fdf5:4153:3300::15"
+                            "192.168.192.80",
+                            "2001:db8:3300::15"
                         ],
                         "shareNodes": true
                     },
@@ -28,8 +28,8 @@
                         "addressDiscovery": "static",
                         "servicePort": 65535,
                         "serverAddresses": [
-                            "198.19.192.81",
-                            "fdf5:4153:3300::16"
+                            "192.168.192.81",
+                            "2001:db8:3300::16"
                         ],
                         "shareNodes": true
                     }

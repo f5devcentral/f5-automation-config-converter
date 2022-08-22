@@ -56,14 +56,14 @@
             "addList": {
                 "class": "Firewall_Address_List",
                 "addresses": [
-                    "50.50.50.50"
+                    "10.50.50.50"
                 ]
             },
             "sourceTrans": {
                 "class": "NAT_Source_Translation",
                 "type": "dynamic-pat",
                 "addresses": [
-                    "40.40.40.40"
+                    "10.40.40.40"
                 ],
                 "ports": [
                     "234"

@@ -16,12 +16,12 @@
                 },
                 "devices": [
                     {
-                        "address": "1.2.3.7"
+                        "address": "10.2.3.7"
                     }
                 ],
                 "virtualServers": [
                     {
-                        "address": "1.2.3.8",
+                        "address": "10.2.3.8",
                         "port": 5050
                     },
                     {

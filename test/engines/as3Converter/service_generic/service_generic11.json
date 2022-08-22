@@ -23,7 +23,7 @@
                     "bigip": "/Common/f5-tcp-progressive"
                 },
                 "virtualAddresses": [
-                    "11.12.13.14"
+                    "10.12.13.14"
                 ],
                 "virtualPort": 101,
                 "snat": "auto"
@@ -42,7 +42,7 @@
                     "bigip": "/Common/f5-tcp-progressive"
                 },
                 "virtualAddresses": [
-                    "11.12.13.14"
+                    "10.12.13.14"
                 ],
                 "virtualPort": 102,
                 "snat": "auto"
@@ -60,7 +60,7 @@
                     "bigip": "/Common/f5-tcp-progressive"
                 },
                 "virtualAddresses": [
-                    "11.12.13.14"
+                    "10.12.13.14"
                 ],
                 "virtualPort": 103,
                 "snat": "auto"

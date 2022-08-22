@@ -46,7 +46,7 @@ The information returned in a telemetry record can be divided into three categor
     "Traffic_Log_Profile": 1,
     "platformId": "Z100",
     "platform": "BIG-IP",
-    "platformVersion": "15.1.3.1",
+    "platformVersion": "15.1.3",
     "registrationKey": "<registration_key>",
     "arguments": [
         "-o",

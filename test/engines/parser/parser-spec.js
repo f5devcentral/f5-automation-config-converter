@@ -94,7 +94,7 @@ describe('Parse the config (parse.js)', () => {
         assert.deepStrictEqual(ex9, json);
     });
 
-    it('should skip cli script section', async () => {
+    it('should skip "cli script" and "sys crypto cert-order-manager" sections', async () => {
         const data = await readFiles(['./test/engines/parser/ex10.conf']);
         const json = parse(data);
         assert.deepStrictEqual(ex10, json);

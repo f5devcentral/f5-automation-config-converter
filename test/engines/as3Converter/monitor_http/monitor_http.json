@@ -18,7 +18,7 @@
                 "reverse": true,
                 "username": "testUser",
                 "transparent": true,
-                "targetAddress": "100.0.0.100",
+                "targetAddress": "10.0.0.100",
                 "targetPort": 8080,
                 "dscp": 5
             },

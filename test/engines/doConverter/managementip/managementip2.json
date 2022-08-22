@@ -6,7 +6,7 @@
         "class": "Tenant",
         "ManagementIp_IPv6": {
             "class": "ManagementIp",
-            "address": "2003::77/64",
+            "address": "2001:db8::77/64",
             "remark": "configured-by-dhcp"
         }
     }

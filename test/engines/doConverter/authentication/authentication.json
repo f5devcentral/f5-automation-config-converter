@@ -25,8 +25,8 @@
                 "searchTimeout": 687,
                 "servers": [
                     "my.host.test",
-                    "1.2.3.4",
-                    "FE80:0000:0000:0000:0202:B3FF:FE1E:8329"
+                    "10.2.3.4",
+                    "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
                 ],
                 "sslCheckPeer": true,
                 "sslCiphers": [
@@ -42,7 +42,7 @@
                     "primary": {
                         "port": "1811",
                         "secret": "",
-                        "server": "1.2.3.4"
+                        "server": "10.2.3.4"
                     },
                     "secondary": {
                         "port": "1888",
@@ -64,8 +64,8 @@
                 "secret": "",
                 "servers": [
                     "my.host.test",
-                    "1.2.3.4",
-                    "FE80:0000:0000:0000:0202:B3FF:FE1E:8329"
+                    "10.2.3.4",
+                    "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff"
                 ],
                 "service": "ppp"
             }

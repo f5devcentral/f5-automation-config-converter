@@ -7,6 +7,7 @@
         "user": "/Common/admin"
     },
     "cli script /Common/__appsvcs_update": {},
+    "sys crypto cert-order-manager /Common/www.test.com-cert-order": {},
     "sys software update": {
         "auto-check": "enabled",
         "auto-phonehome": "enabled",

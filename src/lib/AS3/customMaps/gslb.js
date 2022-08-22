@@ -183,6 +183,20 @@ module.exports = {
         }
     },
 
+    // GSLB_iRule; the same as iRule
+    'gtm rule': {
+        class: 'GSLB_iRule',
+
+        customHandling: (rootObj, loc, file) => {
+            const newObj = {};
+            let irule = file[loc.original];
+            irule = irule.replace(/\/Common/g, '/Common/Shared');
+            rootObj.iRule = { base64: Buffer.from(irule).toString('base64') };
+            newObj[loc.profile] = rootObj;
+            return newObj;
+        }
+    },
+
     // GSLB_Server
     'gtm server': {
         class: 'GSLB_Server',
@@ -365,7 +379,9 @@ module.exports = {
         class: 'GSLB_Domain',
 
         keyValueRemaps: {
-            aliases: (key, val) => ({ aliases: Object.keys(val).map((x) => x.replace(/\\/g, '')) })
+            aliases: (key, val) => ({ aliases: Object.keys(val).map((x) => x.replace(/\\/g, '')) }),
+
+            iRules: (key, val) => ({ iRules: Object.keys(val) })
         },
 
         customHandling: (rootObj, loc) => {
@@ -393,7 +409,9 @@ module.exports = {
         class: 'GSLB_Domain',
 
         keyValueRemaps: {
-            aliases: (key, val) => ({ aliases: Object.keys(val).map((x) => x.replace(/\\/g, '')) })
+            aliases: (key, val) => ({ aliases: Object.keys(val).map((x) => x.replace(/\\/g, '')) }),
+
+            iRules: (key, val) => ({ iRules: Object.keys(val) })
         },
 
         customHandling: (rootObj, loc) => {
@@ -421,7 +439,9 @@ module.exports = {
         class: 'GSLB_Domain',
 
         keyValueRemaps: {
-            aliases: (key, val) => ({ aliases: Object.keys(val).map((x) => x.replace(/\\/g, '')) })
+            aliases: (key, val) => ({ aliases: Object.keys(val).map((x) => x.replace(/\\/g, '')) }),
+
+            iRules: (key, val) => ({ iRules: Object.keys(val) })
         },
 
         customHandling: (rootObj, loc) => {
@@ -449,7 +469,9 @@ module.exports = {
         class: 'GSLB_Domain',
 
         keyValueRemaps: {
-            aliases: (key, val) => ({ aliases: Object.keys(val).map((x) => x.replace(/\\/g, '')) })
+            aliases: (key, val) => ({ aliases: Object.keys(val).map((x) => x.replace(/\\/g, '')) }),
+
+            iRules: (key, val) => ({ iRules: Object.keys(val) })
         },
 
         customHandling: (rootObj, loc) => {

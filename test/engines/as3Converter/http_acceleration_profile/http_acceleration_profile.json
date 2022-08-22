@@ -40,8 +40,8 @@
                     "www.uri.test"
                 ],
                 "uriIncludeOverrideList": [
-                    "1.1.2.2",
-                    "2.2.3.3"
+                    "10.1.2.2",
+                    "10.2.3.3"
                 ],
                 "uriPinnedList": [
                     "///"

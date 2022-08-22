@@ -77,6 +77,7 @@ module.exports = (objName, file) => {
         '/Common/request-log': 'request-log',
         '/Common/response-adapt': 'response-adapt',
         '/Common/rewrite': 'rewrite',
+        '/Common/sctp': 'sctp',
         '/Common/security-fastL4': 'fastl4',
         '/Common/splitsession-default-tcp': 'tcp',
         '/Common/spm': 'spm',

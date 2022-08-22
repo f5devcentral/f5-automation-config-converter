@@ -28,6 +28,7 @@ As a rule of thumb, ACC provides best-effort support for all AS3 classes EXCEPT 
 * Enforcement_Format_Script
 * Enforcement_Forwarding_Endpoint
 * Enforcement_Interception_Endpoint
+* Enforcement_iRule
 * Enforcement_Listener
 * Enforcement_Policy
 * Enforcement_Profile
@@ -42,10 +43,12 @@ As a rule of thumb, ACC provides best-effort support for all AS3 classes EXCEPT 
 * Firewall_Policy
 * NAT_Policy
 * NAT_Source_Translation
+* Net_Address_List
 
 | GSLB:
 * GSLB_Data_Center
 * GSLB_Domain (A, AAAA, CNAME, MX)
+* GSLB_iRule
 * GSLB_Monitor (EXTERNAL, HTTP, HTTPS, ICMP, TCP, UDP)
 * GSLB_Pool (A, AAAA, CNAME, MX)
 * GSLB_Prober_Pool

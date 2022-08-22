@@ -15,8 +15,8 @@
                         "addressDiscovery": "static",
                         "servicePort": 443,
                         "serverAddresses": [
-                            "11.12.13.24",
-                            "11.12.13.25"
+                            "10.12.13.24",
+                            "10.12.13.25"
                         ],
                         "shareNodes": true
                     }

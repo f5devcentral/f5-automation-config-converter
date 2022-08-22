@@ -19,7 +19,7 @@
                         "addressDiscovery": "static",
                         "servicePort": 443,
                         "serverAddresses": [
-                            "198.19.192.118"
+                            "192.168.192.118"
                         ],
                         "minimumMonitors": 1,
                         "monitors": [
@@ -36,7 +36,7 @@
                         "addressDiscovery": "static",
                         "servicePort": 443,
                         "serverAddresses": [
-                            "198.19.192.119"
+                            "192.168.192.119"
                         ],
                         "minimumMonitors": 3,
                         "monitors": [
@@ -59,7 +59,7 @@
                         "addressDiscovery": "static",
                         "servicePort": 443,
                         "serverAddresses": [
-                            "198.19.192.120"
+                            "192.168.192.120"
                         ],
                         "minimumMonitors": 1,
                         "monitors": [

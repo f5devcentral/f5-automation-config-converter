@@ -15,8 +15,8 @@
                         "addressDiscovery": "static",
                         "servicePort": 80,
                         "serverAddresses": [
-                            "192.0.1.10",
-                            "192.0.1.11"
+                            "192.168.1.10",
+                            "192.168.1.11"
                         ],
                         "shareNodes": true
                     }
@@ -26,9 +26,9 @@
             },
             "snat_pool": {
                 "snatAddresses": [
-                    "192.0.1.20",
-                    "192.0.1.21",
-                    "192.0.1.22"
+                    "192.168.1.20",
+                    "192.168.1.21",
+                    "192.168.1.22"
                 ],
                 "class": "SNAT_Pool"
             },
@@ -53,7 +53,7 @@
                     "bigip": "/Common/http"
                 },
                 "virtualAddresses": [
-                    "192.0.2.241"
+                    "192.168.2.241"
                 ],
                 "profileRewrite": {
                     "use": "/AS3_Tenant/AS3_Application/rewriteProfile"

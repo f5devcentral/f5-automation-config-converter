@@ -214,8 +214,8 @@ Enumeration of GTM objects on 16.1.1 as returned by tmsh
 Last updated 2-3-2022
 
 58 enumerated gtm components
-ACC+AS3+DO support for 18 gtm components
-~31.0% coverage
+ACC+AS3+DO support for 19 gtm components
+~32.7% coverage
 
 # gtm datacenter
 gtm distributed-app
@@ -225,7 +225,7 @@ gtm listener-doh-proxy
 gtm listener-doh-server
 # gtm prober-pool
 # gtm region
-gtm rule
+# gtm rule
 # gtm server
 # gtm topology
 
@@ -279,3 +279,114 @@ gtm wideip cname
 # gtm wideip mx
 gtm wideip naptr
 gtm wideip srv
+
+
+
+
+Enumeration of NET objects on 16.1.1 as returned by tmsh
+
+Last updated 7-22-2022
+
+58 enumerated net components
+ACC+AS3+DO support for 17 gtm components
+~29.3% coverage
+
+# net address-list
+net arp
+# net bwc policy
+net bwc priority-group
+net cos map-8021p
+net cos map-dscp
+net cos traffic-priority
+# net dns-resolver
+net ipsec ike-peer
+net ipsec ipsec-policy
+net ipsec manual-security-association
+net ipsec traffic-selector
+net ndp
+net packet-filter
+# net port-list
+net port-mirror
+net rate-shaping class
+net rate-shaping color-policer
+net rate-shaping drop-policy
+net rate-shaping queue
+net rate-shaping shaping-policy
+# net route
+# net route-domain
+net router-advertisement
+
+net routing profile bgp
+# net routing access-list
+# net routing as-path
+net routing bfd
+# net routing bgp
+net routing community-list
+net routing debug
+net routing extcommunity-list
+# net routing prefix-list
+# net routing route-map
+
+# net self
+# net service-policy
+net sfc chain
+net sfc sf
+net stp
+# net timer-policy
+# net trunk
+
+net tunnels etherip
+net tunnels fec
+net tunnels geneve
+net tunnels gre
+net tunnels ipip
+net tunnels ipsec
+net tunnels lw4o6
+net tunnels map
+net tunnels ppp
+net tunnels tcp-forward
+# net tunnels tunnel
+net tunnels v6rd
+net tunnels vxlan
+net tunnels wccp
+
+# net vlan
+net vlan-group
+net wccp
+
+
+
+
+Enumeration of PEM objects on 16.1.2 as returned by tmsh
+
+Last updated 7-22-2022
+
+18 enumerated pem components
+ACC+AS3 support for 11 pem components
+~61.1% coverage
+
+Enumeration of PEM objects
+
+# pem forwarding-endpoint
+# pem interception-endpoint
+# pem irule
+# pem listener
+# pem policy
+# pem service-chain-endpoint
+pem subscriber
+pem subscriber-attribute
+
+# pem profile diameter-endpoint
+# pem profile radius-aaa
+# pem profile spm
+# pem profile subscriber-mgmt
+
+pem protocol diameter-avp
+pem protocol radius-avp
+
+pem protocol profile diameter
+pem protocol profile radius
+
+pem quota-mgmt rating-group
+
+# pem reporting format-script

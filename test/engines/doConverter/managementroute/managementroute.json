@@ -6,8 +6,8 @@
         "class": "Tenant",
         "mgmtRoute": {
             "class": "ManagementRoute",
-            "gw": "1.2.3.4",
-            "network": "4.3.2.1/32",
+            "gw": "10.2.3.4",
+            "network": "10.3.2.1/32",
             "mtu": 1501
         }
     }

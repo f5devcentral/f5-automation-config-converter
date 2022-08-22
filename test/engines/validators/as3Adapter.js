@@ -18,6 +18,8 @@
 
 const AS3Parser = require('../../../autotoolDeps/AS3/src/lib/adcParser');
 const as3Schema = require('../../../autotoolDeps/AS3/src/schema/latest/adc-schema.json');
+const PostProcessor = require('../../../autotoolDeps/AS3/src/lib/postProcessor');
+const util = require('../../../autotoolDeps/AS3/src/lib/util/util');
 
 const parser = new AS3Parser();
 parser.cloudSecrets = [];
@@ -26,8 +28,12 @@ parser.components = [];
 parser.fetches = [];
 parser.secrets = [];
 parser.longSecrets = [];
+parser.virtualAddressList = [];
 parser.context = {
-    host: { sdInstalled: true },
+    host: {
+        sdInstalled: true,
+        parser
+    },
     target: {
         provisionedModules: ['afm', 'apm', 'asm', 'avr', 'em', 'fps', 'gtm', 'pem']
     }
@@ -35,10 +41,25 @@ parser.context = {
 parser.loadSchemas([as3Schema]);
 
 module.exports = (declaration) => {
+    parser.postProcess = [];
     const isValid = parser.validator(declaration);
     parser.validatePathLength(declaration);
-    return Promise.resolve({
-        isValid,
-        errors: !isValid ? parser.validator.errors[0] : []
-    });
+    return Promise.resolve()
+        .then(() => {
+            if (isValid) {
+                return PostProcessor.process.call(
+                    parser, // Functions as 'this' inside PostProcessor
+                    parser.context,
+                    declaration,
+                    util.simpleCopy(declaration),
+                    parser.postProcess,
+                    {
+                        includeList: ['pointer']
+                    }
+                )
+                    .then(() => Promise.resolve({ isValid, errors: [] }))
+                    .catch((err) => Promise.resolve({ isValid: !isValid, errors: [err.message] }));
+            }
+            return Promise.resolve({ isValid, errors: parser.validator.errors[0] });
+        });
 };

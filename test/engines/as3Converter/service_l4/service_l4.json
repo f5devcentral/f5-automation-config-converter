@@ -14,7 +14,7 @@
                 "class": "Service_L4",
                 "virtualPort": 456,
                 "virtualAddresses": [
-                    "198.19.192.130"
+                    "192.168.192.130"
                 ],
                 "profileL4": {
                     "bigip": "/Common/fastL4"
@@ -29,7 +29,7 @@
                 "layer4": "udp",
                 "virtualPort": 456,
                 "virtualAddresses": [
-                    "198.19.192.131"
+                    "192.168.192.131"
                 ],
                 "profileL4": {
                     "bigip": "/Common/fastL4"
@@ -44,7 +44,7 @@
                 "layer4": "any",
                 "virtualPort": 456,
                 "virtualAddresses": [
-                    "198.19.192.132"
+                    "192.168.192.132"
                 ],
                 "profileL4": {
                     "bigip": "/Common/fastL4"
@@ -59,7 +59,7 @@
                 "layer4": "gre",
                 "virtualPort": 456,
                 "virtualAddresses": [
-                    "198.19.192.133"
+                    "192.168.192.133"
                 ],
                 "profileL4": {
                     "bigip": "/Common/fastL4"
@@ -73,7 +73,7 @@
                 "class": "Service_L4",
                 "virtualPort": 456,
                 "virtualAddresses": [
-                    "198.19.192.134"
+                    "192.168.192.134"
                 ],
                 "profileL4": {
                     "bigip": "/Common/apm-forwarding-fastL4"
@@ -87,7 +87,7 @@
                 "class": "Service_L4",
                 "virtualPort": 456,
                 "virtualAddresses": [
-                    "198.19.192.135"
+                    "192.168.192.135"
                 ],
                 "profileL4": {
                     "use": "/AS3_Tenant/testapp6/L4_Profile"
@@ -131,7 +131,7 @@
                 "class": "Service_L4",
                 "virtualPort": 456,
                 "virtualAddresses": [
-                    "198.19.192.136"
+                    "192.168.192.136"
                 ],
                 "profileL4": {
                     "bigip": "/Common/fastL4"
@@ -148,7 +148,7 @@
                 "class": "Service_L4",
                 "virtualPort": 456,
                 "virtualAddresses": [
-                    "198.19.192.137"
+                    "192.168.192.137"
                 ],
                 "profileL4": {
                     "bigip": "/Common/fastL4"

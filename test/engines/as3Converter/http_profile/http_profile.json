@@ -45,7 +45,7 @@
                     "protected": "eyJhbGciOiJkaXIiLCJlbmMiOiJmNXN2In0=",
                     "ignoreChanges": true
                 },
-                "fallbackRedirect": "198.19.192.1",
+                "fallbackRedirect": "192.168.192.1",
                 "fallbackStatusCodes": [
                     500,
                     501,

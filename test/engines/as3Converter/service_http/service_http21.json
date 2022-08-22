@@ -36,7 +36,7 @@
             "template": "shared",
             "serviceAddress": {
                 "arpEnabled": true,
-                "virtualAddress": "123.123.123.123",
+                "virtualAddress": "10.123.123.123",
                 "icmpEcho": "disable",
                 "trafficGroup": "/Common/traffic-group-1",
                 "class": "Service_Address"

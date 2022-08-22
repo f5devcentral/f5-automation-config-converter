@@ -1406,13 +1406,13 @@ class Util {
     }
 
     /**
-     * GTM objects have both enabled and disabled properties
+     * Some objects have both enabled and disabled properties
      * instead of one prop with boolean value
      * @public
      * @param {object} obj - object that contains the enabled/disabled props
      * @returns {boolean} - true if enabled, otherwise false
      */
-    static isEnabledGtmObject(obj) {
+    static isEnabledObject(obj) {
         let isEnabled;
 
         if (typeof obj.enabled === 'boolean') {

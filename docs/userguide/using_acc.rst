@@ -53,7 +53,7 @@ ACC command Line Options
 * **-a** option --application-target <application_target> puts the virtual server to specific application . Works only if the **-v** option is specified. The original VS application is used if this option not specified.
 * **-c** option --conf <path> specifies path to input conf/SCF file.
 * **-d** option --debug logs generated declaration to console.
-* **-e** option --extended shows default values in converted stanzas. 
+* **-e** option --extended shows default values in converted stanzas.
 * **-o** option --output <path> specifies the output file name.  You must specify this as being in the **data** directory (with the Docker **-v** option).  When the output file is written in the container it is written to the **/app/data** directory of the container which maps back to the current directory outside of the container where output.json will actually be written.
 * **-t** option --tenant-target <tenant_target> puts the virtual server to specific tenant. Works only if **-v**  option specified. The original VS tenant is used if this option not specified.
 * **-u** option --ucs <path> specifies a UCS file for the application to read.  For either .conf or SCF files, use the **-c** flag. This must be specified as being in the *data* directory (as specified with the **-v** option).  When the input file is read by the application, it is read from the **/app/data** directory of the container which maps back to the current directory outside of the container where input file is actually read.  This flag is required and you must use only one option of **-u** or **-c**, depending on your input file.
@@ -121,7 +121,7 @@ In this section we show a simple BIG-IP configuration from a UCS file, the comma
 
 The following is the relevant portion of our example UCS file.
 
-TMSH-VERSION: 13.1.0.8
+TMSH-VERSION: 13.1.0
 
 .. code-block:: shell
 
@@ -129,7 +129,7 @@ TMSH-VERSION: 13.1.0.8
         monitor /Common/testACCMonitor
     }
     ltm virtual /Common/testACCVip {
-        destination /Common/192.0.2.14:80
+        destination /Common/192.168.2.14:80
         ip-protocol tcp
         mask 255.255.255.255
         pool /Common/testACCPool
@@ -141,8 +141,8 @@ TMSH-VERSION: 13.1.0.8
         translate-address enabled
         translate-port enabled
     }
-    ltm virtual-address /Common/192.0.2.14 {
-        address 192.0.2.14
+    ltm virtual-address /Common/192.168.2.14 {
+        address 192.168.2.14
         arp enabled
         mask 255.255.255.255
         traffic-group /Common/traffic-group-1
@@ -216,7 +216,7 @@ Once it has run through the converter, the resulting AS3 declaration looks like 
                         "use": "/Common/Shared/testACCHTTP"
                     },
                     "virtualAddresses": [
-                        "192.0.2.14"
+                        "192.168.2.14"
                 ],
                     "virtualPort": 80
                 },
@@ -249,7 +249,7 @@ In this section, we show a simple BIG-IP configuration from a UCS file, the comm
 The following is the relevant portion of our example UCS file, the virtual we extract is named **f5-big-ip** and we place it into a tenant named **Ten** and an application **Appl**.
 If the tenant is not specified, ACC uses the original tenant name; if the application is not specified, the AS3 application uses the virtual name.
 
-TMSH-VERSION: 13.1.0.8
+TMSH-VERSION: 13.1.0
 
 .. code-block:: shell
 
@@ -257,7 +257,7 @@ TMSH-VERSION: 13.1.0.8
         monitor /Common/testACCMonitor
     }
     ltm virtual /Common/testACCVip {
-        destination /Common/192.0.2.14:80
+        destination /Common/192.168.2.14:80
         ip-protocol tcp
         mask 255.255.255.255
         pool /Common/testACCPool
@@ -269,8 +269,8 @@ TMSH-VERSION: 13.1.0.8
         translate-address enabled
         translate-port enabled
     }
-    ltm virtual-address /Common/192.0.2.14 {
-        address 192.0.2.14
+    ltm virtual-address /Common/192.168.2.14 {
+        address 192.168.2.14
         arp enabled
         mask 255.255.255.255
         traffic-group /Common/traffic-group-1
@@ -295,7 +295,7 @@ TMSH-VERSION: 13.1.0.8
         redirect-rewrite matching
     }
     ltm virtual /Custom/testACCVip {
-        destination /Common/192.0.2.14:80
+        destination /Common/192.168.2.14:80
         ip-protocol tcp
         mask 255.255.255.255
         pool /Common/testACCPool
@@ -307,8 +307,8 @@ TMSH-VERSION: 13.1.0.8
         translate-address enabled
         translate-port enabled
     }
-    ltm virtual-address /Custom/192.0.2.14 {
-        address 192.0.2.14
+    ltm virtual-address /Custom/192.168.2.14 {
+        address 192.168.2.14
         arp enabled
         mask 255.255.255.255
         traffic-group /Common/traffic-group-1
@@ -372,7 +372,7 @@ Once it has run through the converter, the resulting AS3 declaration looks like 
                         "use": "/Common/Shared/testACCHTTP"
                     },
                     "virtualAddresses": [
-                        "192.0.2.14"
+                        "192.168.2.14"
                     ],
                     "virtualPort": 80,
                     "snat": "none",

@@ -14,19 +14,19 @@
             "mIcmpSimple": {
                 "class": "Monitor",
                 "monitorType": "icmp",
-                "targetAddress": "198.19.192.11"
+                "targetAddress": "192.168.192.11"
             },
             "mIcmpSimpleIPv6": {
                 "class": "Monitor",
                 "label": "simplest ipv6 declaration",
                 "monitorType": "icmp",
-                "targetAddress": "fdf5:4153:3300::6"
+                "targetAddress": "2001:db8:3300::6"
             },
             "mIcmpDefault": {
                 "class": "Monitor",
                 "label": "mostly default values",
                 "monitorType": "icmp",
-                "targetAddress": "198.19.192.12",
+                "targetAddress": "192.168.192.12",
                 "interval": 5,
                 "upInterval": 0,
                 "timeUntilUp": 0,
@@ -37,7 +37,7 @@
                 "class": "Monitor",
                 "label": "non-default values",
                 "monitorType": "icmp",
-                "targetAddress": "198.19.192.13",
+                "targetAddress": "192.168.192.13",
                 "interval": 10,
                 "upInterval": 11,
                 "timeUntilUp": 12,
@@ -48,7 +48,7 @@
                 "class": "Monitor",
                 "label": "min integer values",
                 "monitorType": "icmp",
-                "targetAddress": "198.19.192.14",
+                "targetAddress": "192.168.192.14",
                 "interval": 1,
                 "upInterval": 0,
                 "timeUntilUp": 0,
@@ -59,7 +59,7 @@
                 "class": "Monitor",
                 "label": "max integer values",
                 "monitorType": "icmp",
-                "targetAddress": "fdf5:4153:3300::7",
+                "targetAddress": "2001:db8:3300::7",
                 "interval": 899,
                 "upInterval": 3600,
                 "timeUntilUp": 1800,

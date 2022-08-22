@@ -16,15 +16,11 @@
 
 'use strict';
 
-const AJV = require('ajv');
-const log = require('./log');
 const util = require('./util/util');
 const extractUtil = require('./util/extractUtil');
 const expandUtil = require('./util/expandUtil');
 
 const DEVICE_TYPES = require('./constants').DEVICE_TYPES;
-
-let babyAjv; // baby ajv used to check f5pointsTo targets
 
 const keywords = [
     {
@@ -38,16 +34,18 @@ const keywords = [
                         minLength: 1
                     },
                     data: {
-                        type: ['string', 'object']
+                        type: ['string', 'object', 'array']
                     }
                 },
                 required: ['tag'],
                 additionalProperties: false
             },
-            validate(schema) {
+            validate() {
                 const args = Array.from(arguments);
+                const schema = args[0];
                 let instancePath;
                 let parentDataProperty;
+
                 if (typeof args[3] === 'object') {
                     // Fetch data from AJV 7+
                     instancePath = args[3].instancePath;
@@ -58,138 +56,13 @@ const keywords = [
                     parentDataProperty = args[5];
                 }
 
-                if (typeof that.postProcess[schema.tag] === 'undefined') {
-                    that.postProcess[schema.tag] = [];
-                }
-
-                that.postProcess[schema.tag].push({
+                that.postProcess.push({
                     instancePath,
                     parentDataProperty,
+                    tag: schema.tag,
                     schemaData: schema.data
                 });
 
-                return true;
-            }
-        })
-    },
-    {
-        // custom keyword 'f5pointsTo" both validates and
-        // fixes up AS3 pointers
-        //
-        // TODO:  Possibly rewrite as inline custom keyword
-        //
-        // We needn't provide meta-schema for this keyword
-        // since we will detect any errors while compiling
-        // the target-testing schema anyway
-        //
-        name: 'f5pointsTo',
-        definition: () => ({
-            type: 'string',
-            errors: true,
-            modifying: true,
-            compile(schema) {
-                let v;
-
-                try {
-                    if (typeof babyAjv !== 'object') {
-                        const babyAjvOptions = {
-                            allErrors: false,
-                            verbose: true,
-                            useDefaults: true
-                        };
-                        babyAjv = new AJV(babyAjvOptions);
-                    }
-                    v = babyAjv.compile(schema);
-                } catch (e) {
-                    log.warning(`invalid schema for f5pointsTo: ${
-                        JSON.stringify(schema)}`);
-                    throw (e);
-                }
-
-                return function f5pointsTo(data, dataPath, parentData, pptyName, rootData) {
-                    if (typeof rootData.scratch !== 'undefined') {
-                        return true;
-                    }
-                    if (data === '') {
-                        return true; // trivial
-                    }
-
-                    f5pointsTo.errors = [];
-                    const myerror = {
-                        keyword: 'f5pointsTo',
-                        params: {},
-                        message: ''
-                    };
-
-                    let tgt;
-                    try {
-                        tgt = extractUtil.getAs3Object(
-                            data,
-                            dataPath,
-                            parentData,
-                            rootData,
-                            true,
-                            parentData,
-                            pptyName,
-                            '',
-                            null,
-                            ''
-                        );
-                    } catch (e) {
-                        myerror.message = e.message;
-                        f5pointsTo.errors.push(myerror);
-                        return false;
-                    }
-
-                    // does pointed-to data match required schema?
-                    if (!v(tgt)) {
-                        myerror.message = `AS3 pointer ${data
-                        } does not point to required object type`;
-                        f5pointsTo.errors.push(myerror);
-                        return false;
-                    }
-
-                    return true;
-                };
-            }
-        })
-    },
-    {
-        name: 'f5virtualAddress',
-        definition: (that) => ({
-            type: 'array',
-            errors: true,
-            modifying: true,
-            metaSchema: {
-                type: 'boolean'
-            },
-            validate: (schema, data, parentSchema, dataPath, parentData, parentProperty, root) => {
-                if (root.scratch || that.virtualAddressList.length < 1) {
-                    return true;
-                }
-
-                data.forEach((address, index) => {
-                    function formatDestAddr(virtualAddr) {
-                        const addressNoMask = virtualAddr.includes(':') ? virtualAddr.split('.')[0] : virtualAddr.split('/')[0];
-                        const addressOnBigip = that.virtualAddressList.find((addr) => ((addr.address === addressNoMask)
-                            || (addr.address === 'any' && addressNoMask === '0.0.0.0')
-                            || (addr.address === 'any6' && addressNoMask === '::'))
-                            && !(typeof addr.fullPath === 'string' && addr.fullPath.startsWith('/Common/Shared/')));
-                        if (addressOnBigip) {
-                            return {
-                                bigip: addressOnBigip.fullPath,
-                                address: virtualAddr
-                            };
-                        }
-                        return virtualAddr;
-                    }
-
-                    if (typeof address === 'string') {
-                        parentData.virtualAddresses[index] = formatDestAddr(address);
-                    } else if (Array.isArray(address) && typeof address[0] === 'string') {
-                        parentData.virtualAddresses[index][0] = formatDestAddr(address[0]);
-                    }
-                });
                 return true;
             }
         })
@@ -319,54 +192,6 @@ const keywords = [
         })
     },
     {
-        // custom keyword 'f5fetch' copies values into
-        // declarations from anywhere (in the world!)
-        //
-        // If special property 'scratch' in the root of the
-        // document exists, this becomes a no-op.  That
-        // is so we can avoid re-compiling the schema
-        // when we just want to fill defaults in some
-        // declaration without fetching remote resources
-        //
-        // TODO: we *could* support 'file:' url, but maybe
-        // that would be a bridge too far-- we're not sure
-        // what platform AS3 is running on, are we?
-        //
-        name: 'f5fetch',
-        definition: (that) => ({
-            type: ['object', 'string'],
-            errors: true,
-            modifying: true,
-            metaSchema: {
-                type: 'string',
-                enum: ['string', 'json', 'xml', 'binary', 'object', 'pki-cert', 'pki-bundle', 'pki-key', 'pkcs12']
-            },
-            validate(schema, data, parentSchema, dataPath, parentData, pptyName, rootData) {
-                if (typeof rootData.scratch !== 'undefined') {
-                    // don't want to fetch anything right now
-                    // (probably just expanding defaults in old decl)
-                    return true;
-                }
-
-                if (typeof data === 'string') {
-                    data = {
-                        [pptyName]: data
-                    };
-                }
-
-                that.fetches.push({
-                    schema,
-                    data,
-                    dataPath,
-                    parentData,
-                    pptyName,
-                    rootData
-                });
-                return true;
-            }
-        })
-    },
-    {
         // custom keyword 'f5expand' replaces backquote
         // escapes in strings in declarations
         //
@@ -405,7 +230,7 @@ const keywords = [
                         // shucks, we can only expand a string!  (We
                         // check here instead of using 'type' option
                         // with addKeyword because ajv looks at
-                        // object-type only once, so if f5fetch gets
+                        // object-type only once, so if f5PostProcess(fetch) gets
                         // us a string from an F5string url or wherever,
                         // thus replacing 'data' object with string,
                         // ajv won't know about that, so it wouldn't
@@ -471,96 +296,6 @@ const keywords = [
 
                     return true;
                 };
-            }
-        })
-    },
-    {
-        name: 'f5modules',
-        definition: (that) => ({
-            errors: true,
-            compile(modules) {
-                return function f5modules() {
-                    f5modules.errors = [];
-                    const myerror = {
-                        keyword: 'f5modules',
-                        params: { keyword: 'f5modules' },
-                        message: ''
-                    };
-
-                    // this is to help with readability
-                    const target = that.context.target;
-
-                    if (util.isOneOfProvisioned(target, modules) || target.deviceType === DEVICE_TYPES.BIG_IQ) {
-                        return true;
-                    }
-
-                    myerror.message = `One of these F5 modules needs to be provisioned: ${modules.join(', ')}`;
-                    f5modules.errors.push(myerror);
-
-                    return false;
-                };
-            }
-        })
-    },
-    {
-        name: 'f5certExtract',
-        definition: (that) => ({
-            type: 'string',
-            errors: true,
-            modifying: true,
-            metaSchema: {
-                type: 'boolean'
-            },
-            validate(schema, data, parentSchema, dataPath, parentData, pptyName, rootData) {
-                if (typeof rootData.scratch !== 'undefined') {
-                    return true;
-                }
-                // transform str to obj to trigger a fetch
-                if (pptyName === 'pkcs12' && typeof data === 'string') {
-                    const opts = parentData.pkcs12Options;
-                    if (!opts || !opts.internalOnly || opts.internalOnly.length === 0) {
-                        that.fetches.push({
-                            schema: 'pkcs12',
-                            data: { base64: data },
-                            dataPath,
-                            parentData,
-                            pptyName,
-                            rootData
-                        });
-                    }
-                }
-                return true;
-            }
-        })
-    },
-    {
-        name: 'f5include',
-        definition: (that) => ({
-            errors: true,
-            modifying: true,
-            metaSchema: {
-                const: 'object'
-            },
-            validate(schema, data, parentSchema, dataPath, parentData, pptyName, rootData) {
-                if (typeof rootData.scratch !== 'undefined') {
-                    // don't want to fetch anything right now
-                    // (probably just expanding defaults in old decl)
-                    return true;
-                }
-
-                const arrayData = Array.isArray(data) ? data : [data];
-
-                arrayData.forEach((item) => {
-                    that.fetches.push({
-                        schema,
-                        data: { include: item },
-                        dataPath,
-                        parentData,
-                        pptyName,
-                        rootData
-                    });
-                });
-                return true;
             }
         })
     },
@@ -640,26 +375,6 @@ const keywords = [
 
                     return true;
                 };
-            }
-        })
-    },
-    {
-        name: 'f5checkResource',
-        definition: (that) => ({
-            validate(schema, data, parentSchema, dataPath, parentData, pptyName, rootData) {
-                if (typeof rootData.scratch !== 'undefined') {
-                    // don't want to check resources right now
-                    return true;
-                }
-
-                that.checks.push({
-                    data,
-                    dataPath,
-                    parentData,
-                    pptyName,
-                    rootData
-                });
-                return true;
             }
         })
     }

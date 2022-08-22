@@ -27,8 +27,8 @@
                     "addressDiscovery": "static",
                     "servicePort": 1344,
                     "serverAddresses": [
-                      "192.0.5.10",
-                      "192.0.5.11"
+                      "192.168.5.10",
+                      "192.168.5.11"
                     ],
                     "shareNodes": true
                 }]

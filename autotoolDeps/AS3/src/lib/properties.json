@@ -990,6 +990,8 @@
     { "id":"members" }
   ],
   "ltm virtual": [
+    { "id":"enabled",                   "altId": "adminState" },
+    { "id":"disabled" },
     { "id":"address-status",            "truth": "yes", "falsehood": "no" },
     { "id":"auto-lasthop" },
     { "id":"bwc-policy",                "altId": "policyBandwidthControl" },

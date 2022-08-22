@@ -12,7 +12,7 @@
             "template": "generic",
             "testItem": {
                 "class": "DNS_Nameserver",
-                "address": "13.13.13.13",
+                "address": "10.13.13.13",
                 "port": 177,
                 "tsigKey": {
                     "use": "/AS3_Tenant/AS3_Application/tsigKey"

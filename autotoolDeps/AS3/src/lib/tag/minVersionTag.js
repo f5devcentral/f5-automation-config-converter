@@ -19,46 +19,46 @@
 const jsonpointer = require('jsonpointer');
 const util = require('../util/util');
 
-class MinVersionTag {
-    /**
-     * Process min version data that was tagged by the f5PostProcess keyword during AJV validation.
-     * Check the version of BIG-IP that we are running on and if it is lower than the min version then
-     * remove the property
-     *
-     * @param {Object} context - The current context object
-     * @param {Object} declaration - The current declaration that was validated by AJV
-     * @param {Object[]} [minVersions] - The array of min versions that will be processed
-     * @param {Object} originalDeclaration - The original declaration that was sent by the user
-     * @param {*} minVersions[].schemaData - The min version data from the declaration
-     * @param {*} minVersions[].parentData - The min version's parent data from the declaration
-     * @param {string} minVersions[].instancePath - The json pointer that was used to fetch the data
-     * @param {string} minVersions[].parentDataProperty - The parent's property name that contains the data
-     * @returns {Promise} - Promise resolves when all data is processed.
-     */
-    static process(context, declaration, minVersions, originalDeclaration) {
-        if (!minVersions) {
-            return Promise.resolve();
-        }
+const TAG = 'minVersion';
 
-        const warnings = minVersions
-            .map((minVersion) => {
-                if (isDeviceVersionTooLow(context, minVersion.schemaData)) {
-                    removeProperty(declaration, minVersion.instancePath);
-                    return getWarning(
-                        originalDeclaration,
-                        minVersion.tenant,
-                        minVersion.instancePath,
-                        minVersion.schemaData,
-                        minVersion.parentData.class,
-                        minVersion.parentDataProperty
-                    );
-                }
-                return undefined;
-            })
-            .filter(Boolean);
-
-        return Promise.resolve({ warnings });
+/**
+ * Process min version data that was tagged by the f5PostProcess keyword during AJV validation.
+ * Check the version of BIG-IP that we are running on and if it is lower than the min version then
+ * remove the property
+ *
+ * @param {Object} context - The current context object
+ * @param {Object} declaration - The current declaration that was validated by AJV
+ * @param {Object[]} [minVersions] - The array of min versions that will be processed
+ * @param {Object} originalDeclaration - The original declaration that was sent by the user
+ * @param {*} minVersions[].schemaData - The min version data from the declaration
+ * @param {*} minVersions[].parentData - The min version's parent data from the declaration
+ * @param {string} minVersions[].instancePath - The json pointer that was used to fetch the data
+ * @param {string} minVersions[].parentDataProperty - The parent's property name that contains the data
+ * @returns {Promise} - Promise resolves when all data is processed.
+ */
+function process(context, declaration, minVersions, originalDeclaration) {
+    if (!minVersions) {
+        return Promise.resolve();
     }
+
+    const warnings = minVersions
+        .map((minVersion) => {
+            if (isDeviceVersionTooLow(context, minVersion.schemaData)) {
+                removeProperty(declaration, minVersion.instancePath);
+                return getWarning(
+                    originalDeclaration,
+                    minVersion.tenant,
+                    minVersion.instancePath,
+                    minVersion.schemaData,
+                    minVersion.parentData.class,
+                    minVersion.parentDataProperty
+                );
+            }
+            return undefined;
+        })
+        .filter(Boolean);
+
+    return Promise.resolve({ warnings });
 }
 
 function isDeviceVersionTooLow(context, minVersionAllowed) {
@@ -85,6 +85,7 @@ function getWarning(declaration, tenant, dataPath, minVersionAllowed, propertyCl
     return warning;
 }
 
-MinVersionTag.TAG = 'minVersion';
-
-module.exports = MinVersionTag;
+module.exports = {
+    process,
+    TAG
+};

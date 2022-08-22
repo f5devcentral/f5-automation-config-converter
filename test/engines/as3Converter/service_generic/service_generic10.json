@@ -18,7 +18,7 @@
                     "bigip": "/Common/ipother"
                 },
                 "virtualAddresses": [
-                    "192.0.7.141"
+                    "192.168.7.141"
                 ],
                 "virtualPort": 8080,
                 "snat": "auto",

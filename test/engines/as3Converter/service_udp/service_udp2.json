@@ -14,7 +14,7 @@
                 "class": "Service_UDP",
                 "virtualPort": 2,
                 "virtualAddresses": [
-                    "1.1.1.1"
+                    "10.1.1.1"
                 ],
                 "profileUDP": {
                     "use": "/AS3_Tenant/AS3_Application/udp"

@@ -22,38 +22,36 @@ const util = require('../util/util');
 const log = require('../log');
 const DEVICE_TYPES = require('../constants').DEVICE_TYPES;
 
-class SecretTag {
-    /**
-     * Process secret data that was tagged by the f5PostProcess keyword during AJV validation.
-     * Replaces a plaintext secret value in a declaration with a SecureVault cryptogram.
-     * If special property "scratch" exists in the root of the declaration this function
-     * becomes a no-op.
-     *
-     * @param {Object} context - The current context object
-     * @param {Object} declaration - The current declaration that was validated by AJV
-     * @param {Object[]} [secrets] - The array of secrets that will be processed
-     * @param {*} secrets[].data - The secret data from the declaration
-     * @param {string} secrets[].instancePath - The json pointer that was used to fetch the data
-     * @returns {Promise} - Promise resolves when all data is processed
-     */
-    static process(context, declaration, secrets) {
-        if (!secrets) {
-            return Promise.resolve();
-        }
+const TAG = 'secret';
 
-        if (typeof declaration.scratch !== 'undefined') {
-            // don't want to encrypt secrets right now
-            return Promise.resolve();
-        }
-
-        const promises = secrets.map((s) => encryptSecret(context, s.data, s.instancePath));
-
-        return Promise.all(promises)
-            .then(() => Promise.resolve());
+/**
+ * Process secret data that was tagged by the f5PostProcess keyword during AJV validation.
+ * Replaces a plaintext secret value in a declaration with a SecureVault cryptogram.
+ * If special property "scratch" exists in the root of the declaration this function
+ * becomes a no-op.
+ *
+ * @param {Object} context - The current context object
+ * @param {Object} declaration - The current declaration that was validated by AJV
+ * @param {Object[]} [secrets] - The array of secrets that will be processed
+ * @param {*} secrets[].data - The secret data from the declaration
+ * @param {string} secrets[].instancePath - The json pointer that was used to fetch the data
+ * @returns {Promise} - Promise resolves when all data is processed
+ */
+function process(context, declaration, secrets) {
+    if (!secrets) {
+        return Promise.resolve();
     }
-}
 
-SecretTag.TAG = 'secret';
+    if (typeof declaration.scratch !== 'undefined') {
+        // don't want to encrypt secrets right now
+        return Promise.resolve();
+    }
+
+    const promises = secrets.map((s) => encryptSecret(context, s.data, s.instancePath));
+
+    return Promise.all(promises)
+        .then(() => Promise.resolve());
+}
 
 function replaceCipher(data, secret, JOSE) {
     // replace ciphertext with cryptogram
@@ -203,4 +201,7 @@ function encryptSecret(context, secret, dataPath) {
         });
 }
 
-module.exports = SecretTag;
+module.exports = {
+    process,
+    TAG
+};

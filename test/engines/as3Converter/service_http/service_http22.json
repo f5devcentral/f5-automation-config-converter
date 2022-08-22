@@ -29,7 +29,7 @@
                         {
                             "use": "/test/Shared/serviceAddress"
                         },
-                        "12.12.12.0/24"
+                        "10.12.12.0/24"
                     ]
                 ],
                 "virtualPort": 80,
@@ -40,7 +40,7 @@
             "class": "Application",
             "template": "shared",
             "serviceAddress": {
-                "virtualAddress": "123.123.123.123",
+                "virtualAddress": "10.123.123.123",
                 "icmpEcho": "disable",
                 "trafficGroup": "/Common/traffic-group-1",
                 "class": "Service_Address"

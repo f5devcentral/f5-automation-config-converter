@@ -24,7 +24,7 @@
             "service": {
                 "class": "Service_Generic",
                 "virtualAddresses": [
-                    "3.3.3.3"
+                    "10.3.3.3"
                 ],
                 "virtualPort": 110
             }

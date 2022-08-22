@@ -50,7 +50,7 @@
                     }
                 ],
                 "resourceRecordType": "A",
-                "fallbackIP": "1.1.1.1"
+                "fallbackIP": "10.1.1.1"
             },
             "testItem2": {
                 "class": "GSLB_Pool",
@@ -93,7 +93,7 @@
                     }
                 ],
                 "resourceRecordType": "AAAA",
-                "fallbackIP": "::1:1:1"
+                "fallbackIP": "2001:db8::1:1:1"
             },
             "testItem3": {
                 "class": "GSLB_Pool",
@@ -165,12 +165,12 @@
                 },
                 "devices": [
                     {
-                        "address": "1.2.3.7"
+                        "address": "10.2.3.7"
                     }
                 ],
                 "virtualServers": [
                     {
-                        "address": "1.2.3.8",
+                        "address": "10.2.3.8",
                         "port": 5050
                     },
                     {

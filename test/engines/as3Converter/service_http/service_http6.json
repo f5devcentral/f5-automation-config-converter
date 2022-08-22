@@ -13,7 +13,7 @@
             "serviceMain": {
                 "class": "Service_HTTP",
                 "virtualAddresses": [
-                    "1.1.1.1"
+                    "10.1.1.1"
                 ],
                 "profileHTTP": {
                     "use": "/AS3_Tenant/AS3_Application/AS3_http"

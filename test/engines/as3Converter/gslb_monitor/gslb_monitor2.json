@@ -35,7 +35,7 @@
                 "monitorType": "external"
             },
             "test_gtm_external3": {
-                "target": "85.214.110.167:443",
+                "target": "10.214.110.167:443",
                 "pathname": "/Common/arg_example",
                 "class": "GSLB_Monitor",
                 "monitorType": "external"

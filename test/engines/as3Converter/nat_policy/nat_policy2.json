@@ -14,7 +14,7 @@
                 "class": "Service_Generic",
                 "virtualPort": 200,
                 "virtualAddresses": [
-                    "30.30.30.30"
+                    "10.30.30.30"
                 ],
                 "snat": "none",
                 "policyNAT": {

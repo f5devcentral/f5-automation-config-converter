@@ -13,7 +13,7 @@
             "serviceMain": {
                 "class": "Service_HTTPS",
                 "virtualAddresses": [
-                    "192.0.2.11"
+                    "192.168.2.11"
                 ],
                 "pool": "web_pool",
                 "serverTLS": "webtls"
@@ -31,8 +31,8 @@
                         "addressDiscovery": "static",
                         "servicePort": 80,
                         "serverAddresses": [
-                            "192.0.2.12",
-                            "192.0.2.13"
+                            "192.168.2.12",
+                            "192.168.2.13"
                         ],
                         "shareNodes": true
                     }

@@ -363,7 +363,7 @@ module.exports = (json, config) => {
                     if (loc.tenant === 'Common' && loc.app !== 'Shared' && loc.profile) loc.app = 'Shared';
 
                     // relocate /Common to /Common/Shared or
-                    // in case of virtual-address /AS3_Tenant/1.2.3.4 to /AS3_Tenant/Shared/1.2.3.4
+                    // in case of virtual-address /AS3_Tenant/10.2.3.4 to /AS3_Tenant/Shared/10.2.3.4
                     if (!loc.profile) {
                         loc.profile = loc.app;
                         loc.app = 'Shared';

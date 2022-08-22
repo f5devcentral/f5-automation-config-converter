@@ -27,7 +27,7 @@
                 "serverTLS": "/Common/Shared/webtls",
                 "redirect80": false,
                 "virtualAddresses": [
-                    "192.0.2.19"
+                    "192.168.2.19"
                 ],
                 "virtualPort": 443,
                 "snat": "auto"

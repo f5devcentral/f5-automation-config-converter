@@ -24,6 +24,6 @@ describe('Test getBigipVersion function (getBigipVersion.js)', () => {
     it('Should return expected version ', async () => {
         const data = await readFiles(['./test/util/getBigipVersion/test.conf']);
         const version = getBigipVersion(data);
-        assert.strictEqual('13.1.1.3', version);
+        assert.strictEqual('13.1.1', version);
     });
 });

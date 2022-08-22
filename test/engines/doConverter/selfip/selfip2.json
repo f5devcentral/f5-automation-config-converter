@@ -20,9 +20,9 @@
             "trafficGroup": "traffic-group-local-only",
             "allowService": "none"
         },
-        "SelfIp_2002__7_IPv6": {
+        "SelfIp_2001_db8__7_IPv6": {
             "class": "SelfIp",
-            "address": "2002::7/64",
+            "address": "2001:db8::7/64",
             "vlan": "/Common/external",
             "trafficGroup": "traffic-group-local-only",
             "allowService": [

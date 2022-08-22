@@ -32,7 +32,7 @@
                 "upInterval": 21,
                 "class": "Monitor",
                 "monitorType": "sip",
-                "targetAddress": "198.19.192.9",
+                "targetAddress": "192.168.192.9",
                 "targetPort": 5061
             },
             "sip_monitor_certificate": {

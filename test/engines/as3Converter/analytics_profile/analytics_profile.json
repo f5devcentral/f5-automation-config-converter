@@ -39,8 +39,8 @@
                 ],
                 "collectSubnet": true,
                 "subnetsForStatCollection": [
-                    "198.19.192.0/24",
-                    "198.19.224.0/24"
+                    "192.168.192.0/24",
+                    "192.168.224.0/24"
                 ],
                 "collectMaxTpsAndThroughput": true,
                 "collectPageLoadTime": true,
@@ -72,7 +72,7 @@
                        "/AS3_Tenant/AS3_Application/serviceMain-1"
                      ],
                     "nodeAddresses": [
-                       "/AS3_Tenant/198.19.192.59"
+                       "/AS3_Tenant/192.168.192.59"
                     ],
                     "responseCodes": [
                         400,

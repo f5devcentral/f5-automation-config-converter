@@ -130,7 +130,7 @@ describe('Service HTTPS: ltm virtual', () => {
     it('ex4 validation', () => validator(json)
         .then((data) => assert(data.isValid, JSON.stringify(data, null, 4))));
 
-    // multiple client/server ssl profiles. No nightly tests due to limited support in AS3
+    // multiple client/server ssl profiles
     it('ex5', async () => {
         const data = await readFiles(['./test/engines/as3Converter/service_https/service_https5.conf']);
         const parsed = parse(data);
@@ -158,7 +158,7 @@ describe('Service HTTPS: ltm virtual', () => {
     it('ex6 validation', () => validator(json)
         .then((data) => assert(data.isValid, JSON.stringify(data, null, 4))));
 
-    // fix ssl profile reference for default profiles. No nightly tests due to limited support in AS3
+    // fix ssl profile reference for default profiles
     it('ex7', async () => {
         const data = await readFiles(['./test/engines/as3Converter/service_https/service_https7.conf']);
         const parsed = parse(data);

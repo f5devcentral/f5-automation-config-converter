@@ -44,6 +44,19 @@ const factorUnits = (int) => {
 
 module.exports = {
 
+    // Net_Address_List
+    'net address-list': {
+        class: 'Net_Address_List',
+
+        keyValueRemaps: {
+            addresses: (key, val) => ({ addresses: Object.keys(val) }),
+
+            addressLists: (key, val) => ({ addressLists: Object.keys(val).map((x) => handleObjectRef(x)) }),
+
+            remark: (key, val) => ({ remark: unquote(val) })
+        }
+    },
+
     // Bandwidth_Control_Policy
     'net bwc policy': {
         class: 'Bandwidth_Control_Policy',

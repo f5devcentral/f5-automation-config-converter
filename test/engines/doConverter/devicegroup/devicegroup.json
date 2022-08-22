@@ -4,9 +4,9 @@
     "async": true,
     "Common": {
         "class": "Tenant",
-        "SelfIp_2001__5_IPv6": {
+        "SelfIp_2001_db8__5_IPv6": {
             "class": "SelfIp",
-            "address": "2001::5/64",
+            "address": "2001:db8::5/64",
             "vlan": "/Common/internal",
             "trafficGroup": "traffic-group-local-only",
             "allowService": "none"
@@ -86,7 +86,7 @@
         "FailoverMulticast__ltm-48_test_test": {
             "class": "FailoverMulticast",
             "interface": "eth0",
-            "address": "224.0.0 245",
+            "address": "192.168.0.245",
             "port": 62960
         },
         "MirrorIp__ltm-48_test_test": {

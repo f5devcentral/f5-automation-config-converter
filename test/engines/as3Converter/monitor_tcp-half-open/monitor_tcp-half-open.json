@@ -14,7 +14,7 @@
                 "class": "Monitor",
                 "monitorType": "tcp-half-open",
                 "transparent": true,
-                "targetAddress": "100.0.0.100",
+                "targetAddress": "10.0.0.100",
                 "targetPort": 8080
             },
             "mThoSimple": {
@@ -35,7 +35,7 @@
             "mThoNonDefaultMinInts": {
                 "class": "Monitor",
                 "monitorType": "tcp-half-open",
-                "targetAddress": "198.19.192.7",
+                "targetAddress": "192.168.192.7",
                 "targetPort": 1,
                 "interval": 1,
                 "upInterval": 0,
@@ -46,7 +46,7 @@
             "mThoNonDefaultMaxInts": {
                 "class": "Monitor",
                 "monitorType": "tcp-half-open",
-                "targetAddress": "198.19.192.8",
+                "targetAddress": "192.168.192.8",
                 "targetPort": 65535,
                 "interval": 899,
                 "upInterval": 3600,
@@ -56,7 +56,7 @@
             "mThoNonDefaultIPv6": {
                 "class": "Monitor",
                 "monitorType": "tcp-half-open",
-                "targetAddress": "fdf5:4153:3300::3",
+                "targetAddress": "2001:db8:3300::3",
                 "targetPort": 443,
                 "interval": 20,
                 "upInterval": 21,

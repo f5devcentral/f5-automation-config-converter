@@ -20,10 +20,24 @@ const LongSecretTag = require('./longSecretTag');
 const MinVersionTag = require('./minVersionTag');
 const NodeTag = require('./nodeTag');
 const SecretTag = require('./secretTag');
+const CheckResourceTag = require('./checkResourceTag');
+const PointerTag = require('./pointerTag');
+const VirtualAddressTag = require('./virtualAddressTag');
+const FetchTag = require('./fetchTag');
+const CertExtractTag = require('./certExtractTag');
+const IncludeTag = require('./includeTag');
+const ModuleTag = require('./moduleTag');
 
 module.exports = {
     LongSecretTag,
     MinVersionTag,
     NodeTag,
-    SecretTag
+    SecretTag,
+    CheckResourceTag,
+    PointerTag,
+    VirtualAddressTag,
+    FetchTag,
+    CertExtractTag,
+    IncludeTag,
+    ModuleTag
 };

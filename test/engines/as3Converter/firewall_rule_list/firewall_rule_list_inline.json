@@ -129,7 +129,7 @@
                     "bigip": "/Common/http"
                 },
                 "virtualAddresses": [
-                    "198.19.192.2"
+                    "192.168.192.2"
                 ],
                 "virtualPort": 80,
                 "snat": "auto"

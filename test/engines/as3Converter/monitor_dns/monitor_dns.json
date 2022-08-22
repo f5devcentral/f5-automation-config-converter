@@ -26,14 +26,14 @@
                 "adaptiveWindow": 1500,
                 "answerContains": "query-type",
                 "queryType": "aaaa",
-                "receive": "fdf5:4153:3300::a",
+                "receive": "2001:db8:3300::a",
                 "reverse": false,
                 "interval": 60,
                 "timeUntilUp": 1200,
                 "timeout": 600,
                 "upInterval": 2400,
                 "transparent": false,
-                "targetAddress": "fdf5:4153:3300::b",
+                "targetAddress": "2001:db8:3300::b",
                 "targetPort": 53
             }
         }

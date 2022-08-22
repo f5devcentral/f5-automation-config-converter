@@ -34,14 +34,14 @@
             "service1": {
                 "class": "Service_Generic",
                 "virtualAddresses": [
-                    "2.2.3.3"
+                    "10.2.3.3"
                 ],
                 "virtualPort": 111
             },
             "service2": {
                 "class": "Service_Generic",
                 "virtualAddresses": [
-                    "2.2.3.4"
+                    "10.2.3.4"
                 ],
                 "virtualPort": 112
             }

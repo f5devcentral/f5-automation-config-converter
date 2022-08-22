@@ -2,8 +2,8 @@
 
 set -e
 
-if [[ -z "$ARTIFACTORY_NPM" ]]; then
-    echo "ARTIFACTORY_NPM is required"
+if [[ -z "$ARTIFACTORY_URL" ]]; then
+    echo "ARTIFACTORY_URL is required"
     exit 1
 fi
 
@@ -17,7 +17,7 @@ fi
 
 mkdir -p $DEP_PATH
 
-npm config set @automation-toolchain:registry ${ARTIFACTORY_NPM}
+npm config set @automation-toolchain:registry https://${ARTIFACTORY_URL}/artifactory/api/npm/f5-automation-toolchain-npm
 npm pack --pack-destination $DEP_PATH @automation-toolchain/f5-appsvcs-schema
 
 npm install $NPM_INSTALL_OPTS $DEP_PATH/*

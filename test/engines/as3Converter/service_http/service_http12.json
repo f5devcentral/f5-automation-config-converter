@@ -10,7 +10,7 @@
                 "class": "Service_Generic",
                 "virtualPort": 8080,
                 "virtualAddresses": [
-                    "192.0.2.0"
+                    "192.168.2.0"
                 ],
                 "maximumBandwidth": 10
             }

@@ -24,6 +24,11 @@ const log = require('../util/log');
 const removeIndent = require('../util/parse/removeIndent');
 const strToObj = require('../util/parse/strToObj');
 
+// return true if the string contains the header of ltm/gtm/pem rule
+function isRule(str) {
+    return str.includes('ltm rule') || str.includes('gtm rule') || str.includes('pem irule');
+}
+
 // pass arr of individual bigip-obj
 // recognize && handle edge cases
 function orchestrate(arr) {
@@ -36,7 +41,7 @@ function orchestrate(arr) {
     let obj = {};
 
     // edge case: iRules (multiline string)
-    if (key.includes('ltm rule') || key.includes('gtm rule')) {
+    if (isRule(key)) {
         obj = arr.join('\n');
 
     // edge case: monitor min X of {...}
@@ -45,7 +50,8 @@ function orchestrate(arr) {
         obj = arr.join(' ').split(' ');
 
     // edge case: skip cli script
-    } else if (!key.includes('cli script')) {
+    // also skip 'sys crypto cert-order-manager', it has quotation marks around curly brackets of 'order-info'
+    } else if (!key.includes('cli script') && !key.includes('sys crypto cert-order-manager')) {
         for (let i = 0; i < arr.length; i += 1) {
             // edge case: nested object
             // RECURSIVE FUNCTION
@@ -143,7 +149,7 @@ function groupObjects(arr) {
             // looking for non-indented '{'
             let c = 0;
 
-            const ruleFlag = currentLine.includes('ltm rule');
+            const ruleFlag = isRule(currentLine);
 
             // different grouping logic for iRules
             let bracketCount = 1;
@@ -171,7 +177,7 @@ function groupObjects(arr) {
                     });
 
                     // abort if run into next rule
-                    if (line.includes('ltm rule')) {
+                    if (isRule(line)) {
                         c -= 1;
                         bracketCount = 0;
                     }
@@ -218,7 +224,7 @@ module.exports = (files) => {
                     if (line.trim().startsWith('# ')) {
                         // mark comments outside of irules with specific prefix
                         line = line.trim().replace('# ', '#comment# ');
-                    } else if (line.includes('ltm rule')) irule += 1;
+                    } else if (isRule(line)) irule += 1;
                 // don't count brackets in commented or special lines
                 } else if (!line.trim().startsWith('#')) {
                     irule = irule + countChar(line, '{') - countChar(line, '}');

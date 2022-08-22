@@ -1,6 +1,24 @@
 # Changelog
 Changes to this project are documented in this file.
 
+## 1.23.0
+
+## Added
+- CHARON-594: Add support for Enforcement_iRule
+- CHARON-595: Add support for Service_SCTP
+- CHARON-639: Add support for Net_Address_List class
+- CHARON-685: Add support for GSLB_iRule
+
+## Fixed
+- CHARON-728: ([GitHub Issue 90](https://github.com/f5devcentral/f5-automation-config-converter/issues/90)):
+Bypass "sys crypto cert-order-manager" to avoid a parser failure
+
+## Changed
+- CHARON-612: Replace external IPv4 addresses w/ internal addresses (RFC 1918, RFC 5737)
+- CHARON-613: Replace external IPv6 addresses w/ internal addresses (RFC 3849, RFC 4193)
+
+## Removed
+
 ## 1.22.0
 
 ## Added

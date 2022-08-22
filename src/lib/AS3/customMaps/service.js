@@ -68,6 +68,9 @@ const getServiceType = (obj, file) => {
     } else if (isTypeInProfiles(profs, 'tcp', file)) {
         // Service_TCP
         service = { class: 'Service_TCP', template: 'tcp' };
+    } else if (isTypeInProfiles(profs, 'sctp', file)) {
+        // Service_SCTP
+        service = { class: 'Service_SCTP', template: 'sctp' };
     } else {
         // Service_Generic
         service = { class: 'Service_Generic', template: 'generic' };
@@ -106,6 +109,7 @@ const getServiceType = (obj, file) => {
         ntlm: 'profileNTLM',
         radius: 'profileRADIUS',
         rewrite: 'profileRewrite',
+        sctp: 'profileSCTP',
         sip: 'profileSIP',
         spm: 'profileEnforcement',
         stream: 'profileStream',
@@ -410,9 +414,6 @@ module.exports = {
 
     // used when rootObj has 'traffic-matching-criteria' property
     'ltm traffic-matching-criteria': {
-        noDirectMap: true
-    },
-    'net address-list': {
         noDirectMap: true
     },
 

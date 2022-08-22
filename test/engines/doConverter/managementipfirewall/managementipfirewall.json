@@ -7,8 +7,8 @@
         "firewallAddressList1": {
             "class": "FirewallAddressList",
             "addresses": [
-                "192.0.2.10",
-                "192.1.2.0/24"
+                "192.168.2.10",
+                "192.168.2.0/24"
             ]
         },
         "firewallPortList1": {

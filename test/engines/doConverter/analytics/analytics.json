@@ -10,7 +10,7 @@
             "interval": 60,
             "offboxProtocol": "tcp",
             "offboxTcpAddresses": [
-                "192.0.2.1"
+                "192.168.2.1"
             ],
             "offboxTcpPort": 80,
             "offboxEnabled": true
