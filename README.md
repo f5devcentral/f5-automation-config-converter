@@ -1,6 +1,6 @@
 <div align="center">
 
-# F5 Automation Config Converter (ACC)
+# F5 BIG-IP Automation Config Converter (BIG-IP ACC)
 
 <a href="https://clouddocs.f5.com/products/extensions/f5-automation-config-converter/latest/">
     <img src="docs/_static/ACC_Robot.svg" alt="F5 ACC" width="200">
@@ -23,7 +23,7 @@
 
 ## Introduction
 
-F5 Automation Config Converter (ACC) is an app written in Node.js that converts a BIG-IP configuration into an AS3 declaration, distributed as an easy-to-use docker image.
+F5 BIG-IP Automation Config Converter (BIG-IP ACC) is an app written in Node.js that converts a BIG-IP configuration into an AS3 declaration, distributed as an easy-to-use docker image.
 
 
 

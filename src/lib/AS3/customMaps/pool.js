@@ -66,9 +66,17 @@ const dedupe = (arr, propsToMerge) => {
             }
         }
 
-        // if dupe, concat serverAddress
+        // if dupe, concat serverAddress and servers
         if (dupe) {
-            newArr[idx].serverAddresses = newArr[idx].serverAddresses.concat(arr[i].serverAddresses);
+            if (newArr[idx].serverAddresses && arr[i].serverAddresses) {
+                newArr[idx].serverAddresses = newArr[idx].serverAddresses.concat(arr[i].serverAddresses);
+            } else if (newArr[idx].servers && arr[i].servers) {
+                newArr[idx].servers = newArr[idx].servers.concat(arr[i].servers);
+            } else if (newArr[idx].serverAddresses) {
+                newArr[idx].servers = arr[i].servers;
+            } else {
+                newArr[idx].serverAddresses = arr[i].serverAddresses;
+            }
 
         // else push entire member
         } else {
@@ -105,8 +113,8 @@ module.exports = {
             if (rootObj.members) {
                 const keys = Object.keys(rootObj.members);
                 for (let i = 0; i < keys.length; i += 1) {
-                    const poolMemberName = keys[i];
-                    const poolMember = rootObj.members[poolMemberName];
+                    const poolMemberPath = keys[i];
+                    const poolMember = rootObj.members[poolMemberPath];
                     const memberJson = {};
 
                     // address discovery
@@ -117,9 +125,10 @@ module.exports = {
                     }
 
                     // parse ipv4/ipv6 or string with ipv4 port
-                    const ip = poolMemberName.split('/')[2];
-                    const portSpltr = isIPv6(ip) ? '.' : ':';
-                    memberJson.servicePort = parseInt(poolMemberName.split(portSpltr)[1], 10);
+                    const tmpSplit = poolMemberPath.split('/');
+                    const memberNamePort = tmpSplit[tmpSplit.length - 1];
+                    const portSpltr = isIPv6(memberNamePort) ? '.' : ':';
+                    memberJson.servicePort = parseInt(poolMemberPath.split(portSpltr)[1], 10);
 
                     // manually map poolMember properties
                     if (poolMember['connection-limit']) memberJson.connectionLimit = parseInt(poolMember['connection-limit'], 10);
@@ -139,12 +148,22 @@ module.exports = {
                     }
 
                     if (poolMember.address) {
-                        memberJson.serverAddresses = [poolMember.address];
+                        // If pool member name is the same as ip address
+                        const poolMemberName = isIPv6(memberNamePort) ? memberNamePort.split('.')[0] : memberNamePort.split(':')[0];
+                        if (poolMemberName === poolMember.address) {
+                            memberJson.serverAddresses = [poolMember.address];
+                        } else {
+                            const tmpMember = {
+                                name: poolMemberName,
+                                address: poolMember.address
+                            };
+                            memberJson.servers = [tmpMember];
+                        }
                         memberJson.shareNodes = true;
                     }
                     members.push(memberJson);
                 }
-                rootObj.members = dedupe(members, ['serverAddresses']);
+                rootObj.members = dedupe(members, ['serverAddresses', 'servers']);
             }
 
             newObj[loc.profile] = rootObj;

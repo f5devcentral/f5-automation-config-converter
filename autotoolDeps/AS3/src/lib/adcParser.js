@@ -24,7 +24,6 @@ const parserFormats = require('./adcParserFormats');
 const parserKeywords = require('./adcParserKeywords');
 const myValidator = require('./validator');
 const util = require('./util/util');
-const components = require('./adcParserComponents');
 const PostProcessor = require('./postProcessor');
 const PostValidator = require('./postValidator');
 const Config = require('./config');
@@ -183,7 +182,6 @@ class As3Parser {
             previousDeclaration: {}
         };
         this.options = Object.assign(this.options, defaultOpts, options);
-        this.components = [];
         this.fetches = [];
 
         if (typeof this.validator === 'undefined') {
@@ -365,12 +363,6 @@ function as3Digest(declaration) {
             if (this.options.copySecrets && this.options.baseDeclaration) {
                 copySecrets(declaration, this.options.baseDeclaration);
             }
-        })
-        .then(() => {
-            if (this.deviceType === DEVICE_TYPES.BIG_IQ) {
-                return Promise.resolve();
-            }
-            return components.handleComponents(this.context, this.components);
         })
         .then(() => results)
         .catch((e) => {

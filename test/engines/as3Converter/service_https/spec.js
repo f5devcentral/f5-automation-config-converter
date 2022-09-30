@@ -40,6 +40,7 @@ const ex12 = require('./service_https12.json');
 const ex13 = require('./service_https13.json');
 const ex14 = require('./service_https14.json');
 const ex15 = require('./service_https15.json');
+const ex16 = require('./service_https16.json');
 
 const serviceHttpsAllowlist = ['certificate', 'chainCA', 'passphrase'];
 
@@ -302,5 +303,19 @@ describe('Service HTTPS: ltm virtual', () => {
     });
 
     it('ex15 validation', () => validator(json)
+        .then((data) => assert(data.isValid, JSON.stringify(data, null, 4))));
+
+    // don't delete redirect http lonely service
+    it('ex16', async () => {
+        const data = await readFiles(['./test/engines/as3Converter/service_https/service_https16.conf']);
+        const parsed = parse(data);
+        json = as3Converter(parsed).declaration;
+
+        const originalDec = ex16.AS3_Tenant.AS3_Application;
+        const convertedDec = json.AS3_Tenant.AS3_Application;
+        compareDeclaration(originalDec, convertedDec);
+    });
+
+    it('ex16 validation', () => validator(json)
         .then((data) => assert(data.isValid, JSON.stringify(data, null, 4))));
 });

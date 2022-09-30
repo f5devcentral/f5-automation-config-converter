@@ -57,6 +57,8 @@
     { "id":"description",               "altId": "remark", "quotedString": true },
     { "id":"destination" },
     { "id":"domain" },
+    { "id":"failure-interval" },
+    { "id":"failures" },
     { "id":"filter",                    "altId": "codesUp", "quotedString": true },
     { "id":"filter-neg",                "altId": "codesDown", "quotedString": true },
     { "id":"filter-ldap",               "altId": "filter", "quotedString": true },
@@ -73,6 +75,8 @@
     { "id":"recv",                      "altId": "receive", "quotedString": true },
     { "id":"recv-disable",              "altId": "receiveDown", "quotedString": true },
     { "id":"request",                   "quotedString": true },
+    { "id":"response-time" },
+    { "id":"retry-time" },
     { "id":"reverse",                   "truth": "enabled", "falsehood": "disabled" },
     { "id":"send",                      "quotedString": true },
     { "id":"ssl-profile",               "altId": "clientTLS" },
@@ -428,7 +432,12 @@
     { "id":"target",                    "quotedString": true }
   ],
   "ltm profile websocket": [
-    { "id":"masking" }
+    { "id": "compress-mode",            "minVersion": "16.1" },
+    { "id": "compression",              "truth": "enabled", "falsehood": "disabled", "minVersion": "16.1" },
+    { "id": "description",              "altId": "remark", "quotedString": true },
+    { "id": "masking" },
+    { "id": "no-delay",                 "truth": "enabled", "falsehood": "disabled", "minVersion": "16.1" },
+    { "id": "window-bits",              "altId": "maximumWindowSize", "minVersion": "16.1" }
   ],
   "ltm profile http-proxy-connect": [
     { "id": "default-state",            "truth": "enabled", "falsehood": "disabled" }
@@ -471,6 +480,7 @@
     { "id": "preload",                  "truth": "enabled", "falsehood": "disabled" }
   ],
   "ltm profile http enforcement": [
+    { "id":"allow-ws-header-name",      "altId": "allowBlankSpaceAfterHeaderName", "truth": "enabled", "falsehood": "disabled", "minVersion": "16.1"},
     { "id":"excess-client-headers" },
     { "id":"excess-server-headers" },
     { "id":"known-methods",             "extend": "array" },
@@ -480,6 +490,7 @@
     { "id":"oversize-client-headers",   "truth": "enabled", "falsehood": "disabled"},
     { "id":"oversize-server-headers",   "truth": "enabled", "falsehood": "disabled"},
     { "id":"pipeline",                  "altId": "pipelineAction" },
+    { "id":"rfc-compliance",            "altId": "enforceRFCCompliance", "truth": "enabled", "falsehood": "disabled", "minVersion": "15.0"},
     { "id":"truncated-redirects",       "truth": "enabled", "falsehood": "disabled"},
     { "id":"unknown-method",            "altId": "unknownMethodAction" }
   ],
@@ -1972,7 +1983,7 @@
     { "id":"product",                   "altId": "serverType" },
     { "id":"prober-preference",         "altId": "proberPreferred" },
     { "id":"prober-fallback" },
-    { "id":"prober-pool"},
+    { "id":"prober-pool",               "forceToCommon": true },
     { "id":"addresses",                 "extend": "objArray", "default": null },
     { "id":"monitor",                   "altId": "monitors", "default": [] },
     { "id":"limit-max-bps",             "altId": "bpsLimit" },
@@ -2000,7 +2011,8 @@
   ],
   "gtm server metadata": [
     { "id": "name" },
-    { "id": "persist" }
+    { "id": "persist" },
+    { "id": "value" }
   ],
   "gtm server devices": [
     { "id":"name" },

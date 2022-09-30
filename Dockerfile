@@ -10,7 +10,6 @@ WORKDIR /app
 
 COPY . .
 RUN npm ci --omit=dev
-RUN rm -r dependencies
 RUN --mount=type=secret,id=TEEM_KEY cp /run/secrets/TEEM_KEY .
 RUN chown -R node:node .
 

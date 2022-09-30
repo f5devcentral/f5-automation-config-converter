@@ -397,7 +397,8 @@ module.exports = (json, config) => {
                     // Service_HTTPS specific override. Collect all http virtuals and check Redirect cases
                     if (confKey === 'ltm virtual'
                         && customObj[loc.profile].iRules
-                        && customObj[loc.profile].iRules[0].bigip === '/Common/_sys_https_redirect') {
+                        && customObj[loc.profile].iRules[0].bigip === '/Common/_sys_https_redirect'
+                        && customObj[loc.profile].class === 'Service_HTTP') {
                         redirectVS.push({ add: customObj[loc.profile].virtualAddresses, loc });
                     }
 
@@ -490,8 +491,10 @@ module.exports = (json, config) => {
             delete declObj.Common;
         }
 
-        // cleanup 'redirect' virtual servers
+        // cleanup 'redirect' http virtual servers
         redirectVS.forEach((red) => {
+            let redirect80 = false;
+
             // look at all objects and check virtual servers only
             fileKeys.forEach((fileKey) => {
                 const confKey = getKey(fileKey);
@@ -507,17 +510,19 @@ module.exports = (json, config) => {
                             ? objVS.virtualAddresses[0][0]
                             : objVS.virtualAddresses[0];
 
+                        // check if we found HTTPS with the same address and mark that
                         if (destAddr.includes(red.add[0]) && objVS.class === 'Service_HTTPS') {
                             declObj[loc.tenant][loc.app][loc.profile].redirect80 = true;
-                        }
-
-                        // remove explicit redirect Service_HTTP in favor of Service_HTTPS.redirect80
-                        if (destAddr.includes(red.add[0]) && objVS.class === 'Service_HTTP') {
-                            delete declObj[loc.tenant][loc.app][loc.profile];
+                            redirect80 = true;
                         }
                     }
                 }
             });
+
+            // remove explicit redirect Service_HTTP in favor of Service_HTTPS.redirect80 if found
+            if (redirect80) {
+                delete declObj[red.loc.tenant][red.loc.app][red.loc.profile];
+            }
         });
 
         const as3NotConverted = Object.assign({}, ...unconvertedArr.map((x) => ({ [x]: json[x] })));

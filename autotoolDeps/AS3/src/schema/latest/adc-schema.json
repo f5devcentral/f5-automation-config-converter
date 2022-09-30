@@ -18,7 +18,7 @@
     },
     "updateMode": {
       "title": "Update mode",
-      "description": "When set to 'selective' (default) AS3 does not modify Tenants not referenced in the declaration.  Otherwise ('complete') AS3 removes unreferenced Tenants.",
+      "description": "When set to 'selective' (default) BIG-IP AS3 does not modify Tenants not referenced in the declaration.  Otherwise ('complete') BIG-IP AS3 removes unreferenced Tenants.",
       "type": "string",
       "enum": [
         "complete",
@@ -32,6 +32,7 @@
       "type": "string",
       "$comment": "IMPORTANT: In enum array, please put current schema version first, oldest-supported version last.  Keep enum array sorted most-recent-first.",
       "enum": [
+        "3.41.0",
         "3.40.0",
         "3.39.0",
         "3.38.0",
@@ -211,7 +212,7 @@
         },
         "optimisticLockKey": {
           "title": "Optimistic lock key",
-          "description": "When you deploy a declaration with a non-empty 'key' value here, that activates an optimistic lock on changes to this Tenant.  If the key in your declaration does not match the key AS3 computes for the most-recent previous declaration, then AS3 will NOT update this Tenant and will return an error code.  To use optimistic locking, first retrieve a declaration using option 'showHash=true' to get the current per-Tenant keys.  Make any changes you desire, then deploy your updated declaration.  Deployment of each Tenant with a key will succeed only if that Tenant has not been modified since the time you retrieved the declaration.  (To overwrite all previous changes to a Tenant simply do NOT include any opportunistic-lock key for that Tenant when you deploy a declaration.  That is the default.)  Note that only keys computed by AS3 may be used here-- you cannot generate your own. If 'showHash=true' is used on a POST then the optimisticLockKey will be shown as a part of the output (This helps to avoid the need to do a GET request).",
+          "description": "When you deploy a declaration with a non-empty 'key' value here, that activates an optimistic lock on changes to this Tenant.  If the key in your declaration does not match the key BIG-IP AS3 computes for the most-recent previous declaration, then BIG-IP AS3 will NOT update this Tenant and will return an error code.  To use optimistic locking, first retrieve a declaration using option 'showHash=true' to get the current per-Tenant keys.  Make any changes you desire, then deploy your updated declaration.  Deployment of each Tenant with a key will succeed only if that Tenant has not been modified since the time you retrieved the declaration.  (To overwrite all previous changes to a Tenant simply do NOT include any opportunistic-lock key for that Tenant when you deploy a declaration.  That is the default.)  Note that only keys computed by BIG-IP AS3 may be used here-- you cannot generate your own. If 'showHash=true' is used on a POST then the optimisticLockKey will be shown as a part of the output (This helps to avoid the need to do a GET request).",
           "type": "string",
           "maxLength": 128,
           "default": ""
@@ -249,7 +250,7 @@
         },
         "trace": {
           "title": "Trace",
-          "description": "If true, AS3 creates a detailed trace of the configuration process for subsequent analysis (default false).  May be overridden on a per-Tenant basis.  Warning:  trace files may contain sensitive configuration data",
+          "description": "If true, BIG-IP AS3 creates a detailed trace of the configuration process for subsequent analysis (default false).  May be overridden on a per-Tenant basis.  Warning:  trace files may contain sensitive configuration data",
           "type": "boolean",
           "default": false
         },
@@ -421,7 +422,9 @@
         {
           "type": "string",
           "format": "uri",
-          "f5expand": true
+          "f5PostProcess": {
+            "tag": "expand"
+          }
         },
         {
           "type": "object",
@@ -430,7 +433,9 @@
               "description": "URL from which to retrieve value",
               "type": "string",
               "format": "uri",
-              "f5expand": true
+              "f5PostProcess": {
+                "tag": "expand"
+              }
             },
             "skipCertificateCheck": {
               "description": "Skip verification of SSL certificates (default false)",
@@ -449,7 +454,7 @@
               ]
             },
             "ignoreChanges": {
-              "description": "If false (default), the URL will be fetched in each AS3 declaration deployment. If true, the resource will be created on the first deployment, but not on additional deployments.",
+              "description": "If false (default), the URL will be fetched in each BIG-IP AS3 declaration deployment. If true, the resource will be created on the first deployment, but not on additional deployments.",
               "type": "boolean",
               "default": false
             }
@@ -467,7 +472,9 @@
         {
           "type": "string",
           "format": "uri",
-          "f5expand": true
+          "f5PostProcess": {
+            "tag": "expand"
+          }
         },
         {
           "type": "object",
@@ -476,7 +483,9 @@
               "description": "URL from which to retrieve value",
               "type": "string",
               "format": "uri",
-              "f5expand": true
+              "f5PostProcess": {
+                "tag": "expand"
+              }
             },
             "skipCertificateCheck": {
               "description": "Skip verification of SSL certificates (default false)",
@@ -552,7 +561,12 @@
           "minimum": 0,
           "maximum": 65535,
           "default": 0,
-          "f5bigComponent": "query net route-domain"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query net route-domain"
+            ]
+          }
         },
         "Shared": {
           "$ref": "#/definitions/Application_Shared"
@@ -565,7 +579,7 @@
         },
         "optimisticLockKey": {
           "title": "Optimistic lock key",
-          "description": "When you deploy a declaration with a non-empty 'key' value here, that activates an optimistic lock on changes to this Tenant.  If the key in your declaration does not match the key AS3 computes for the most-recent previous declaration, then AS3 will NOT update this Tenant and will return an error code.  To use optimistic locking, first retrieve a declaration using option 'showHash=true' to get the current per-Tenant keys.  Make any changes you desire, then deploy your updated declaration.  Deployment of each Tenant with a key will succeed only if that Tenant has not been modified since the time you retrieved the declaration.  (To overwrite all previous changes to a Tenant simply do NOT include any opportunistic-lock key for that Tenant when you deploy a declaration.  That is the default.)  Note that only keys computed by AS3 may be used here-- you cannot generate your own. If 'showHash=true' is used on a POST then the optimisticLockKey will be shown as a part of the output (This helps to avoid the need to do a GET request).",
+          "description": "When you deploy a declaration with a non-empty 'key' value here, that activates an optimistic lock on changes to this Tenant.  If the key in your declaration does not match the key BIG-IP AS3 computes for the most-recent previous declaration, then BIG-IP AS3 will NOT update this Tenant and will return an error code.  To use optimistic locking, first retrieve a declaration using option 'showHash=true' to get the current per-Tenant keys.  Make any changes you desire, then deploy your updated declaration.  Deployment of each Tenant with a key will succeed only if that Tenant has not been modified since the time you retrieved the declaration.  (To overwrite all previous changes to a Tenant simply do NOT include any opportunistic-lock key for that Tenant when you deploy a declaration.  That is the default.)  Note that only keys computed by BIG-IP AS3 may be used here-- you cannot generate your own. If 'showHash=true' is used on a POST then the optimisticLockKey will be shown as a part of the output (This helps to avoid the need to do a GET request).",
           "type": "string",
           "maxLength": 128,
           "default": ""
@@ -640,7 +654,7 @@
         },
         "schemaOverlay": {
           "title": "Schema Overlay",
-          "description": "BIG-IQ name for a supplemental validation schema is applied to the Application class definition before the main AS3 schema",
+          "description": "BIG-IQ name for a supplemental validation schema is applied to the Application class definition before the main BIG-IP AS3 schema",
           "type": "string"
         },
         "enable": {
@@ -689,12 +703,12 @@
               "FTP_Profile",
               "HTML_Rule",
               "HTML_Profile",
+              "WebSocket_Profile",
               "HTTP_Profile",
               "HTTP_Compress",
               "HTTP2_Profile",
               "Multiplex_Profile",
               "TCP_Profile",
-              "UDP_Profile",
               "L4_Profile",
               "Classification_Profile",
               "Radius_Profile",
@@ -752,7 +766,8 @@
               "Enforcement_Interception_Endpoint",
               "Enforcement_Format_Script",
               "Enforcement_Forwarding_Endpoint",
-              "Enforcement_Service_Chain_Endpoint"
+              "Enforcement_Service_Chain_Endpoint",
+              "UDP_Profile"
             ]
           }
         },
@@ -1097,6 +1112,18 @@
             "if": {
               "properties": {
                 "class": {
+                  "const": "WebSocket_Profile"
+                }
+              }
+            },
+            "then": {
+              "$ref": "#/definitions/WebSocket_Profile"
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "class": {
                   "const": "HTTP_Profile"
                 }
               }
@@ -1151,18 +1178,6 @@
             },
             "then": {
               "$ref": "#/definitions/TCP_Profile"
-            }
-          },
-          {
-            "if": {
-              "properties": {
-                "class": {
-                  "const": "UDP_Profile"
-                }
-              }
-            },
-            "then": {
-              "$ref": "#/definitions/UDP_Profile"
             }
           },
           {
@@ -1860,6 +1875,18 @@
             "then": {
               "$ref": "#/definitions/Enforcement_Service_Chain_Endpoint"
             }
+          },
+          {
+            "if": {
+              "properties": {
+                "class": {
+                  "const": "UDP_Profile"
+                }
+              }
+            },
+            "then": {
+              "$ref": "#/definitions/UDP_Profile"
+            }
           }
         ]
       },
@@ -2148,7 +2175,7 @@
         },
         "redirect80": {
           "title": "Redirect HTTP",
-          "description": "If true, AS3 redirects HTTP traffic to any virtualAddress on port 80 to virtualPort",
+          "description": "If true, BIG-IP AS3 redirects HTTP traffic to any virtualAddress on port 80 to virtualPort",
           "type": "boolean",
           "default": true
         },
@@ -2158,7 +2185,7 @@
             "string",
             "object"
           ],
-          "description": "HTTP/2 profile; name of built-in or else AS3 pointer",
+          "description": "HTTP/2 profile; name of built-in or else BIG-IP AS3 pointer",
           "oneOf": [
             {
               "type": "string",
@@ -2241,7 +2268,7 @@
         },
         "profileHTTP": {
           "title": "HTTP profile",
-          "description": "HTTP profile; name of built-in or else AS3 pointer",
+          "description": "HTTP profile; name of built-in or else BIG-IP AS3 pointer",
           "if": {
             "not": {
               "type": "object"
@@ -2258,7 +2285,7 @@
             "properties": {
               "use": {
                 "title": "Use",
-                "description": "AS3 pointer to HTTP profile declaration",
+                "description": "BIG-IP AS3 pointer to HTTP profile declaration",
                 "type": "string",
                 "minLength": 1,
                 "f5PostProcess": {
@@ -2285,13 +2312,18 @@
             "additionalProperties": false,
             "minProperties": 1,
             "maxProperties": 1,
-            "f5bigComponent": "query ltm profile http"
+            "f5PostProcess": {
+              "tag": "bigComponent",
+              "data": [
+                "query ltm profile http"
+              ]
+            }
           },
           "default": "basic"
         },
         "profileHTTPCompression": {
           "title": "HTTP compression profile",
-          "description": "HTTP compression profile; name of built-in or else AS3 pointer",
+          "description": "HTTP compression profile; name of built-in or else BIG-IP AS3 pointer",
           "if": {
             "not": {
               "type": "object"
@@ -2309,7 +2341,7 @@
             "properties": {
               "use": {
                 "title": "Use",
-                "description": "AS3 pointer to HTTP compression profile declaration",
+                "description": "BIG-IP AS3 pointer to HTTP compression profile declaration",
                 "type": "string",
                 "minLength": 1,
                 "f5PostProcess": {
@@ -2336,12 +2368,17 @@
             "additionalProperties": false,
             "minProperties": 1,
             "maxProperties": 1,
-            "f5bigComponent": "query ltm profile http-compression"
+            "f5PostProcess": {
+              "tag": "bigComponent",
+              "data": [
+                "query ltm profile http-compression"
+              ]
+            }
           }
         },
         "profileHTTPAcceleration": {
           "title": "Web acceleration profile",
-          "description": "Web acceleration profile; name of built-in or else AS3 pointer",
+          "description": "Web acceleration profile; name of built-in or else BIG-IP AS3 pointer",
           "if": {
             "not": {
               "type": "object"
@@ -2362,7 +2399,7 @@
         },
         "profileMultiplex": {
           "title": "Multiplex profile",
-          "description": "Multiplex (OneConnect) profile; name of built-in or else AS3 pointer",
+          "description": "Multiplex (OneConnect) profile; name of built-in or else BIG-IP AS3 pointer",
           "if": {
             "not": {
               "type": "object"
@@ -2386,7 +2423,7 @@
         },
         "policyIAM": {
           "title": "IAM policy",
-          "description": "AS3 pointer to IAM (APM) policy declaration",
+          "description": "BIG-IP AS3 pointer to IAM (APM) policy declaration",
           "f5PostProcess": {
             "tag": "modules",
             "data": [
@@ -2641,7 +2678,7 @@
         },
         "profileTCP": {
           "title": "TCP profile",
-          "description": "TCP profile; name of built-in or else AS3 pointer",
+          "description": "TCP profile; name of built-in or else BIG-IP AS3 pointer",
           "if": {
             "not": {
               "type": "object"
@@ -2661,7 +2698,7 @@
             "properties": {
               "use": {
                 "title": "Use",
-                "description": "AS3 pointer to TCP profile declaration for ingress and egress",
+                "description": "BIG-IP AS3 pointer to TCP profile declaration for ingress and egress",
                 "type": "string",
                 "minLength": 1,
                 "f5PostProcess": {
@@ -2707,7 +2744,7 @@
                   "properties": {
                     "use": {
                       "title": "Use",
-                      "description": "AS3 pointer to TCP profile declaration for incoming connections",
+                      "description": "BIG-IP AS3 pointer to TCP profile declaration for incoming connections",
                       "type": "string",
                       "minLength": 1,
                       "f5PostProcess": {
@@ -2759,7 +2796,7 @@
                   "properties": {
                     "use": {
                       "title": "Use",
-                      "description": "AS3 pointer to TCP profile declaration for outgoing connections",
+                      "description": "BIG-IP AS3 pointer to TCP profile declaration for outgoing connections",
                       "type": "string",
                       "minLength": 1,
                       "f5PostProcess": {
@@ -2808,7 +2845,12 @@
                 "maxProperties": 2
               }
             },
-            "f5bigComponent": "query ltm profile tcp"
+            "f5PostProcess": {
+              "tag": "bigComponent",
+              "data": [
+                "query ltm profile tcp"
+              ]
+            }
           },
           "default": "normal"
         },
@@ -2820,7 +2862,7 @@
         },
         "serverTLS": {
           "title": "TLS server",
-          "description": "AS3 pointer to TLS Server declaration",
+          "description": "BIG-IP AS3 pointer to TLS Server declaration",
           "if": {
             "type": "string"
           },
@@ -2857,7 +2899,7 @@
         },
         "clientTLS": {
           "title": "TLS client",
-          "description": "AS3 pointer to TLS Client declaration",
+          "description": "BIG-IP AS3 pointer to TLS Client declaration",
           "if": {
             "type": "string"
           },
@@ -2894,7 +2936,7 @@
         },
         "policyEndpoint": {
           "title": "Endpoint policy",
-          "description": "AS3 pointer to Endpoint policy declaration",
+          "description": "BIG-IP AS3 pointer to Endpoint policy declaration",
           "if": {
             "type": "array"
           },
@@ -2993,7 +3035,7 @@
         },
         "profileUDP": {
           "title": "UDP profile",
-          "description": "UDP profile; name of built-in or else AS3 pointer",
+          "description": "UDP profile; name of built-in or else BIG-IP AS3 pointer",
           "if": {
             "not": {
               "type": "object"
@@ -3009,7 +3051,7 @@
             "properties": {
               "use": {
                 "title": "Use",
-                "description": "AS3 pointer to UDP profile declaration",
+                "description": "BIG-IP AS3 pointer to UDP profile declaration",
                 "type": "string",
                 "minLength": 1,
                 "f5PostProcess": {
@@ -3036,13 +3078,18 @@
             "additionalProperties": false,
             "minProperties": 1,
             "maxProperties": 1,
-            "f5bigComponent": "query ltm profile udp"
+            "f5PostProcess": {
+              "tag": "bigComponent",
+              "data": [
+                "query ltm profile udp"
+              ]
+            }
           },
           "default": "normal"
         },
         "serverTLS": {
           "title": "TLS server",
-          "description": "AS3 pointer to TLS Server declaration",
+          "description": "BIG-IP AS3 pointer to TLS Server declaration",
           "if": {
             "type": "string"
           },
@@ -3079,7 +3126,7 @@
         },
         "clientTLS": {
           "title": "TLS client",
-          "description": "AS3 pointer to TLS Client declaration",
+          "description": "BIG-IP AS3 pointer to TLS Client declaration",
           "if": {
             "type": "string"
           },
@@ -3116,7 +3163,7 @@
         },
         "policyEndpoint": {
           "title": "Endpoint policy",
-          "description": "AS3 pointer to Endpoint policy declaration",
+          "description": "BIG-IP AS3 pointer to Endpoint policy declaration",
           "if": {
             "type": "array"
           },
@@ -3421,7 +3468,7 @@
         },
         "profileL4": {
           "title": "L4 profile",
-          "description": "L4 profile; name of built-in or else AS3 pointer",
+          "description": "L4 profile; name of built-in or else BIG-IP AS3 pointer",
           "if": {
             "not": {
               "type": "object"
@@ -3475,7 +3522,7 @@
         },
         "profileL4": {
           "title": "L4 profile",
-          "description": "L4 profile; name of built-in or else AS3 pointer",
+          "description": "L4 profile; name of built-in or else BIG-IP AS3 pointer",
           "if": {
             "not": {
               "type": "object"
@@ -3677,7 +3724,7 @@
         },
         "snat": {
           "title": "SNAT",
-          "description": "Name of built-in SNAT method or AS3 pointer to SNAT pool. If 'self', the system uses the virtual-server address as SNAT address",
+          "description": "Name of built-in SNAT method or BIG-IP AS3 pointer to SNAT pool. If 'self', the system uses the virtual-server address as SNAT address",
           "if": {
             "not": {
               "type": "object"
@@ -3696,7 +3743,7 @@
             "properties": {
               "use": {
                 "title": "Use",
-                "description": "AS3 pointer to SNAT pool declaration",
+                "description": "BIG-IP AS3 pointer to SNAT pool declaration",
                 "type": "string",
                 "minLength": 1,
                 "f5PostProcess": {
@@ -3723,7 +3770,12 @@
             "additionalProperties": false,
             "minProperties": 1,
             "maxProperties": 1,
-            "f5bigComponent": "query ltm snatpool"
+            "f5PostProcess": {
+              "tag": "bigComponent",
+              "data": [
+                "query ltm snatpool"
+              ]
+            }
           },
           "default": "auto"
         },
@@ -3733,7 +3785,7 @@
           "type": "array",
           "items": {
             "title": "iRule",
-            "description": "AS3 pointer to iRule (declared separately)",
+            "description": "BIG-IP AS3 pointer to iRule (declared separately)",
             "if": {
               "type": "string"
             },
@@ -3764,7 +3816,7 @@
                 },
                 "use": {
                   "title": "Use",
-                  "description": "AS3 pointer to iRule (declared separately)",
+                  "description": "BIG-IP AS3 pointer to iRule (declared separately)",
                   "type": "string",
                   "minLength": 1,
                   "f5PostProcess": {
@@ -3785,14 +3837,19 @@
               "additionalProperties": false,
               "minProperties": 1,
               "maxProperties": 1,
-              "f5bigComponent": "query ltm rule"
+              "f5PostProcess": {
+                "tag": "bigComponent",
+                "data": [
+                  "query ltm rule"
+                ]
+              }
             }
           },
           "$comment": "uniqueItems: true"
         },
         "pool": {
           "title": "Pool",
-          "description": "AS3 pointer to pool if any (declared separately)",
+          "description": "BIG-IP AS3 pointer to pool if any (declared separately)",
           "if": {
             "type": "string"
           },
@@ -3822,7 +3879,7 @@
               },
               "use": {
                 "title": "Use",
-                "description": "AS3 pointer to pool if any (declared separately)",
+                "description": "BIG-IP AS3 pointer to pool if any (declared separately)",
                 "type": "string",
                 "minLength": 1,
                 "f5PostProcess": {
@@ -3843,7 +3900,12 @@
             "additionalProperties": false,
             "minProperties": 1,
             "maxProperties": 1,
-            "f5bigComponent": "query ltm pool"
+            "f5PostProcess": {
+              "tag": "bigComponent",
+              "data": [
+                "query ltm pool"
+              ]
+            }
           }
         },
         "addressStatus": {
@@ -3864,7 +3926,7 @@
         },
         "policyBandwidthControl": {
           "title": "Bandwidth Control Policy",
-          "description": "AS3 pointer to Bandwidth Control Policy (policy must be static)",
+          "description": "BIG-IP AS3 pointer to Bandwidth Control Policy (policy must be static)",
           "allOf": [
             {
               "$ref": "#/definitions/Pointer_Bandwidth_Control_Policy"
@@ -3900,11 +3962,11 @@
           ]
         },
         "policyNAT": {
-          "description": "AS3 pointer to NAT policy declaration",
+          "description": "BIG-IP AS3 pointer to NAT policy declaration",
           "f5PostProcess": {
-            "tag": "modules",
+            "tag": "bigComponent",
             "data": [
-              "afm"
+              "query security nat policy"
             ]
           },
           "type": "object",
@@ -3917,7 +3979,7 @@
             },
             "use": {
               "title": "Use",
-              "description": "AS3 pointer to NAT policy declaration",
+              "description": "BIG-IP AS3 pointer to NAT policy declaration",
               "type": "string",
               "minLength": 1,
               "f5PostProcess": {
@@ -3937,15 +3999,14 @@
           },
           "additionalProperties": false,
           "minProperties": 1,
-          "maxProperties": 1,
-          "f5bigComponent": "query security nat policy"
+          "maxProperties": 1
         },
         "policyIdleTimeout": {
           "$ref": "#/definitions/Pointer_Idle_Timeout_Policy"
         },
         "lastHop": {
           "title": "Last hop",
-          "description": "Name of built-in last-hop method or AS3 pointer to last-hop pool (default 'default' means use system setting)",
+          "description": "Name of built-in last-hop method or BIG-IP AS3 pointer to last-hop pool (default 'default' means use system setting)",
           "if": {
             "not": {
               "type": "object"
@@ -3964,7 +4025,7 @@
             "properties": {
               "use": {
                 "title": "Use",
-                "description": "AS3 pointer to last-hop pool declaration",
+                "description": "BIG-IP AS3 pointer to last-hop pool declaration",
                 "type": "string",
                 "minLength": 1,
                 "f5PostProcess": {
@@ -3991,7 +4052,12 @@
             "additionalProperties": false,
             "minProperties": 1,
             "maxProperties": 1,
-            "f5bigComponent": "query ltm pool"
+            "f5PostProcess": {
+              "tag": "bigComponent",
+              "data": [
+                "query ltm pool"
+              ]
+            }
           },
           "default": "default"
         },
@@ -4043,7 +4109,7 @@
         },
         "persistenceMethods": {
           "title": "Persistence method(s)",
-          "description": "List of persistence methods (each by name or AS3 pointer).  Element 0 is primary (default) persistence method. Use 'persistenceMethods: []' for no persistence.",
+          "description": "List of persistence methods (each by name or BIG-IP AS3 pointer).  Element 0 is primary (default) persistence method. Use 'persistenceMethods: []' for no persistence.",
           "type": "array",
           "items": {
             "$ref": "#/definitions/Basic_Persist"
@@ -4095,7 +4161,7 @@
             "properties": {
               "use": {
                 "title": "Use",
-                "description": "AS3 pointer to security log profile declaration",
+                "description": "BIG-IP AS3 pointer to security log profile declaration",
                 "type": "string",
                 "minLength": 1,
                 "f5PostProcess": {
@@ -4122,7 +4188,12 @@
             "additionalProperties": false,
             "minProperties": 1,
             "maxProperties": 1,
-            "f5bigComponent": "query security log profile"
+            "f5PostProcess": {
+              "tag": "bigComponent",
+              "data": [
+                "query security log profile"
+              ]
+            }
           }
         },
         "profileDiameterEndpoint": {
@@ -4150,7 +4221,7 @@
           "$ref": "#/definitions/Pointer_Rewrite_Profile"
         },
         "profileProtocolInspection": {
-          "description": "AS3 pointer to Protocol Inspection Profile declaration",
+          "description": "BIG-IP AS3 pointer to Protocol Inspection Profile declaration",
           "f5PostProcess": {
             "tag": "modules",
             "data": [
@@ -4210,7 +4281,7 @@
           ]
         },
         "profileIntegratedBotDefense": {
-          "description": "AS3 pointer to an Integrated Bot Defense Profile. These are only supported in tmos version 17.0+.",
+          "description": "BIG-IP AS3 pointer to an Integrated Bot Defense Profile. These are only supported in tmos version 17.0+.",
           "allOf": [
             {
               "$ref": "#/definitions/Pointer_Integrated_Bot_Defense_Profile"
@@ -4408,7 +4479,9 @@
           "items": {
             "title": "URL",
             "type": "string",
-            "f5expand": true
+            "f5PostProcess": {
+              "tag": "expand"
+            }
           },
           "maxItems": 10,
           "uniqueItems": true,
@@ -4421,7 +4494,9 @@
           "items": {
             "title": "User Agent Substring",
             "type": "string",
-            "f5expand": true
+            "f5PostProcess": {
+              "tag": "expand"
+            }
           },
           "maxItems": 10,
           "uniqueItems": true,
@@ -4537,7 +4612,7 @@
     },
     "Service_Address": {
       "title": "Service_Address",
-      "description": "Service IP address definition (BIG-IP virtual-address).  NOTE: When AS3 creates a Service_Address, it is placed in /tenant/serviceAddress (and not /tenant/app/serviceAddress) on the BIG-IP system.",
+      "description": "Service IP address definition (BIG-IP virtual-address).  NOTE: When BIG-IP AS3 creates a Service_Address, it is placed in /tenant/serviceAddress (and not /tenant/app/serviceAddress) on the BIG-IP system.",
       "type": "object",
       "properties": {
         "class": {
@@ -4698,15 +4773,22 @@
       "allOf": [
         {
           "$ref": "#/definitions/F5string"
+        },
+        {
+          "f5PostProcess": {
+            "tag": "expand",
+            "data": {
+              "when": "1/expand"
+            }
+          }
+        },
+        {
+          "f5PostProcess": {
+            "tag": "fetch",
+            "data": "string"
+          }
         }
-      ],
-      "f5PostProcess": {
-        "tag": "fetch",
-        "data": "string"
-      },
-      "f5expand": {
-        "when": "1/expand"
-      }
+      ]
     },
     "WAF_Policy": {
       "title": "WAF_Policy",
@@ -4744,30 +4826,45 @@
           "description": "The absolute file path for the ASM policy stored on the BIG-IP",
           "type": "string",
           "minLength": 3,
-          "f5PostProcess": {
-            "tag": "fetch",
-            "data": "string"
-          },
-          "f5expand": true
+          "allOf": [
+            {
+              "f5PostProcess": {
+                "tag": "expand"
+              }
+            },
+            {
+              "f5PostProcess": {
+                "tag": "fetch",
+                "data": "string"
+              }
+            }
+          ]
         },
         "policy": {
           "description": "Reference to a WAF Policy",
           "allOf": [
             {
               "$ref": "#/definitions/F5string"
+            },
+            {
+              "f5PostProcess": {
+                "tag": "expand",
+                "data": {
+                  "when": "1/expand"
+                }
+              }
+            },
+            {
+              "f5PostProcess": {
+                "tag": "fetch",
+                "data": "string"
+              }
             }
-          ],
-          "f5PostProcess": {
-            "tag": "fetch",
-            "data": "string"
-          },
-          "f5expand": {
-            "when": "1/expand"
-          }
+          ]
         },
         "ignoreChanges": {
           "title": "Ignore changes",
-          "description": "If false (default), the system updates the policy in every AS3 declaration deployment. If true, AS3 creates the policy on first deployment, and leaves it untouched afterwards",
+          "description": "If false (default), the system updates the policy in every BIG-IP AS3 declaration deployment. If true, BIG-IP AS3 creates the policy on first deployment, and leaves it untouched afterwards",
           "type": "boolean",
           "default": false
         },
@@ -4827,7 +4924,7 @@
     },
     "Basic_Persist": {
       "title": "Basic Persist",
-      "description": "Holds name of simple persistence method or AS3 pointer to persistence method",
+      "description": "Holds name of simple persistence method or BIG-IP AS3 pointer to persistence method",
       "if": {
         "type": "string"
       },
@@ -5256,7 +5353,7 @@
         },
         "iRule": {
           "title": "iRule",
-          "description": "AS3 pointer to iRule if any (declared separately)",
+          "description": "BIG-IP AS3 pointer to iRule if any (declared separately)",
           "if": {
             "type": "string"
           },
@@ -5287,7 +5384,7 @@
               },
               "use": {
                 "title": "Use",
-                "description": "AS3 pointer to iRule (declared separately)",
+                "description": "BIG-IP AS3 pointer to iRule (declared separately)",
                 "type": "string",
                 "minLength": 1,
                 "f5PostProcess": {
@@ -5308,7 +5405,12 @@
             "additionalProperties": false,
             "minProperties": 1,
             "maxProperties": 1,
-            "f5bigComponent": "query ltm rule"
+            "f5PostProcess": {
+              "tag": "bigComponent",
+              "data": [
+                "query ltm rule"
+              ]
+            }
           }
         }
       }
@@ -5388,7 +5490,7 @@
         },
         "iRule": {
           "title": "iRule",
-          "description": "AS3 pointer to required iRule (declared separately)",
+          "description": "BIG-IP AS3 pointer to required iRule (declared separately)",
           "if": {
             "type": "string"
           },
@@ -5422,7 +5524,12 @@
             "required": [
               "bigip"
             ],
-            "f5bigComponent": "query ltm rule"
+            "f5PostProcess": {
+              "tag": "bigComponent",
+              "data": [
+                "query ltm rule"
+              ]
+            }
           }
         }
       },
@@ -5495,7 +5602,7 @@
         },
         "monitors": {
           "title": "Monitors",
-          "description": "List of health monitors (each by name or AS3 pointer)",
+          "description": "List of health monitors (each by name or BIG-IP AS3 pointer)",
           "type": "array",
           "items": {
             "$ref": "#/definitions/Basic_Monitor"
@@ -5551,7 +5658,7 @@
         },
         "slowRampTime": {
           "title": "Slow ramp time",
-          "description": "AS3 slowly the connection rate to a newly-active member slowly during this interval (seconds)",
+          "description": "BIG-IP AS3 slowly the connection rate to a newly-active member slowly during this interval (seconds)",
           "type": "integer",
           "minimum": 0,
           "maximum": 900,
@@ -5947,7 +6054,7 @@
         },
         "monitors": {
           "title": "Monitors",
-          "description": "List of monitors (each by name or AS3 pointer)",
+          "description": "List of monitors (each by name or BIG-IP AS3 pointer)",
           "type": "array",
           "items": {
             "$ref": "#/definitions/Basic_Monitor"
@@ -6011,13 +6118,18 @@
         },
         "routeDomain": {
           "description": "The Route Domain to use for the pool member",
-          "$comment": "Due to the fact the Route Domain id is required for address modification, AS3 does NOT support this route domain reference as anything but the id.",
+          "$comment": "Due to the fact the Route Domain id is required for address modification, BIG-IP AS3 does NOT support this route domain reference as anything but the id.",
           "type": "integer",
           "minimum": 0,
           "maximum": 65534
         }
       },
-      "f5bigComponent": "query ltm node",
+      "f5PostProcess": {
+        "tag": "bigComponent",
+        "data": [
+          "query ltm node"
+        ]
+      },
       "required": [
         "servicePort"
       ],
@@ -6508,7 +6620,7 @@
     },
     "Basic_Monitor": {
       "title": "Basic Monitor",
-      "description": "Holds name of simple monitor or AS3 pointer to a monitor declaration",
+      "description": "Holds name of simple monitor or BIG-IP AS3 pointer to a monitor declaration",
       "if": {
         "type": "string"
       },
@@ -6527,7 +6639,7 @@
         "properties": {
           "use": {
             "title": "Use",
-            "description": "AS3 pointer to monitor declaration",
+            "description": "BIG-IP AS3 pointer to monitor declaration",
             "type": "string",
             "minLength": 1,
             "f5PostProcess": {
@@ -6554,7 +6666,12 @@
         "additionalProperties": false,
         "minProperties": 1,
         "maxProperties": 1,
-        "f5bigComponent": "probe ltm monitor icmp"
+        "f5PostProcess": {
+          "tag": "bigComponent",
+          "data": [
+            "probe ltm monitor icmp"
+          ]
+        }
       }
     },
     "Monitor": {
@@ -6585,6 +6702,7 @@
             "https",
             "http2",
             "icmp",
+            "inband",
             "ldap",
             "mysql",
             "postgresql",
@@ -6595,48 +6713,63 @@
             "tcp-half-open",
             "udp"
           ]
-        },
-        "targetAddress": {
-          "title": "Address",
-          "description": "IP address monitor should probe; if empty (default) then pool member address",
-          "type": "string",
-          "format": "f5ip",
-          "default": ""
-        },
-        "interval": {
-          "title": "Interval",
-          "description": "Poll interval (seconds)",
-          "type": "integer",
-          "minimum": 0,
-          "maximum": 3600,
-          "default": 5
-        },
-        "upInterval": {
-          "title": "Up-Interval",
-          "description": "Poll interval when service is already up (seconds)",
-          "type": "integer",
-          "minimum": 0,
-          "maximum": 3600,
-          "default": 0
-        },
-        "timeUntilUp": {
-          "title": "Time until up",
-          "description": "Delay between successful probe and sending traffic to node (seconds)",
-          "type": "integer",
-          "minimum": 0,
-          "maximum": 1800,
-          "default": 0
-        },
-        "timeout": {
-          "title": "Timeout",
-          "description": "Time limit for node to respond (seconds)",
-          "type": "integer",
-          "minimum": 0,
-          "maximum": 900,
-          "default": 16
         }
       },
       "allOf": [
+        {
+          "if": {
+            "not": {
+              "properties": {
+                "monitorType": {
+                  "const": "inband"
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "targetAddress": {
+                "title": "Address",
+                "description": "IP address monitor should probe; if empty (default) then pool member address",
+                "type": "string",
+                "format": "f5ip",
+                "default": ""
+              },
+              "interval": {
+                "title": "Interval",
+                "description": "Poll interval (seconds)",
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 3600,
+                "default": 5
+              },
+              "upInterval": {
+                "title": "Up-Interval",
+                "description": "Poll interval when service is already up (seconds)",
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 3600,
+                "default": 0
+              },
+              "timeUntilUp": {
+                "title": "Time until up",
+                "description": "Delay between successful probe and sending traffic to node (seconds)",
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1800,
+                "default": 0
+              },
+              "timeout": {
+                "title": "Timeout",
+                "description": "Time limit for node to respond (seconds)",
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 900,
+                "default": 16
+              }
+            }
+          }
+        },
         {
           "if": {
             "properties": {
@@ -6649,14 +6782,26 @@
             "$ref": "#/definitions/Monitor_ICMP"
           },
           "else": {
-            "properties": {
-              "targetPort": {
-                "title": "Port",
-                "description": "L4 port (if any) monitor should probe; if 0 (default) then pool member port",
-                "type": "integer",
-                "minimum": 0,
-                "maximum": 65535,
-                "default": 0
+            "if": {
+              "properties": {
+                "monitorType": {
+                  "const": "inband"
+                }
+              }
+            },
+            "then": {
+              "$ref": "#/definitions/Monitor_Inband"
+            },
+            "else": {
+              "properties": {
+                "targetPort": {
+                  "title": "Port",
+                  "description": "L4 port (if any) monitor should probe; if 0 (default) then pool member port",
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 65535,
+                  "default": 0
+                }
               }
             }
           }
@@ -6924,7 +7069,9 @@
           "description": "Tmsh object path name of an imported existing external monitor (e.g. /Common/arg_example)",
           "type": "string",
           "minLength": 2,
-          "f5expand": true
+          "f5PostProcess": {
+            "tag": "expand"
+          }
         },
         "expand": {
           "title": "Expand",
@@ -6938,22 +7085,31 @@
           "allOf": [
             {
               "$ref": "#/definitions/F5string"
+            },
+            {
+              "f5PostProcess": {
+                "tag": "expand",
+                "data": {
+                  "when": "1/expand"
+                }
+              }
+            },
+            {
+              "f5PostProcess": {
+                "tag": "fetch",
+                "data": "string"
+              }
             }
-          ],
-          "f5PostProcess": {
-            "tag": "fetch",
-            "data": "string"
-          },
-          "f5expand": {
-            "when": "1/expand"
-          }
+          ]
         },
         "arguments": {
           "title": "Arguments",
           "description": "Arguments to specified external monitor (will be backquote-expanded)",
           "type": "string",
           "default": "",
-          "f5expand": true
+          "f5PostProcess": {
+            "tag": "expand"
+          }
         },
         "environmentVariables": {
           "description": "Specifies user defined command line parameters that the external program requires.",
@@ -7040,21 +7196,27 @@
           "description": "Send this (backquote-expanded) string to query node",
           "type": "string",
           "default": "HEAD / HTTP/1.0\\r\\n\\r\\n",
-          "f5expand": true
+          "f5PostProcess": {
+            "tag": "expand"
+          }
         },
         "receive": {
           "title": "Receive = up",
           "description": "Mark node up upon receipt of this (backquote-expanded) string",
           "type": "string",
           "default": "HTTP/1.",
-          "f5expand": true
+          "f5PostProcess": {
+            "tag": "expand"
+          }
         },
         "receiveDown": {
           "title": "Receive = down",
           "description": "Mark node down upon receipt of this (backquote-expanded) string (optional; must be empty when 'reverse' is true)",
           "type": "string",
           "default": "",
-          "f5expand": true
+          "f5PostProcess": {
+            "tag": "expand"
+          }
         },
         "reverse": {
           "title": "Reverse",
@@ -7146,7 +7308,7 @@
         },
         "clientCertificate": {
           "title": "Client certificate",
-          "description": "AS3 pointer to client Certificate declaration, for TLS authentication (optional)",
+          "description": "BIG-IP AS3 pointer to client Certificate declaration, for TLS authentication (optional)",
           "type": "string",
           "minLength": 1,
           "f5PostProcess": {
@@ -7165,7 +7327,7 @@
         },
         "clientTLS": {
           "title": "Client TLS",
-          "description": "AS3 pointer to client TLS Profile",
+          "description": "BIG-IP AS3 pointer to client TLS Profile",
           "allOf": [
             {
               "$ref": "#/definitions/Pointer_TLS_Client"
@@ -7185,7 +7347,7 @@
       "properties": {
         "clientTLS": {
           "title": "Client TLS",
-          "description": "AS3 pointer to client TLS Profile",
+          "description": "BIG-IP AS3 pointer to client TLS Profile",
           "allOf": [
             {
               "$ref": "#/definitions/Pointer_TLS_Client"
@@ -7197,14 +7359,18 @@
           "description": "Mark node up upon receipt of this (backquote-expanded) string",
           "type": "string",
           "default": "HTTP/2.",
-          "f5expand": true
+          "f5PostProcess": {
+            "tag": "expand"
+          }
         },
         "send": {
           "title": "Send",
           "description": "Send this (backquote-expanded) string to query node",
           "type": "string",
           "default": "GET /\\r\\n\\r\\n",
-          "f5expand": true
+          "f5PostProcess": {
+            "tag": "expand"
+          }
         }
       },
       "allOf": [
@@ -7238,13 +7404,17 @@
           "title": "Send",
           "description": "Send this (backquote-expanded) string to query node",
           "type": "string",
-          "f5expand": true
+          "f5PostProcess": {
+            "tag": "expand"
+          }
         },
         "receive": {
           "title": "Receive = up",
           "description": "Mark node up upon receipt of this (backquote-expanded) string",
           "type": "string",
-          "f5expand": true
+          "f5PostProcess": {
+            "tag": "expand"
+          }
         },
         "username": {
           "title": "Username",
@@ -7330,13 +7500,17 @@
           "title": "Send",
           "description": "Send this (backquote-expanded) string to query node",
           "type": "string",
-          "f5expand": true
+          "f5PostProcess": {
+            "tag": "expand"
+          }
         },
         "receive": {
           "title": "Receive = up",
           "description": "Mark node up upon receipt of this (backquote-expanded) string",
           "type": "string",
-          "f5expand": true
+          "f5PostProcess": {
+            "tag": "expand"
+          }
         },
         "username": {
           "title": "Username",
@@ -7441,7 +7615,9 @@
           "description": "SIP headers to send in probes (if any)--separate by newlines (backquote-expanded)",
           "type": "string",
           "default": "",
-          "f5expand": true
+          "f5PostProcess": {
+            "tag": "expand"
+          }
         },
         "codesUp": {
           "title": "Codes = up",
@@ -7473,7 +7649,7 @@
         },
         "clientCertificate": {
           "title": "Client certificate",
-          "description": "AS3 pointer to client Certificate declaration, for TLS authentication (optional)",
+          "description": "BIG-IP AS3 pointer to client Certificate declaration, for TLS authentication (optional)",
           "type": "string",
           "minLength": 1,
           "f5PostProcess": {
@@ -7514,7 +7690,9 @@
           "type": "string",
           "format": "hostname",
           "default": "",
-          "f5expand": true
+          "f5PostProcess": {
+            "tag": "expand"
+          }
         }
       }
     },
@@ -7526,14 +7704,18 @@
           "title": "Send",
           "description": "Send this (backquote-expanded) string to node",
           "type": "string",
-          "f5expand": true,
+          "f5PostProcess": {
+            "tag": "expand"
+          },
           "default": "none"
         },
         "receive": {
           "title": "Receive = up",
           "description": "Mark node up upon receipt of this (backquote-expanded) string",
           "type": "string",
-          "f5expand": true,
+          "f5PostProcess": {
+            "tag": "expand"
+          },
           "default": "none"
         },
         "receiveDown": {
@@ -7541,7 +7723,9 @@
           "description": "Mark node down upon receipt of this (backquote-expanded) string (optional; must be empty when 'reverse' is true)",
           "type": "string",
           "default": "",
-          "f5expand": true
+          "f5PostProcess": {
+            "tag": "expand"
+          }
         },
         "reverse": {
           "title": "Reverse",
@@ -7588,14 +7772,18 @@
           "title": "Send",
           "description": "Send this (backquote-expanded) string to node",
           "type": "string",
-          "f5expand": true,
+          "f5PostProcess": {
+            "tag": "expand"
+          },
           "default": "default send string"
         },
         "receive": {
           "title": "Receive = up",
           "description": "Mark node up upon receipt of this (backquote-expanded) string",
           "type": "string",
-          "f5expand": true,
+          "f5PostProcess": {
+            "tag": "expand"
+          },
           "default": "none"
         },
         "receiveDown": {
@@ -7603,7 +7791,9 @@
           "description": "Mark node down upon receipt of this (backquote-expanded) string (optional; must be empty when 'reverse' is true)",
           "type": "string",
           "default": "",
-          "f5expand": true
+          "f5PostProcess": {
+            "tag": "expand"
+          }
         },
         "reverse": {
           "title": "Reverse",
@@ -7651,6 +7841,44 @@
           "description": "If true, treat pool member address as gateway to server (node) (default false)",
           "type": "boolean",
           "default": false
+        }
+      }
+    },
+    "Monitor_Inband": {
+      "description": "Additional Monitor class properties available when monitorType = inband",
+      "type": "object",
+      "properties": {
+        "failureInterval": {
+          "title": "Failure Interval",
+          "description": "Specifies an interval, in seconds. If the number of failures specified in the failures option occurs within this interval, the system marks the pool member as being unavailable.",
+          "type": "integer",
+          "maximum": 1000,
+          "minimum": 2,
+          "default": 30
+        },
+        "failures": {
+          "title": "Failures",
+          "description": "Specifies the number of failures that the system allows to occur, within the time period specified in the failureInterval property, before marking a pool member unavailable. The multiple tmm processes use a per-process number to calculate failures, depending on the specified load. For example, for the Round Robin load balancing method, if there are N tmm processes and M pool members, and the Failures property is set to L, then up to N*M*L+1 failures can occur before the system marks the node as down. Specifying a value of 0 disables this option. A failure can be either a failure to connect or a failure of the pool member to respond within the time specified in the responseTime property.",
+          "type": "integer",
+          "default": 3,
+          "maximum": 1000,
+          "minimum": 0
+        },
+        "responseTime": {
+          "title": "Response Time",
+          "description": "Specifies an amount of time, in seconds. If the pool member does not respond with data after the specified amount of time has passed, the number of failures in this interval increments by 1. Specifying a value of 0 disables this option.",
+          "type": "integer",
+          "default": 10,
+          "maximum": 5000,
+          "minimum": 0
+        },
+        "retryTime": {
+          "title": "Retry Time",
+          "description": "Specifies the amount of time in seconds after the pool member has been marked unavailable before the system retries to connect to the pool member. Specifying a value of 0 disables this option.",
+          "type": "integer",
+          "default": 300,
+          "maximum": 5000,
+          "minimum": 0
         }
       }
     },
@@ -8016,7 +8244,7 @@
               },
               "certificate": {
                 "title": "Certificate",
-                "description": "AS3 pointer to Certificate declaration",
+                "description": "BIG-IP AS3 pointer to Certificate declaration",
                 "type": "string",
                 "minLength": 1,
                 "f5PostProcess": {
@@ -8035,7 +8263,7 @@
               },
               "proxyCertificate": {
                 "title": "Proxy Certificate",
-                "description": "AS3 pointer to Certificate declaration for SSL forward proxy",
+                "description": "BIG-IP AS3 pointer to Certificate declaration for SSL forward proxy",
                 "type": "string",
                 "minLength": 1,
                 "f5PostProcess": {
@@ -8093,7 +8321,7 @@
         },
         "authenticationTrustCA": {
           "title": "Authentication trust CA",
-          "description": "AS3 pointer to declaration of CA Bundle used to validate client certificates",
+          "description": "BIG-IP AS3 pointer to declaration of CA Bundle used to validate client certificates",
           "if": {
             "type": "string"
           },
@@ -8127,12 +8355,17 @@
             "required": [
               "bigip"
             ],
-            "f5bigComponent": "query sys file ssl-cert"
+            "f5PostProcess": {
+              "tag": "bigComponent",
+              "data": [
+                "query sys file ssl-cert"
+              ]
+            }
           }
         },
         "authenticationInviteCA": {
           "title": "Authentication invite CA",
-          "description": "AS3 pointer to declaration of CA Bundle used to invite client certificates",
+          "description": "BIG-IP AS3 pointer to declaration of CA Bundle used to invite client certificates",
           "if": {
             "type": "string"
           },
@@ -8166,7 +8399,12 @@
             "required": [
               "bigip"
             ],
-            "f5bigComponent": "query sys file ssl-cert"
+            "f5PostProcess": {
+              "tag": "bigComponent",
+              "data": [
+                "query sys file ssl-cert"
+              ]
+            }
           }
         },
         "crlFile": {
@@ -8583,7 +8821,7 @@
         },
         "trustCA": {
           "title": "Trusted CA bundle",
-          "description": "CA's trusted to validate server certificate; 'generic' (default) or else AS3 pointer to declaration of CA Bundle",
+          "description": "CA's trusted to validate server certificate; 'generic' (default) or else BIG-IP AS3 pointer to declaration of CA Bundle",
           "if": {
             "not": {
               "type": "object"
@@ -8601,7 +8839,7 @@
             "properties": {
               "use": {
                 "title": "Use",
-                "description": "AS3 pointer to declaration of CA bundle",
+                "description": "BIG-IP AS3 pointer to declaration of CA bundle",
                 "type": "string",
                 "minLength": 1,
                 "f5PostProcess": {
@@ -8628,7 +8866,12 @@
             "additionalProperties": false,
             "minProperties": 1,
             "maxProperties": 1,
-            "f5bigComponent": "query sys file ssl-cert"
+            "f5PostProcess": {
+              "tag": "bigComponent",
+              "data": [
+                "query sys file ssl-cert"
+              ]
+            }
           }
         },
         "ignoreExpired": {
@@ -8651,7 +8894,7 @@
         },
         "clientCertificate": {
           "title": "Client certificate",
-          "description": "AS3 pointer to client Certificate declaration (optional)",
+          "description": "BIG-IP AS3 pointer to client Certificate declaration (optional)",
           "type": "string",
           "f5PostProcess": {
             "tag": "pointer",
@@ -8954,8 +9197,8 @@
               "default": false
             },
             "internalOnly": {
-              "title": "AS3 internal use only",
-              "description": "AS3 uses this property internally. Any values supplied here will be ignored",
+              "title": "BIG-IP AS3 internal use only",
+              "description": "BIG-IP AS3 uses this property internally. Any values supplied here will be ignored",
               "type": "array",
               "items": {
                 "type": [
@@ -8976,13 +9219,22 @@
           "allOf": [
             {
               "$ref": "#/definitions/F5string"
+            },
+            {
+              "f5PostProcess": {
+                "tag": "fetch",
+                "data": "pki-cert"
+              }
+            },
+            {
+              "f5PostProcess": {
+                "tag": "bigComponent",
+                "data": [
+                  "query sys file ssl-cert"
+                ]
+              }
             }
-          ],
-          "f5PostProcess": {
-            "tag": "fetch",
-            "data": "pki-cert"
-          },
-          "f5bigComponent": "query sys file ssl-cert"
+          ]
         },
         "privateKey": {
           "title": "Private key",
@@ -8990,13 +9242,22 @@
           "allOf": [
             {
               "$ref": "#/definitions/F5string"
+            },
+            {
+              "f5PostProcess": {
+                "tag": "fetch",
+                "data": "pki-key"
+              }
+            },
+            {
+              "f5PostProcess": {
+                "tag": "bigComponent",
+                "data": [
+                  "query sys file ssl-key"
+                ]
+              }
             }
-          ],
-          "f5PostProcess": {
-            "tag": "fetch",
-            "data": "pki-key"
-          },
-          "f5bigComponent": "query sys file ssl-key"
+          ]
         },
         "passphrase": {
           "title": "Passphrase",
@@ -9041,15 +9302,26 @@
               "$ref": "#/definitions/Pointer_CA_Bundle"
             }
           ],
-          "f5PostProcess": {
-            "tag": "fetch",
-            "data": "pki-bundle"
-          },
-          "f5bigComponent": "query sys file ssl-cert"
+          "allOf": [
+            {
+              "f5PostProcess": {
+                "tag": "fetch",
+                "data": "pki-bundle"
+              }
+            },
+            {
+              "f5PostProcess": {
+                "tag": "bigComponent",
+                "data": [
+                  "query sys file ssl-cert"
+                ]
+              }
+            }
+          ]
         },
         "staplerOCSP": {
           "title": "OCSP Stapler",
-          "description": "AS3 pointer to OCSP Stapler declaration (optional)",
+          "description": "BIG-IP AS3 pointer to OCSP Stapler declaration (optional)",
           "allOf": [
             {
               "$ref": "#/definitions/Pointer_Certificate_Validator_OCSP"
@@ -9124,13 +9396,22 @@
           "allOf": [
             {
               "$ref": "#/definitions/F5string"
+            },
+            {
+              "f5PostProcess": {
+                "tag": "fetch",
+                "data": "pki-cert"
+              }
+            },
+            {
+              "f5PostProcess": {
+                "tag": "bigComponent",
+                "data": [
+                  "query sys file ssl-cert"
+                ]
+              }
             }
-          ],
-          "f5PostProcess": {
-            "tag": "fetch",
-            "data": "pki-cert"
-          },
-          "f5bigComponent": "query sys file ssl-cert"
+          ]
         }
       },
       "additionalProperties": false,
@@ -9157,7 +9438,7 @@
         },
         "dnsResolver": {
           "title": "DNS resolver",
-          "description": "AS3 pointer to DNS resolver used to resolve hostnames in client requests",
+          "description": "BIG-IP AS3 pointer to DNS resolver used to resolve hostnames in client requests",
           "allOf": [
             {
               "$ref": "#/definitions/Pointer_DNS_Resolver"
@@ -9219,7 +9500,7 @@
           "properties": {
             "use": {
               "title": "Use",
-              "description": "AS3 pointer to data group if any (declared separately)",
+              "description": "BIG-IP AS3 pointer to data group if any (declared separately)",
               "type": "string",
               "minLength": 1,
               "f5PostProcess": {
@@ -9263,10 +9544,20 @@
             }
           },
           "then": {
-            "f5bigComponent": "query ltm data-group external"
+            "f5PostProcess": {
+              "tag": "bigComponent",
+              "data": [
+                "query ltm data-group external"
+              ]
+            }
           },
           "else": {
-            "f5bigComponent": "query ltm data-group internal"
+            "f5PostProcess": {
+              "tag": "bigComponent",
+              "data": [
+                "query ltm data-group internal"
+              ]
+            }
           },
           "minProperties": 1,
           "maxProperties": 2
@@ -9536,7 +9827,9 @@
           "items": {
             "title": "URL",
             "type": "string",
-            "f5expand": true
+            "f5PostProcess": {
+              "tag": "expand"
+            }
           },
           "uniqueItems": true,
           "$comment": "Collected Entity"
@@ -10144,6 +10437,93 @@
       ],
       "additionalProperties": false
     },
+    "WebSocket_Profile": {
+      "title": "WebSocket_Profile",
+      "type": "object",
+      "description": "WebSocket profile with configurable options",
+      "properties": {
+        "class": {
+          "title": "Class",
+          "type": "string",
+          "const": "WebSocket_Profile"
+        },
+        "label": {
+          "$ref": "#/definitions/Label"
+        },
+        "remark": {
+          "$ref": "#/definitions/Remark"
+        },
+        "masking": {
+          "title": "Masking",
+          "description": "Specifies the masking operation for WebSocket frames",
+          "type": "string",
+          "enum": [
+            "preserve",
+            "unmask",
+            "remask",
+            "selective"
+          ],
+          "default": "selective"
+        },
+        "compressMode": {
+          "title": "Compress Mode",
+          "description": "Available when TMOS version is 16.1 or newer. Specifies the mode that controls what compression operations are performed. Setting 'masking' to 'preserve' and 'compressMode' to 'typed' will not be allowed because it results in an invalid configuration.",
+          "type": "string",
+          "enum": [
+            "preserved",
+            "typed"
+          ],
+          "default": "preserved"
+        },
+        "compression": {
+          "title": "Compression",
+          "description": "Available when TMOS version is 16.1 or newer and used when compressMode is 'typed'. Specifies whether compress will be negotiated with the endpoint.",
+          "type": "boolean",
+          "default": true
+        },
+        "maximumWindowSize": {
+          "title": "Maximum Window Size",
+          "description": "Available when TMOS version is 16.1 or newer and used when compressMode is 'typed'. Specifies the maximum sliding window for compression negotiated with the endpoint.",
+          "type": "integer",
+          "minimum": 8,
+          "maximum": 15,
+          "default": 10
+        },
+        "noDelay": {
+          "title": "No Delay",
+          "description": "Available when TMOS version is 16.1 or newer and used when compressMode is 'typed'. Specifies whether data should be buffered for efficient compression, or compressed without delay.",
+          "type": "boolean",
+          "default": true
+        }
+      },
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "masking": {
+                "const": "preserve"
+              }
+            },
+            "required": [
+              "masking"
+            ]
+          },
+          "then": {
+            "properties": {
+              "compressMode": {
+                "not": {
+                  "const": "typed"
+                }
+              }
+            },
+            "required": [
+              "compressMode"
+            ]
+          }
+        }
+      ]
+    },
     "HTTP_Profile": {
       "title": "HTTP_Profile",
       "type": "object",
@@ -10171,6 +10551,18 @@
           ],
           "default": "reverse"
         },
+        "allowBlankSpaceAfterHeaderName": {
+          "title": "Allow Blank Space After Header Name",
+          "description": "Specifies whether to allow blank space in an HTTP header between the header name and the separator colon in an HTTP request or response. Requires TMOS version 16.1 or newer.",
+          "type": "boolean",
+          "default": false
+        },
+        "enforceRFCCompliance": {
+          "title": "Enforce RFC Compliance",
+          "description": "BIG-IP LTM performs basic RFC compliance checks as described in the latest RFC for the HTTP protocol. If a client request fails these checks, then the connection is reset. Requires TMOS version 15.0 or newer.",
+          "type": "boolean",
+          "default": false
+        },
         "encryptCookies": {
           "title": "Encrypt cookies",
           "description": "List cookies to encrypt en-route to the client and decrypt en-route to a pool member",
@@ -10184,7 +10576,7 @@
         },
         "cookiePassphrase": {
           "title": "Cookie encryption passphrase",
-          "description": "Used to create secret key for cookie encryption (when missing, AS3 uses a system-generated key)",
+          "description": "Used to create secret key for cookie encryption (when missing, BIG-IP AS3 uses a system-generated key)",
           "type": "object",
           "properties": {
             "allowReuse": {
@@ -10212,7 +10604,7 @@
         },
         "fallbackRedirect": {
           "title": "Fallback Redirect",
-          "description": "Domain name (or IP address) of service (if any) to which AS3 should redirect a request when no pool member is responsive or selected pool member returns a fallbackStatusCode",
+          "description": "Domain name (or IP address) of service (if any) to which BIG-IP AS3 should redirect a request when no pool member is responsive or selected pool member returns a fallbackStatusCode",
           "type": "string",
           "minLength": 1,
           "anyOf": [
@@ -10273,13 +10665,13 @@
         },
         "multiplexTransformations": {
           "title": "Multiplex transformations",
-          "description": "If true (default), AS3 adjusts request headers to work properly when the virtual server uses a Multiplex profile",
+          "description": "If true (default), BIG-IP AS3 adjusts request headers to work properly when the virtual server uses a Multiplex profile",
           "type": "boolean",
           "default": true
         },
         "insertHeader": {
           "title": "Insert header",
-          "description": "You may insert one header into each request before AS3 sends it to a pool member.  The header value may be a simple string or the result of an iRules TCL expression (for example, [IP::client_addr]).  This is the most efficient way to insert a single header; to insert multiple headers use an iRule or an Endpoint policy",
+          "description": "You may insert one header into each request before BIG-IP AS3 sends it to a pool member.  The header value may be a simple string or the result of an iRules TCL expression (for example, [IP::client_addr]).  This is the most efficient way to insert a single header; to insert multiple headers use an iRule or an Endpoint policy",
           "type": "object",
           "properties": {
             "name": {
@@ -10301,7 +10693,7 @@
         },
         "whiteOutHeader": {
           "title": "White-out header",
-          "description": "You may name one request header you want whited-out of each request before AS3 sends it to a pool member.  To remove more than a single named header, use an iRule or an Endpoint policy.  (Whiting-out a header leaves its name but replaces its value in the request with space characters (ASCII 0x20) to avoid changing the length of the headers.)",
+          "description": "You may name one request header you want whited-out of each request before BIG-IP AS3 sends it to a pool member.  To remove more than a single named header, use an iRule or an Endpoint policy.  (Whiting-out a header leaves its name but replaces its value in the request with space characters (ASCII 0x20) to avoid changing the length of the headers.)",
           "type": "string",
           "pattern": "^[^\\x00-\\x20\\x22:\\x5c\\x7f-\\xff]+$",
           "minLength": 1,
@@ -10309,7 +10701,7 @@
         },
         "allowedResponseHeaders": {
           "title": "Allow response headers",
-          "description": "By default AS3 passes HTTP headers in responses from pool members to clients unaltered.  You may list names of allowed response headers here and AS3 removes any you do not list from responses.",
+          "description": "By default BIG-IP AS3 passes HTTP headers in responses from pool members to clients unaltered.  You may list names of allowed response headers here and BIG-IP AS3 removes any you do not list from responses.",
           "type": "array",
           "items": {
             "title": "Allowed header",
@@ -10373,7 +10765,7 @@
         },
         "viaRequest": {
           "title": "Via request control",
-          "description": "Controls treatment of Via: headers in requests from clients.  When set to 'append' AS3 requires viaHost",
+          "description": "Controls treatment of Via: headers in requests from clients.  When set to 'append' BIG-IP AS3 requires viaHost",
           "type": "string",
           "enum": [
             "append",
@@ -10384,7 +10776,7 @@
         },
         "viaResponse": {
           "title": "Via response control",
-          "description": "Controls treatment of Via: headers in responses from pool members.  When set to 'append' AS3 requires viaHost",
+          "description": "Controls treatment of Via: headers in responses from pool members.  When set to 'append' BIG-IP AS3 requires viaHost",
           "type": "string",
           "enum": [
             "append",
@@ -10415,7 +10807,7 @@
         },
         "knownMethods": {
           "title": "Known methods",
-          "description": "List of HTTP request methods AS3 should recognize as normal.  Any method not in this list will provoke the 'unknownMethodAction' action",
+          "description": "List of HTTP request methods BIG-IP AS3 should recognize as normal.  Any method not in this list will provoke the 'unknownMethodAction' action",
           "type": "array",
           "items": {
             "title": "HTTP method",
@@ -10452,7 +10844,7 @@
         },
         "maxRequests": {
           "title": "Maximum requests per connection",
-          "description": "When AS3 has processed more than this number of requests through a connection, the system closes it.  Default 0 means permit unlimited requests",
+          "description": "When BIG-IP AS3 has processed more than this number of requests through a connection, the system closes it.  Default 0 means permit unlimited requests",
           "type": "integer",
           "minimum": 0,
           "maximum": 2147483647,
@@ -10470,14 +10862,14 @@
           "default": "allow"
         },
         "webSocketsEnabled": {
-          "title": "Web sockets",
-          "description": "When true, allow clients to initiate Web Socket connections (default false)",
+          "title": "WebSockets Enabled",
+          "description": "Deprecated. When true, allow clients to initiate WebSocket connections (default false). When specified the property 'profileWebSocket' supersedes this property.",
           "type": "boolean",
           "default": false
         },
         "webSocketMasking": {
-          "title": "Web socket masking",
-          "description": "Web-socket stream data is always masked from client to ADC and from ADC to server.  Default value 'unmask' makes stream data passing through visible to ADC security policy and/or iRules attached to the service.  'selective' unmasks stream data only when a security policy is attached.  'preserve' passes data through masked (unreadable by security policy).  'remask' causes different masking keys to be used on client and server sides",
+          "title": "WebSocket masking",
+          "description": "Deprecated. WebSocket stream data is always masked from client to ADC and from ADC to server.  Default value 'unmask' makes stream data passing through visible to ADC security policy and/or iRules attached to the service.  'selective' unmasks stream data only when a security policy is attached.  'preserve' passes data through masked (unreadable by security policy).  'remask' causes different masking keys to be used on client and server sides. When specified the property 'profileWebSocket' supersedes this property.",
           "type": "string",
           "enum": [
             "preserve",
@@ -10492,6 +10884,9 @@
           "description": "Determines if a proxy connection profile will be created",
           "type": "boolean",
           "default": false
+        },
+        "profileWebSocket": {
+          "$ref": "#/definitions/Pointer_WebSocket_Profile"
         }
       },
       "if": {
@@ -10803,7 +11198,7 @@
         },
         "resolver": {
           "title": "DNS resolver",
-          "description": "AS3 pointer to DNS resolver used to resolve hostnames in client requests",
+          "description": "BIG-IP AS3 pointer to DNS resolver used to resolve hostnames in client requests",
           "type": "object",
           "properties": {
             "bigip": {
@@ -10817,7 +11212,12 @@
           "required": [
             "bigip"
           ],
-          "f5bigComponent": "query net dns-resolver"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query net dns-resolver"
+            ]
+          }
         },
         "doNotProxyHosts": {
           "title": "Do-not-proxy hosts",
@@ -10847,7 +11247,12 @@
           "minLength": 1,
           "maxLength": 63,
           "default": "http-tunnel",
-          "f5bigComponent": "query net tunnels tunnel"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query net tunnels tunnel"
+            ]
+          }
         },
         "defaultConnectAction": {
           "title": "Default CONNECT action",
@@ -10873,7 +11278,12 @@
             }
           ],
           "default": 0,
-          "f5bigComponent": "query net route-domain"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query net route-domain"
+            ]
+          }
         },
         "connectErrorMessage": {
           "title": "Connect-error message",
@@ -10929,7 +11339,7 @@
         },
         "allowHTTP10": {
           "title": "Allow HTTP/1.0",
-          "description": "If true, AS3 may compress HTTP/1.0 responses (default false)",
+          "description": "If true, BIG-IP AS3 may compress HTTP/1.0 responses (default false)",
           "type": "boolean",
           "default": false
         },
@@ -10943,7 +11353,7 @@
         },
         "contentTypeExcludes": {
           "title": "Content-Type exclude list",
-          "description": "List of response Content-Type values which AS3 should not compress.  Values are regular expressions that match Content-Type strings",
+          "description": "List of response Content-Type values which BIG-IP AS3 should not compress.  Values are regular expressions that match Content-Type strings",
           "type": "array",
           "items": {
             "title": "Content-Type regex",
@@ -10954,7 +11364,7 @@
         },
         "contentTypeIncludes": {
           "title": "Content-Type include list",
-          "description": "List of response Content-Type values which AS3 should compress.  Values are regular expressions that match Content-Type strings",
+          "description": "List of response Content-Type values which BIG-IP AS3 should compress.  Values are regular expressions that match Content-Type strings",
           "type": "array",
           "items": {
             "title": "Content-Type regex",
@@ -10969,7 +11379,7 @@
         },
         "uriExcludes": {
           "title": "URI exclude list",
-          "description": "List of request URI's for which AS3 should not compress responses.  Values are regular expressions that match request URI strings",
+          "description": "List of request URI's for which BIG-IP AS3 should not compress responses.  Values are regular expressions that match request URI strings",
           "type": "array",
           "items": {
             "title": "URI regex",
@@ -10980,7 +11390,7 @@
         },
         "uriIncludes": {
           "title": "URI include list",
-          "description": "List of request URI's for which AS3 should compress responses.  Values are regular expressions that match URI strings",
+          "description": "List of request URI's for which BIG-IP AS3 should compress responses.  Values are regular expressions that match URI strings",
           "type": "array",
           "items": {
             "title": "URI regex",
@@ -10997,7 +11407,7 @@
         },
         "cpuSaverHigh": {
           "title": "CPU-saver %high",
-          "description": "CPU utilization percentage (default 90) above which AS3 should moderate compression",
+          "description": "CPU utilization percentage (default 90) above which BIG-IP AS3 should moderate compression",
           "type": "integer",
           "minimum": 15,
           "maximum": 99,
@@ -11013,7 +11423,7 @@
         },
         "minimumSize": {
           "title": "Minimum size to compress",
-          "description": "AS3 will not compress responses of fewer octets than this (default 1024)",
+          "description": "BIG-IP AS3 will not compress responses of fewer octets than this (default 1024)",
           "type": "integer",
           "minimum": 128,
           "maximum": 131072,
@@ -11061,7 +11471,7 @@
         },
         "selective": {
           "title": "Selective mode",
-          "description": "If true, AS3 will only compress a response when an iRule attached to the virtual server requests it (default is false, meaning AS3 will compress responses which meet the criteria in this profile)",
+          "description": "If true, BIG-IP AS3 will only compress a response when an iRule attached to the virtual server requests it (default is false, meaning BIG-IP AS3 will compress responses which meet the criteria in this profile)",
           "type": "boolean",
           "default": false
         },
@@ -11272,7 +11682,7 @@
         },
         "abc": {
           "title": "Appropriate Byte Counting",
-          "description": "If true (default), AS3 adjusts the congestion window per rfc3465",
+          "description": "If true (default), BIG-IP AS3 adjusts the congestion window per rfc3465",
           "type": "boolean",
           "default": true
         },
@@ -11284,19 +11694,19 @@
         },
         "autoProxyBufferSize": {
           "title": "Automatic proxy-buffer size",
-          "description": "If true (default), AS3 adjusts the proxy buffer size automatically to optimize throughput",
+          "description": "If true (default), BIG-IP AS3 adjusts the proxy buffer size automatically to optimize throughput",
           "type": "boolean",
           "default": true
         },
         "autoReceiveWindowSize": {
           "title": "Automatic receive-window size",
-          "description": "If true (default), AS3 adjusts the receive window size automatically to optimize throughput",
+          "description": "If true (default), BIG-IP AS3 adjusts the receive window size automatically to optimize throughput",
           "type": "boolean",
           "default": true
         },
         "autoSendBufferSize": {
           "title": "Automatic send-buffer size",
-          "description": "If true (default), AS3 adjusts the send buffer size automatically to optimize throughput",
+          "description": "If true (default), BIG-IP AS3 adjusts the send buffer size automatically to optimize throughput",
           "type": "boolean",
           "default": true
         },
@@ -11357,31 +11767,31 @@
         },
         "delayWindowControl": {
           "title": "Delay-window control",
-          "description": "If true, AS3 uses queueing delay as well as packet loss to estimate congestion (default false)",
+          "description": "If true, BIG-IP AS3 uses queueing delay as well as packet loss to estimate congestion (default false)",
           "type": "boolean",
           "default": false
         },
         "dsack": {
           "title": "Use D-SACK",
-          "description": "If true, AS3 uses rfc2883 duplicate selective-acknowledgements extension (default false).  Do not enable this option unless you are certain all peers support D-SACK",
+          "description": "If true, BIG-IP AS3 uses rfc2883 duplicate selective-acknowledgements extension (default false).  Do not enable this option unless you are certain all peers support D-SACK",
           "type": "boolean",
           "default": false
         },
         "earlyRetransmit": {
           "title": "Early retransmit",
-          "description": "If true (default), AS3 uses rfc5827 Early Retransmit recovery",
+          "description": "If true (default), BIG-IP AS3 uses rfc5827 Early Retransmit recovery",
           "type": "boolean",
           "default": true
         },
         "ecn": {
           "title": "Explicit congestion notification",
-          "description": "If true (default), AS3 may send explicit congestion notification (ECN) flags (CWR, ECE) to peers",
+          "description": "If true (default), BIG-IP AS3 may send explicit congestion notification (ECN) flags (CWR, ECE) to peers",
           "type": "boolean",
           "default": true
         },
         "enhancedLossRecovery": {
           "title": "Enhanced loss recovery",
-          "description": "If true (default), AS3 uses Selective ACK data to increase throughput",
+          "description": "If true (default), BIG-IP AS3 uses Selective ACK data to increase throughput",
           "type": "boolean",
           "default": true
         },
@@ -11800,7 +12210,7 @@
         },
         "slowStart": {
           "title": "Slow-start",
-          "description": "If true (default), AS3 adjusts the initial window size per rfc3390.  This generally makes connections start more quickly, NOT more slowly",
+          "description": "If true (default), BIG-IP AS3 adjusts the initial window size per rfc3390.  This generally makes connections start more quickly, NOT more slowly",
           "type": "boolean",
           "default": true
         },
@@ -11875,7 +12285,7 @@
         },
         "timestamps": {
           "title": "Timestamps",
-          "description": "If true (default and recommended), AS3 enables rfc1323 timestamps",
+          "description": "If true (default and recommended), BIG-IP AS3 enables rfc1323 timestamps",
           "type": "boolean",
           "default": true
         },
@@ -11943,152 +12353,6 @@
       "f5aliases": {
         "synCookieAllowlist": "synCookieWhitelist"
       }
-    },
-    "UDP_Profile": {
-      "title": "UDP_Profile",
-      "description": "Configures a User Datagram Protocol (UDP) profile",
-      "type": "object",
-      "properties": {
-        "class": {
-          "title": "Class",
-          "type": "string",
-          "const": "UDP_Profile"
-        },
-        "label": {
-          "$ref": "#/definitions/Label"
-        },
-        "remark": {
-          "$ref": "#/definitions/Remark"
-        },
-        "allowNoPayload": {
-          "title": "Allow empty payload",
-          "description": "When true, forward UDP datagrams with empty payloads (default false)",
-          "type": "boolean",
-          "default": false
-        },
-        "bufferMaxBytes": {
-          "title": "Buffer maximum-bytes",
-          "description": "Limit to number of octets which the system may buffer for a UDP flow (default 655350)",
-          "type": "integer",
-          "minimum": 65535,
-          "maximum": 16777215,
-          "default": 655350
-        },
-        "bufferMaxPackets": {
-          "title": "Buffer maximum-packets",
-          "description": "Limit to number of packets which the system may buffer for a UDP flow (default 0)",
-          "type": "integer",
-          "minimum": 0,
-          "maximum": 255,
-          "default": 0
-        },
-        "datagramLoadBalancing": {
-          "title": "Datagram load-balancing",
-          "description": "When true, process UDP datagrams independently, without recognizing flows (default false)",
-          "type": "boolean",
-          "default": false
-        },
-        "idleTimeout": {
-          "title": "Idle timeout",
-          "description": "Number of seconds (default 60) flow may remain idle before it becomes eligible for deletion.  Value 0 allows system to recover per-flow resources whenever convenient (always safe with UDP). Value -1 means indefinite (not recommended)",
-          "type": "integer",
-          "minimum": -1,
-          "maximum": 86400,
-          "default": 60
-        },
-        "ipDfMode": {
-          "title": "IP DF mode",
-          "description": "Controls DF (Don't Fragment) flag in outgoing datagrams.  Value 'pmtu' (default) sets DF based on IP PMTU value.  Value 'preserve' copies DF from received datagram.  Value 'set' forces DF true in all outgoing datagrams.  Value 'clear' forces DF false in all outgoing datagrams",
-          "type": "string",
-          "enum": [
-            "clear",
-            "pmtu",
-            "preserve",
-            "set"
-          ],
-          "default": "pmtu"
-        },
-        "ipTosToClient": {
-          "title": "IP TOS/DSCP to client",
-          "description": "Specifies the IP TOS/DSCP value in packets sent to clients (default 0).  Numeric values in this property are decimal representations of eight-bit numbers, of which the leftmost six bits are the DSCP code per rfc2474 (and the rightmost two bits reserved).  You may have to calculate the value of this property by multiplying a DSCP code, such as CS5+EF = 46, by four, to obtain the 'ipTosToClient' value, such as 184.  Value 'pass-through' sets DSCP from the initial server-side value.  Value 'mimic' copies DSCP from the most-recently received server-side packet (allowing DSCP to vary during the life of a connection)",
-          "oneOf": [
-            {
-              "type": "integer",
-              "minimum": 0,
-              "maximum": 252,
-              "multipleOf": 4
-            },
-            {
-              "type": "string",
-              "enum": [
-                "pass-through",
-                "mimic"
-              ]
-            }
-          ],
-          "default": 0
-        },
-        "linkQosToClient": {
-          "title": "Link QOS to client",
-          "description": "Specifies the Layer-2 QOS value in packets sent to clients (default 0).  Ethernet-type networks recognize numeric codes from 0 to 7.  Value 'pass-through' sets QOS from the initial server-side value",
-          "oneOf": [
-            {
-              "type": "integer",
-              "minimum": 0,
-              "maximum": 7
-            },
-            {
-              "type": "string",
-              "const": "pass-through"
-            }
-          ],
-          "default": 0
-        },
-        "proxyMSS": {
-          "title": "Proxy MSS",
-          "description": "When true, MSS advertised on the server side will match that negotiated with the client, if permitted by MTU and other constraints (default false)",
-          "type": "boolean",
-          "default": false
-        },
-        "ttlMode": {
-          "title": "TTL mode",
-          "description": "Controls IP TTL in outgoing datagrams.  Value 'set' forces TTL to value of property 'ttlIPv4' or 'ttlIPv6' as appropriate.  Value 'proxy' forces TTL to the default value for IPv4 or IPv6 as appropriate.  Value 'preserve' copies TTL from received datagram.  Value 'decrement' sets TTL to one less than received datagrams's TTL",
-          "type": "string",
-          "enum": [
-            "decrement",
-            "preserve",
-            "proxy",
-            "set"
-          ],
-          "default": "proxy"
-        },
-        "ttlIPv4": {
-          "title": "TTL for IPv4",
-          "description": "TTL the system sets in outgoing IPv4 datagrams",
-          "type": "integer",
-          "minimum": 1,
-          "maximum": 255,
-          "default": 255
-        },
-        "ttlIPv6": {
-          "title": "TTL for IPv6",
-          "description": "TTL the system sets in outgoing IPv6 datagrams",
-          "type": "integer",
-          "minimum": 1,
-          "maximum": 255,
-          "default": 64
-        },
-        "useChecksum": {
-          "title": "Use checksum",
-          "description": "When true, system will validate UDP checksums for IPv4 datagrams (default false).  Checksums are always validated for IPv6",
-          "type": "boolean",
-          "default": false
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "class"
-      ]
     },
     "L4_Profile": {
       "title": "L4_Profile",
@@ -12525,7 +12789,7 @@
     },
     "F5string": {
       "title": "String value",
-      "description": "String value optionally in base64 or from URL or AS3 pointer",
+      "description": "String value optionally in base64 or from URL or BIG-IP AS3 pointer",
       "if": {
         "not": {
           "type": "object"
@@ -12557,7 +12821,7 @@
           },
           "copyFrom": {
             "title": "Copy from",
-            "description": "AS3 pointer to declaration object/property from which to copy value",
+            "description": "BIG-IP AS3 pointer to declaration object/property from which to copy value",
             "type": "string",
             "format": "f5pointer"
           },
@@ -12585,7 +12849,7 @@
         },
         "reuseFrom": {
           "title": "Reuse from",
-          "description": "AS3 pointer to another JWE cryptogram in this declaration to copy",
+          "description": "BIG-IP AS3 pointer to another JWE cryptogram in this declaration to copy",
           "type": "string",
           "minLength": 1,
           "f5PostProcess": {
@@ -12670,7 +12934,7 @@
         },
         "ignoreChanges": {
           "title": "Ignore changes",
-          "description": "If false (default), the system updates the ciphertext in every AS3 declaration deployment. If true, AS3 creates the ciphertext on first deployment, and leaves it untouched afterwards",
+          "description": "If false (default), the system updates the ciphertext in every BIG-IP AS3 declaration deployment. If true, BIG-IP AS3 creates the ciphertext on first deployment, and leaves it untouched afterwards",
           "type": "boolean",
           "default": false
         }
@@ -12708,7 +12972,7 @@
         },
         "trace": {
           "title": "Trace",
-          "description": "If true, AS3 creates a detailed trace of the configuration process for this Tenant for subsequent analysis (default is whole-declaration Controls/trace value).  Warning:  trace files may contain sensitive configuration data",
+          "description": "If true, BIG-IP AS3 creates a detailed trace of the configuration process for this Tenant for subsequent analysis (default is whole-declaration Controls/trace value).  Warning:  trace files may contain sensitive configuration data",
           "type": "boolean",
           "default": false
         },
@@ -12720,7 +12984,7 @@
         },
         "fortune": {
           "title": "Fortune",
-          "description": "If true, AS3 will activate Zoltar mode and read you your fortune",
+          "description": "If true, BIG-IP AS3 will activate Zoltar mode and read you your fortune",
           "type": "boolean",
           "default": false
         }
@@ -12822,7 +13086,7 @@
           ]
         },
         "certificate": {
-          "description": "AS3 pointer to client Certificate declaration (optional)",
+          "description": "BIG-IP AS3 pointer to client Certificate declaration (optional)",
           "type": "string",
           "f5PostProcess": {
             "tag": "pointer",
@@ -13330,7 +13594,7 @@
         },
         "ignoreChanges": {
           "title": "Ignore changes",
-          "description": "If false (default), the system updates the profile in every AS3 declaration deployment. If true, AS3 creates the profile on first deployment, and leaves it untouched afterwards. However, if enable is set to true, the policy will be applied even if ignoreChanges is true",
+          "description": "If false (default), the system updates the profile in every BIG-IP AS3 declaration deployment. If true, BIG-IP AS3 creates the profile on first deployment, and leaves it untouched afterwards. However, if enable is set to true, the policy will be applied even if ignoreChanges is true",
           "type": "boolean",
           "default": false
         },
@@ -13379,7 +13643,7 @@
         },
         "ignoreChanges": {
           "title": "Ignore changes",
-          "description": "If false (default), the system updates the profile in every AS3 declaration deployment. If true, AS3 creates the profile on first deployment, and leaves it untouched afterwards",
+          "description": "If false (default), the system updates the profile in every BIG-IP AS3 declaration deployment. If true, BIG-IP AS3 creates the profile on first deployment, and leaves it untouched afterwards",
           "type": "boolean",
           "default": false
         }
@@ -13812,7 +14076,7 @@
         },
         "addressLists": {
           "type": "array",
-          "description": "A list of other address lists (each by AS3 pointer or BIG-IP pathname).",
+          "description": "A list of other address lists (each by BIG-IP AS3 pointer or BIG-IP pathname).",
           "items": {
             "$ref": "#/definitions/Pointer_Firewall_Address_List"
           },
@@ -13881,13 +14145,13 @@
         },
         "portLists": {
           "type": "array",
-          "description": "A list of other port lists (each by AS3 pointer or BIG-IP pathname).",
+          "description": "A list of other port lists (each by BIG-IP AS3 pointer or BIG-IP pathname).",
           "items": {
             "type": "object",
             "properties": {
               "use": {
                 "title": "Use",
-                "description": "AS3 pointer to firewall port list declaration",
+                "description": "BIG-IP AS3 pointer to firewall port list declaration",
                 "type": "string",
                 "minLength": 1,
                 "f5PostProcess": {
@@ -13914,7 +14178,12 @@
             "additionalProperties": false,
             "minProperties": 1,
             "maxProperties": 1,
-            "f5bigComponent": "query security firewall port-list"
+            "f5PostProcess": {
+              "tag": "bigComponent",
+              "data": [
+                "query security firewall port-list"
+              ]
+            }
           },
           "minItems": 1
         }
@@ -14158,11 +14427,11 @@
         },
         "iRule": {
           "type": "object",
-          "description": "Specifies the name of the iRule (by AS3 pointer or BIG-IP pathname) that the system will trigger when a packet matches the firewall rule.",
+          "description": "Specifies the name of the iRule (by BIG-IP AS3 pointer or BIG-IP pathname) that the system will trigger when a packet matches the firewall rule.",
           "properties": {
             "use": {
               "title": "Use",
-              "description": "AS3 pointer to iRule declaration",
+              "description": "BIG-IP AS3 pointer to iRule declaration",
               "type": "string",
               "minLength": 1,
               "f5PostProcess": {
@@ -14189,7 +14458,12 @@
           "additionalProperties": false,
           "minProperties": 1,
           "maxProperties": 1,
-          "f5bigComponent": "query ltm rule"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm rule"
+            ]
+          }
         },
         "iRuleSampleRate": {
           "type": "integer",
@@ -14214,20 +14488,20 @@
       "properties": {
         "addressLists": {
           "type": "array",
-          "description": "A list of address lists (each by AS3 pointer or BIG-IP pathname).",
+          "description": "A list of address lists (each by BIG-IP AS3 pointer or BIG-IP pathname).",
           "items": {
             "$ref": "#/definitions/Pointer_Firewall_Address_List"
           }
         },
         "portLists": {
           "type": "array",
-          "description": "A list of port lists (each by AS3 pointer or BIG-IP pathname).",
+          "description": "A list of port lists (each by BIG-IP AS3 pointer or BIG-IP pathname).",
           "items": {
             "type": "object",
             "properties": {
               "use": {
                 "title": "Use",
-                "description": "AS3 pointer to firewall port list declaration",
+                "description": "BIG-IP AS3 pointer to firewall port list declaration",
                 "type": "string",
                 "minLength": 1,
                 "f5PostProcess": {
@@ -14254,7 +14528,12 @@
             "additionalProperties": false,
             "minProperties": 1,
             "maxProperties": 1,
-            "f5bigComponent": "query security firewall port-list"
+            "f5PostProcess": {
+              "tag": "bigComponent",
+              "data": [
+                "query security firewall port-list"
+              ]
+            }
           }
         },
         "vlans": {
@@ -14269,7 +14548,12 @@
             }
           },
           "additionalProperties": false,
-          "f5bigComponent": "query net vlan"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query net vlan"
+            ]
+          }
         }
       },
       "additionalProperties": false
@@ -14281,20 +14565,20 @@
       "properties": {
         "addressLists": {
           "type": "array",
-          "description": "A list of address lists (each by AS3 pointer or BIG-IP pathname).",
+          "description": "A list of address lists (each by BIG-IP AS3 pointer or BIG-IP pathname).",
           "items": {
             "$ref": "#/definitions/Pointer_Firewall_Address_List"
           }
         },
         "portLists": {
           "type": "array",
-          "description": "A list of port lists (each by AS3 pointer or BIG-IP pathname).",
+          "description": "A list of port lists (each by BIG-IP AS3 pointer or BIG-IP pathname).",
           "items": {
             "type": "object",
             "properties": {
               "use": {
                 "title": "Use",
-                "description": "AS3 pointer to firewall port list declaration",
+                "description": "BIG-IP AS3 pointer to firewall port list declaration",
                 "type": "string",
                 "minLength": 1,
                 "f5PostProcess": {
@@ -14321,7 +14605,12 @@
             "additionalProperties": false,
             "minProperties": 1,
             "maxProperties": 1,
-            "f5bigComponent": "query security firewall port-list"
+            "f5PostProcess": {
+              "tag": "bigComponent",
+              "data": [
+                "query security firewall port-list"
+              ]
+            }
           }
         }
       },
@@ -14472,21 +14761,21 @@
       "type": "object",
       "properties": {
         "addressLists": {
-          "description": "A list of address lists (each by AS3 pointer or BIG-IP pathname)",
+          "description": "A list of address lists (each by BIG-IP AS3 pointer or BIG-IP pathname)",
           "type": "array",
           "items": {
             "$ref": "#/definitions/Pointer_Firewall_Address_List"
           }
         },
         "portLists": {
-          "description": "A list of port lists (each by AS3 pointer or BIG-IP pathname)",
+          "description": "A list of port lists (each by BIG-IP AS3 pointer or BIG-IP pathname)",
           "type": "array",
           "items": {
             "type": "object",
             "properties": {
               "use": {
                 "title": "Use",
-                "description": "AS3 pointer to firewall port list declaration",
+                "description": "BIG-IP AS3 pointer to firewall port list declaration",
                 "type": "string",
                 "minLength": 1,
                 "f5PostProcess": {
@@ -14513,7 +14802,12 @@
             "additionalProperties": false,
             "minProperties": 1,
             "maxProperties": 1,
-            "f5bigComponent": "query security firewall port-list"
+            "f5PostProcess": {
+              "tag": "bigComponent",
+              "data": [
+                "query security firewall port-list"
+              ]
+            }
           }
         }
       },
@@ -14525,21 +14819,21 @@
       "type": "object",
       "properties": {
         "addressLists": {
-          "description": "A list of address lists (each by AS3 pointer or BIG-IP pathname)",
+          "description": "A list of address lists (each by BIG-IP AS3 pointer or BIG-IP pathname)",
           "type": "array",
           "items": {
             "$ref": "#/definitions/Pointer_Firewall_Address_List"
           }
         },
         "portLists": {
-          "description": "A list of port lists (each by AS3 pointer or BIG-IP pathname)",
+          "description": "A list of port lists (each by BIG-IP AS3 pointer or BIG-IP pathname)",
           "type": "array",
           "items": {
             "type": "object",
             "properties": {
               "use": {
                 "title": "Use",
-                "description": "AS3 pointer to firewall port list declaration",
+                "description": "BIG-IP AS3 pointer to firewall port list declaration",
                 "type": "string",
                 "minLength": 1,
                 "f5PostProcess": {
@@ -14566,7 +14860,12 @@
             "additionalProperties": false,
             "minProperties": 1,
             "maxProperties": 1,
-            "f5bigComponent": "query security firewall port-list"
+            "f5PostProcess": {
+              "tag": "bigComponent",
+              "data": [
+                "query security firewall port-list"
+              ]
+            }
           }
         }
       },
@@ -16063,7 +16362,7 @@
           },
           "ignoreChanges": {
             "title": "Ignore changes",
-            "description": "If false (default), the system updates data group in every AS3 declaration deployment. If true, AS3 creates the data group on first deployment, and leaves it untouched afterwards",
+            "description": "If false (default), the system updates data group in every BIG-IP AS3 declaration deployment. If true, BIG-IP AS3 creates the data group on first deployment, and leaves it untouched afterwards",
             "type": "boolean",
             "default": false
           },
@@ -16880,14 +17179,14 @@
           "default": 1000
         },
         "excludeList": {
-          "description": "URLs that the system should not consider heavy even if the system automatically detects them as being heavy. This list may contain prefix wildcards.",
+          "description": "URLs the system should not consider heavy even if the system automatically detects them as being heavy. This list may contain prefix wildcards.",
           "type": "array",
           "items": {
             "type": "string"
           }
         },
         "protectList": {
-          "description": "URLs that you expect to be heavy even if the system does not automatically detect them as being heavy",
+          "description": "URLs you expect to be heavy even if the system does not automatically detect them as being heavy",
           "type": "array",
           "items": {
             "type": "object",
@@ -16923,7 +17222,7 @@
           "maxLength": 65520
         },
         "failure": {
-          "description": "Specifies the content that the system displays to a user after the user fails to correctly answer a CAPTCHA",
+          "description": "Specifies the content the system displays to a user after the user fails to correctly answer a CAPTCHA",
           "type": "string",
           "maxLength": 65520
         }
@@ -16931,7 +17230,7 @@
       "additionalProperties": false
     },
     "DOS_Profile_Application_Bot_Defense": {
-      "description": "AS3 provides defense against bot attacks by detecting and stopping them before the attacks start to grow, by performing the following:\n\n* The system sends a client-side JavaScript challenge to the browser.\n* If the challenge is met, the system adds a cookie to the second request. This cookie is active until the session ends, and the system does not add any more cookies to further requests during that session.\n* The system drops requests sent by browsers that do not answer the system’s initial JavaScript challenge, assuming they are bots that do not support JavaScript.\n\nNote: This feature requires browsers to allow JavaScript.\n\nImportant: The proactive bot defense feature works also in Transparent mode. This means that the system will replace responses with client side JavaScript also in Transparent mode, and if the client cannot run JavaScript, it will not be able to receive the server responses.\n\nImportant: If you enable Proactive Bot Defense and your web site uses CORS (Cross-Origin Resource Sharing), we recommend that you add the CORS URLs to the proactive bot URL allowlist.\n\nThis method is intended to complement, not replace, the other mitigation methods.",
+      "description": "BIG-IP AS3 provides defense against bot attacks by detecting and stopping them before the attacks start to grow, by performing the following:\n\n* The system sends a client-side JavaScript challenge to the browser.\n* If the challenge is met, the system adds a cookie to the second request. This cookie is active until the session ends, and the system does not add any more cookies to further requests during that session.\n* The system drops requests sent by browsers that do not answer the system’s initial JavaScript challenge, assuming they are bots that do not support JavaScript.\n\nNote: This feature requires browsers to allow JavaScript.\n\nImportant: The proactive bot defense feature works also in Transparent mode. This means that the system will replace responses with client side JavaScript also in Transparent mode, and if the client cannot run JavaScript, it will not be able to receive the server responses.\n\nImportant: If you enable Proactive Bot Defense and your web site uses CORS (Cross-Origin Resource Sharing), we recommend that you add the CORS URLs to the proactive bot URL allowlist.\n\nThis method is intended to complement, not replace, the other mitigation methods.",
       "type": "object",
       "properties": {
         "mode": {
@@ -16945,13 +17244,13 @@
           "default": "off"
         },
         "blockSuspiscousBrowsers": {
-          "$comment": "maps to application.bot-defense.browswer-legit-enabled",
+          "$comment": "maps to application.bot-defense.browser-legit-enabled",
           "description": "Detect and block requests from highly suspicious browsers",
           "type": "boolean",
           "default": true
         },
         "issueCaptchaChallenge": {
-          "$comment": "maps to application.bot-defense.browswer-legit-captcha",
+          "$comment": "maps to application.bot-defense.browser-legit-captcha",
           "description": "Issue CAPTCHA challenges to moderately suspicious browsers",
           "type": "boolean",
           "default": true
@@ -16981,7 +17280,7 @@
           }
         },
         "externalDomains": {
-          "description": "Specifies the external referring domains (that are not part of your website) that are allowed to link to resources in your website. These domains are not protected with proactive bot defense, but the system allows them if they pass the system’s redirect-cookie challenge. This property is available on BIGIP 14.1 and above.",
+          "description": "Specifies the external referring domains (that are not part of your website) that are allowed to link to resources in your website. These domains are not protected with proactive bot defense, but the system allows them if they pass the system's redirect-cookie challenge. This property is available on BIGIP 14.1 and above.",
           "type": "array",
           "items": {
             "type": "string"
@@ -17050,7 +17349,7 @@
       "type": "object",
       "properties": {
         "checkingEnabled": {
-          "description": "Specifies that the system uses signatures to check whether a bot is benign or malicious",
+          "description": "Specifies the system uses signatures to check whether a bot is benign or malicious",
           "type": "boolean",
           "default": false
         },
@@ -17069,7 +17368,7 @@
           }
         },
         "disabledSignatures": {
-          "description": "A list of signatures that the system ignores when it matches requests with configured bot signatures",
+          "description": "A list of signatures the system ignores when it matches requests with configured bot signatures",
           "type": "array",
           "items": {
             "$ref": "#/definitions/Pointer_Bot_Signature"
@@ -19065,7 +19364,7 @@
             "properties": {
               "use": {
                 "title": "Use",
-                "description": "AS3 pointer to GSLB Pool declaration",
+                "description": "BIG-IP AS3 pointer to GSLB Pool declaration",
                 "type": "string",
                 "minLength": 1,
                 "f5PostProcess": {
@@ -19104,7 +19403,7 @@
         },
         "poolsCname": {
           "title": "Pools Cname",
-          "description": "Specifies the cname pools that this domain uses for load balancing. The system evaluates the pools in the order in which they are listed, until it finds a matching pool",
+          "description": "Specifies the cname pools this domain uses for load balancing. The system evaluates the pools in the order in which they are listed, until it finds a matching pool",
           "type": "array",
           "items": {
             "$ref": "#/definitions/Pointer_GSLB_Pool"
@@ -19124,7 +19423,7 @@
         },
         "lastResortPool": {
           "title": "Last Resort Pool",
-          "description": "Specifies the pools that this domain uses for load balancing. The system evaluates the pools in the order in which they are listed, until it finds a matching pool",
+          "description": "Specifies the pools this domain uses for load balancing. The system evaluates the pools in the order in which they are listed, until it finds a matching pool",
           "$ref": "#/definitions/Pointer_GSLB_Pool"
         },
         "lastResortPoolType": {
@@ -19144,7 +19443,7 @@
           "type": "array",
           "items": {
             "title": "iRule",
-            "description": "AS3 pointer to GSLB_iRule (declared separately)",
+            "description": "BIG-IP AS3 pointer to GSLB_iRule (declared separately)",
             "if": {
               "type": "string"
             },
@@ -19175,7 +19474,7 @@
                 },
                 "use": {
                   "title": "Use",
-                  "description": "AS3 pointer to GSLB_iRule (declared separately)",
+                  "description": "BIG-IP AS3 pointer to GSLB_iRule (declared separately)",
                   "type": "string",
                   "minLength": 1,
                   "f5PostProcess": {
@@ -19196,7 +19495,12 @@
               "additionalProperties": false,
               "minProperties": 1,
               "maxProperties": 1,
-              "f5bigComponent": "query gtm rule"
+              "f5PostProcess": {
+                "tag": "bigComponent",
+                "data": [
+                  "query gtm rule"
+                ]
+              }
             }
           },
           "$comment": "uniqueItems: true"
@@ -19291,7 +19595,7 @@
     },
     "GSLB_Monitor": {
       "title": "GSLB_Monitor",
-      "description": "Declares a monitor that verifies the availability and/or performance status of a particular protocol, service or application",
+      "description": "Declares a monitor that verifies the availability and/or performance status of a particular protocol, service, or application",
       "f5PostProcess": {
         "tag": "modules",
         "data": [
@@ -19448,7 +19752,9 @@
           "description": "Tmsh object path name of an imported existing external monitor (e.g. /Common/arg_example)",
           "type": "string",
           "minLength": 2,
-          "f5expand": true
+          "f5PostProcess": {
+            "tag": "expand"
+          }
         },
         "expand": {
           "title": "Expand",
@@ -19462,22 +19768,31 @@
           "allOf": [
             {
               "$ref": "#/definitions/F5string"
+            },
+            {
+              "f5PostProcess": {
+                "tag": "expand",
+                "data": {
+                  "when": "1/expand"
+                }
+              }
+            },
+            {
+              "f5PostProcess": {
+                "tag": "fetch",
+                "data": "string"
+              }
             }
-          ],
-          "f5PostProcess": {
-            "tag": "fetch",
-            "data": "string"
-          },
-          "f5expand": {
-            "when": "1/expand"
-          }
+          ]
         },
         "arguments": {
           "title": "Arguments",
           "description": "Arguments to specified external monitor (will be backquote-expanded)",
           "type": "string",
           "default": "",
-          "f5expand": true
+          "f5PostProcess": {
+            "tag": "expand"
+          }
         },
         "environmentVariables": {
           "description": "Specifies user defined command line parameters that the external program requires.",
@@ -19516,14 +19831,18 @@
           "description": "Specifies the text string that the monitor sends to the target object. If you do not specify a value for both the send and receive options, the monitor performs a simple service check and connect only",
           "type": "string",
           "default": "HEAD / HTTP/1.0\\r\\n\\r\\n",
-          "f5expand": true
+          "f5PostProcess": {
+            "tag": "expand"
+          }
         },
         "receive": {
           "title": "Receive String",
           "description": "Specifies the text string that the monitor looks for in the returned resource. If you do not specify a value for both the send and receive options, the monitor performs a simple service check and connect only",
           "type": "string",
           "default": "HTTP/1.",
-          "f5expand": true
+          "f5PostProcess": {
+            "tag": "expand"
+          }
         },
         "transparent": {
           "title": "Transparent",
@@ -19547,7 +19866,7 @@
             },
             "clientCertificate": {
               "title": "Client certificate",
-              "description": "AS3 pointer to client Certificate declaration, for TLS authentication (optional)",
+              "description": "BIG-IP AS3 pointer to client Certificate declaration, for TLS authentication (optional)",
               "type": "string",
               "minLength": 1,
               "f5PostProcess": {
@@ -19785,13 +20104,13 @@
         },
         "manualResumeEnabled": {
           "title": "Manual Resume Enabled",
-          "description": "Specifies, whether you must manually restart a pool member that goes down",
+          "description": "Specifies whether you must manually restart a pool member that goes down",
           "type": "boolean",
           "default": false
         },
         "ttl": {
           "title": "Time-to-Live (TTL)",
-          "description": "Specifies the number of seconds that the IP address, once found, is valid. Once the time-to-live (TTL) expires, the client has to request the IP address resolution again ",
+          "description": "Specifies the number of seconds the IP address, once found, is valid. Once the time-to-live (TTL) expires, the client has to request the IP address resolution again ",
           "type": "integer",
           "default": 30,
           "minimum": 0,
@@ -19799,7 +20118,7 @@
         },
         "verifyMemberEnabled": {
           "title": "Verify Member Availability Enabled",
-          "description": "Specifies that the system verifies the availability of the pool members before sending a connection to those resources",
+          "description": "Specifies the system verifies the availability of the pool members before sending a connection to those resources",
           "type": "boolean",
           "default": true
         }
@@ -19908,7 +20227,7 @@
             "properties": {
               "maxAnswersReturned": {
                 "title": "Maximum Number of Answers Returned",
-                "description": "Specifies the maximum number of available virtual servers that the system lists in a response",
+                "description": "Specifies the maximum number of available virtual servers the system lists in a response",
                 "type": "integer",
                 "minimum": 1,
                 "default": 1,
@@ -19948,7 +20267,7 @@
             "properties": {
               "monitors": {
                 "title": "Monitors",
-                "description": "Specifies the health monitors that the system uses to determine whether it can use this pool for load balancing",
+                "description": "Specifies the health monitors the system uses to determine whether it can use this pool for load balancing",
                 "type": "array",
                 "items": {
                   "$ref": "#/definitions/Pointer_GSLB_Monitor"
@@ -20419,7 +20738,7 @@
         },
         "monitors": {
           "title": "Monitor List",
-          "description": "Specifies the health monitors that the system uses to determine whether it can use this server for load balancing",
+          "description": "Specifies the health monitors the system uses to determine whether it can use this server for load balancing",
           "type": "array",
           "items": {
             "$ref": "#/definitions/Pointer_GSLB_Monitor"
@@ -20857,7 +21176,7 @@
         },
         "lbMode": {
           "title": "Load Balancing Mode",
-          "description": "Specifies the load balancing mode that the system uses to select the members of this pool",
+          "description": "Specifies the load balancing mode the system uses to select the members of this pool",
           "type": "string",
           "enum": [
             "global-availability",
@@ -21363,7 +21682,7 @@
       }
     },
     "Security_Log_Profile_Application": {
-      "description": "Specifies, when enabled, that the system logs events from applications.",
+      "description": "When enabled, specifies the system logs events from applications.",
       "type": "object",
       "f5PostProcess": {
         "tag": "modules",
@@ -21927,7 +22246,7 @@
           "properties": {
             "use": {
               "title": "Use",
-              "description": "AS3 pointer to log publisher declaration",
+              "description": "BIG-IP AS3 pointer to log publisher declaration",
               "type": "string",
               "minLength": 1,
               "f5PostProcess": {
@@ -21954,7 +22273,12 @@
           "additionalProperties": false,
           "minProperties": 1,
           "maxProperties": 1,
-          "f5bigComponent": "query sys log-config publisher"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query sys log-config publisher"
+            ]
+          }
         },
         "logAllMatches": {
           "description": "This option enables or disables the logging of all matches",
@@ -21981,7 +22305,7 @@
           "properties": {
             "use": {
               "title": "Use",
-              "description": "AS3 pointer to log publisher declaration",
+              "description": "BIG-IP AS3 pointer to log publisher declaration",
               "type": "string",
               "minLength": 1,
               "f5PostProcess": {
@@ -22008,7 +22332,12 @@
           "additionalProperties": false,
           "minProperties": 1,
           "maxProperties": 1,
-          "f5bigComponent": "query sys log-config publisher"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query sys log-config publisher"
+            ]
+          }
         },
         "remotePublisher": {
           "description": "Specifies the remote log publisher used for Application DoS attacks (Note: This publisher should have ArcSight or Splunk destinations)",
@@ -22016,7 +22345,7 @@
           "properties": {
             "use": {
               "title": "Use",
-              "description": "AS3 pointer to log publisher declaration",
+              "description": "BIG-IP AS3 pointer to log publisher declaration",
               "type": "string",
               "minLength": 1,
               "f5PostProcess": {
@@ -22043,7 +22372,12 @@
           "additionalProperties": false,
           "minProperties": 1,
           "maxProperties": 1,
-          "f5bigComponent": "query sys log-config publisher"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query sys log-config publisher"
+            ]
+          }
         }
       },
       "additionalProperties": false
@@ -22067,7 +22401,7 @@
           "properties": {
             "use": {
               "title": "Use",
-              "description": "AS3 pointer to log publisher declaration",
+              "description": "BIG-IP AS3 pointer to log publisher declaration",
               "type": "string",
               "minLength": 1,
               "f5PostProcess": {
@@ -22094,7 +22428,12 @@
           "additionalProperties": false,
           "minProperties": 1,
           "maxProperties": 1,
-          "f5bigComponent": "query sys log-config publisher"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query sys log-config publisher"
+            ]
+          }
         }
       },
       "additionalProperties": false
@@ -22116,7 +22455,7 @@
           "properties": {
             "use": {
               "title": "Use",
-              "description": "AS3 pointer to log publisher declaration",
+              "description": "BIG-IP AS3 pointer to log publisher declaration",
               "type": "string",
               "minLength": 1,
               "f5PostProcess": {
@@ -22143,7 +22482,12 @@
           "additionalProperties": false,
           "minProperties": 1,
           "maxProperties": 1,
-          "f5bigComponent": "query sys log-config publisher"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query sys log-config publisher"
+            ]
+          }
         },
         "logErrors": {
           "description": "Generates event log entries when a NAT translation errors occur",
@@ -22305,7 +22649,7 @@
           "properties": {
             "use": {
               "title": "Use",
-              "description": "AS3 pointer to log publisher declaration",
+              "description": "BIG-IP AS3 pointer to log publisher declaration",
               "type": "string",
               "minLength": 1,
               "f5PostProcess": {
@@ -22332,7 +22676,12 @@
           "additionalProperties": false,
           "minProperties": 1,
           "maxProperties": 1,
-          "f5bigComponent": "query sys log-config publisher"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query sys log-config publisher"
+            ]
+          }
         },
         "logRuleMatchAccepts": {
           "description": "Specifies, when enabled, that the system logs packets that match ACL rules configured with action = Accept",
@@ -22482,7 +22831,7 @@
           "properties": {
             "use": {
               "title": "Use",
-              "description": "AS3 pointer to log publisher declaration",
+              "description": "BIG-IP AS3 pointer to log publisher declaration",
               "type": "string",
               "minLength": 1,
               "f5PostProcess": {
@@ -22509,7 +22858,12 @@
           "additionalProperties": false,
           "minProperties": 1,
           "maxProperties": 1,
-          "f5bigComponent": "query sys log-config publisher"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query sys log-config publisher"
+            ]
+          }
         },
         "logTranslationFields": {
           "description": "Specifies, when enabled, that the system logs translation values if and when it logs a network firewall event",
@@ -22542,7 +22896,7 @@
           "properties": {
             "use": {
               "title": "Use",
-              "description": "AS3 pointer to log publisher declaration",
+              "description": "BIG-IP AS3 pointer to log publisher declaration",
               "type": "string",
               "minLength": 1,
               "f5PostProcess": {
@@ -22569,7 +22923,12 @@
           "additionalProperties": false,
           "minProperties": 1,
           "maxProperties": 1,
-          "f5bigComponent": "query sys log-config publisher"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query sys log-config publisher"
+            ]
+          }
         },
         "logDroppedRequests": {
           "description": "Specifies, when enabled, that the system logs dropped DNS requests",
@@ -22661,7 +23020,7 @@
           "properties": {
             "use": {
               "title": "Use",
-              "description": "AS3 pointer to log publisher declaration",
+              "description": "BIG-IP AS3 pointer to log publisher declaration",
               "type": "string",
               "minLength": 1,
               "f5PostProcess": {
@@ -22688,7 +23047,12 @@
           "additionalProperties": false,
           "minProperties": 1,
           "maxProperties": 1,
-          "f5bigComponent": "query sys log-config publisher"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query sys log-config publisher"
+            ]
+          }
         }
       },
       "additionalProperties": false
@@ -22711,7 +23075,7 @@
           "properties": {
             "use": {
               "title": "Use",
-              "description": "AS3 pointer to log publisher declaration",
+              "description": "BIG-IP AS3 pointer to log publisher declaration",
               "type": "string",
               "minLength": 1,
               "f5PostProcess": {
@@ -22738,7 +23102,12 @@
           "additionalProperties": false,
           "minProperties": 1,
           "maxProperties": 1,
-          "f5bigComponent": "query sys log-config publisher"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query sys log-config publisher"
+            ]
+          }
         },
         "logDroppedRequests": {
           "description": "Specifies, when enabled, that the system logs dropped requests",
@@ -22835,7 +23204,7 @@
           "properties": {
             "use": {
               "title": "Use",
-              "description": "AS3 pointer to log publisher declaration",
+              "description": "BIG-IP AS3 pointer to log publisher declaration",
               "type": "string",
               "minLength": 1,
               "f5PostProcess": {
@@ -22862,7 +23231,12 @@
           "additionalProperties": false,
           "minProperties": 1,
           "maxProperties": 1,
-          "f5bigComponent": "query sys log-config publisher"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query sys log-config publisher"
+            ]
+          }
         }
       },
       "additionalProperties": false
@@ -22901,7 +23275,7 @@
           "properties": {
             "use": {
               "title": "Use",
-              "description": "AS3 pointer to log publisher declaration",
+              "description": "BIG-IP AS3 pointer to log publisher declaration",
               "type": "string",
               "minLength": 1,
               "f5PostProcess": {
@@ -22928,7 +23302,12 @@
           "additionalProperties": false,
           "minProperties": 1,
           "maxProperties": 1,
-          "f5bigComponent": "query sys log-config publisher"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query sys log-config publisher"
+            ]
+          }
         }
       },
       "additionalProperties": false
@@ -22951,7 +23330,7 @@
           "properties": {
             "use": {
               "title": "Use",
-              "description": "AS3 pointer to log publisher declaration",
+              "description": "BIG-IP AS3 pointer to log publisher declaration",
               "type": "string",
               "minLength": 1,
               "f5PostProcess": {
@@ -22978,7 +23357,12 @@
           "additionalProperties": false,
           "minProperties": 1,
           "maxProperties": 1,
-          "f5bigComponent": "query sys log-config publisher"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query sys log-config publisher"
+            ]
+          }
         },
         "logClientAuthFail": {
           "description": "Specifies the name of the log publisher used for logging SSH Proxy events",
@@ -23224,7 +23608,7 @@
           "properties": {
             "use": {
               "title": "Use",
-              "description": "AS3 pointer to remote high speed log declaration",
+              "description": "BIG-IP AS3 pointer to remote high speed log declaration",
               "type": "string",
               "minLength": 1,
               "f5PostProcess": {
@@ -23254,7 +23638,12 @@
           "additionalProperties": false,
           "minProperties": 1,
           "maxProperties": 1,
-          "f5bigComponent": "query sys log-config destination remote-high-speed-log"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query sys log-config destination remote-high-speed-log"
+            ]
+          }
         }
       },
       "required": [
@@ -23565,7 +23954,7 @@
         },
         "strategy": {
           "title": "Strategy",
-          "description": "Rule-matching strategy; value 'custom' means AS3 requires a custom strategy (default is best-match)",
+          "description": "Rule-matching strategy; value 'custom' means BIG-IP AS3 requires a custom strategy (default is best-match)",
           "type": "string",
           "enum": [
             "all-match",
@@ -23577,7 +23966,7 @@
         },
         "customStrategy": {
           "title": "Custom strategy",
-          "description": "AS3 pointer to custom strategy declaration",
+          "description": "BIG-IP AS3 pointer to custom strategy declaration",
           "if": {
             "type": "string"
           },
@@ -23610,7 +23999,12 @@
             "required": [
               "bigip"
             ],
-            "f5bigComponent": "query ltm policy-strategy"
+            "f5PostProcess": {
+              "tag": "bigComponent",
+              "data": [
+                "query ltm policy-strategy"
+              ]
+            }
           }
         }
       },
@@ -23943,7 +24337,7 @@
         {
           "properties": {
             "snat": {
-              "description": "Controls snat automap",
+              "description": "Controls SNAT Automap",
               "type": "string",
               "enum": [
                 "disable",
@@ -24012,7 +24406,7 @@
           "type": "string"
         },
         "code": {
-          "description": "HTTP status code for the redirect. Note: code is only supported in tmos version 14.0+.",
+          "description": "HTTP status code for the redirect. Note: code is only supported in TMOS version 14.0+.",
           "type": "integer",
           "minimum": 300,
           "maximum": 399
@@ -24398,7 +24792,7 @@
                     "expiry": {
                       "type": "string",
                       "title": "Expiry",
-                      "description": "expiration duration expressed as [Nd][HH:MM[:SS]]"
+                      "description": "Expiration duration expressed as [Nd][HH:MM[:SS]]"
                     }
                   },
                   "required": [
@@ -24428,7 +24822,7 @@
                     "expiry": {
                       "type": "string",
                       "title": "Expiry",
-                      "description": "expiration duration expressed as [Nd][HH:MM[:SS]]"
+                      "description": "Expiration duration expressed as [Nd][HH:MM[:SS]]"
                     }
                   },
                   "required": [
@@ -24491,7 +24885,7 @@
                       "title": "Length",
                       "minimum": 0,
                       "maximum": 65535,
-                      "description": "substring length"
+                      "description": "Substring length"
                     },
                     "timeout": {
                       "title": "Timeout",
@@ -25382,7 +25776,7 @@
       "type": "object",
       "properties": {
         "operand": {
-          "description": "Specifies the comparison that the system should perform with values. The operands exists and does-not-exist do not accept values and are available on BIGIP 15.0 and above.",
+          "description": "Specifies the comparison the system should perform with values. The operands exists and does-not-exist do not accept values and are available on BIGIP 15.0 and above.",
           "type": "string",
           "enum": [
             "equals",
@@ -25463,7 +25857,7 @@
       "type": "object",
       "properties": {
         "operand": {
-          "description": "Specifies the comparison that the system should perform with values",
+          "description": "Specifies the comparison the system should perform with values",
           "type": "string",
           "enum": [
             "equals",
@@ -25541,7 +25935,7 @@
         },
         "use": {
           "title": "Use",
-          "description": "AS3 pointer to Data_Group",
+          "description": "BIG-IP AS3 pointer to Data_Group",
           "type": "string",
           "minLength": 1,
           "f5PostProcess": {
@@ -25562,7 +25956,12 @@
       "additionalProperties": false,
       "minProperties": 1,
       "maxProperties": 1,
-      "f5bigComponent": "query ltm data-group internal"
+      "f5PostProcess": {
+        "tag": "bigComponent",
+        "data": [
+          "query ltm data-group internal"
+        ]
+      }
     },
     "Bandwidth_Control_Policy": {
       "title": "Bandwidth_Control_Policy",
@@ -25890,7 +26289,7 @@
         },
         "addressLists": {
           "type": "array",
-          "description": "A list of other address lists (each by AS3 pointer or BIG-IP pathname).",
+          "description": "A list of other address lists (each by BIG-IP AS3 pointer or BIG-IP pathname).",
           "items": {
             "$ref": "#/definitions/Pointer_Net_Address_List"
           },
@@ -26522,7 +26921,7 @@
           ]
         },
         "granularity": {
-          "description": "Specifies the type of reporting will be generated when the policy applies",
+          "description": "Specifies the type of reporting that will be generated when the policy applies",
           "type": "string",
           "enum": [
             "flow",
@@ -26532,7 +26931,7 @@
           "default": "session"
         },
         "interval": {
-          "description": "Specifies the time interval in seconds the report will be generated. A value of 0 indicates this feature is disabled.",
+          "description": "Specifies the time interval when the report will be generated, in seconds. A value of 0 indicates this feature is disabled.",
           "type": "integer",
           "minimum": 0,
           "default": 0
@@ -27135,7 +27534,7 @@
           "type": "string"
         },
         "protocolProfileGx": {
-          "description": "Specifies the protocol profile to be used when you enable subscriber discovery. The PEM protocol profile defines mapping of Diameter Gx AVPs to subscriber ID and other PEM subscriber session attributes. The default BIG-IP reference values vary between versions. BIGIP versions 14.1 and above begin with ‘sys_diam’ (e.g. _sys_diam_proto_default).",
+          "description": "Specifies the protocol profile to be used when you enable subscriber discovery. The PEM protocol profile defines mapping of Diameter Gx AVPs to subscriber ID and other PEM subscriber session attributes. The default BIG-IP reference values vary between versions. BIGIP versions 14.1 and above begin with 'sys_diam' (e.g. _sys_diam_proto_default).",
           "allOf": [
             {
               "$ref": "#/definitions/Pointer_Enforcement_Profile_Gx"
@@ -27412,7 +27811,7 @@
           "$ref": "#/definitions/Enforcement_Subscriber_Management_Profile_DHCP"
         },
         "serverSideSessionsEnabled": {
-          "description": "Specifies that the session is created based on server side IP when the server side traffic comes and is enabled",
+          "description": "Specifies the session is created based on server side IP when the server side traffic comes and is enabled",
           "type": "boolean",
           "default": true
         }
@@ -27433,7 +27832,7 @@
       },
       "properties": {
         "enabled": {
-          "description": "Specifies that the subscriber management settings use DHCP lease query to communicate with DHCP servers to obtain DHCP lease information for the unknown IP address and creates a new policy enforcement session using the lease information received",
+          "description": "Specifies the subscriber management settings use DHCP lease query to communicate with DHCP servers to obtain DHCP lease information for the unknown IP address and creates a new policy enforcement session using the lease information received",
           "type": "boolean",
           "default": true
         },
@@ -27600,12 +27999,12 @@
           "default": "preserve"
         },
         "addressTranslationEnabled": {
-          "description": "Specifies, when enabled, that the system translates the original destination address of the virtual server. When disabled, specifies that the system uses the address without translation.",
+          "description": "Specifies, when enabled, the system translates the original destination address of the virtual server. When disabled, specifies the system uses the address without translation.",
           "type": "boolean",
           "default": false
         },
         "portTranslationEnabled": {
-          "description": "Specifies, when enabled, that the system translates the original destination port. When disabled, specifies that the system uses the original destination port without translation.",
+          "description": "Specifies, when enabled, the system translates the original destination port. When disabled, specifies the system uses the original destination port without translation.",
           "type": "boolean",
           "default": false
         },
@@ -27791,10 +28190,13 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query security firewall address-list"
-        },
-        {
-          "f5bigComponent": "query net address-list"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query security firewall address-list",
+              "query net address-list"
+            ]
+          }
         }
       ]
     },
@@ -27842,7 +28244,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query api-protection profile apiprotection"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query api-protection profile apiprotection"
+            ]
+          }
         }
       ]
     },
@@ -27881,7 +28288,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query net bwc policy"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query net bwc policy"
+            ]
+          }
         }
       ]
     },
@@ -27920,7 +28332,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query net timer-policy"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query net timer-policy"
+            ]
+          }
         }
       ]
     },
@@ -27939,7 +28356,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query security ip-intelligence blacklist-category"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query security ip-intelligence blacklist-category"
+            ]
+          }
         }
       ]
     },
@@ -27958,7 +28380,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query security bot-defense profile"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query security bot-defense profile"
+            ]
+          }
         }
       ]
     },
@@ -27977,10 +28404,13 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query security dos bot-signature"
-        },
-        {
-          "f5bigComponent": "query security bot-defense signature"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query security dos bot-signature",
+              "query security bot-defense signature"
+            ]
+          }
         }
       ]
     },
@@ -27999,10 +28429,13 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query security dos bot-signature-category"
-        },
-        {
-          "f5bigComponent": "query security bot-defense signature-category"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query security dos bot-signature-category",
+              "query security bot-defense signature-category"
+            ]
+          }
         }
       ]
     },
@@ -28041,7 +28474,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query sys crypto cert-validator ocsp"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query sys crypto cert-validator ocsp"
+            ]
+          }
         }
       ]
     },
@@ -28080,7 +28518,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query sys file ssl-cert"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query sys file ssl-cert"
+            ]
+          }
         }
       ]
     },
@@ -28119,7 +28562,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm cipher group"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm cipher group"
+            ]
+          }
         }
       ]
     },
@@ -28158,7 +28606,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm cipher rule"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm cipher rule"
+            ]
+          }
         }
       ]
     },
@@ -28177,7 +28630,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm classification application"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm classification application"
+            ]
+          }
         }
       ]
     },
@@ -28196,7 +28654,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm classification category"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm classification category"
+            ]
+          }
         }
       ]
     },
@@ -28215,7 +28678,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm classification ce"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm classification ce"
+            ]
+          }
         }
       ]
     },
@@ -28254,7 +28722,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm profile classification"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm profile classification"
+            ]
+          }
         }
       ]
     },
@@ -28273,7 +28746,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query net dns-resolver"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query net dns-resolver"
+            ]
+          }
         }
       ]
     },
@@ -28312,13 +28790,14 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm dns cache resolver"
-        },
-        {
-          "f5bigComponent": "query ltm dns cache transparent"
-        },
-        {
-          "f5bigComponent": "query ltm dns cache validating-resolver"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm dns cache resolver",
+              "query ltm dns cache transparent",
+              "query ltm dns cache validating-resolver"
+            ]
+          }
         }
       ]
     },
@@ -28337,7 +28816,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query sys file data-group"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query sys file data-group"
+            ]
+          }
         }
       ]
     },
@@ -28376,10 +28860,13 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm data-group internal"
-        },
-        {
-          "f5bigComponent": "query ltm data-group external"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm data-group internal",
+              "query ltm data-group external"
+            ]
+          }
         }
       ]
     },
@@ -28418,7 +28905,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query gtm listener"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query gtm listener"
+            ]
+          }
         }
       ]
     },
@@ -28437,7 +28929,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm profile dns-logging"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm profile dns-logging"
+            ]
+          }
         }
       ]
     },
@@ -28476,7 +28973,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm dns nameserver"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm dns nameserver"
+            ]
+          }
         }
       ]
     },
@@ -28515,7 +29017,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm profile dns"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm profile dns"
+            ]
+          }
         }
       ]
     },
@@ -28534,7 +29041,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query security dns profile"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query security dns profile"
+            ]
+          }
         }
       ]
     },
@@ -28573,7 +29085,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm dns tsig-key"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm dns tsig-key"
+            ]
+          }
         }
       ]
     },
@@ -28612,7 +29129,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm dns zone"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm dns zone"
+            ]
+          }
         }
       ]
     },
@@ -28651,7 +29173,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query security dos profile"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query security dos profile"
+            ]
+          }
         }
       ]
     },
@@ -28712,7 +29239,12 @@
           "maxProperties": 1,
           "allOf": [
             {
-              "f5bigComponent": "query ltm policy"
+              "f5PostProcess": {
+                "tag": "bigComponent",
+                "data": [
+                  "query ltm policy"
+                ]
+              }
             }
           ]
         }
@@ -28753,7 +29285,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query pem reporting format-script"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query pem reporting format-script"
+            ]
+          }
         }
       ]
     },
@@ -28792,7 +29329,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query pem forwarding-endpoint"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query pem forwarding-endpoint"
+            ]
+          }
         }
       ]
     },
@@ -28831,7 +29373,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query pem interception-endpoint"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query pem interception-endpoint"
+            ]
+          }
         }
       ]
     },
@@ -28870,7 +29417,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query pem irule"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query pem irule"
+            ]
+          }
         }
       ]
     },
@@ -28909,7 +29461,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query pem policy"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query pem policy"
+            ]
+          }
         }
       ]
     },
@@ -28948,7 +29505,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query pem profile diameter-endpoint"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query pem profile diameter-endpoint"
+            ]
+          }
         }
       ]
     },
@@ -28967,7 +29529,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query pem protocol profile gx"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query pem protocol profile gx"
+            ]
+          }
         }
       ]
     },
@@ -29006,7 +29573,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query pem profile radius-aaa"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query pem profile radius-aaa"
+            ]
+          }
         }
       ]
     },
@@ -29045,7 +29617,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query pem profile spm"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query pem profile spm"
+            ]
+          }
         }
       ]
     },
@@ -29064,7 +29641,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query pem quota-mgmt rating-group"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query pem quota-mgmt rating-group"
+            ]
+          }
         }
       ]
     },
@@ -29103,7 +29685,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query pem service-chain-endpoint"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query pem service-chain-endpoint"
+            ]
+          }
         }
       ]
     },
@@ -29142,7 +29729,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query pem profile subscriber-mgmt"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query pem profile subscriber-mgmt"
+            ]
+          }
         }
       ]
     },
@@ -29161,7 +29753,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query pem protocol profile radius"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query pem protocol profile radius"
+            ]
+          }
         }
       ]
     },
@@ -29180,7 +29777,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm profile client-ssl"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm profile client-ssl"
+            ]
+          }
         }
       ]
     },
@@ -29199,7 +29801,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm profile server-ssl"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm profile server-ssl"
+            ]
+          }
         }
       ]
     },
@@ -29238,7 +29845,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query security firewall address-list"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query security firewall address-list"
+            ]
+          }
         }
       ]
     },
@@ -29277,7 +29889,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query security firewall policy"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query security firewall policy"
+            ]
+          }
         }
       ]
     },
@@ -29316,7 +29933,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query security firewall rule-list"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query security firewall rule-list"
+            ]
+          }
         }
       ]
     },
@@ -29335,7 +29957,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query security anti-fraud profile"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query security anti-fraud profile"
+            ]
+          }
         }
       ]
     },
@@ -29374,7 +30001,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm profile ftp"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm profile ftp"
+            ]
+          }
         }
       ]
     },
@@ -29413,7 +30045,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query gtm datacenter"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query gtm datacenter"
+            ]
+          }
         }
       ]
     },
@@ -29452,7 +30089,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query gtm wideip a"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query gtm wideip a"
+            ]
+          }
         }
       ]
     },
@@ -29491,7 +30133,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query gtm wideip aaaa"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query gtm wideip aaaa"
+            ]
+          }
         }
       ]
     },
@@ -29530,7 +30177,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query gtm wideip cname"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query gtm wideip cname"
+            ]
+          }
         }
       ]
     },
@@ -29569,7 +30221,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query gtm wideip mx"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query gtm wideip mx"
+            ]
+          }
         }
       ]
     },
@@ -29608,103 +30265,44 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query gtm monitor bigip"
-        },
-        {
-          "f5bigComponent": "query gtm monitor bigip-link"
-        },
-        {
-          "f5bigComponent": "query gtm monitor external"
-        },
-        {
-          "f5bigComponent": "query gtm monitor fire-pass"
-        },
-        {
-          "f5bigComponent": "query gtm monitor ftp"
-        },
-        {
-          "f5bigComponent": "query gtm monitor gateway-icmp"
-        },
-        {
-          "f5bigComponent": "query gtm monitor gtp"
-        },
-        {
-          "f5bigComponent": "query gtm monitor http"
-        },
-        {
-          "f5bigComponent": "query gtm monitor https"
-        },
-        {
-          "f5bigComponent": "query gtm monitor http2"
-        },
-        {
-          "f5bigComponent": "query gtm monitor imap"
-        },
-        {
-          "f5bigComponent": "query gtm monitor ldap"
-        },
-        {
-          "f5bigComponent": "query gtm monitor mssql"
-        },
-        {
-          "f5bigComponent": "query gtm monitor mysql"
-        },
-        {
-          "f5bigComponent": "query gtm monitor nntp"
-        },
-        {
-          "f5bigComponent": "query gtm monitor none"
-        },
-        {
-          "f5bigComponent": "query gtm monitor oracle"
-        },
-        {
-          "f5bigComponent": "query gtm monitor pop3"
-        },
-        {
-          "f5bigComponent": "query gtm monitor postgresql"
-        },
-        {
-          "f5bigComponent": "query gtm monitor radius"
-        },
-        {
-          "f5bigComponent": "query gtm monitor radius-accounting"
-        },
-        {
-          "f5bigComponent": "query gtm monitor real-server"
-        },
-        {
-          "f5bigComponent": "query gtm monitor scripted"
-        },
-        {
-          "f5bigComponent": "query gtm monitor sip"
-        },
-        {
-          "f5bigComponent": "query gtm monitor smtp"
-        },
-        {
-          "f5bigComponent": "query gtm monitor snmp"
-        },
-        {
-          "f5bigComponent": "query gtm monitor snmp-link"
-        },
-        {
-          "f5bigComponent": "query gtm monitor soap"
-        },
-        {
-          "f5bigComponent": "query gtm monitor tcp"
-        },
-        {
-          "f5bigComponent": "query gtm monitor tcp-half-open"
-        },
-        {
-          "f5bigComponent": "query gtm monitor udp"
-        },
-        {
-          "f5bigComponent": "query gtm monitor wap"
-        },
-        {
-          "f5bigComponent": "query gtm monitor wmi"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query gtm monitor bigip",
+              "query gtm monitor bigip-link",
+              "query gtm monitor external",
+              "query gtm monitor firepass",
+              "query gtm monitor ftp",
+              "query gtm monitor gateway-icmp",
+              "query gtm monitor gtp",
+              "query gtm monitor http",
+              "query gtm monitor https",
+              "query gtm monitor http2",
+              "query gtm monitor imap",
+              "query gtm monitor ldap",
+              "query gtm monitor mssql",
+              "query gtm monitor mysql",
+              "query gtm monitor nntp",
+              "query gtm monitor none",
+              "query gtm monitor oracle",
+              "query gtm monitor pop3",
+              "query gtm monitor postgresql",
+              "query gtm monitor radius",
+              "query gtm monitor radius-accounting",
+              "query gtm monitor real-server",
+              "query gtm monitor scripted",
+              "query gtm monitor sip",
+              "query gtm monitor smtp",
+              "query gtm monitor snmp",
+              "query gtm monitor snmp-link",
+              "query gtm monitor soap",
+              "query gtm monitor tcp",
+              "query gtm monitor tcp-half-open",
+              "query gtm monitor udp",
+              "query gtm monitor wap",
+              "query gtm monitor wmi"
+            ]
+          }
         }
       ]
     },
@@ -29743,16 +30341,15 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query gtm pool a"
-        },
-        {
-          "f5bigComponent": "query gtm pool aaaa"
-        },
-        {
-          "f5bigComponent": "query gtm pool cname"
-        },
-        {
-          "f5bigComponent": "query gtm pool mx"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query gtm pool a",
+              "query gtm pool aaaa",
+              "query gtm pool cname",
+              "query gtm pool mx"
+            ]
+          }
         }
       ]
     },
@@ -29791,7 +30388,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query gtm prober-pool"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query gtm prober-pool"
+            ]
+          }
         }
       ]
     },
@@ -29830,7 +30432,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query gtm server"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query gtm server"
+            ]
+          }
         }
       ]
     },
@@ -29869,7 +30476,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query gtm server devices"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query gtm server devices"
+            ]
+          }
         }
       ]
     },
@@ -29908,7 +30520,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query gtm region"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query gtm region"
+            ]
+          }
         }
       ]
     },
@@ -29976,7 +30593,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm profile html"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm profile html"
+            ]
+          }
         }
       ]
     },
@@ -30015,25 +30637,18 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm html-rule comment-raise-event"
-        },
-        {
-          "f5bigComponent": "query ltm html-rule comment-remove"
-        },
-        {
-          "f5bigComponent": "query ltm html-rule tag-append-html"
-        },
-        {
-          "f5bigComponent": "query ltm html-rule tag-prepend-html"
-        },
-        {
-          "f5bigComponent": "query ltm html-rule tag-raise-event"
-        },
-        {
-          "f5bigComponent": "query ltm html-rule tag-remove"
-        },
-        {
-          "f5bigComponent": "query ltm html-rule tag-remove-attribute"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm html-rule comment-raise-event",
+              "query ltm html-rule comment-remove",
+              "query ltm html-rule tag-append-html",
+              "query ltm html-rule tag-prepend-html",
+              "query ltm html-rule tag-raise-event",
+              "query ltm html-rule tag-remove",
+              "query ltm html-rule tag-remove-attribute"
+            ]
+          }
         }
       ]
     },
@@ -30072,7 +30687,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm profile http2"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm profile http2"
+            ]
+          }
         }
       ]
     },
@@ -30111,7 +30731,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm profile web-acceleration"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm profile web-acceleration"
+            ]
+          }
         }
       ]
     },
@@ -30130,7 +30755,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm profile ilx"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm profile ilx"
+            ]
+          }
         }
       ]
     },
@@ -30149,7 +30779,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query saas bd profile"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query saas bd profile"
+            ]
+          }
         }
       ]
     },
@@ -30168,7 +30803,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query security ip-intelligence policy"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query security ip-intelligence policy"
+            ]
+          }
         }
       ]
     },
@@ -30207,7 +30847,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query security nat source-translation"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query security nat source-translation"
+            ]
+          }
         }
       ]
     },
@@ -30246,7 +30891,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query net address-list"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query net address-list"
+            ]
+          }
         }
       ]
     },
@@ -30285,31 +30935,20 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm persistence cookie"
-        },
-        {
-          "f5bigComponent": "query ltm persistence dest-addr"
-        },
-        {
-          "f5bigComponent": "query ltm persistence hash"
-        },
-        {
-          "f5bigComponent": "query ltm persistence host"
-        },
-        {
-          "f5bigComponent": "query ltm persistence msrdp"
-        },
-        {
-          "f5bigComponent": "query ltm persistence sip"
-        },
-        {
-          "f5bigComponent": "query ltm persistence source-addr"
-        },
-        {
-          "f5bigComponent": "query ltm persistence ssl"
-        },
-        {
-          "f5bigComponent": "query ltm persistence universal"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm persistence cookie",
+              "query ltm persistence dest-addr",
+              "query ltm persistence hash",
+              "query ltm persistence host",
+              "query ltm persistence msrdp",
+              "query ltm persistence sip",
+              "query ltm persistence source-addr",
+              "query ltm persistence ssl",
+              "query ltm persistence universal"
+            ]
+          }
         }
       ]
     },
@@ -30328,7 +30967,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm profile rtsp"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm profile rtsp"
+            ]
+          }
         }
       ]
     },
@@ -30367,7 +31011,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query apm profile access"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query apm profile access"
+            ]
+          }
         }
       ]
     },
@@ -30406,7 +31055,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query apm policy access-policy"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query apm policy access-policy"
+            ]
+          }
         }
       ]
     },
@@ -30425,7 +31079,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query apm profile connectivity"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query apm profile connectivity"
+            ]
+          }
         }
       ]
     },
@@ -30464,7 +31123,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm profile ipother"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm profile ipother"
+            ]
+          }
         }
       ]
     },
@@ -30503,7 +31167,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm profile fastl4"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm profile fastl4"
+            ]
+          }
         }
       ]
     },
@@ -30542,31 +31211,20 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query sys log-config destination alertd"
-        },
-        {
-          "f5bigComponent": "query sys log-config destination arcsight"
-        },
-        {
-          "f5bigComponent": "query sys log-config destination ipfix"
-        },
-        {
-          "f5bigComponent": "query sys log-config destination local-database"
-        },
-        {
-          "f5bigComponent": "query sys log-config destination local-syslog"
-        },
-        {
-          "f5bigComponent": "query sys log-config destination management-port"
-        },
-        {
-          "f5bigComponent": "query sys log-config destination remote-high-speed-log"
-        },
-        {
-          "f5bigComponent": "query sys log-config destination remote-syslog"
-        },
-        {
-          "f5bigComponent": "query sys log-config destination splunk"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query sys log-config destination alertd",
+              "query sys log-config destination arcsight",
+              "query sys log-config destination ipfix",
+              "query sys log-config destination local-database",
+              "query sys log-config destination local-syslog",
+              "query sys log-config destination management-port",
+              "query sys log-config destination remote-high-speed-log",
+              "query sys log-config destination remote-syslog",
+              "query sys log-config destination splunk"
+            ]
+          }
         }
       ]
     },
@@ -30605,7 +31263,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query sys log-config publisher"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query sys log-config publisher"
+            ]
+          }
         }
       ]
     },
@@ -30644,7 +31307,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm profile radius"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm profile radius"
+            ]
+          }
         }
       ]
     },
@@ -30683,7 +31351,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm persistence"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm persistence"
+            ]
+          }
         }
       ]
     },
@@ -30722,7 +31395,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm pool"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm pool"
+            ]
+          }
         }
       ]
     },
@@ -30761,7 +31439,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm profile analytics"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm profile analytics"
+            ]
+          }
         }
       ]
     },
@@ -30800,7 +31483,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm profile tcp-analytics"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm profile tcp-analytics"
+            ]
+          }
         }
       ]
     },
@@ -30839,7 +31527,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm profile fix"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm profile fix"
+            ]
+          }
         }
       ]
     },
@@ -30878,7 +31571,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm profile icap"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm profile icap"
+            ]
+          }
         }
       ]
     },
@@ -30917,7 +31615,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm profile one-connect"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm profile one-connect"
+            ]
+          }
         }
       ]
     },
@@ -30936,7 +31639,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm profile ntlm"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm profile ntlm"
+            ]
+          }
         }
       ]
     },
@@ -30955,7 +31663,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm profile pptp"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm profile pptp"
+            ]
+          }
         }
       ]
     },
@@ -30994,7 +31707,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm profile rewrite"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm profile rewrite"
+            ]
+          }
         }
       ]
     },
@@ -31033,7 +31751,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query security protocol-inspection profile"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query security protocol-inspection profile"
+            ]
+          }
         }
       ]
     },
@@ -31072,7 +31795,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm profile tcp"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm profile tcp"
+            ]
+          }
         }
       ]
     },
@@ -31111,7 +31839,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm profile server-ssl"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm profile server-ssl"
+            ]
+          }
         }
       ]
     },
@@ -31150,7 +31883,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm profile request-adapt"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm profile request-adapt"
+            ]
+          }
         }
       ]
     },
@@ -31189,7 +31927,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm profile response-adapt"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm profile response-adapt"
+            ]
+          }
         }
       ]
     },
@@ -31208,7 +31951,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query net route-domain"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query net route-domain"
+            ]
+          }
         }
       ]
     },
@@ -31227,7 +31975,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm profile sctp"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm profile sctp"
+            ]
+          }
         }
       ]
     },
@@ -31266,7 +32019,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm snatpool"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm snatpool"
+            ]
+          }
         }
       ]
     },
@@ -31305,7 +32063,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query security log profile"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query security log profile"
+            ]
+          }
         }
       ]
     },
@@ -31350,7 +32113,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm virtual"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm virtual"
+            ]
+          }
         }
       ]
     },
@@ -31389,7 +32157,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query sys file ssl-cert"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query sys file ssl-cert"
+            ]
+          }
         }
       ]
     },
@@ -31408,7 +32181,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query sys file ssl-crl"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query sys file ssl-crl"
+            ]
+          }
         }
       ]
     },
@@ -31447,7 +32225,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm profile stream"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm profile stream"
+            ]
+          }
         }
       ]
     },
@@ -31466,7 +32249,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm profile tftp"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm profile tftp"
+            ]
+          }
         }
       ]
     },
@@ -31505,7 +32293,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm profile request-log"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm profile request-log"
+            ]
+          }
         }
       ]
     },
@@ -31524,55 +32317,28 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query net tunnels endpoint"
-        },
-        {
-          "f5bigComponent": "query net tunnels etherip"
-        },
-        {
-          "f5bigComponent": "query net tunnels fec"
-        },
-        {
-          "f5bigComponent": "query net tunnels fec-stat"
-        },
-        {
-          "f5bigComponent": "query net tunnels geneve"
-        },
-        {
-          "f5bigComponent": "query net tunnels gre"
-        },
-        {
-          "f5bigComponent": "query net tunnels ipip"
-        },
-        {
-          "f5bigComponent": "query net tunnels ipsec"
-        },
-        {
-          "f5bigComponent": "query net tunnels lw4o6"
-        },
-        {
-          "f5bigComponent": "query net tunnels map"
-        },
-        {
-          "f5bigComponent": "query net tunnels ppp"
-        },
-        {
-          "f5bigComponent": "query net tunnels tcp-forward"
-        },
-        {
-          "f5bigComponent": "query net tunnels tunnel"
-        },
-        {
-          "f5bigComponent": "query net tunnels v6rd"
-        },
-        {
-          "f5bigComponent": "query net tunnels vxlan"
-        },
-        {
-          "f5bigComponent": "query net tunnels wccp"
-        },
-        {
-          "f5bigComponent": "query net vlan"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query net tunnels endpoint",
+              "query net tunnels etherip",
+              "query net tunnels fec",
+              "query net tunnels fec-stat",
+              "query net tunnels geneve",
+              "query net tunnels gre",
+              "query net tunnels ipip",
+              "query net tunnels ipsec",
+              "query net tunnels lw4o6",
+              "query net tunnels map",
+              "query net tunnels ppp",
+              "query net tunnels tcp-forward",
+              "query net tunnels tunnel",
+              "query net tunnels v6rd",
+              "query net tunnels vxlan",
+              "query net tunnels wccp",
+              "query net vlan"
+            ]
+          }
         }
       ]
     },
@@ -31611,7 +32377,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm virtual-address"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm virtual-address"
+            ]
+          }
         }
       ]
     },
@@ -31650,7 +32421,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query security ssh profile"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query security ssh profile"
+            ]
+          }
         }
       ]
     },
@@ -31669,7 +32445,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm profile sip"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm profile sip"
+            ]
+          }
         }
       ]
     },
@@ -31708,7 +32489,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query ltm profile udp"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm profile udp"
+            ]
+          }
         }
       ]
     },
@@ -31727,7 +32513,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query apm profile vdi"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query apm profile vdi"
+            ]
+          }
         }
       ]
     },
@@ -31746,7 +32537,12 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query net vlan"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query net vlan"
+            ]
+          }
         }
       ]
     },
@@ -31785,8 +32581,203 @@
       "maxProperties": 1,
       "allOf": [
         {
-          "f5bigComponent": "query asm policy"
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query asm policy"
+            ]
+          }
         }
+      ]
+    },
+    "Pointer_WebSocket_Profile": {
+      "description": "Reference to a WebSocket Profile",
+      "type": "object",
+      "properties": {
+        "use": {
+          "description": "AS3 pointer to WebSocket Profile declaration",
+          "type": "string",
+          "minLength": 1,
+          "f5PostProcess": {
+            "tag": "pointer",
+            "data": {
+              "properties": {
+                "class": {
+                  "enum": [
+                    "WebSocket_Profile"
+                  ]
+                }
+              },
+              "required": [
+                "class"
+              ]
+            }
+          }
+        },
+        "bigip": {
+          "description": "Pathname of existing BIG-IP WebSocket Profile",
+          "type": "string",
+          "format": "f5bigip"
+        }
+      },
+      "additionalProperties": false,
+      "minProperties": 1,
+      "maxProperties": 1,
+      "allOf": [
+        {
+          "f5PostProcess": {
+            "tag": "bigComponent",
+            "data": [
+              "query ltm profile websocket"
+            ]
+          }
+        }
+      ]
+    },
+    "UDP_Profile": {
+      "title": "UDP Profile",
+      "description": "Configures a User Datagram Protocol (UDP) profile",
+      "type": "object",
+      "properties": {
+        "class": {
+          "title": "Class",
+          "type": "string",
+          "const": "UDP_Profile"
+        },
+        "label": {
+          "$ref": "#/definitions/Label"
+        },
+        "remark": {
+          "$ref": "#/definitions/Remark"
+        },
+        "allowNoPayload": {
+          "title": "Allow empty payload",
+          "description": "When true, forward UDP datagrams with empty payloads (default false)",
+          "type": "boolean",
+          "default": false
+        },
+        "bufferMaxBytes": {
+          "title": "Buffer maximum-bytes",
+          "description": "Limit to number of octets which the system may buffer for a UDP flow (default 655350)",
+          "type": "integer",
+          "minimum": 65535,
+          "maximum": 16777215,
+          "default": 655350
+        },
+        "bufferMaxPackets": {
+          "title": "Buffer maximum-packets",
+          "description": "Limit to number of packets which the system may buffer for a UDP flow (default 0)",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255,
+          "default": 0
+        },
+        "datagramLoadBalancing": {
+          "title": "Datagram load-balancing",
+          "description": "When true, process UDP datagrams independently, without recognizing flows (default false)",
+          "type": "boolean",
+          "default": false
+        },
+        "idleTimeout": {
+          "title": "Idle timeout",
+          "description": "Number of seconds (default 60) flow may remain idle before it becomes eligible for deletion. Value 0 allows system to recover per-flow resources whenever convenient (always safe with UDP). Value -1 means indefinite (not recommended)",
+          "type": "integer",
+          "minimum": -1,
+          "maximum": 86400,
+          "default": 60
+        },
+        "ipDfMode": {
+          "title": "IP DF mode",
+          "description": "Controls DF (Don't Fragment) flag in outgoing datagrams. Value 'pmtu' (default) sets DF based on IP PMTU value. Value 'preserve' copies DF from received datagram. Value 'set' forces DF true in all outgoing datagrams. Value 'clear' forces DF false in all outgoing datagrams",
+          "type": "string",
+          "enum": [
+            "clear",
+            "pmtu",
+            "preserve",
+            "set"
+          ],
+          "default": "pmtu"
+        },
+        "ipTosToClient": {
+          "title": "IP TOS/DSCP to client",
+          "description": "Specifies the IP TOS/DSCP value in packets sent to clients (default 0). Numeric values in this property are decimal representations of eight-bit numbers, of which the leftmost six bits are the DSCP code per rfc2474 (and the rightmost two bits reserved). You may have to calculate the value of this property by multiplying a DSCP code, such as CS5+EF = 46, by four, to obtain the 'ipTosToClient' value, such as 184. Value 'pass-through' sets DSCP from the initial server-side value. Value 'mimic' copies DSCP from the most-recently received server-side packet (allowing DSCP to vary during the life of a connection)",
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 252,
+              "multipleOf": 4
+            },
+            {
+              "type": "string",
+              "enum": [
+                "pass-through",
+                "mimic"
+              ]
+            }
+          ],
+          "default": 0
+        },
+        "linkQosToClient": {
+          "title": "Link QOS to client",
+          "description": "Specifies the Layer-2 QOS value in packets sent to clients (default 0). Ethernet-type networks recognize numeric codes from 0 to 7. Value 'pass-through' sets QOS from the initial server-side value",
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 7
+            },
+            {
+              "type": "string",
+              "const": "pass-through"
+            }
+          ],
+          "default": 0
+        },
+        "proxyMSS": {
+          "title": "Proxy MSS",
+          "description": "When true, MSS advertised on the server side will match that negotiated with the client, if permitted by MTU and other constraints (default false)",
+          "type": "boolean",
+          "default": false
+        },
+        "ttlIPv4": {
+          "title": "TTL for IPv4",
+          "description": "TTL the system sets in outgoing IPv4 datagrams",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 255,
+          "default": 255
+        },
+        "ttlIPv6": {
+          "title": "TTL for IPv6",
+          "description": "TTL the system sets in outgoing IPv6 datagrams",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 255,
+          "default": 64
+        },
+        "ttlMode": {
+          "title": "TTL mode",
+          "description": "Controls IP TTL in outgoing datagrams. Value 'set' forces TTL to value of property 'ttlIPv4' or 'ttlIPv6' as appropriate. Value 'proxy' forces TTL to the default value for IPv4 or IPv6 as appropriate. Value 'preserve' copies TTL from received datagram. Value 'decrement' sets TTL to one less than received datagram's TTL",
+          "type": "string",
+          "enum": [
+            "decrement",
+            "preserve",
+            "proxy",
+            "set"
+          ],
+          "default": "proxy"
+        },
+        "useChecksum": {
+          "title": "Use checksum",
+          "description": "When true, system will validate UDP checksums for IPv4 datagrams (default false). Checksums are always validated for IPv6",
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "class"
       ]
     }
   }

@@ -27,6 +27,8 @@ const FetchTag = require('./fetchTag');
 const CertExtractTag = require('./certExtractTag');
 const IncludeTag = require('./includeTag');
 const ModuleTag = require('./moduleTag');
+const BigComponentTag = require('./bigComponentTag');
+const ExpandTag = require('./expandTag');
 
 module.exports = {
     LongSecretTag,
@@ -39,5 +41,7 @@ module.exports = {
     FetchTag,
     CertExtractTag,
     IncludeTag,
-    ModuleTag
+    ModuleTag,
+    BigComponentTag,
+    ExpandTag
 };

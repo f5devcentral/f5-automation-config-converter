@@ -21,7 +21,6 @@ node scripts/build/schema-build.js
 
 
 FILES=("lib/adcParser.js" \
-"lib/adcParserComponents.js" \
 "lib/adcParserFormats.js" \
 "lib/adcParserKeywords.js" \
 "lib/config.js" \

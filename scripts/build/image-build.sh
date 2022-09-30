@@ -2,6 +2,14 @@
 
 set -e
 
+su -
+
+apt-get update && \
+    apt-get -qy full-upgrade && \
+    apt-get install -qy curl && \
+    curl -sSL https://get.docker.com/ | sh
+
+
 # Use commit tag to set image tag and TEEM key
 if [[ "$CI_COMMIT_TAG" ]]; then
   echo "Tagged build."

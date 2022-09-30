@@ -2,46 +2,46 @@
 
 Getting Started
 ===============
-The documentation contains information about how to install and use the F5 Automation Config Converter.
-F5 Automation Config Converter is a community-supported offering. Please use `GitHub Issues <https://github.com/f5devcentral/f5-automation-config-converter/issues>`_ to submit an issue for our team. You can also see current Known Issues and their status on that page.
+The documentation contains information about how to install and use the F5 BIG-IP Automation Config Converter.
+F5 BIG-IP Automation Config Converter is a community-supported offering. Please use `GitHub Issues <https://github.com/f5devcentral/f5-automation-config-converter/issues>`_ to submit an issue for our team. You can also see current Known Issues and their status on that page.
 
-About F5 Automation Config Converter
-------------------------------------
+About F5 BIG-IP Automation Config Converter
+-------------------------------------------
 |
-| The F5 Automation Config Converter, or ACC, provides a way to convert configuration files to either an `Application Services 3 Extension (AS3) <https://clouddocs.f5.com/products/extensions/f5-appsvcs-extension/latest/>`_ or an `F5 Declarative Onboarding (DO) <https://clouddocs.f5.com/products/extensions/f5-declarative-onboarding/latest/>`_ declaration.
-* DO conversions include system settings such as licensing and provisioning, network settings such as VLANs and Self IPs, and clustering settings.
-* AS3 configures applications and services on a BIG-IP device that already has its initial settings.
+| The F5 BIG-IP Automation Config Converter, or BIG-IP ACC, provides a way to convert configuration files to either an `F5 BIG-IP Application Services 3 Extension (BIG-IP AS3) <https://clouddocs.f5.com/products/extensions/f5-appsvcs-extension/latest/>`_ or an `F5 BIG-IP Declarative Onboarding (DO) <https://clouddocs.f5.com/products/extensions/f5-declarative-onboarding/latest/>`_ declaration.
+* BIG-IP DO conversions include system settings such as licensing and provisioning, network settings such as VLANs and Self IPs, and clustering settings.
+* BIG-IP AS3 configures applications and services on a BIG-IP device that already has its initial settings.
 | Conversions are based on supported classes.  For a list of objects that are converted, see the **Important Information** section below.
 | The converter, which runs in a Docker container, converts **.ucs,** **.scf,** or **.conf** files, outputting to valid declaration stanzas.
 |
-.. NOTE::	Docker must be installed prior to using ACC. See `Docker Desktop <https://docs.docker.com/desktop/>`_ for information on installing Docker.
+.. NOTE::	Docker must be installed prior to using BIG-IP ACC. See `Docker Desktop <https://docs.docker.com/desktop/>`_ for information on installing Docker.
 
 
 Important Information
 ---------------------
 
-The information in this section can be used to determine if your system supports the prerequisites for ACC, some important conversion notes and privacy information.
+The information in this section can be used to determine if your system supports the prerequisites for BIG-IP ACC, some important conversion notes and privacy information.
 
 Prerequisites
 ^^^^^^^^^^^^^
 
 * TMOS versions 12.1+ are supported.
 
-* Docker must be installed prior to using ACC. See `Docker Desktop <https://docs.docker.com/desktop/>`_ for information on installing Docker.
+* Docker must be installed prior to using BIG-IP ACC. See `Docker Desktop <https://docs.docker.com/desktop/>`_ for information on installing Docker.
 
 
 Conversion Notes
 ^^^^^^^^^^^^^^^^
 
-* Currently ACC does not support all BIG-IP configuration object types, although coverage will increase over time.
+* Currently BIG-IP ACC does not support all BIG-IP configuration object types, although coverage will increase over time.
 
-* After the conversion, some manipulation of AS3 stanzas may be required.
+* After the conversion, some manipulation of BIG-IP AS3 stanzas may be required.
 
-* The converter produces an AS3 declaration, placing any configuration objects located in  **/Common** partition on the source BIG-IP into **/Common/Shared** (an existing AS3 construct).
+* The converter produces an BIG-IP AS3 declaration, placing any configuration objects located in  **/Common** partition on the source BIG-IP into **/Common/Shared** (an existing BIG-IP AS3 construct).
 
 * For a list of the objects that are converted, see :ref:`Classes<classes>`.
 
-* While ACC will convert a BIG-IP app services configuration created by a legacy iApp template, ACC will ignore the iApp template configuration itself.
+* While BIG-IP ACC will convert a BIG-IP app services configuration created by a legacy iApp template, BIG-IP ACC will ignore the iApp template configuration itself.
 
 * iRules only export in base-64.
 
@@ -53,7 +53,7 @@ Privacy Information
 
 * Information regarding the `Privacy Notice <https://www.f5.com/company/policies/privacy-notice>`_ for the F5, NGINX, Shape Security, and Volterra brands.
 
-* Analytics pseudonymization process. When data is pseudonymized, the information that can point to the identity of a subject is replaced by “pseudonyms” or identifiers. This prevents the data from specifically pinpointing the user.  ACC creates a dotfile named **.f5-acc** on the filesystem, or working directory, used to run ACC via the docker container.
+* Analytics pseudonymization process. When data is pseudonymized, the information that can point to the identity of a subject is replaced by “pseudonyms” or identifiers. This prevents the data from specifically pinpointing the user.  BIG-IP ACC creates a dotfile named **.f5-acc** on the filesystem, or working directory, used to run BIG-IP ACC via the docker container.
 
 
 .. NOTE::	Passphrases/passwords CAN be extracted as a cryptogram and not cleartext, although *the output generated by the converter will only work on the same BIG-IP instance that created the configuration input.*
@@ -62,10 +62,10 @@ Privacy Information
   Configurations will be converted, but to apply them see the `Referencing multiple SSL profiles <https://clouddocs.f5.com/products/extensions/f5-appsvcs-extension/latest/declarations/tls-encryption.html#referencing-multiple-ssl-profiles-on-a-single-virtual-service>`_ documentation.
   SSL profiles **must** exist on the BIG-IP device.
 
-* All items on the pre-AS3 configuration must be uniquely named. BIG-IP itself allows some objects to have the same name, while AS3 does not.
+* All items on the pre-AS3 configuration must be uniquely named. BIG-IP itself allows some objects to have the same name, while BIG-IP AS3 does not.
   **Any object with a duplicate name will be overwritten.**
 
-* By default, ACC sets *"shareNodes":true* for all nodes. *"shareNodes":true* is appended to the node to avoid conflicts or errors when exporting more than one AS3 configuration sharing the same node, and is set to *true* even if no duplicate nodes are configured.
+* By default, BIG-IP ACC sets *"shareNodes":true* for all nodes. *"shareNodes":true* is appended to the node to avoid conflicts or errors when exporting more than one BIG-IP AS3 configuration sharing the same node, and is set to *true* even if no duplicate nodes are configured.
 
   For example:
 

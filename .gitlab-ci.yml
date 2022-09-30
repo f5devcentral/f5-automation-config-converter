@@ -77,7 +77,7 @@ create_docs:
   tags: [cm-official-docker-executor]
 
 build_image:
-  image: $ATG_IMG_REGISTRY_URL/docker:20
+  image: $ATG_IMG_REGISTRY_URL/node:14-buster
   stage: build
   needs: [fetch_dependencies]
   script:
@@ -125,7 +125,7 @@ docker_test:
     - if [ $DO_WC -eq 0 ] ; then exit 1; fi;
     - if [ $ACC_WC -eq 0 ] ; then exit 1; fi;
   needs: ["build_image"]
-  tags: [acc-test-docker-executor]
+  tags: [automation-toolchain-docker-executor]
 
 # Coverage reports
 pages:

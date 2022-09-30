@@ -32,30 +32,34 @@ const deleteProperty = (obj, objPath, depth) => {
     depth = !depth ? 0 : depth;
     const objKey = objPath[depth];
 
-    if ((objPath.length - 1) === depth) {
-        if (Array.isArray(obj)) {
-            // that part process path like /Obj/1
-            obj.splice(objKey, 1);
-        } else {
-            delete obj[objKey];
-        }
-    } else {
-        obj[objKey] = deleteProperty(obj[objKey], objPath, depth + 1);
-    }
-
-    // delete parent empty object
-    Object.keys(obj).forEach((key) => {
-        const val = obj[key];
-        if (typeof val === 'object'
-            && ((Array.isArray(val) && val.length === 0)
-                || Object.keys(val).length === 0)) {
+    if (obj) {
+        if ((objPath.length - 1) === depth) {
             if (Array.isArray(obj)) {
+                // that part process path like /Obj/1
                 obj.splice(objKey, 1);
             } else {
+                delete obj[objKey];
+            }
+        } else {
+            obj[objKey] = deleteProperty(obj[objKey], objPath, depth + 1);
+        }
+
+        // delete parent empty object
+        Object.keys(obj).forEach((key) => {
+            const val = obj[key];
+            if (typeof val === 'object'
+                && ((Array.isArray(val) && val.length === 0)
+                    || Object.keys(val).length === 0)) {
+                if (Array.isArray(obj)) {
+                    obj.splice(objKey, 1);
+                } else {
+                    delete obj[key];
+                }
+            } else if (typeof val === 'undefined') {
                 delete obj[key];
             }
-        }
-    });
+        });
+    }
 
     return obj;
 };

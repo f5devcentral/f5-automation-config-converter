@@ -35,6 +35,7 @@ const ex8 = require('./pool8.json');
 const ex9 = require('./pool9.json');
 const ex10 = require('./pool10.json');
 const ex11 = require('./pool11.json');
+const ex12 = require('./pool12.json');
 
 let json;
 
@@ -182,5 +183,19 @@ describe('Pool: ltm pool', () => {
     });
 
     it('ex11 validation', () => validator(json)
+        .then((data) => assert(data.isValid, JSON.stringify(data, null, 4))));
+
+    // Keep node name for static case
+    it('ex12', async () => {
+        const data = await readFiles(['./test/engines/as3Converter/pool/pool12.conf']);
+        const parsed = parse(data);
+        json = as3Converter(parsed).declaration;
+
+        const originalDec = ex12.Common.Shared;
+        const convertedDec = json.Common.Shared;
+        compareDeclaration(originalDec, convertedDec);
+    });
+
+    it('ex12 validation', () => validator(json)
         .then((data) => assert(data.isValid, JSON.stringify(data, null, 4))));
 });

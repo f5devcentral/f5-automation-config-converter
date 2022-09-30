@@ -426,5 +426,16 @@ describe('Converter utils (util/convert)', () => {
             deleteProperty(input, property2);
             assert.deepEqual({ a: 'testA' }, input);
         });
+
+        it('Should delete properties and clean up difficult empty objects', () => {
+            const input = { a: { t1: [{ key: 'true' }], t2: 11 }, b: 10 };
+            const property1 = '/a/t1/0/key';
+            const property2 = '/a/t1/0';
+            deleteProperty(input, property1);
+            deleteProperty(input, property2);
+            // try again to delete already removed key
+            deleteProperty(input, property1);
+            assert.deepEqual({ a: { t2: 11 }, b: 10 }, input);
+        });
     });
 });

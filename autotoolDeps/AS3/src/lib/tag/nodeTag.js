@@ -212,7 +212,7 @@ function process(context, declaration, nodes) {
                         }
                         // If the node exists in /Common, the address conflicts with that node, and
                         // the value of shareNodes is false. Check for metadata since we treat AS3
-                        // Common nodes a little different than BIG-IP Common nodes
+                        // Common nodes a little different tha BIG-IP Common nodes
                         if (node.partition === 'Common' && node.key === addr && node.metadata && !elem.shareNodes) {
                             const error = createError(
                                 `The node /${tenant}/${addr} conflicts with /Common/${node.key}`,

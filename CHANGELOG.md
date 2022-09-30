@@ -1,6 +1,21 @@
 # Changelog
 Changes to this project are documented in this file.
 
+## 1.24.0
+
+## Added
+
+## Fixed
+- CHARON-758: Don't delete redirect http lonely service
+- CHARON-759: 'ERROR undefined' for ACC if one of the system default iRules is attached to the Virtual Server
+
+## Changed
+- CHARON-648: Remove profiles of service objects that are default profiles of the service
+- CHARON-730: ([GitHub Issue 91](https://github.com/f5devcentral/f5-automation-config-converter/issues/91)):
+When converting TMOS to AS3, servers in the pool do not show their server names
+
+## Removed
+
 ## 1.23.0
 
 ## Added

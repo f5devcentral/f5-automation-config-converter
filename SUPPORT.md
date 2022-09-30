@@ -1,20 +1,19 @@
 ## Support Information
 
-F5 Automation Config Converter (ACC) is community-supported.
+F5 Automation Config Converter (BIG-IP ACC) is community-supported.
 
-**ACC Software Lifecycle:**
+**BIG-IP ACC Software Lifecycle:**
 
-ACC releases are regularly delivered on a 6-week basis. We will keep the latest three releases available. Deprecated releases are available upon request.
+BIG-IP ACC releases are regularly delivered on a 6-week basis. We will keep the latest three releases available. Deprecated releases are available upon request.
 
 
 Recent Releases
 
 | Software Version | Release Date        |
 | ---------------- | ------------------- |
+| 1.24.0           | 04-Oct-2022         |
 | 1.23.0           | 23-Aug-2022         |
 | 1.22.0           | 15-Jul-2022         |
-| 1.21.0           | 31-May-2022         |
-
 
 
 
@@ -23,6 +22,7 @@ Deprecated Releases
 
 | Software Version | Release Date        |
 | ---------------- | ------------------- |
+| 1.21.0           | 31-May-2022         |
 | 1.20.0           | 19-Apr-2022         |
 | 1.19.2           | 25-Mar-2022         |
 | 1.19.1           | 21-Mar-2022         |

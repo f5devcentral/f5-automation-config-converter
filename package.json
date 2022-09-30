@@ -1,6 +1,6 @@
 {
   "name": "f5-automation-config-converter",
-  "version": "1.23.0",
+  "version": "1.24.0",
   "author": "F5 Networks",
   "license": "Apache-2.0",
   "repository": {
@@ -16,11 +16,11 @@
     "coverage": "nyc npm test",
     "start": "node init.js serve",
     "copyright": "node scripts/dev/write-copyright.js cicd",
-    "build": "source scripts/build/image-build.sh",
+    "build": "bash scripts/build/image-build.sh",
     "test-mutation": "stryker run"
   },
   "dependencies": {
-    "@automation-toolchain/f5-appsvcs-schema": "file:dependencies/automation-toolchain-f5-appsvcs-schema-0.4.16.tgz",
+    "@automation-toolchain/f5-appsvcs-schema": "file:dependencies/automation-toolchain-f5-appsvcs-schema-0.4.31.tgz",
     "@f5devcentral/f5-teem": "^1.5.0",
     "commander": "^9.4.0",
     "decompress": "^4.2.1",
@@ -28,19 +28,19 @@
     "express": "^4.18.1",
     "jiff": "^0.7.3",
     "multer": "^1.4.5-lts.1",
-    "uuid": "^8.3.2",
-    "winston": "^3.8.1"
+    "uuid": "^9.0.0",
+    "winston": "^3.8.2"
   },
   "devDependencies": {
-    "@f5devcentral/atg-shared-utilities": "^0.4.6",
+    "@f5devcentral/atg-shared-utilities": "^0.4.8",
     "@f5devcentral/eslint-config-f5-atg": "latest",
-    "@stryker-mutator/core": "^6.1.2",
-    "@stryker-mutator/mocha-runner": "^6.1.2",
+    "@stryker-mutator/core": "^6.2.2",
+    "@stryker-mutator/mocha-runner": "^6.2.2",
     "ajv": "6.12.6",
     "chai": "^4.3.6",
     "chai-as-promised": "^7.1.1",
     "chai-http": "^4.3.0",
-    "eslint": "^8.22.0",
+    "eslint": "^8.24.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.26.0",
     "jsonpointer": "^5.0.1",

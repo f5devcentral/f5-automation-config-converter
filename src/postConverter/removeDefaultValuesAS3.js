@@ -21,6 +21,36 @@
 const log = require('../util/log');
 const as3Schema = require('../../autotoolDeps/AS3/src/schema/latest/adc-schema.json');
 
+// list of default profiles by service name
+const defaultProfilesPerService = {
+    Service_Forwarding: {
+        profileL4: '/Common/fastL4'
+    },
+    Service_Generic: {
+        profileIPOther: '/Common/ipother'
+    },
+    Service_HTTP: {
+        profileTCP: '/Common/f5-tcp-progressive',
+        profileHTTP: '/Common/http'
+    },
+    Service_HTTPS: {
+        profileTCP: '/Common/f5-tcp-progressive',
+        profileHTTP: '/Common/http'
+    },
+    Service_L4: {
+        profileL4: '/Common/fastL4'
+    },
+    Service_SCTP: {
+        profileSCTP: '/Common/sctp'
+    },
+    Service_TCP: {
+        profileTCP: '/Common/f5-tcp-progressive'
+    },
+    Service_UDP: {
+        profileUDP: '/Common/udp'
+    }
+};
+
 module.exports = (declaration) => {
     const newObj = { ...declaration };
     findProfiles(newObj);
@@ -79,6 +109,21 @@ function matchDefaults(as3Obj) {
     return as3Obj;
 }
 
+// delete default profiles of a service
+function removeDefaultProfiles(as3Obj) {
+    const defaultProfiles = defaultProfilesPerService[as3Obj.class];
+    if (typeof defaultProfiles === 'object') {
+        Object.keys(defaultProfiles)
+            .forEach((profileType) => {
+                if (typeof as3Obj[profileType] === 'object'
+                     && as3Obj[profileType].bigip === defaultProfiles[profileType]) {
+                    delete as3Obj[profileType];
+                }
+            });
+    }
+    return as3Obj;
+}
+
 // recursive function to find AS3 objects
 function findProfiles(obj) {
     Object.keys(obj)
@@ -87,7 +132,8 @@ function findProfiles(obj) {
             if (obj[key].class === 'Tenant' || obj[key].class === 'Application') {
                 return findProfiles(obj[key]);
             }
-            return matchDefaults(obj[key]);
+            obj[key] = matchDefaults(obj[key]);
+            return removeDefaultProfiles(obj[key]);
         });
     return obj;
 }

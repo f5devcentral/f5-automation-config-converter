@@ -1,9 +1,9 @@
 .. _classes:
 
-Which AS3 classes/features are supported?
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Which BIG-IP AS3 classes/features are supported?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-As a rule of thumb, ACC provides best-effort support for all AS3 classes EXCEPT for WAF_Policy.
+As a rule of thumb, BIG-IP ACC provides best-effort support for all BIG-IP AS3 classes EXCEPT for WAF_Policy.
 
 | Certificates:
 * CA_Bundle
@@ -152,10 +152,10 @@ As a rule of thumb, ACC provides best-effort support for all AS3 classes EXCEPT 
 * Service_TCP
 * Service_UDP
 
-Which DO classes are supported?
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Which BIG-IP DO classes are supported?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-ACC provides best-effort support for the following DO classes:
+BIG-IP ACC provides best-effort support for the following BIG-IP DO classes:
 
 * Analytics
 * Authentication
@@ -207,6 +207,6 @@ ACC provides best-effort support for the following DO classes:
 * User
 * VLAN
 
-Unsupported DO classes:
+Unsupported BIG-IP DO classes:
 
 * DeviceTrust
