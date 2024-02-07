@@ -58,7 +58,7 @@ function orchestrate(arr) {
             // quoted bracket "{" won't trigger recursion
             if (arr[i].endsWith('{') && arr.length !== 1) {
                 let c = 0;
-                while (arr[i + c] !== '    }') {
+                while (arr[i + c] !== '    }' && arr[i + c] !== '}') {
                     c += 1;
                     if ((i + c) >= arr.length) {
                         throw new Error(`Missing or mis-indented '}' for line: '${arr[i]}'`);
